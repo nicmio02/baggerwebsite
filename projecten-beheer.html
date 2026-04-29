@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Beheer projecten van Blauwe Bagger via een lokale tool."
+    />
+    <title>Blauwe Bagger | Projectbeheer</title>
+    <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
+    <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="projecten">
+    <a class="skip-link" href="#main">Ga naar inhoud</a>
+    <header class="site-header" data-header>
+      <div class="nav-shell">
+        <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
+          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+        </a>
+
+        <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/services">Services</a>
+          <a href="/producten">Producten</a>
+          <a class="is-current" href="/projecten">Projecten</a>
+          <a href="/over-ons">Over ons</a>
+          <a href="/contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="icon-button icon-button--desktop" href="/projecten" aria-label="Terug naar projecten">
+            <span>Terug naar projecten</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+          </a>
+          <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span class="sr-only">Menu</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
+        <a href="/services">Services</a>
+        <a href="/producten">Producten</a>
+        <a class="is-current" href="/projecten">Projecten</a>
+        <a href="/over-ons">Over ons</a>
+        <a href="/contact">Neem contact op</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="page-hero" aria-labelledby="page-title">
+        <div class="section-inner page-hero-grid">
+          <div class="page-hero-copy reveal">
+            <p class="eyebrow">Projectbeheer</p>
+            <h1 id="page-title">Voeg projecten toe zonder de website handmatig aan te passen.</h1>
+            <p>
+              Deze lokale tool schrijft projecten naar de projectdatabase. De overzichtspagina en
+              losse projectroutes lezen die data daarna automatisch uit.
+            </p>
+          </div>
+          <aside class="page-hero-aside reveal" aria-label="Hoe het werkt">
+            <p>Hoe het werkt</p>
+            <strong>Invullen, opslaan, publiceren</strong>
+            <span>
+              Geef een titel, datum, categorie, samenvatting en inhoud op. Daarna staat het project
+              direct op <code>/projecten</code> en op zijn eigen slug.
+            </span>
+            <ul class="page-hero-list">
+              <li>Nieuwe posts toevoegen</li>
+              <li>Bestaande projecten bewerken</li>
+              <li>Projecten verwijderen</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="admin-section" aria-labelledby="admin-title">
+        <div class="section-inner">
+          <div class="section-heading reveal">
+            <p class="section-kicker">Tool</p>
+            <h2 id="admin-title">Projecten beheren</h2>
+          </div>
+
+          <div class="admin-shell" data-project-admin>
+            <section class="admin-panel reveal">
+              <h2>Nieuw of bestaand project</h2>
+              <form class="admin-form" data-admin-form>
+                <div class="admin-form-grid">
+                  <label>
+                    Titel
+                    <input name="title" required />
+                  </label>
+                  <label>
+                    Slug
+                    <input name="slug" placeholder="wordt automatisch gevuld" />
+                  </label>
+                </div>
+
+                <div class="admin-form-grid">
+                  <label>
+                    Datum
+                    <input name="date" type="date" required />
+                  </label>
+                  <label>
+                    Categorie
+                    <input name="category" placeholder="Pilot, Case, Verkenning..." />
+                  </label>
+                </div>
+
+                <div class="admin-form-grid">
+                  <label>
+                    Locatie
+                    <input name="location" placeholder="Nederland" />
+                  </label>
+                  <label>
+                    Status
+                    <select name="status">
+                      <option>Actief</option>
+                      <option>Afgerond</option>
+                      <option>In voorbereiding</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  Cover image pad of URL
+                  <input name="coverImage" placeholder="assets/media/zandstort.png" />
+                </label>
+
+                <label>
+                  Samenvatting
+                  <textarea name="excerpt" rows="3" required></textarea>
+                </label>
+
+                <label>
+                  Inhoud
+                  <textarea
+                    name="body"
+                    rows="8"
+                    required
+                    placeholder="Gebruik lege regels tussen alinea's."
+                  ></textarea>
+                </label>
+
+                <label>
+                  Highlights
+                  <textarea
+                    name="highlights"
+                    rows="5"
+                    placeholder="Een highlight per regel."
+                  ></textarea>
+                </label>
+
+                <label class="admin-checkbox">
+                  <input name="featured" type="checkbox" />
+                  <span>Markeer als uitgelicht project</span>
+                </label>
+
+                <div class="admin-actions">
+                  <button class="primary-link" type="submit">
+                    <span>Opslaan</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+                  </button>
+                  <button class="button-ghost" type="button" data-admin-reset>Nieuw project</button>
+                </div>
+
+                <p class="admin-status" data-admin-status></p>
+              </form>
+            </section>
+
+            <aside class="admin-list-panel reveal">
+              <h2>Bestaande projecten</h2>
+              <div class="admin-project-list" data-admin-list>
+                <div class="empty-state">Projecten worden geladen...</div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-inner footer-grid">
+        <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
+          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+        </a>
+        <nav aria-label="Footer navigatie">
+          <a href="/services">Services</a>
+          <a href="/producten">Producten</a>
+          <a class="is-current" href="/projecten">Projecten</a>
+          <a href="/over-ons">Over ons</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="projects.js"></script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "project_dry_run_2025",
+    "slug": "dry-run-2025-voorbereiding-op-circulaire-baggerprojecten",
+    "title": "Dry Run 2025 - Voorbereiding op circulaire baggerprojecten",
+    "excerpt": "Een voorbereidende projectfase waarin mobiele verwerking, logistiek en afzet van materiaalstromen samen zijn getest.",
+    "date": "2026-04-12",
+    "category": "Pilot",
+    "location": "Nederland",
+    "status": "Actief",
+    "coverImage": "assets/media/zandstort.png",
+    "featured": true,
+    "body": [
+      "Voor deze dry run is de projectopzet gebruikt om te toetsen hoe de mobiele containerunit past binnen circulaire baggerprojecten. Niet alleen de techniek stond centraal, maar juist ook de volgorde waarin logistiek, verwerking en toepassing op elkaar aansluiten.",
+      "Door vroeg in het traject te kijken naar indikken, scheiden en materiaalroutes, ontstaat een projectaanpak die schaalbaar is. De pilot liet zien waar de mobiele unit snelheid brengt en waar de afzet van afzonderlijke stromen al in de voorbereiding mee moet worden genomen.",
+      "De uitkomst is geen eindpunt maar een projectkader: welke randvoorwaarden nodig zijn, welke stromen kansrijk zijn en op welke momenten opschaling logisch wordt."
+    ],
+    "highlights": [
+      "Pilot gebruikt als blauwdruk voor opschaling",
+      "Containerunit centraal in de projectlogica",
+      "Materiaalroutes vroeg in beeld gebracht"
+    ],
+    "createdAt": "2026-04-12T08:00:00.000Z",
+    "updatedAt": "2026-04-12T08:00:00.000Z"
+  },
+  {
+    "id": "project_locatie_logistiek_2026",
+    "slug": "locatie-logistiek-en-materiaalstroom-in-een-aanpak",
+    "title": "Locatie, logistiek en materiaalstroom in een aanpak",
+    "excerpt": "Een projectverkenning waarin bereikbaarheid en verwerking op locatie vanaf dag één bepalend waren voor de opzet.",
+    "date": "2026-03-28",
+    "category": "Verkenning",
+    "location": "West-Nederland",
+    "status": "Afgerond",
+    "coverImage": "",
+    "featured": false,
+    "body": [
+      "In deze projectverkenning stond niet alleen de baggerstroom centraal, maar ook de vraag hoe de locatie de technische aanpak beïnvloedt. Op moeilijk bereikbare plekken telt elke extra transportbeweging dubbel.",
+      "Het project draaide daarom om een compacte opzet: minder heen-en-weer, eerdere scheiding en meer zicht op welke stromen daadwerkelijk herbruikbaar zijn. De mobiele unit werd niet gezien als losse machine, maar als schakel in het hele projectverhaal.",
+      "Die manier van werken gaf meer grip op planning en materiaalwaarde en vormde de basis voor een volgende uitvoeringsfase."
+    ],
+    "highlights": [
+      "Locatiekeuze direct gekoppeld aan verwerkingsstrategie",
+      "Minder logistieke omwegen",
+      "Meer grip op bruikbare uitgaande stromen"
+    ],
+    "createdAt": "2026-03-28T10:00:00.000Z",
+    "updatedAt": "2026-03-28T10:00:00.000Z"
+  },
+  {
+    "id": "project_toepassing_2026",
+    "slug": "van-projectvraag-naar-toepassingsroute",
+    "title": "Van projectvraag naar toepassingsroute",
+    "excerpt": "Een traject waarin de waarde van een project vooral zat in het vroeg koppelen van materiaalstromen aan mogelijke eindtoepassingen.",
+    "date": "2026-02-17",
+    "category": "Case",
+    "location": "Midden-Nederland",
+    "status": "Actief",
+    "coverImage": "assets/media/truck.png",
+    "featured": false,
+    "body": [
+      "Sommige projecten vallen of staan niet met techniek, maar met de vraag of een materiaalstroom op tijd een geloofwaardige vervolgrichting krijgt. In dit traject is die vraag vanaf de start onderdeel van de projectstructuur gemaakt.",
+      "Door al in de eerste fase te bepalen welke fracties kansrijk zijn en welke kwaliteitseisen daarachter liggen, krijgt het project eerder een bruikbaar besliskader. Dat voorkomt dat verwerkte bagger alsnog in een tussenstatus blijft hangen.",
+      "De case onderstreept dat projectsucces niet alleen zit in scheiden, maar in het koppelen van scheiding aan toepassing."
+    ],
+    "highlights": [
+      "Toepassingsroute niet pas achteraf bepaald",
+      "Kwaliteit en afzet eerder gekoppeld",
+      "Projectstructuur gestuurd op hergebruik"
+    ],
+    "createdAt": "2026-02-17T09:30:00.000Z",
+    "updatedAt": "2026-02-17T09:30:00.000Z"
+  }
+]

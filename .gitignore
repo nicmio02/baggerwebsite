@@ -1,0 +1,14 @@
+server.*.log
+*.log
+
+node_modules/
+dist/
+build/
+
+.env
+.env.*
+
+.DS_Store
+Thumbs.db
+
+screenshots/chrome-profile/
