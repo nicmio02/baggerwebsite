@@ -17,6 +17,7 @@ const types = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
+  ".mp4": "video/mp4",
   ".ico": "image/x-icon",
 };
 
@@ -249,6 +250,10 @@ async function handleProjectsApi(request, response, url) {
 }
 
 function resolveFilePath(urlPath) {
+  if (urlPath === "/en" || urlPath === "/en/") {
+    return path.resolve(root, "./index.html");
+  }
+
   if (urlPath !== "/projecten" && urlPath.startsWith("/projecten/") && !path.extname(urlPath)) {
     return path.resolve(root, "./project-detail.html");
   }
@@ -264,6 +269,42 @@ function resolveFilePath(urlPath) {
   }
 
   return path.resolve(root, `.${requestedPath}`);
+}
+
+async function sendStaticFile(request, response, filePath) {
+  const extension = path.extname(filePath).toLowerCase();
+  const contentType = types[extension] || "application/octet-stream";
+  const stat = await fs.promises.stat(filePath);
+  const range = request.headers.range;
+
+  if (range && extension === ".mp4") {
+    const match = range.match(/bytes=(\d*)-(\d*)/);
+
+    if (match) {
+      const start = match[1] ? Number(match[1]) : 0;
+      const end = match[2] ? Number(match[2]) : stat.size - 1;
+
+      if (start <= end && end < stat.size) {
+        response.writeHead(206, {
+          "Content-Type": contentType,
+          "Cache-Control": "no-store",
+          "Accept-Ranges": "bytes",
+          "Content-Range": `bytes ${start}-${end}/${stat.size}`,
+          "Content-Length": end - start + 1,
+        });
+        fs.createReadStream(filePath, { start, end }).pipe(response);
+        return;
+      }
+    }
+  }
+
+  response.writeHead(200, {
+    "Content-Type": contentType,
+    "Cache-Control": "no-store",
+    "Accept-Ranges": extension === ".mp4" ? "bytes" : "none",
+    "Content-Length": stat.size,
+  });
+  fs.createReadStream(filePath).pipe(response);
 }
 
 const server = http.createServer(async (request, response) => {
@@ -282,13 +323,7 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    const data = await fs.promises.readFile(filePath);
-
-    response.writeHead(200, {
-      "Content-Type": types[path.extname(filePath).toLowerCase()] || "application/octet-stream",
-      "Cache-Control": "no-store",
-    });
-    response.end(data);
+    await sendStaticFile(request, response, filePath);
   } catch (error) {
     if (error && error.code === "ENOENT") {
       sendText(response, 404, "Not found");
