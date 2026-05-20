@@ -10,22 +10,21 @@
     <title>Blauwe Bagger | Producten</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="producten">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/#home-missie">Het Plan</a>
           <a href="/services">Services</a>
-          <a class="is-current" href="/producten">Producten</a>
           <a href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
-          <a href="/contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
@@ -57,6 +56,13 @@
     </header>
 
     <main id="main">
+      <section class="build-screen" aria-labelledby="build-title">
+        <div class="section-inner build-screen__inner reveal">
+          <p>Producten</p>
+          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
+        </div>
+      </section>
+
       <section class="page-hero" aria-labelledby="page-title">
         <div class="section-inner page-hero-grid">
           <div class="page-hero-copy reveal">
@@ -64,7 +70,8 @@
             <h1 id="page-title">Vier materiaalstromen, elk met een eigen toepassing.</h1>
             <p>
               Door baggerspecie gericht te verwerken, ontstaan herkenbare uitgaande stromen in
-              plaats van één onduidelijke restmassa. Deze pagina zet die stromen los neer.
+              plaats van één onduidelijke restmassa. Elke fractie krijgt een eigen route naar
+              hergebruik, opslag of verdere verwerking.
             </p>
           </div>
           <aside class="page-hero-aside reveal" aria-label="Kernpunten producten">
@@ -223,7 +230,7 @@
     <footer class="site-footer">
       <div class="section-inner footer-grid">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
         <nav aria-label="Footer navigatie">
           <a href="/services">Services</a>
@@ -235,6 +242,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=lang-switch"></script>
   </body>
 </html>

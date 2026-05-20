@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Home</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="home">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -30,7 +30,7 @@
         <div class="nav-actions">
           <div class="language-toggle" aria-label="Taalkeuze">
             <a href="/" lang="nl" aria-current="true">NL</a>
-            <a href="/en" lang="en">EN</a>
+            <a href="/?lang=en" lang="en">EN</a>
           </div>
           <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
             <span></span>
@@ -173,7 +173,11 @@
 
       <section class="home-section home-section--approach" aria-labelledby="approach-title">
         <div class="home-frame home-approach-frame">
-          <h2 id="approach-title" class="home-approach-heading reveal">Onze Oplossing</h2>
+          <div class="home-approach-head reveal">
+            <p class="home-kicker">Procesaanpak</p>
+            <h2 id="approach-title" class="home-approach-heading">Onze Oplossing</h2>
+            <p class="home-approach-lede">Een praktische route van baggerstroom naar herbruikbare grondstof.</p>
+          </div>
 
           <div class="home-approach-grid" data-solution-sequence>
             <div class="home-approach-flow" aria-hidden="true">
@@ -182,35 +186,61 @@
             </div>
 
             <article class="home-approach-card reveal" data-solution-step>
-              <h3><span>01</span> Analyse</h3>
-              <p>
-                Met data uit waterbodemonderzoek bepalen we welke fracties in bagger geschikt zijn
-                voor hoogwaardige hergebruikroutes.
-              </p>
+              <div class="home-approach-card__top">
+                <span class="home-approach-step">01</span>
+                <span class="home-approach-tag">Input scan</span>
+              </div>
+              <h3>Analyse</h3>
+              <p>Waterbodemdata bepaalt welke fracties geschikt zijn voor hergebruik.</p>
               <div class="home-approach-visual" aria-hidden="true">
-                <img src="assets/icons/line-chart-svgrepo-com.svg" alt="" />
+                <svg viewBox="0 0 220 140" role="img">
+                  <path class="home-visual-grid" d="M28 20v96h164M28 84h164M28 52h164M66 20v96M104 20v96M142 20v96M180 20v96" />
+                  <path class="home-visual-line" d="M42 90l28-28 30 20 34-44 42 30" />
+                  <path class="home-visual-line home-visual-line--soft" d="M42 104l34-16 28 10 38-26 34 18" />
+                  <circle cx="70" cy="62" r="6" />
+                  <circle cx="134" cy="38" r="6" />
+                  <circle cx="176" cy="68" r="6" />
+                </svg>
               </div>
             </article>
 
             <article class="home-approach-card reveal" data-solution-step>
-              <h3><span>02</span> Verwerking</h3>
-              <p>
-                Vervolgens wordt de BlueBox op locatie ingezet om bagger te ontwateren, te
-                scheiden en op te schonen tot inzetbare materialen.
-              </p>
+              <div class="home-approach-card__top">
+                <span class="home-approach-step">02</span>
+                <span class="home-approach-tag">BlueBox module</span>
+              </div>
+              <h3>BlueBox verwerking</h3>
+              <p>De BlueBox ontwatert, scheidt en schoont bagger op locatie.</p>
               <div class="home-approach-visual" aria-hidden="true">
-                <img src="assets/icons/container-svgrepo-com.svg" alt="" />
+                <svg viewBox="0 0 220 140" role="img">
+                  <path class="home-visual-grid" d="M28 112h164M44 34h132M44 34v78M176 34v78" />
+                  <rect class="home-visual-module" x="44" y="54" width="132" height="58" rx="6" />
+                  <path class="home-visual-line" d="M58 69h104M58 82h104M58 95h104" />
+                  <path class="home-visual-line home-visual-line--soft" d="M94 54V34h32v20M110 34V18" />
+                  <path class="home-visual-arrow" d="M30 84h22M168 84h22" />
+                  <path class="home-visual-arrowhead" d="M52 84l-8-6v12zM190 84l-8-6v12z" />
+                </svg>
               </div>
             </article>
 
             <article class="home-approach-card reveal" data-solution-step>
-              <h3><span>03</span> Hergebruik</h3>
-              <p>
-                Om de keten te sluiten worden de gescheiden materialen nabewerkt en toegepast in
-                bouw- en betonproducten.
-              </p>
+              <div class="home-approach-card__top">
+                <span class="home-approach-step">03</span>
+                <span class="home-approach-tag">Output routes</span>
+              </div>
+              <h3>Hergebruik</h3>
+              <p>Materialen worden toegepast in bouw- en betonproducten.</p>
               <div class="home-approach-visual" aria-hidden="true">
-                <img src="assets/icons/growing-plant-svgrepo-com.svg" alt="" />
+                <svg viewBox="0 0 220 140" role="img">
+                  <path class="home-visual-grid" d="M34 112h152M62 92h96M76 72h68" />
+                  <path class="home-visual-line" d="M110 112V54" />
+                  <path class="home-visual-line" d="M110 76c-24-6-40-20-48-42 28 2 48 15 48 42z" />
+                  <path class="home-visual-line" d="M110 76c24-6 40-20 48-42-28 2-48 15-48 42z" />
+                  <path class="home-visual-line home-visual-line--soft" d="M70 112c18-20 44-28 80-24" />
+                  <circle cx="78" cy="100" r="4" />
+                  <circle cx="138" cy="92" r="4" />
+                  <circle cx="154" cy="105" r="4" />
+                </svg>
               </div>
             </article>
           </div>
@@ -351,127 +381,6 @@
         </div>
       </section>
 
-      <section class="home-section home-section--projects" id="home-projecten" aria-labelledby="projects-title">
-        <div class="home-frame">
-          <div class="home-title-row">
-            <h2 id="projects-title">Projecten</h2>
-          </div>
-
-          <div class="home-projects-grid" data-home-projects>
-            <article class="home-project-skeleton"></article>
-            <article class="home-project-skeleton"></article>
-            <article class="home-project-skeleton"></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section home-section--team" aria-labelledby="team-title">
-        <div class="home-frame">
-          <p class="home-kicker">Blauwe Bagger</p>
-          <div class="home-title-row home-title-row--wide">
-            <h2 id="team-title">
-              Wij zijn een gedreven team met een doel: alle Nederlandse bagger opschonen en
-              omzetten in waardevolle grondstoffen.
-            </h2>
-          </div>
-
-          <div class="home-team-grid">
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--one">
-                <img src="assets/media/team-abbe.jpg" alt="" />
-              </div>
-              <h3>Abbe Hekkert</h3>
-              <a href="/over-ons">LinkedIn</a>
-            </article>
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--two">
-                <img src="assets/media/team-sil.jpg" alt="" />
-              </div>
-              <h3>Sil van de Bovenkamp</h3>
-              <a href="/over-ons">LinkedIn</a>
-            </article>
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--three">
-                <img src="assets/media/team-yannick.jpg" alt="" />
-              </div>
-              <h3>Yannick Laret</h3>
-              <a href="/over-ons">LinkedIn</a>
-            </article>
-          </div>
-
-          <div class="home-center-cta reveal">
-            <a class="home-outline-button" href="/over-ons">
-              <span>Ontdek Het Team</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M5 12h13m-5-5 5 5-5 5" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section home-section--partners" aria-labelledby="partners-title">
-        <div class="home-frame">
-          <h2 class="sr-only" id="partners-title">Partners</h2>
-          <div class="home-partner-grid">
-            <article class="home-partner-card reveal"><span>TU Delft</span><strong>TU Delft</strong></article>
-            <article class="home-partner-card reveal"><span>Deltares</span><strong>Deltares</strong></article>
-            <article class="home-partner-card reveal"><span>Port of Rotterdam</span><strong>Port Of Rotterdam</strong></article>
-            <article class="home-partner-card reveal"><span>Provincie</span><strong>Provincie Holland Zuid</strong></article>
-            <article class="home-partner-card reveal"><span>WUR</span><strong>WUR</strong></article>
-            <article class="home-partner-card reveal"><span>Tijhuis Ingenieurs</span><strong>Tijhuis Ingenieurs</strong></article>
-            <article class="home-partner-card reveal"><span>Aquon</span><strong>Aquon</strong></article>
-            <article class="home-partner-card reveal"><span>Gemeente Amsterdam</span><strong>Gemeente Amsterdam</strong></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section home-section--contact" id="contact-home" aria-labelledby="contact-title">
-        <div class="home-frame home-contact-grid">
-          <div class="home-contact-copy reveal">
-            <h2 id="contact-title">
-              Samen bouwen aan een circulaire toekomst in de baggerindustrie?
-            </h2>
-            <p>Zet vandaag nog de eerste stap en neem contact op!</p>
-          </div>
-
-          <form class="home-contact-form reveal" data-contact-form>
-            <div class="home-contact-form__grid">
-              <label>
-                Voornaam *
-                <input name="firstName" autocomplete="given-name" required />
-              </label>
-              <label>
-                Achternaam *
-                <input name="lastName" autocomplete="family-name" required />
-              </label>
-              <label>
-                Telefoonnummer
-                <input name="phone" type="tel" autocomplete="tel" />
-              </label>
-              <label>
-                Email *
-                <input name="email" type="email" autocomplete="email" required />
-              </label>
-            </div>
-
-            <label>
-              Bedrijfsnaam *
-              <input name="company" autocomplete="organization" required />
-            </label>
-
-            <label>
-              Waarbij kunnen wij helpen?
-              <textarea name="message" rows="5" placeholder="Vertel ons meer ..."></textarea>
-            </label>
-
-            <button class="primary-link" type="submit">
-              <span>Verstuur bericht</span>
-            </button>
-            <p class="form-note" data-form-note>Het formulier opent je mailprogramma met alle ingevulde gegevens.</p>
-          </form>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer site-footer--home">
@@ -521,7 +430,7 @@
       </svg>
     </a>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=lang-switch"></script>
     <script src="projects.js"></script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 const projectFeedRoot = document.querySelector("[data-project-feed]");
 const projectFeaturedRoot = document.querySelector("[data-project-featured]");
 const projectGridRoot = document.querySelector("[data-project-grid]");
+const projectBoardRoot = document.querySelector("[data-project-board]");
 const projectDetailRoot = document.querySelector("[data-project-detail]");
 const projectAdminRoot = document.querySelector("[data-project-admin]");
 const homeProjectsRoot = document.querySelector("[data-home-projects]");
@@ -67,7 +68,7 @@ function coverMarkup(project, className) {
 function projectMeta(project, dark = false) {
   return `
     <div class="${dark ? "detail-meta" : "blog-meta"}">
-      <span class="pill ${dark ? "pill--dark" : ""}">${escapeHtml(project.category)}</span>
+      <span class="pill ${dark ? "pill--dark" : ""}">${escapeHtml(projectCategoryLabel(project))}</span>
       <span class="pill ${dark ? "pill--dark" : ""}">${escapeHtml(project.status)}</span>
       <span class="pill ${dark ? "pill--dark" : ""}">${escapeHtml(project.location)}</span>
       <span class="pill ${dark ? "pill--dark" : ""}">${escapeHtml(formatDate(project.date))}</span>
@@ -75,27 +76,275 @@ function projectMeta(project, dark = false) {
   `;
 }
 
+const projectBoardSections = [
+  {
+    key: "samenwerkingen",
+    label: "Samenwerkingen",
+    match: ["samenwerking", "partner", "consortium", "provincie", "gemeente", "tbi", "deltares", "tu delft"],
+    placeholders: [
+      { title: "Beton uit Bagger / TBI", mark: "TBI" },
+      { title: "Bakstenen uit Bagger / DC-bricks", mark: "DC" },
+      { title: "Circulaire Bagger Consortium", mark: "CBC" },
+    ],
+  },
+  {
+    key: "praktijktesten",
+    label: "Praktijktesten",
+    match: ["pilot", "praktijk", "test", "case", "locatie", "dry run", "uitvoering", "amsterdam"],
+    placeholders: [
+      { title: "Amsterdam / Centraal Station", mark: "AMS" },
+      { title: "Provincie Zuid-Holland", mark: "PZH" },
+      { title: "Amsterdam / IJburg", mark: "IJ" },
+    ],
+  },
+  {
+    key: "rd",
+    label: "R&D",
+    match: ["r&d", "research", "onderzoek", "verkenning", "ontwikkeling", "extractie", "pfas", "3d", "print"],
+    placeholders: [
+      { title: "Zware Metalen extractie uit Bagger", mark: "ZM" },
+      { title: "PFAS extractie uit Bagger", mark: "PFAS" },
+      { title: "3D-printen met Bagger", mark: "3D" },
+    ],
+  },
+];
+
+const defaultProjectCategory = "Praktijktesten";
+
+function projectBoardSectionFor(project) {
+  const category = String(project.category || "").toLowerCase();
+
+  if (/(samenwerking|partner|consortium)/.test(category)) {
+    return "samenwerkingen";
+  }
+
+  if (/(r&d|onderzoek|research|verkenning|ontwikkeling)/.test(category)) {
+    return "rd";
+  }
+
+  if (/(pilot|praktijk|test|case)/.test(category)) {
+    return "praktijktesten";
+  }
+
+  const haystack = `${project.status || ""} ${project.location || ""} ${project.title || ""} ${
+    project.excerpt || ""
+  }`.toLowerCase();
+  const match = projectBoardSections.find((section) => section.match.some((term) => haystack.includes(term)));
+
+  return match?.key || "praktijktesten";
+}
+
+function projectCategoryLabel(project) {
+  const sectionKey = projectBoardSectionFor(
+    typeof project === "string" ? { category: project } : project || { category: defaultProjectCategory },
+  );
+  return projectBoardSections.find((section) => section.key === sectionKey)?.label || defaultProjectCategory;
+}
+
+function renderProjectBoardCard(project) {
+  const image = normalizeAssetUrl(project.coverImage);
+  const date = formatDate(project.date);
+  const category = projectCategoryLabel(project);
+
+  return `
+    <a class="project-board-card project-board-card--live reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
+      <div class="project-board-card__media ${image ? "" : "project-board-card__media--empty"}" aria-hidden="true">
+        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)}" />` : ""}
+      </div>
+      <div class="project-board-card__body">
+        <div class="project-board-card__meta">
+          <span>${escapeHtml(category)}</span>
+          ${date ? `<span>${escapeHtml(date)}</span>` : ""}
+        </div>
+        <h3>${escapeHtml(project.title)}</h3>
+        <span class="project-board-card__cta">
+          <span>Bekijk project</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+        </span>
+      </div>
+    </a>
+  `;
+}
+
+function renderProjectBoardPlaceholder(item, index) {
+  return `
+    <article class="project-board-card project-board-card--placeholder reveal is-visible" data-placeholder-index="${index + 1}">
+      <div class="project-board-card__media project-board-card__media--placeholder" aria-hidden="true">
+        <span>${escapeHtml(item.mark)}</span>
+      </div>
+      <div class="project-board-card__body">
+        <h3>${escapeHtml(item.title)}</h3>
+      </div>
+    </article>
+  `;
+}
+
+function renderProjectBoard(projects) {
+  if (!projectBoardRoot) {
+    return false;
+  }
+
+  const grouped = projectBoardSections.reduce((acc, section) => ({ ...acc, [section.key]: [] }), {});
+
+  projects.forEach((project) => {
+    grouped[projectBoardSectionFor(project)].push(project);
+  });
+
+  projectBoardRoot.innerHTML = projectBoardSections
+    .map((section) => {
+      const sectionProjects = grouped[section.key];
+      const placeholdersNeeded = Math.max(0, 3 - sectionProjects.length);
+      const placeholders = section.placeholders.slice(0, placeholdersNeeded);
+
+      return `
+        <section class="project-board-row reveal is-visible" aria-labelledby="project-board-${section.key}">
+          <h2 id="project-board-${section.key}" class="project-board-row__label">${section.label}</h2>
+          <div class="project-board-carousel" data-project-carousel>
+            <button
+              class="project-board-arrow project-board-arrow--prev"
+              type="button"
+              aria-label="Vorige projecten in ${section.label}"
+              data-project-carousel-prev
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 6 9 12l6 6" /></svg>
+            </button>
+            <div class="project-board-row__grid" data-project-carousel-track>
+              ${sectionProjects.map(renderProjectBoardCard).join("")}
+              ${placeholders.map(renderProjectBoardPlaceholder).join("")}
+            </div>
+            <button
+              class="project-board-arrow project-board-arrow--next"
+              type="button"
+              aria-label="Volgende projecten in ${section.label}"
+              data-project-carousel-next
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></svg>
+            </button>
+          </div>
+        </section>
+      `;
+    })
+    .join("");
+
+  window.requestAnimationFrame(updateProjectBoardCarousels);
+  return true;
+}
+
+function updateProjectCarouselButtons(carousel) {
+  const track = carousel?.querySelector("[data-project-carousel-track]");
+  const prevButton = carousel?.querySelector("[data-project-carousel-prev]");
+  const nextButton = carousel?.querySelector("[data-project-carousel-next]");
+
+  if (!track || !prevButton || !nextButton) {
+    return;
+  }
+
+  const canScroll = track.scrollWidth - track.clientWidth > 2;
+  prevButton.disabled = !canScroll;
+  nextButton.disabled = !canScroll;
+  carousel.classList.toggle("has-overflow", canScroll);
+}
+
+function updateProjectBoardCarousels() {
+  if (!projectBoardRoot) {
+    return;
+  }
+
+  projectBoardRoot.querySelectorAll("[data-project-carousel]").forEach(updateProjectCarouselButtons);
+}
+
+function moveProjectCarousel(button) {
+  const carousel = button.closest("[data-project-carousel]");
+  const track = carousel?.querySelector("[data-project-carousel-track]");
+
+  if (!track || button.disabled) {
+    return;
+  }
+
+  const direction = button.matches("[data-project-carousel-next]") ? 1 : -1;
+  const card = track.querySelector(".project-board-card");
+  const cardWidth = card?.getBoundingClientRect().width || track.clientWidth;
+  const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+  const isAtStart = track.scrollLeft <= 2;
+  const isAtEnd = track.scrollLeft >= maxScroll - 2;
+  let target = track.scrollLeft + direction * cardWidth;
+
+  if (direction > 0 && isAtEnd) {
+    target = 0;
+  } else if (direction < 0 && isAtStart) {
+    target = maxScroll;
+  }
+
+  track.scrollTo({
+    left: Math.max(0, Math.min(maxScroll, target)),
+    behavior: "smooth",
+  });
+}
+
+function initProjectBoardCarouselControls() {
+  if (!projectBoardRoot) {
+    return;
+  }
+
+  projectBoardRoot.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-project-carousel-prev], [data-project-carousel-next]");
+
+    if (button) {
+      moveProjectCarousel(button);
+    }
+  });
+
+  projectBoardRoot.addEventListener(
+    "scroll",
+    (event) => {
+      if (event.target.matches("[data-project-carousel-track]")) {
+        updateProjectCarouselButtons(event.target.closest("[data-project-carousel]"));
+      }
+    },
+    true,
+  );
+
+  window.addEventListener("resize", updateProjectBoardCarousels);
+}
+
 async function fetchProjects() {
   const response = await fetch("/api/projects");
 
-  if (!response.ok) {
+  if (response.ok) {
+    return response.json();
+  }
+
+  const fallbackResponse = await fetch("/data/projects.json");
+
+  if (!fallbackResponse.ok) {
     throw new Error("Projecten konden niet worden geladen.");
   }
 
-  return response.json();
+  return fallbackResponse.json();
 }
 
 async function fetchProject(slug) {
   const response = await fetch(`/api/projects/${encodeURIComponent(slug)}`);
 
-  if (!response.ok) {
+  if (response.ok) {
+    return response.json();
+  }
+
+  const projects = await fetchProjects();
+  const project = projects.find((item) => item.slug === slug);
+
+  if (!project) {
     throw new Error("Project niet gevonden.");
   }
 
-  return response.json();
+  return project;
 }
 
 function renderProjectFeed(projects) {
+  if (renderProjectBoard(projects)) {
+    return;
+  }
+
   if (!projectFeedRoot || !projectFeaturedRoot || !projectGridRoot) {
     return;
   }
@@ -164,7 +413,7 @@ function renderHomeProjects(projects) {
         <a class="home-project-card home-project-card--${variant} reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
           ${coverMarkup(project, "home-project-card__media")}
           <div class="home-project-card__meta">
-            <span class="home-project-chip">${escapeHtml(project.category)}</span>
+            <span class="home-project-chip">${escapeHtml(projectCategoryLabel(project))}</span>
             <span class="home-project-chip">${escapeHtml(formatDate(project.date))}</span>
           </div>
           <h3>${escapeHtml(project.title)}</h3>
@@ -240,7 +489,7 @@ function projectToFormState(project) {
     title: project.title || "",
     slug: project.slug || "",
     date: project.date || new Date().toISOString().slice(0, 10),
-    category: project.category || "Project",
+    category: projectCategoryLabel(project),
     location: project.location || "Nederland",
     status: project.status || "Actief",
     coverImage: project.coverImage || "",
@@ -299,7 +548,7 @@ function resetAdminForm() {
   }
 
   if (categoryField) {
-    categoryField.value = "";
+    categoryField.value = defaultProjectCategory;
   }
 
   setAdminStatus("Klaar voor een nieuw project.");
@@ -320,7 +569,7 @@ function renderAdminList(projects) {
       (project) => `
         <article class="admin-project-item">
           <div class="blog-meta">
-            <span class="pill">${escapeHtml(project.category)}</span>
+            <span class="pill">${escapeHtml(projectCategoryLabel(project))}</span>
             <span class="pill">${escapeHtml(project.status)}</span>
           </div>
           <h3>${escapeHtml(project.title)}</h3>
@@ -365,7 +614,7 @@ async function submitAdminForm(event) {
     title: formData.get("title"),
     slug: formData.get("slug"),
     date: formData.get("date"),
-    category: formData.get("category"),
+    category: projectCategoryLabel(formData.get("category")),
     location: formData.get("location"),
     status: formData.get("status"),
     coverImage: formData.get("coverImage"),
@@ -548,3 +797,4 @@ initProjectFeed();
 initHomeProjects();
 initProjectDetail();
 initProjectAdmin();
+initProjectBoardCarouselControls();

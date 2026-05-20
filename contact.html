@@ -10,22 +10,21 @@
     <title>Blauwe Bagger | Contact</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="contact">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/#home-missie">Het Plan</a>
           <a href="/services">Services</a>
-          <a href="/producten">Producten</a>
           <a href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
-          <a class="is-current" href="/contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
@@ -57,22 +56,29 @@
     </header>
 
     <main id="main">
+      <section class="build-screen" aria-labelledby="build-title">
+        <div class="section-inner build-screen__inner reveal">
+          <p>Neem contact op</p>
+          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
+        </div>
+      </section>
+
       <section class="page-hero" aria-labelledby="page-title">
         <div class="section-inner page-hero-grid">
           <div class="page-hero-copy reveal">
             <p class="eyebrow">Contact</p>
-            <h1 id="page-title">Projectvraag? Dan mag contact ook echt een eigen pagina zijn.</h1>
+            <h1 id="page-title">Samen starten met een circulair baggerproject.</h1>
             <p>
-              Hier hoeft niets meer tussen services, producten of projecten te staan. Deze pagina
-              is puur bedoeld om een vraag, locatie, pilot of materiaalstroom snel bij Blauwe Bagger te krijgen.
+              Deel je vraag, locatie, pilot of materiaalstroom. Dan kijken we welke route past bij
+              verwerking op locatie en hergebruik van vrijkomende materialen.
             </p>
           </div>
           <aside class="page-hero-aside reveal" aria-label="Kernpunten contact">
             <p>Direct contact</p>
             <strong>Voor pilots, materiaalvragen en locaties in beeld</strong>
             <span>
-              De site stuurt nu gericht naar deze contactpagina in plaats van naar een laatste
-              blok onderaan een onepager.
+              We denken graag mee over de technische haalbaarheid, projectopzet en mogelijke
+              toepassingen van gescheiden materiaalstromen.
             </span>
             <ul class="page-hero-list">
               <li>Projectvragen via e-mailvoorstel</li>
@@ -174,7 +180,7 @@
     <footer class="site-footer">
       <div class="section-inner footer-grid">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
         <nav aria-label="Footer navigatie">
           <a href="/services">Services</a>
@@ -186,6 +192,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=lang-switch"></script>
   </body>
 </html>

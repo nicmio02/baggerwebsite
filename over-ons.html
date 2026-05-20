@@ -10,22 +10,21 @@
     <title>Blauwe Bagger | Over ons</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="over-ons">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/#home-missie">Het Plan</a>
           <a href="/services">Services</a>
-          <a href="/producten">Producten</a>
           <a href="/projecten">Projecten</a>
           <a class="is-current" href="/over-ons">Over ons</a>
-          <a href="/contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
@@ -57,15 +56,21 @@
     </header>
 
     <main id="main">
+      <section class="build-screen" aria-labelledby="build-title">
+        <div class="section-inner build-screen__inner reveal">
+          <p>Over ons</p>
+          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
+        </div>
+      </section>
+
       <section class="page-hero" aria-labelledby="page-title">
         <div class="section-inner page-hero-grid">
           <div class="page-hero-copy reveal">
             <p class="eyebrow">Over ons</p>
-            <h1 id="page-title">De missie achter Blauwe Bagger krijgt nu een eigen plek.</h1>
+            <h1 id="page-title">Wij maken bagger opnieuw waardevol.</h1>
             <p>
-              Deze route vertelt waarom het bedrijf bestaat, hoe circulariteit wordt benaderd
-              en welke keuzes de mobiele verwerkingsaanpak sturen. Niet als tussenblok, maar als
-              zelfstandige pagina.
+              Blauwe Bagger werkt aan een toekomst waarin baggerstromen niet worden afgevoerd als
+              restmateriaal, maar gericht worden gescheiden, verbeterd en opnieuw toegepast.
             </p>
           </div>
           <aside class="page-hero-aside reveal" aria-label="Kernpunten over ons">
@@ -156,6 +161,105 @@
         </div>
       </section>
 
+      <section class="home-section home-section--team" aria-labelledby="team-title">
+        <div class="home-frame">
+          <p class="home-kicker">Blauwe Bagger</p>
+          <div class="home-title-row home-title-row--wide">
+            <h2 id="team-title">
+              Wij zijn een gedreven team met een doel: alle Nederlandse bagger opschonen en
+              omzetten in waardevolle grondstoffen.
+            </h2>
+          </div>
+
+          <div class="home-team-grid">
+            <article class="home-team-card reveal">
+              <div class="home-portrait home-portrait--one">
+                <img src="assets/media/team-abbe.jpg" alt="" />
+              </div>
+              <h3>Abbe Hekkert</h3>
+              <a href="/over-ons">LinkedIn</a>
+            </article>
+            <article class="home-team-card reveal">
+              <div class="home-portrait home-portrait--two">
+                <img src="assets/media/team-sil.jpg" alt="" />
+              </div>
+              <h3>Sil van de Bovenkamp</h3>
+              <a href="/over-ons">LinkedIn</a>
+            </article>
+            <article class="home-team-card reveal">
+              <div class="home-portrait home-portrait--three">
+                <img src="assets/media/team-yannick.jpg" alt="" />
+              </div>
+              <h3>Yannick Laret</h3>
+              <a href="/over-ons">LinkedIn</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section home-section--partners" aria-labelledby="partners-title">
+        <div class="home-frame">
+          <h2 class="sr-only" id="partners-title">Partners</h2>
+          <div class="home-partner-grid">
+            <article class="home-partner-card reveal"><span>TU Delft</span><strong>TU Delft</strong></article>
+            <article class="home-partner-card reveal"><span>Deltares</span><strong>Deltares</strong></article>
+            <article class="home-partner-card reveal"><span>Port of Rotterdam</span><strong>Port Of Rotterdam</strong></article>
+            <article class="home-partner-card reveal"><span>Provincie</span><strong>Provincie Holland Zuid</strong></article>
+            <article class="home-partner-card reveal"><span>WUR</span><strong>WUR</strong></article>
+            <article class="home-partner-card reveal"><span>Tijhuis Ingenieurs</span><strong>Tijhuis Ingenieurs</strong></article>
+            <article class="home-partner-card reveal"><span>Aquon</span><strong>Aquon</strong></article>
+            <article class="home-partner-card reveal"><span>Gemeente Amsterdam</span><strong>Gemeente Amsterdam</strong></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section home-section--contact" id="contact-home" aria-labelledby="contact-title">
+        <div class="home-frame home-contact-grid">
+          <div class="home-contact-copy reveal">
+            <h2 id="contact-title">
+              Samen bouwen aan een circulaire toekomst in de baggerindustrie?
+            </h2>
+            <p>Zet vandaag nog de eerste stap en neem contact op!</p>
+          </div>
+
+          <form class="home-contact-form reveal" data-contact-form>
+            <div class="home-contact-form__grid">
+              <label>
+                Voornaam *
+                <input name="firstName" autocomplete="given-name" required />
+              </label>
+              <label>
+                Achternaam *
+                <input name="lastName" autocomplete="family-name" required />
+              </label>
+              <label>
+                Telefoonnummer
+                <input name="phone" type="tel" autocomplete="tel" />
+              </label>
+              <label>
+                Email *
+                <input name="email" type="email" autocomplete="email" required />
+              </label>
+            </div>
+
+            <label>
+              Bedrijfsnaam *
+              <input name="company" autocomplete="organization" required />
+            </label>
+
+            <label>
+              Waarbij kunnen wij helpen?
+              <textarea name="message" rows="5" placeholder="Vertel ons meer ..."></textarea>
+            </label>
+
+            <button class="primary-link" type="submit">
+              <span>Verstuur bericht</span>
+            </button>
+            <p class="form-note" data-form-note>Het formulier opent je mailprogramma met alle ingevulde gegevens.</p>
+          </form>
+        </div>
+      </section>
+
       <section class="cta-band" aria-labelledby="cta-title">
         <div class="section-inner">
           <div>
@@ -179,7 +283,7 @@
     <footer class="site-footer">
       <div class="section-inner footer-grid">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
         <nav aria-label="Footer navigatie">
           <a href="/services">Services</a>
@@ -191,6 +295,6 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=lang-switch"></script>
   </body>
 </html>

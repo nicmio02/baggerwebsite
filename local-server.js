@@ -107,6 +107,24 @@ function normalizeLines(input) {
     .filter(Boolean);
 }
 
+function normalizeProjectCategory(value) {
+  const category = String(value || "").trim().toLowerCase();
+
+  if (/(samenwerking|samenwerkingen|partner|consortium|tbi|dc-bricks)/.test(category)) {
+    return "Samenwerkingen";
+  }
+
+  if (/(r&d|onderzoek|research|verkenning|ontwikkeling|extractie|pfas|3d|print)/.test(category)) {
+    return "R&D";
+  }
+
+  if (/(praktijktest|praktijktesten|praktijk|pilot|test|case|locatie|dry run|amsterdam)/.test(category)) {
+    return "Praktijktesten";
+  }
+
+  return "Praktijktesten";
+}
+
 function sortProjects(projects) {
   return [...projects].sort((a, b) => {
     const dateCompare = String(b.date || "").localeCompare(String(a.date || ""));
@@ -140,7 +158,7 @@ function normalizeProjectInput(input, projects, currentProject = null) {
     title,
     excerpt,
     date: String(input.date || currentProject?.date || new Date().toISOString().slice(0, 10)).slice(0, 10),
-    category: String(input.category || currentProject?.category || "Project").trim() || "Project",
+    category: normalizeProjectCategory(input.category || currentProject?.category),
     location: String(input.location || currentProject?.location || "Nederland").trim() || "Nederland",
     status: String(input.status || currentProject?.status || "Actief").trim() || "Actief",
     coverImage: String(input.coverImage || currentProject?.coverImage || "").trim(),

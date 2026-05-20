@@ -24,9 +24,15 @@ const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
 const blueHeaderSections = document.querySelectorAll(".home-section--blue, .home-section--blueprint");
-const pageLanguage = window.location.pathname === "/en" || window.location.pathname.startsWith("/en/")
-  ? "en"
-  : "nl";
+const urlParams = new URLSearchParams(window.location.search);
+const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
+const pageLanguage =
+  urlParams.get("lang") === "en" ||
+  normalizedPath === "/en" ||
+  normalizedPath === "/en.html" ||
+  normalizedPath.startsWith("/en/")
+    ? "en"
+    : "nl";
 
 const heroVideoClips = [
   {
@@ -57,12 +63,15 @@ const i18n = {
       Services: "Services",
       Projecten: "Projects",
       "Over ons": "About us",
+      Taalkeuze: "Language",
       "Neem contact op": "Contact",
       Contact: "Contact",
       Menu: "Menu",
-      "Van Bagger": "From Dredged Sediment",
+      "Van Bagger": "From Sediment",
       tot: "to",
       Grondstof: "Raw Material",
+      Bagger: "Sediment",
+      Scheiden: "Separating",
       "Ontdek het plan": "Explore the plan",
       "Onze services": "Our services",
       "Onze Missie": "Our Mission",
@@ -72,10 +81,23 @@ const i18n = {
       "Bagger industrie": "Dredging industry",
       "Beton industrie": "Concrete industry",
       "xxx miljoen m3": "xxx million m3",
+      Procesaanpak: "Process approach",
       "Onze Oplossing": "Our Solution",
+      "Een praktische route van baggerstroom naar herbruikbare grondstof.":
+        "A practical route from dredged sediment stream to reusable raw material.",
+      "Input scan": "Input scan",
+      "BlueBox module": "BlueBox module",
+      "Output routes": "Output routes",
       Analyse: "Analysis",
       Verwerking: "Processing",
+      "BlueBox verwerking": "BlueBox processing",
       Hergebruik: "Reuse",
+      "Waterbodemdata bepaalt welke fracties geschikt zijn voor hergebruik.":
+        "Sediment data determines which fractions are suitable for reuse.",
+      "De BlueBox ontwatert, scheidt en schoont bagger op locatie.":
+        "The BlueBox dewaters, separates and cleans dredged sediment on site.",
+      "Materialen worden toegepast in bouw- en betonproducten.":
+        "Materials are used in construction and concrete products.",
       "Met data uit waterbodemonderzoek bepalen we welke fracties in bagger geschikt zijn voor hoogwaardige hergebruikroutes.":
         "Using data from sediment surveys, we determine which fractions in dredged material are suitable for high-value reuse routes.",
       "Vervolgens wordt de BlueBox op locatie ingezet om bagger te ontwateren, te scheiden en op te schonen tot inzetbare materialen.":
@@ -90,6 +112,11 @@ const i18n = {
       Opschaling: "Scaling up",
       "Verbreding buiten bagger": "Expansion beyond dredged sediment",
       "Circulariteit in gehele Nederlandse industrie": "Circularity across Dutch industry",
+      "Het startpunt van Blauwe Bagger: bouwen aan een circulaire route voor baggerstromen.":
+        "The starting point for Blauwe Bagger: building a circular route for dredged sediment streams.",
+      "De BluePrint-aanpak wordt beschikbaar voor de markt.": "The BluePrint approach becomes available to the market.",
+      "Het doel: grondstoffen blijven in gebruik binnen een circulaire Nederlandse industrie.":
+        "The goal: keeping raw materials in use within a circular Dutch industry.",
       "De oplossing": "The solution",
       "De circulaire keten begint in een": "The circular chain starts in a",
       container: "container",
@@ -98,6 +125,10 @@ const i18n = {
       "Indikken op locatie": "Dewatering on site",
       "De toepassingen": "Applications",
       Producten: "Products",
+      Zand: "Sand",
+      Leem: "Loam",
+      Klei: "Clay",
+      "Organisch materiaal": "Organic material",
       "Ontdek Producten": "Explore Products",
       "Ontdek Het Team": "Meet the Team",
       "Zet vandaag nog de eerste stap en neem contact op!": "Take the first step today and get in touch.",
@@ -109,6 +140,7 @@ const i18n = {
       "Privacy Policy": "Privacy Policy",
       "Neem contact op!": "Contact us",
       "Terug naar boven": "Back to top",
+      "Deze pagina wordt gebouwd.": "This page is being built.",
     },
     html: {
       "mission-copy":
@@ -257,6 +289,14 @@ function applyPageLanguage() {
   languageLinks.forEach((link) => {
     const isCurrent = link.lang === pageLanguage;
     link.setAttribute("aria-current", String(isCurrent));
+
+    if (link.lang === "en") {
+      link.setAttribute("href", "/?lang=en");
+    }
+
+    if (link.lang === "nl") {
+      link.setAttribute("href", "/");
+    }
   });
 
   if (pageLanguage !== "en") {
@@ -314,6 +354,22 @@ function applyPageLanguage() {
     const key = normalizeTranslationKey(element.getAttribute("aria-label"));
     if (dictionary.text[key]) {
       element.setAttribute("aria-label", dictionary.text[key]);
+    }
+  });
+
+  blueprintSteps.forEach((step) => {
+    ["blueprintTitle", "blueprintCopy"].forEach((key) => {
+      const value = step.dataset[key];
+      const translation = dictionary.text[normalizeTranslationKey(value)];
+
+      if (translation) {
+        step.dataset[key] = translation;
+      }
+    });
+
+    const button = step.querySelector(".home-blueprint-dot");
+    if (button) {
+      button.setAttribute("aria-label", `Show ${step.dataset.blueprintYear}: ${step.dataset.blueprintTitle}`);
     }
   });
 
@@ -407,6 +463,7 @@ function setMobileMenu(open) {
 
   menuToggle.setAttribute("aria-expanded", String(open));
   mobileMenu.hidden = !open;
+  header?.classList.toggle("is-menu-open", open);
   syncHeaderOffset();
 }
 

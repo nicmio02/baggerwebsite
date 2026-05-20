@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Projectblog van Blauwe Bagger met actuele projecten, pilots en updates over mobiele baggerverwerking."
+      content="Projectoverzicht van Blauwe Bagger met samenwerkingen, praktijktesten en R&D rond circulaire baggerverwerking."
     />
     <title>Blauwe Bagger | Projecten</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="projecten">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/#home-missie">Het Plan</a>
           <a href="/services">Services</a>
-          <a href="/producten">Producten</a>
           <a class="is-current" href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
-          <a href="/contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
@@ -57,64 +56,13 @@
     </header>
 
     <main id="main">
-      <section class="page-hero" aria-labelledby="page-title">
-        <div class="section-inner page-hero-grid">
-          <div class="page-hero-copy reveal">
-            <p class="eyebrow">Projectblog</p>
-            <h1 id="page-title">Projecten leven nu als echte posts, niet meer als vaste blokken in de site.</h1>
-            <p>
-              Deze projectenpagina leest automatisch uit de projectdatabase. Nieuwe updates kun je
-              straks toevoegen via de beheerpagina, zonder dat je HTML hoeft te bewerken.
-            </p>
-          </div>
-          <aside class="page-hero-aside reveal" aria-label="Beheerinfo projecten">
-            <p>Nieuwe workflow</p>
-            <strong>Blogoverzicht, losse projectpagina's en een invoertool</strong>
-            <span>
-              Voeg een project toe, kies een slug, schrijf de tekst en publiceer. De kaart op deze
-              pagina en de detailroute worden daarna automatisch gevuld.
-            </span>
-            <div class="page-toolbar" style="margin-top: 18px;">
-              <a class="primary-link" href="/projecten-beheer">
-                <span>Beheer projecten</span>
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-              </a>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section class="blog-section" aria-labelledby="blog-title">
+      <section class="project-board-section project-board-section--index" id="project-board" aria-labelledby="project-board-title">
         <div class="section-inner" data-project-feed>
-          <div class="section-heading reveal">
-            <p class="section-kicker">Updates</p>
-            <h2 id="blog-title">Actuele projecten, pilots en verkenningen van Blauwe Bagger.</h2>
-          </div>
+          <p class="project-board-kicker reveal">Projectoverzicht</p>
+          <h1 id="project-board-title" class="project-board-title reveal">Projecten</h1>
 
-          <div class="blog-shell">
-            <div class="blog-featured reveal" data-project-featured>
-              <div class="detail-loading">Projecten worden geladen...</div>
-            </div>
-            <div class="blog-grid" data-project-grid></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="cta-band" aria-labelledby="cta-title">
-        <div class="section-inner">
-          <div>
-            <p>Beheer</p>
-            <h2 id="cta-title">Nieuwe projecten toevoegen gaat nu via een eigen tool.</h2>
-          </div>
-          <div>
-            <p>
-              Open de beheerpagina om een nieuw project te publiceren, een bestaande post te
-              bewerken of een project weer te verwijderen.
-            </p>
-            <a class="primary-link" href="/projecten-beheer">
-              <span>Open projectbeheer</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-            </a>
+          <div class="project-board" data-project-board>
+            <div class="detail-loading">Projecten worden geladen...</div>
           </div>
         </div>
       </section>
@@ -123,7 +71,7 @@
     <footer class="site-footer">
       <div class="section-inner footer-grid">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img src="assets/brand/blauwe-bagger-logo.svg" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
         <nav aria-label="Footer navigatie">
           <a href="/services">Services</a>
@@ -135,7 +83,7 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=lang-switch"></script>
     <script src="projects.js"></script>
   </body>
 </html>

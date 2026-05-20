@@ -1,0 +1,14 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/en",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/projecten/:slug",
+      "destination": "/project-detail.html"
+    }
+  ]
+}
