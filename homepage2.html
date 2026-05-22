@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Blauwe Bagger verwerkt baggerspecie tot nieuwe grondstoffen. Ontdek een homepage die trouw is aan het editoriale referentiedesign, met projecten, producten, team en contact."
+      content="Verborgen Blauwe Bagger homepage test met een gecentreerd 3D BlueBox model op een lichte blueprint achtergrond."
     />
-    <title>Blauwe Bagger | Home</title>
+    <title>Blauwe Bagger | Homepage 2</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=main-home-clean" />
+    <link rel="stylesheet" href="styles.css?v=bluebox-layout-17" />
   </head>
-  <body data-page="home">
+  <body data-page="home" data-homepage-variant="bluebox-lab">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
@@ -54,32 +54,14 @@
     </header>
 
     <main id="main" class="home-main">
-      <section class="home-hero" id="top" aria-labelledby="hero-title">
-        <div class="home-hero-media" aria-hidden="true">
-          <video class="home-hero-video" autoplay muted playsinline>
-            <source src="assets/media/bagger-process-hero.mp4" type="video/mp4" />
-          </video>
+      <section class="home-hero home-hero--blueprint-lab" id="top" aria-label="BlueBox modeltest">
+        <div class="home-hero-lab-wordmark" aria-hidden="true">
+          <span>Blue</span><span>Box</span>
         </div>
-        <div class="home-frame">
-          <article class="home-hero-card reveal">
-            <div class="home-hero-copy">
-              <h1 id="hero-title">
-                <span>Van Bagger</span>
-                <span>tot</span>
-                <span class="home-hero-accent wave-underline">Grondstof</span>
-              </h1>
-              <div class="home-hero-actions" aria-label="Hero acties">
-                <a class="home-hero-action home-hero-action--primary" href="#home-missie">
-                  Ontdek het plan
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg>
-                </a>
-                <a class="home-hero-action home-hero-action--secondary" href="/services">Onze services</a>
-              </div>
-            </div>
-          </article>
+        <div class="home-hero-3d" data-bluebox-hero-model data-model-src="assets/models/bluebox-module.glb" aria-hidden="true">
+          <canvas class="home-hero-3d__canvas"></canvas>
         </div>
+        <div class="home-frame home-hero-lab-frame"></div>
       </section>
 
       <section class="home-section home-section--mission" id="home-missie" aria-labelledby="mission-title">
@@ -471,14 +453,8 @@
         </div>
       </div>
     </footer>
-
-    <a class="home-back-to-top" href="#top" aria-label="Terug naar boven">
-      <svg aria-hidden="true" viewBox="0 0 24 24">
-        <path d="M12 18V6m-5 5 5-5 5 5" />
-      </svg>
-    </a>
-
     <script src="script.js?v=lang-switch"></script>
+    <script type="module" src="bluebox-viewer.js?v=18"></script>
     <script src="projects.js"></script>
   </body>
 </html>

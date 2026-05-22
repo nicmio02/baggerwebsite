@@ -123,6 +123,18 @@ const i18n = {
       "Waar anderen afval zien, zien wij grondstof. Onze mobiele verwerkingsunit zuivert, scheidt en verwerkt baggerspecie direct op locatie - zonder dat er eerst vele kilometers gereden hoeft te worden.":
         "Where others see waste, we see raw material. Our mobile processing unit purifies, separates and processes dredged sediment directly on site, without first driving many kilometres.",
       "Indikken op locatie": "Dewatering on site",
+      "Kies je route binnen Blauwe Bagger": "Choose your route within Blauwe Bagger",
+      "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
+        "One route for dredging projects and one route for secondary raw materials.",
+      "Voor baggeraars": "For dredging contractors",
+      "Werken met de BlueBox": "Work with the BlueBox",
+      "Minder stortkosten, minder transport en sterker in aanbestedingen.":
+        "Lower disposal costs, less transport and a stronger position in tenders.",
+      "Voor grondstoffen": "For raw materials",
+      "Secundaire grondstoffen, primaire kwaliteit": "Secondary raw materials, primary quality",
+      "BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie.":
+        "BlueSand, BlueFiller and BlueCalc as sustainable inputs for concrete production.",
+      "Bekijk grondstoffen": "View raw materials",
       "De toepassingen": "Applications",
       Producten: "Products",
       Zand: "Sand",
