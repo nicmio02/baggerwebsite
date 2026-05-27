@@ -51,6 +51,11 @@ let activeHeroClip = 0;
 let heroClipTimer = null;
 let activeSolutionStep = 0;
 let solutionStepTimer = null;
+let lastScrollY = window.scrollY;
+let headerIdleTimer = null;
+
+const headerAutoHideDelay = 700;
+const headerAutoHideOffset = 120;
 
 const i18n = {
   en: {
@@ -436,6 +441,53 @@ function updateScrollProgress() {
   });
 }
 
+function canAutoHideHeader() {
+  return (
+    header &&
+    window.scrollY > headerAutoHideOffset &&
+    !header.classList.contains("is-menu-open") &&
+    !header.matches(":hover") &&
+    !header.contains(document.activeElement)
+  );
+}
+
+function showHeader() {
+  header?.classList.remove("is-auto-hidden");
+}
+
+function scheduleHeaderAutoHide() {
+  window.clearTimeout(headerIdleTimer);
+
+  if (!header) {
+    return;
+  }
+
+  headerIdleTimer = window.setTimeout(() => {
+    if (canAutoHideHeader()) {
+      header.classList.add("is-auto-hidden");
+    }
+  }, headerAutoHideDelay);
+}
+
+function handleScrollActivity() {
+  const currentScrollY = window.scrollY;
+  const scrollingUp = currentScrollY < lastScrollY - 4;
+  const nearTop = currentScrollY <= 18;
+
+  if (scrollingUp || nearTop || Math.abs(currentScrollY - lastScrollY) > 2) {
+    showHeader();
+  }
+
+  lastScrollY = Math.max(currentScrollY, 0);
+  updateScrollProgress();
+  scheduleHeaderAutoHide();
+}
+
+function handlePageActivity() {
+  showHeader();
+  scheduleHeaderAutoHide();
+}
+
 function playHeroClip(index = 0) {
   if (!heroVideo || !heroVideoSource || !heroVideoClips.length) {
     return;
@@ -476,6 +528,14 @@ function setMobileMenu(open) {
   menuToggle.setAttribute("aria-expanded", String(open));
   mobileMenu.hidden = !open;
   header?.classList.toggle("is-menu-open", open);
+  showHeader();
+
+  if (open) {
+    window.clearTimeout(headerIdleTimer);
+  } else {
+    scheduleHeaderAutoHide();
+  }
+
   syncHeaderOffset();
 }
 
@@ -724,9 +784,12 @@ if (contactForm) {
   });
 }
 
-window.addEventListener("scroll", updateScrollProgress, { passive: true });
+window.addEventListener("scroll", handleScrollActivity, { passive: true });
 window.addEventListener("resize", updateScrollProgress);
+window.addEventListener("touchstart", handlePageActivity, { passive: true });
+window.addEventListener("keydown", handlePageActivity);
 updateScrollProgress();
+scheduleHeaderAutoHide();
 
 if (stepButtons.length && processLabel && processTitle && processCopy) {
   selectStep(0);

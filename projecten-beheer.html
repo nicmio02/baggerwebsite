@@ -21,29 +21,40 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/#home-missie">Het Plan</a>
-          <a href="/services">Services</a>
+          <a href="/het-plan">Het Plan</a>
+          <div class="nav-dropdown">
+            <a aria-haspopup="true">Services</a>
+            <div class="nav-dropdown__menu" aria-label="Service routes">
+              <a href="/services/baggeraars">Voor baggeraars</a>
+              <a href="/services/grondstoffen">Voor grondstoffen</a>
+            </div>
+          </div>
           <a class="is-current" href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="icon-button icon-button--desktop" href="/projecten" aria-label="Terug naar projecten">
-            <span>Terug naar projecten</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-          </a>
+          <div class="language-toggle" aria-label="Taalkeuze">
+            <a href="/" lang="nl" aria-current="true">NL</a>
+            <a href="/?lang=en" lang="en">EN</a>
+          </div>
           <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
             <span class="sr-only">Menu</span>
           </button>
+          <a class="icon-button icon-button--desktop" href="/projecten" aria-label="Terug naar projecten">
+            <span>Terug naar projecten</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+          </a>
         </div>
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/services">Services</a>
-        <a href="/producten">Producten</a>
+        <a href="/het-plan">Het Plan</a>
+        <a href="/services/baggeraars">Voor baggeraars</a>
+        <a href="/services/grondstoffen">Voor grondstoffen</a>
         <a class="is-current" href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
         <a href="/contact">Neem contact op</a>

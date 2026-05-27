@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Ontdek hoe Blauwe Bagger baggerspecie op locatie indikt, zeeft, scheidt en vertaalt naar bruikbare grondstofstromen."
+      content="Kies de juiste service route binnen Blauwe Bagger: werken met de BlueBox of secundaire grondstoffen inkopen."
     />
     <title>Blauwe Bagger | Services</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="preload" href="assets/media/zandstort.png" as="image" />
-    <link rel="preload" href="assets/media/truck.png" as="image" />
     <link rel="stylesheet" href="styles.css?v=nav-motion" />
   </head>
   <body data-page="services">
@@ -23,244 +21,83 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/#home-missie">Het Plan</a>
-          <a class="is-current" href="/services">Services</a>
+          <a href="/het-plan">Het Plan</a>
+          <div class="nav-dropdown">
+            <a class="is-current" aria-haspopup="true">Services</a>
+            <div class="nav-dropdown__menu" aria-label="Service routes">
+              <a href="/services/baggeraars">Voor baggeraars</a>
+              <a href="/services/grondstoffen">Voor grondstoffen</a>
+            </div>
+          </div>
           <a href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="icon-button icon-button--desktop" href="/contact" aria-label="Contact">
-            <span>Contact</span>
-          </a>
+          <div class="language-toggle" aria-label="Taalkeuze">
+            <a href="/" lang="nl" aria-current="true">NL</a>
+            <a href="/?lang=en" lang="en">EN</a>
+          </div>
           <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
             <span class="sr-only">Menu</span>
           </button>
+          <a class="icon-button icon-button--desktop" href="/contact" aria-label="Contact">
+            <span>Contact</span>
+          </a>
         </div>
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a class="is-current" href="/services">Services</a>
-        <a href="/producten">Producten</a>
+        <a href="/het-plan">Het Plan</a>
+        <a href="/services/baggeraars">Voor baggeraars</a>
+        <a href="/services/grondstoffen">Voor grondstoffen</a>
         <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
 
-    <main id="main">
-      <section class="build-screen" aria-labelledby="build-title">
-        <div class="section-inner build-screen__inner reveal">
-          <p>Services</p>
-          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
-        </div>
-      </section>
-
-      <section class="page-hero" aria-labelledby="page-title">
-        <div class="section-inner page-hero-grid">
-          <div class="page-hero-copy reveal">
-            <p class="eyebrow">Services</p>
-            <h1 id="page-title">Verwerking op locatie, van natte specie tot inzetbare stroom.</h1>
-            <p>
-              Van eerste scan tot toepassing: Blauwe Bagger brengt analyse, mobiele verwerking
-              en materiaaladvies samen in een praktische route voor circulaire baggerprojecten.
-            </p>
-          </div>
-          <aside class="page-hero-aside reveal" aria-label="Kernpunten services">
-            <p>In één traject</p>
-            <strong>Analyse, indikken, scheiden en toepassingsadvies</strong>
-            <span>
-              De mobiele unit maakt het mogelijk om baggerspecie dichtbij de bron te behandelen
-              en sneller te vertalen naar afzonderlijke materiaalstromen.
-            </span>
-            <ul class="page-hero-list">
-              <li>Containerunit inzetbaar op locatie</li>
-              <li>Meetbare stappen in de keten</li>
-              <li>Minder logistieke omwegen</li>
-            </ul>
-          </aside>
-        </div>
-      </section>
-
-      <section class="problem-band" aria-labelledby="problem-title">
-        <div class="section-inner problem-grid">
-          <div class="problem-intro reveal">
-            <p class="section-kicker section-kicker--light">Het probleem</p>
-            <h2 id="problem-title">Nederland wint grondstoffen, terwijl waardevolle bagger vaak te laat wordt gescheiden.</h2>
+    <main id="main" class="service-detail-page service-index-page">
+      <section class="service-index-hero" aria-labelledby="services-title">
+        <div class="service-detail-frame">
+          <div class="service-detail-hero__head reveal">
+            <h1 id="services-title">Kies je route binnen <em>Blauwe Bagger</em></h1>
+            <p>Een route voor baggerprojecten en een route voor secundaire grondstoffen.</p>
           </div>
 
-          <div class="problem-story">
-            <article class="problem-card reveal">
-              <span class="problem-number"><span data-count="28">0</span></span>
-              <h3>Miljoen m3 gewonnen</h3>
-              <p>
-                Zand en klei worden nog vaak primair gewonnen, terwijl vergelijkbare stromen al
-                in baggerspecie aanwezig zijn.
-              </p>
-            </article>
-            <article class="problem-card problem-card--dark reveal">
-              <span class="problem-number"><span data-count="40">0</span></span>
-              <h3>Miljoen m3 gebaggerd</h3>
-              <p>
-                Zonder vroege verwerking worden waardevolle fracties minder goed herbruikbaar en
-                blijft logistiek onnodig zwaar.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="chain" aria-labelledby="chain-title">
-        <div class="section-inner chain-grid">
-          <div class="chain-copy reveal">
-            <p class="section-kicker">De verwerkingsketen</p>
-            <h2 id="chain-title">Van natte specie naar controleerbare eindproducten.</h2>
-            <p>
-              De containerunit dikt in, zeeft, scheidt en verwerkt baggerspecie zonder lange
-              omwegen. Elke stap heeft een eigen meetpunt, zodat het resultaat voorspelbaar en
-              toepasbaar wordt.
-            </p>
-
-            <div class="step-list" role="tablist" aria-label="Processtappen">
-              <button class="step-button is-active" type="button" role="tab" aria-selected="true" data-step="0">
-                <span>01</span>
-                <strong>Indikken</strong>
-              </button>
-              <button class="step-button" type="button" role="tab" aria-selected="false" data-step="1">
-                <span>02</span>
-                <strong>Zeven</strong>
-              </button>
-              <button class="step-button" type="button" role="tab" aria-selected="false" data-step="2">
-                <span>03</span>
-                <strong>Scheiden</strong>
-              </button>
-              <button class="step-button" type="button" role="tab" aria-selected="false" data-step="3">
-                <span>04</span>
-                <strong>Toepassen</strong>
-              </button>
-            </div>
-          </div>
-
-          <div class="chain-visual reveal" aria-live="polite">
-            <div class="process-map" aria-hidden="true">
-              <span class="process-track"></span>
-              <span class="process-fill" data-process-fill></span>
-              <span class="process-dot is-active"></span>
-              <span class="process-dot"></span>
-              <span class="process-dot"></span>
-              <span class="process-dot"></span>
-            </div>
-
-            <div class="process-stage">
-              <img src="assets/media/zandstort.png" alt="" data-process-image />
-              <div class="process-card">
-                <p data-process-label>Stap 01</p>
-                <h3 data-process-title>Indikken op locatie</h3>
-                <p data-process-copy>
-                  Waterige bagger wordt ingedikt voordat transport of verdere scheiding nodig is.
-                </p>
+          <div class="service-index-routes">
+            <a class="home-service-card home-service-card--bluebox reveal" href="/services/baggeraars">
+              <span class="home-service-card__number">01</span>
+              <div class="home-service-card__copy">
+                <p class="home-service-card__label">Voor baggeraars</p>
+                <h3>Werken met de BlueBox</h3>
+                <p>Minder stortkosten, minder transport en sterker in aanbestedingen.</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+              <span class="home-service-card__cta">
+                <span>Werken met de BlueBox</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </span>
+            </a>
 
-      <section class="feature-section feature-section--soft" aria-labelledby="feature-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Werkpakket</p>
-            <h2 id="feature-title">Vier onderdelen die samen één inzetbare service vormen.</h2>
-          </div>
-
-          <div class="feature-grid feature-grid--four">
-            <article class="feature-card reveal">
-              <p class="section-kicker">01</p>
-              <h3>Locatie-analyse</h3>
-              <p>Vooraf inzicht in baggerstroom, logistieke randvoorwaarden en gewenste uitkomst.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">02</p>
-              <h3>Mobiele unit</h3>
-              <p>Een containeropstelling die dichtbij de bron kan worden geplaatst en snel kan opschalen.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">03</p>
-              <h3>Materiaalscheiding</h3>
-              <p>Van grove delen tot fijne fracties: elke stap ondersteunt een heldere vervolgrichting.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">04</p>
-              <h3>Toepassingsadvies</h3>
-              <p>De stap van materiaal naar gebruik, zodat een stroom niet in het project blijft hangen.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="cta-band" aria-labelledby="cta-title">
-        <div class="section-inner">
-          <div>
-            <p>Volgende stap</p>
-            <h2 id="cta-title">Bespreek hoe de containerunit past binnen jouw project of locatie.</h2>
-          </div>
-          <div>
-            <p>
-              Vanuit services kun je door naar producten of meteen een projectvraag voorleggen.
-              De site heeft nu per onderwerp een eigen route, zodat bezoekers sneller landen waar
-              ze moeten zijn.
-            </p>
-            <a class="primary-link" href="/contact">
-              <span>Ga naar contact</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+            <a class="home-service-card home-service-card--materials reveal" href="/services/grondstoffen">
+              <span class="home-service-card__number">02</span>
+              <div class="home-service-card__copy">
+                <p class="home-service-card__label">Voor grondstoffen</p>
+                <h3>Secundaire grondstoffen, primaire kwaliteit</h3>
+                <p>BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie.</p>
+              </div>
+              <span class="home-service-card__cta">
+                <span>Bekijk grondstoffen</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </span>
             </a>
           </div>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer site-footer--brand">
-      <div class="home-frame">
-        <div class="home-footer-top">
-          <div>
-            <h2>Word een partner!</h2>
-          </div>
-        </div>
-
-        <div class="home-footer-meta">
-          <div>
-            <p>Blauwe Bagger B.V.</p>
-            <p>Monumentenwerf</p>
-            <p>Santoriniweg 27</p>
-            <p>1045 AV Amsterdam</p>
-          </div>
-
-          <div>
-            <p>KVK: 98672088</p>
-            <p>BTW: NL868594660B01</p>
-            <p>Sil@blauwebagger.nl ; +316 41882594</p>
-            <p>Abbe@blauwebagger.nl ; +316 81093971</p>
-          </div>
-
-          <div class="home-footer-links">
-            <a href="/over-ons">LinkedIn</a>
-            <a href="/contact">Instagram</a>
-          </div>
-        </div>
-
-        <div class="home-footer-bottom">
-          <span>&copy; Blauwe Bagger. All rights reserved.</span>
-          <a href="/contact">Privacy Policy</a>
-        </div>
-
-        <div class="home-footer-wordmark" aria-hidden="true">
-          <span>Blauwe</span>
-          <span>Bagger</span>
-        </div>
-      </div>
-    </footer>
 
     <script src="script.js?v=lang-switch"></script>
   </body>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Lees over de missie van Blauwe Bagger en waarom mobiele verwerking, circulariteit en materiaalwaarde samenkomen in één aanpak."
+      content="Lees over het verhaal en team achter Blauwe Bagger."
     />
     <title>Blauwe Bagger | Over ons</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
@@ -21,255 +21,104 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/#home-missie">Het Plan</a>
-          <a href="/services">Services</a>
+          <a href="/het-plan">Het Plan</a>
+          <div class="nav-dropdown">
+            <a aria-haspopup="true">Services</a>
+            <div class="nav-dropdown__menu" aria-label="Service routes">
+              <a href="/services/baggeraars">Voor baggeraars</a>
+              <a href="/services/grondstoffen">Voor grondstoffen</a>
+            </div>
+          </div>
           <a href="/projecten">Projecten</a>
           <a class="is-current" href="/over-ons">Over ons</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="icon-button icon-button--desktop" href="/contact" aria-label="Contact">
-            <span>Contact</span>
-          </a>
+          <div class="language-toggle" aria-label="Taalkeuze">
+            <a href="/" lang="nl" aria-current="true">NL</a>
+            <a href="/?lang=en" lang="en">EN</a>
+          </div>
           <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
             <span class="sr-only">Menu</span>
           </button>
+          <a class="icon-button icon-button--desktop" href="/contact" aria-label="Contact">
+            <span>Contact</span>
+          </a>
         </div>
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/services">Services</a>
-        <a href="/producten">Producten</a>
+        <a href="/het-plan">Het Plan</a>
+        <a href="/services/baggeraars">Voor baggeraars</a>
+        <a href="/services/grondstoffen">Voor grondstoffen</a>
         <a href="/projecten">Projecten</a>
         <a class="is-current" href="/over-ons">Over ons</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
 
-    <main id="main">
-      <section class="build-screen" aria-labelledby="build-title">
-        <div class="section-inner build-screen__inner reveal">
-          <p>Over ons</p>
-          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
-        </div>
-      </section>
-
-      <section class="page-hero" aria-labelledby="page-title">
-        <div class="section-inner page-hero-grid">
-          <div class="page-hero-copy reveal">
-            <p class="eyebrow">Over ons</p>
-            <h1 id="page-title">Wij maken bagger opnieuw waardevol.</h1>
-            <p>
-              Blauwe Bagger werkt aan een toekomst waarin baggerstromen niet worden afgevoerd als
-              restmateriaal, maar gericht worden gescheiden, verbeterd en opnieuw toegepast.
+    <main id="main" class="about-page">
+      <section class="about-story-section" aria-labelledby="about-title">
+        <div class="about-frame">
+          <div class="about-story-copy">
+            <h1 id="about-title" class="reveal">Over Ons</h1>
+            <p class="about-story-text reveal">
+              Blauwe Bagger is in 2022 opgericht uit een gedeelde passie voor duurzaamheid en
+              circulariteit. Onze oprichters zagen dat er in de baggersector volop kansen liggen
+              voor circulair grondstofgebruik, maar ook dat de complexiteit van de sector die kansen
+              vaak in de weg staat. Sindsdien werken we aan een integrale oplossing voor het
+              circulair hergebruik van baggerspecie, met betrokkenheid van de hele keten.
             </p>
           </div>
-          <aside class="page-hero-aside reveal" aria-label="Kernpunten over ons">
-            <p>Kompas</p>
-            <strong>Circulariteit, mobiliteit en materiaalwaarde</strong>
-            <span>
-              Het verhaal van Blauwe Bagger draait om het voorkomen van verlies: van grondstoffen,
-              transportefficiëntie en toepassingskansen.
-            </span>
-            <ul class="page-hero-list">
-              <li>Dichter bij de bron verwerken</li>
-              <li>Meer grip op uitgaande stromen</li>
-              <li>Praktisch in plaats van abstract</li>
-            </ul>
+
+          <aside class="about-story-visual reveal" aria-hidden="true">
+            <img src="assets/brand/blauwe-bagger-icon.png" alt="" />
+            <span>2022</span>
+            <strong>Van bagger naar grondstof</strong>
+            <small>Een integrale route voor circulair hergebruik, samen met de hele keten.</small>
           </aside>
         </div>
       </section>
 
-      <section class="mission" aria-labelledby="mission-title">
-        <div class="section-inner mission-grid">
-          <div class="section-copy reveal">
-            <p class="section-kicker">Onze missie</p>
-            <h2 id="mission-title">Bagger wordt bouwstof wanneer verwerking, logistiek en toepassing in één verhaal vallen.</h2>
-          </div>
-          <div class="mission-text reveal">
-            <p>
-              Blauwe Bagger zet baggerspecie om tot bruikbare grondstoffen die bijdragen aan een
-              circulaire toekomst. De mobiele verwerkingsunit voorkomt onnodige transportbewegingen
-              en maakt de kwaliteit van elke stroom inzichtelijk.
-            </p>
-            <ul class="check-list" aria-label="Kernwaarden">
-              <li>Verwerking op locatie</li>
-              <li>Heldere scheiding per materiaalstroom</li>
-              <li>Minder transport en minder CO2</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <section class="about-team-section" aria-labelledby="team-title">
+        <div class="about-frame">
+          <h2 id="team-title" class="reveal">Team</h2>
 
-      <section class="feature-section feature-section--soft" aria-labelledby="principles-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Principes</p>
-            <h2 id="principles-title">Drie uitgangspunten die door de hele aanpak heen lopen.</h2>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card reveal">
-              <p class="section-kicker">01</p>
-              <h3>Dichterbij werken</h3>
-              <p>Hoe minder afstand tussen bron en verwerking, hoe groter de kans op bruikbare stromen.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">02</p>
-              <h3>Materiaal eerst</h3>
-              <p>Niet redeneren vanuit afvoer, maar vanuit wat een stroom in een volgend project kan worden.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">03</p>
-              <h3>Meetbaar maken</h3>
-              <p>Elke stap in het proces helpt om kwaliteit, logistiek en toepassing beter te sturen.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="stat-section" aria-labelledby="stats-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Waarom dit ertoe doet</p>
-            <h2 id="stats-title">De over-ons-pagina geeft context aan de cijfers die elders op de site terugkomen.</h2>
-          </div>
-
-          <div class="stat-grid">
-            <article class="stat-card reveal">
-              <strong>28</strong>
-              <p>miljoen m3 primaire grondstoffen worden jaarlijks gewonnen, terwijl alternatieven in bagger aanwezig zijn.</p>
-            </article>
-            <article class="stat-card reveal">
-              <strong>40</strong>
-              <p>miljoen m3 bagger komt jaarlijks vrij en vraagt om slimme verwerking en heldere toepassingsroutes.</p>
-            </article>
-            <article class="stat-card reveal">
-              <strong>1</strong>
-              <p>mobiele aanpak verbindt locatie, materiaal en toepassing in plaats van losse schakels te creëren.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section home-section--team" aria-labelledby="team-title">
-        <div class="home-frame">
-          <p class="home-kicker">Blauwe Bagger</p>
-          <div class="home-title-row home-title-row--wide">
-            <h2 id="team-title">
-              Wij zijn een gedreven team met een doel: alle Nederlandse bagger opschonen en
-              omzetten in waardevolle grondstoffen.
-            </h2>
-          </div>
-
-          <div class="home-team-grid">
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--one">
-                <img src="assets/media/team-abbe.jpg" alt="" />
-              </div>
+          <div class="about-team-grid">
+            <article class="about-team-card reveal">
+              <img src="assets/media/team-abbe.jpg" alt="Abbe Hekkert" />
               <h3>Abbe Hekkert</h3>
-              <a href="/over-ons">LinkedIn</a>
+              <p>Co-Founder</p>
             </article>
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--two">
-                <img src="assets/media/team-sil.jpg" alt="" />
-              </div>
+            <article class="about-team-card reveal">
+              <img src="assets/media/team-sil.jpg" alt="Sil van de Bovenkamp" />
               <h3>Sil van de Bovenkamp</h3>
-              <a href="/over-ons">LinkedIn</a>
+              <p>Co-Founder</p>
             </article>
-            <article class="home-team-card reveal">
-              <div class="home-portrait home-portrait--three">
-                <img src="assets/media/team-yannick.jpg" alt="" />
-              </div>
+            <article class="about-team-card reveal">
+              <img src="assets/media/team-yannick.jpg" alt="Yannick Laret" />
               <h3>Yannick Laret</h3>
-              <a href="/over-ons">LinkedIn</a>
+              <p>Electrical Engineer</p>
+            </article>
+            <article class="about-team-card reveal">
+              <img src="assets/media/team-sil.jpg" alt="Gijs Breebaart" />
+              <h3>Gijs Breebaart</h3>
+              <p>Business Developer</p>
+            </article>
+            <article class="about-team-card reveal">
+              <img src="assets/media/team-abbe.jpg" alt="Jelle Cuijpers" />
+              <h3>Jelle Cuijpers</h3>
+              <p>Mechanical Engineer</p>
             </article>
           </div>
-        </div>
-      </section>
 
-      <section class="home-section home-section--partners" aria-labelledby="partners-title">
-        <div class="home-frame">
-          <h2 class="sr-only" id="partners-title">Partners</h2>
-          <div class="home-partner-grid">
-            <article class="home-partner-card reveal"><span>TU Delft</span><strong>TU Delft</strong></article>
-            <article class="home-partner-card reveal"><span>Deltares</span><strong>Deltares</strong></article>
-            <article class="home-partner-card reveal"><span>Port of Rotterdam</span><strong>Port Of Rotterdam</strong></article>
-            <article class="home-partner-card reveal"><span>Provincie</span><strong>Provincie Holland Zuid</strong></article>
-            <article class="home-partner-card reveal"><span>WUR</span><strong>WUR</strong></article>
-            <article class="home-partner-card reveal"><span>Tijhuis Ingenieurs</span><strong>Tijhuis Ingenieurs</strong></article>
-            <article class="home-partner-card reveal"><span>Aquon</span><strong>Aquon</strong></article>
-            <article class="home-partner-card reveal"><span>Gemeente Amsterdam</span><strong>Gemeente Amsterdam</strong></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-section home-section--contact" id="contact-home" aria-labelledby="contact-title">
-        <div class="home-frame home-contact-grid">
-          <div class="home-contact-copy reveal">
-            <h2 id="contact-title">
-              Samen bouwen aan een circulaire toekomst in de baggerindustrie?
-            </h2>
-            <p>Zet vandaag nog de eerste stap en neem contact op!</p>
-          </div>
-
-          <form class="home-contact-form reveal" data-contact-form>
-            <div class="home-contact-form__grid">
-              <label>
-                Voornaam *
-                <input name="firstName" autocomplete="given-name" required />
-              </label>
-              <label>
-                Achternaam *
-                <input name="lastName" autocomplete="family-name" required />
-              </label>
-              <label>
-                Telefoonnummer
-                <input name="phone" type="tel" autocomplete="tel" />
-              </label>
-              <label>
-                Email *
-                <input name="email" type="email" autocomplete="email" required />
-              </label>
-            </div>
-
-            <label>
-              Bedrijfsnaam *
-              <input name="company" autocomplete="organization" required />
-            </label>
-
-            <label>
-              Waarbij kunnen wij helpen?
-              <textarea name="message" rows="5" placeholder="Vertel ons meer ..."></textarea>
-            </label>
-
-            <button class="primary-link" type="submit">
-              <span>Verstuur bericht</span>
-            </button>
-            <p class="form-note" data-form-note>Het formulier opent je mailprogramma met alle ingevulde gegevens.</p>
-          </form>
-        </div>
-      </section>
-
-      <section class="cta-band" aria-labelledby="cta-title">
-        <div class="section-inner">
-          <div>
-            <p>Verder kijken</p>
-            <h2 id="cta-title">Wil je vanuit het verhaal door naar een concrete service of projectroute?</h2>
-          </div>
-          <div>
-            <p>
-              Nu over ons een losse pagina is, kan deze route puur het verhaal dragen en daarna
-              gericht doorsturen naar services, projecten of contact.
-            </p>
-            <a class="primary-link" href="/services">
-              <span>Ga naar services</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-            </a>
-          </div>
+          <a class="about-team-link reveal" href="/contact">
+            <span>Bekijk openstaande posities en stage plekken</span>
+            <span aria-hidden="true">-&gt;</span>
+          </a>
         </div>
       </section>
     </main>

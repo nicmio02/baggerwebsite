@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Blauwe Bagger helpt baggeraars slimmer werken met data, scheiding en BlueBox-verwerking op locatie."
+    />
+    <title>Blauwe Bagger | Voor baggeraars</title>
+    <link rel="icon" href="/assets/brand/blauwe-bagger-icon.png" />
+    <link rel="preload" href="/assets/brand/blauwe-bagger-logo.svg" as="image" />
+    <link rel="stylesheet" href="/styles.css?v=nav-motion" />
+  </head>
+  <body data-page="service-detail">
+    <a class="skip-link" href="#main">Ga naar inhoud</a>
+    <header class="site-header" data-header>
+      <div class="nav-shell">
+        <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
+          <img class="brand-link__icon" src="/assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+        </a>
+
+        <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <a href="/het-plan">Het Plan</a>
+          <div class="nav-dropdown">
+            <a class="is-current" aria-haspopup="true">Services</a>
+            <div class="nav-dropdown__menu" aria-label="Service routes">
+              <a class="is-current" href="/services/baggeraars">Voor baggeraars</a>
+              <a href="/services/grondstoffen">Voor grondstoffen</a>
+            </div>
+          </div>
+          <a href="/projecten">Projecten</a>
+          <a href="/over-ons">Over ons</a>
+        </nav>
+
+        <div class="nav-actions">
+          <div class="language-toggle" aria-label="Taalkeuze">
+            <a href="/" lang="nl" aria-current="true">NL</a>
+            <a href="/?lang=en" lang="en">EN</a>
+          </div>
+          <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span class="sr-only">Menu</span>
+          </button>
+          <a class="icon-button icon-button--desktop" href="/contact" aria-label="Contact">
+            <span>Contact</span>
+          </a>
+        </div>
+      </div>
+
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
+        <a href="/het-plan">Het Plan</a>
+        <a class="is-current" href="/services/baggeraars">Voor baggeraars</a>
+        <a href="/services/grondstoffen">Voor grondstoffen</a>
+        <a href="/projecten">Projecten</a>
+        <a href="/over-ons">Over ons</a>
+        <a href="/contact">Neem contact op</a>
+      </nav>
+    </header>
+
+    <main id="main" class="service-detail-page">
+      <section class="service-detail-hero" aria-labelledby="service-title">
+        <div class="service-detail-frame">
+          <div class="service-detail-hero__layout">
+            <div class="service-detail-hero__head reveal">
+              <p class="service-detail-kicker">Service route</p>
+              <h1 id="service-title">Blauwe Bagger voor <em>Baggeraars</em></h1>
+              <p>Slimmer baggeren begint met beter inzicht</p>
+
+              <p class="service-detail-hero__copy">
+                Bagger is lang gezien als een kostenpost. Iets wat je zo snel en goedkoop mogelijk
+                kwijt moet. Blauwe Bagger draait dat om. Door data en slimme scheiding te
+                combineren, maken wij van jouw baggerproject een efficienter en duurzamer proces.
+              </p>
+            </div>
+
+            <aside class="service-detail-visual reveal" aria-label="Kern van de service voor baggeraars">
+              <img src="/assets/brand/blauwe-bagger-icon.png" alt="" />
+              <span>01</span>
+              <strong>Van kostenpost naar gestuurd project</strong>
+              <ul>
+                <li>Inzicht in baggerstromen vooraf</li>
+                <li>Mobiele verwerking dichtbij de bron</li>
+                <li>Minder afvoer, meer bruikbare output</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="service-route-section service-route-section--bluebox" aria-labelledby="bluebox-title">
+        <div class="service-detail-frame service-route-grid">
+          <div class="service-route-copy reveal">
+            <p>BlueBox verwerking</p>
+            <h2 id="bluebox-title">Data, mobiele verwerking en toepasbare output in een route.</h2>
+          </div>
+
+          <div class="service-route-cards">
+            <article class="service-route-card reveal">
+              <span>01</span>
+              <h3>Vooraf inzicht</h3>
+              <p>Waterbodemdata maakt zichtbaar welke fracties, risico's en kansen in de stroom zitten.</p>
+            </article>
+            <article class="service-route-card reveal">
+              <span>02</span>
+              <h3>BlueBox op locatie</h3>
+              <p>Ontwateren, zeven en scheiden dichtbij de bron, met minder transportbewegingen.</p>
+            </article>
+            <article class="service-route-card reveal">
+              <span>03</span>
+              <h3>Sterker project</h3>
+              <p>Meer grip op kosten, materiaalwaarde en duurzame onderbouwing richting opdrachtgever.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/script.js?v=lang-switch"></script>
+  </body>
+</html>
