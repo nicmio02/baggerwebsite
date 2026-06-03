@@ -760,6 +760,7 @@ if (contactForm) {
     const email = data.get("email") || "";
     const phone = data.get("phone") || "";
     const company = data.get("company") || "";
+    const topic = data.get("topic") || "";
     const message = data.get("message") || "";
     const subject = encodeURIComponent(
       pageLanguage === "en" ? "Project inquiry via Blauwe Bagger website" : "Projectvraag via Blauwe Bagger website",
@@ -767,10 +768,10 @@ if (contactForm) {
     const body =
       pageLanguage === "en"
         ? encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company}\n\nProject inquiry:\n${message}`,
+            `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company}\nInquiry type: ${topic}\n\nProject inquiry:\n${message}`,
           )
         : encodeURIComponent(
-            `Naam: ${name}\nE-mail: ${email}\nTelefoon: ${phone}\nBedrijf: ${company}\n\nProjectvraag:\n${message}`,
+            `Naam: ${name}\nE-mail: ${email}\nTelefoon: ${phone}\nBedrijf: ${company}\nType vraag: ${topic}\n\nProjectvraag:\n${message}`,
           );
 
     window.location.href = `mailto:info@blauwebagger.nl?subject=${subject}&body=${body}`;

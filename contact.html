@@ -60,124 +60,125 @@
       </nav>
     </header>
 
-    <main id="main">
-      <section class="build-screen" aria-labelledby="build-title">
-        <div class="section-inner build-screen__inner reveal">
-          <p>Neem contact op</p>
-          <h1 id="build-title">Deze pagina wordt gebouwd.</h1>
-        </div>
-      </section>
-
-      <section class="page-hero" aria-labelledby="page-title">
-        <div class="section-inner page-hero-grid">
-          <div class="page-hero-copy reveal">
-            <p class="eyebrow">Contact</p>
-            <h1 id="page-title">Samen starten met een circulair baggerproject.</h1>
+    <main id="main" class="contact-page">
+      <section class="contact-hero-section" aria-labelledby="contact-title">
+        <div class="contact-page-frame contact-hero-grid">
+          <div class="contact-hero-copy reveal">
+            <p class="contact-kicker">Contact</p>
+            <h1 id="contact-title">Samen bouwen aan een circulaire baggerketen.</h1>
             <p>
-              Deel je vraag, locatie, pilot of materiaalstroom. Dan kijken we welke route past bij
-              verwerking op locatie en hergebruik van vrijkomende materialen.
+              Bespreek een locatie, projectvraag, materiaalstroom of mogelijke samenwerking met
+              Blauwe Bagger. We denken mee over verwerking op locatie en de route naar hergebruik.
             </p>
           </div>
-          <aside class="page-hero-aside reveal" aria-label="Kernpunten contact">
+
+          <aside class="contact-hero-card reveal" aria-label="Direct contact">
+            <img src="assets/brand/blauwe-bagger-icon.png" alt="" />
             <p>Direct contact</p>
-            <strong>Voor pilots, materiaalvragen en locaties in beeld</strong>
-            <span>
-              We denken graag mee over de technische haalbaarheid, projectopzet en mogelijke
-              toepassingen van gescheiden materiaalstromen.
-            </span>
-            <ul class="page-hero-list">
-              <li>Projectvragen via e-mailvoorstel</li>
-              <li>Specifieke materiaalstroom benoemen</li>
-              <li>Snel door vanuit elke route</li>
-            </ul>
+            <a href="mailto:info@blauwebagger.nl">info@blauwebagger.nl</a>
+            <span>Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam</span>
           </aside>
         </div>
       </section>
 
-      <section class="contact-meta" aria-labelledby="meta-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Startpunt</p>
-            <h2 id="meta-title">Gebruik deze route voor alles wat direct een gesprek of vervolgactie vraagt.</h2>
+      <section class="contact-details-section" aria-labelledby="contact-details-title">
+        <div class="contact-page-frame">
+          <div class="contact-section-head reveal">
+            <p class="contact-kicker">Startpunt</p>
+            <h2 id="contact-details-title">De juiste route voor je vraag.</h2>
           </div>
 
-          <div class="info-grid">
-            <article class="info-card reveal">
-              <p class="section-kicker">E-mail</p>
-              <h3>info@blauwebagger.nl</h3>
-              <p>Het formulier op deze pagina opent een e-mailconcept met naam, adres en projectvraag.</p>
+          <div class="contact-detail-grid">
+            <article class="contact-detail-card reveal">
+              <span>01</span>
+              <h3>Project of pilot</h3>
+              <p>Voor baggerlocaties, BlueBox-inzet, planning, haalbaarheid en pilots op locatie.</p>
             </article>
-            <article class="info-card reveal">
-              <p class="section-kicker">Thema's</p>
-              <h3>Project, pilot of materiaalvraag</h3>
-              <p>Beschrijf vooral de locatie, de gewenste uitkomst en welke stroom of inzet centraal staat.</p>
+            <article class="contact-detail-card reveal">
+              <span>02</span>
+              <h3>Grondstoffen</h3>
+              <p>Voor BlueSand, BlueFiller, BlueCalc, specificaties, beschikbaarheid en proefpartijen.</p>
             </article>
-            <article class="info-card reveal">
-              <p class="section-kicker">Doel</p>
-              <h3>Snel naar het juiste vervolg</h3>
-              <p>Niet meer eerst scrollen door de hele website, maar meteen landen op de pagina die om actie draait.</p>
+            <article class="contact-detail-card reveal">
+              <span>03</span>
+              <h3>Samenwerking</h3>
+              <p>Voor bouwbedrijven, baggeraars, overheden, kennispartners en consortia.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="contact" aria-labelledby="contact-title">
-        <div class="section-inner contact-grid">
-          <div class="contact-copy reveal">
-            <p class="section-kicker">Samenwerken</p>
-            <h2 id="contact-title">Maak van bagger een grondstofstroom.</h2>
+      <section class="contact-form-section" aria-labelledby="contact-form-title">
+        <div class="contact-page-frame contact-form-layout">
+          <div class="contact-form-copy reveal">
+            <p class="contact-kicker">Aanvraag</p>
+            <h2 id="contact-form-title">Vertel waar je aan werkt.</h2>
             <p>
-              Bespreek een locatie, projectvraag of productstroom met Blauwe Bagger. Wij denken
-              mee over verwerking, logistiek en de route naar hergebruik.
+              Een korte omschrijving van locatie, materiaalstroom en doel is genoeg om de eerste
+              richting te bepalen.
             </p>
+
+            <div class="contact-person-list" aria-label="Contactpersonen">
+              <a href="mailto:sil@blauwebagger.nl">
+                <span>Sil van de Bovenkamp</span>
+                <strong>sil@blauwebagger.nl</strong>
+              </a>
+              <a href="mailto:abbe@blauwebagger.nl">
+                <span>Abbe Hekkert</span>
+                <strong>abbe@blauwebagger.nl</strong>
+              </a>
+            </div>
           </div>
 
-          <form class="contact-form reveal" data-contact-form>
+          <form class="contact-form contact-form--page reveal" data-contact-form>
+            <div class="contact-form__grid">
+              <label>
+                Voornaam *
+                <input name="firstName" autocomplete="given-name" required />
+              </label>
+              <label>
+                Achternaam *
+                <input name="lastName" autocomplete="family-name" required />
+              </label>
+            </div>
+
+            <div class="contact-form__grid">
+              <label>
+                E-mail *
+                <input name="email" type="email" autocomplete="email" required />
+              </label>
+              <label>
+                Telefoon
+                <input name="phone" type="tel" autocomplete="tel" />
+              </label>
+            </div>
+
             <label>
-              Naam
-              <input name="name" autocomplete="name" required />
+              Bedrijfsnaam
+              <input name="company" autocomplete="organization" />
             </label>
+
             <label>
-              E-mail
-              <input name="email" type="email" autocomplete="email" required />
+              Type vraag
+              <select name="topic">
+                <option value="Project of pilot">Project of pilot</option>
+                <option value="Grondstoffen">Grondstoffen</option>
+                <option value="Samenwerking">Samenwerking</option>
+                <option value="Anders">Anders</option>
+              </select>
             </label>
+
             <label>
-              Projectvraag
-              <textarea name="message" rows="4" required></textarea>
+              Waar kunnen we bij helpen? *
+              <textarea name="message" rows="6" required></textarea>
             </label>
+
             <button class="primary-link" type="submit">
               <span>Verstuur aanvraag</span>
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
             </button>
-            <p class="form-note" data-form-note>Het formulier opent je mailprogramma met de ingevulde aanvraag.</p>
+            <p class="form-note" data-form-note>Je mailprogramma opent met de ingevulde aanvraag.</p>
           </form>
-        </div>
-      </section>
-
-      <section class="faq-section faq-section--soft" aria-labelledby="faq-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Handig vooraf</p>
-            <h2 id="faq-title">Hoe concreter de vraag, hoe beter de volgende stap kan worden bepaald.</h2>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card reveal">
-              <p class="section-kicker">01</p>
-              <h3>Noem de locatie</h3>
-              <p>Dat helpt direct om bereikbaarheid, schaal en logistieke kansen mee te nemen in de eerste reactie.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">02</p>
-              <h3>Benoem de stroom</h3>
-              <p>Gaat het om baggerspecie, een specifieke fractie of een wens voor toepassing? Zet dat meteen in de vraag.</p>
-            </article>
-            <article class="feature-card reveal">
-              <p class="section-kicker">03</p>
-              <h3>Beschrijf het doel</h3>
-              <p>Een pilot, een projectstart of een inhoudelijke verkenning vraagt ieder om een andere reactie en timing.</p>
-            </article>
-          </div>
         </div>
       </section>
     </main>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Waterbodem tool</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --blue: #385193;
+        --ink: #111930;
+        --muted: #6a7184;
+        --line: rgba(56, 81, 147, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        display: grid;
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 80% 18%, rgba(201, 235, 255, 0.72), transparent 34%),
+          linear-gradient(rgba(56, 81, 147, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56, 81, 147, 0.04) 1px, transparent 1px),
+          #f8fbff;
+        background-size: auto, 42px 42px, 42px 42px, auto;
+        place-items: center;
+      }
+
+      main {
+        display: grid;
+        gap: 24px;
+        justify-items: center;
+        width: min(100% - 48px, 420px);
+        padding: 36px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px dashed var(--line);
+        border-radius: 24px;
+        box-shadow:
+          0 22px 48px rgba(7, 14, 36, 0.08),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+      }
+
+      .icon {
+        display: grid;
+        width: 76px;
+        height: 76px;
+        color: #ffffff;
+        background: var(--blue);
+        border-radius: 50%;
+        box-shadow: 0 18px 34px rgba(56, 81, 147, 0.22);
+        place-items: center;
+      }
+
+      .icon svg {
+        width: 34px;
+        height: 34px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2.4;
+      }
+
+      h1 {
+        max-width: 13ch;
+        margin: 0;
+        font-size: clamp(1.75rem, 8vw, 2.6rem);
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+      }
+
+      p {
+        max-width: 29ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 650;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5v10" />
+          <path d="M8 9l4-4 4 4" />
+          <path d="M5 17v1.5A1.5 1.5 0 0 0 6.5 20h13a1.5 1.5 0 0 0 1.5-1.5V17" />
+        </svg>
+      </div>
+      <h1>Upload je waterbodemonderzoek</h1>
+      <p>Hier komt de interactieve analyse-tool. De iframe staat klaar voor de definitieve widget.</p>
+    </main>
+  </body>
+</html>

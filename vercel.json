@@ -15,6 +15,18 @@
       "destination": "/services/grondstoffen.html"
     },
     {
+      "source": "/producten/bluesand",
+      "destination": "/producten/bluesand.html"
+    },
+    {
+      "source": "/producten/bluefiller",
+      "destination": "/producten/bluefiller.html"
+    },
+    {
+      "source": "/producten/bluecalc",
+      "destination": "/producten/bluecalc.html"
+    },
+    {
       "source": "/projecten/:slug",
       "destination": "/project-detail.html"
     }
