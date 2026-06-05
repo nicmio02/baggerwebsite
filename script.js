@@ -23,6 +23,7 @@ const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
 const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]");
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
+const carousels = document.querySelectorAll("[data-carousel]");
 const blueHeaderSections = document.querySelectorAll(".home-section--blue, .home-section--blueprint");
 const urlParams = new URLSearchParams(window.location.search);
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -694,6 +695,42 @@ function selectBlueprintStep(step) {
   }
 }
 
+function getCarouselStep(track) {
+  const firstItem = track?.children?.[0];
+  const style = track ? window.getComputedStyle(track) : null;
+  const gap = style ? Number.parseFloat(style.columnGap || style.gap || "0") || 0 : 0;
+  return firstItem ? firstItem.getBoundingClientRect().width + gap : track.clientWidth * 0.85;
+}
+
+function updateCarouselControls(carousel) {
+  const track = carousel.querySelector("[data-carousel-track]");
+  const previousButton = carousel.querySelector("[data-carousel-prev]");
+  const nextButton = carousel.querySelector("[data-carousel-next]");
+
+  if (!track || !previousButton || !nextButton) {
+    return;
+  }
+
+  const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+  const hasOverflow = maxScroll > 2;
+
+  previousButton.disabled = !hasOverflow || track.scrollLeft <= 2;
+  nextButton.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
+}
+
+function scrollCarousel(carousel, direction) {
+  const track = carousel.querySelector("[data-carousel-track]");
+
+  if (!track) {
+    return;
+  }
+
+  track.scrollBy({
+    left: direction * getCarouselStep(track),
+    behavior: "smooth",
+  });
+}
+
 applyPageLanguage();
 
 playHeroClip();
@@ -747,6 +784,35 @@ productCards.forEach((card) => {
       selectProduct(card.dataset.product);
     }
   });
+});
+
+carousels.forEach((carousel) => {
+  const track = carousel.querySelector("[data-carousel-track]");
+  const previousButton = carousel.querySelector("[data-carousel-prev]");
+  const nextButton = carousel.querySelector("[data-carousel-next]");
+
+  if (!track || !previousButton || !nextButton) {
+    return;
+  }
+
+  previousButton.addEventListener("click", () => scrollCarousel(carousel, -1));
+  nextButton.addEventListener("click", () => scrollCarousel(carousel, 1));
+
+  track.addEventListener("scroll", () => {
+    window.requestAnimationFrame(() => updateCarouselControls(carousel));
+  });
+
+  track.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+      return;
+    }
+
+    event.preventDefault();
+    scrollCarousel(carousel, event.key === "ArrowLeft" ? -1 : 1);
+  });
+
+  window.addEventListener("resize", () => updateCarouselControls(carousel));
+  updateCarouselControls(carousel);
 });
 
 if (contactForm) {

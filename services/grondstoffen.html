@@ -98,7 +98,17 @@
             <h2 id="materials-title">Secundaire grondstoffen voor betonproductie.</h2>
           </div>
 
-          <div class="material-offer-grid">
+          <div class="material-offer-carousel reveal" data-carousel>
+            <div class="material-offer-controls" aria-label="Blader door grondstoffen">
+              <button class="material-carousel-button" type="button" data-carousel-prev aria-label="Vorige grondstof">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7" /></svg>
+              </button>
+              <button class="material-carousel-button" type="button" data-carousel-next aria-label="Volgende grondstof">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" /></svg>
+              </button>
+            </div>
+
+            <div class="material-offer-grid" data-carousel-track tabindex="0" aria-label="Grondstoffen aanbod">
             <article class="material-offer-card reveal">
               <div>
                 <span>01</span>
@@ -182,6 +192,7 @@
                 <span aria-hidden="true">-&gt;</span>
               </a>
             </article>
+            </div>
           </div>
         </div>
       </section>

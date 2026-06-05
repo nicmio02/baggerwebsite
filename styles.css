@@ -1928,14 +1928,97 @@ body[data-page="producten"] main > :not(.build-screen) {
   line-height: 0.92;
 }
 
-.material-offer-grid {
+.material-offer-carousel {
   position: relative;
+  min-width: 0;
+}
+
+.material-offer-controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: clamp(-24px, -2vw, -8px) 0 18px;
+}
+
+.material-carousel-button {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2.2vw, 34px);
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  color: #385193;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(56, 81, 147, 0.22);
+  border-radius: 50%;
+  box-shadow:
+    0 14px 32px rgba(7, 14, 36, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.74);
+  place-items: center;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.material-carousel-button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.6;
+}
+
+.material-carousel-button:hover,
+.material-carousel-button:focus-visible {
+  color: #ffffff;
+  background: #385193;
+  border-color: #385193;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.material-carousel-button:disabled {
+  color: rgba(56, 81, 147, 0.28);
+  cursor: default;
+  background: rgba(255, 255, 255, 0.42);
+  border-color: rgba(56, 81, 147, 0.12);
+  box-shadow: none;
+  transform: none;
+}
+
+.material-offer-grid {
+  --material-offer-gap: clamp(18px, 2.2vw, 34px);
+  position: relative;
+  display: flex;
+  gap: var(--material-offer-gap);
+  min-width: 0;
+  padding: 2px 0 18px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.material-offer-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.material-offer-grid:focus-visible {
+  outline: 3px solid rgba(56, 81, 147, 0.22);
+  outline-offset: 8px;
+  border-radius: 16px;
 }
 
 .material-offer-card {
+  flex: 0 0 calc((100% - (var(--material-offer-gap) * 2)) / 3);
+  scroll-snap-align: start;
   display: grid;
   grid-template-rows: auto minmax(148px, 0.72fr) auto;
   gap: clamp(26px, 4vh, 42px);
@@ -2058,6 +2141,10 @@ body[data-page="producten"] main > :not(.build-screen) {
     min-height: 360px;
   }
 
+  .material-offer-card {
+    flex-basis: calc((100% - var(--material-offer-gap)) / 2);
+  }
+
 }
 
 @media (max-width: 760px) {
@@ -2178,7 +2265,18 @@ body[data-page="producten"] main > :not(.build-screen) {
     font-size: clamp(2.35rem, 13vw, 4.4rem);
   }
 
+  .material-offer-controls {
+    justify-content: flex-start;
+    margin: 0 0 16px;
+  }
+
+  .material-carousel-button {
+    width: 48px;
+    height: 48px;
+  }
+
   .material-offer-card {
+    flex-basis: min(100%, 360px);
     min-height: auto;
     padding: 22px;
   }
@@ -10955,6 +11053,23 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
   outline: none;
 }
 
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > a:hover,
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > a:focus-visible,
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > a.is-current,
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:hover,
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:focus-visible,
+body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a.is-current,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > a:hover,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > a:focus-visible,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > a.is-current,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:hover,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:focus-visible,
+body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a.is-current {
+  color: #385193;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 @media (min-width: 761px) {
   .plan-blueprint-page .home-blueprint-frame {
     min-height: clamp(760px, 92svh, 980px);
@@ -11419,7 +11534,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
 .contact-hero-section {
   position: relative;
   overflow: hidden;
-  padding: clamp(170px, 18vh, 220px) 0 clamp(72px, 10vh, 116px);
+  padding: clamp(150px, 16vh, 190px) 0 clamp(64px, 9vh, 96px);
   background:
     radial-gradient(circle at 78% 24%, rgba(201, 235, 255, 0.86), transparent 32%),
     radial-gradient(circle at 12% 82%, rgba(56, 81, 147, 0.08), transparent 30%),
@@ -11445,10 +11560,10 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
 
 .contact-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(330px, 0.42fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(330px, 0.42fr);
   gap: clamp(36px, 6vw, 92px);
   align-items: center;
-  min-height: clamp(520px, 68vh, 720px);
+  min-height: clamp(460px, 58vh, 620px);
 }
 
 .contact-kicker {
@@ -11472,14 +11587,14 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
 }
 
 .contact-hero-copy h1 {
-  max-width: 980px;
-  font-size: clamp(4.2rem, 8.2vw, 9.4rem);
-  line-height: 0.92;
+  max-width: 780px;
+  font-size: clamp(3.1rem, 5.8vw, 6.6rem);
+  line-height: 0.96;
 }
 
 .contact-hero-copy > p:not(.contact-kicker) {
-  max-width: 760px;
-  margin: clamp(28px, 4vw, 46px) 0 0;
+  max-width: 680px;
+  margin: clamp(22px, 3vw, 34px) 0 0;
   color: #38445f;
   font-size: clamp(1.08rem, 1.5vw, 1.42rem);
   font-weight: 650;
@@ -11837,7 +11952,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
   }
 
   .contact-hero-copy h1 {
-    font-size: clamp(3.18rem, 16vw, 5.2rem);
+    font-size: clamp(2.7rem, 12vw, 4.2rem);
   }
 
   .contact-section-head h2,
