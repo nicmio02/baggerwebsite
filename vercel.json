@@ -27,7 +27,7 @@
       "destination": "/producten/bluecalc.html"
     },
     {
-      "source": "/projecten/:slug",
+      "source": "/projecten/:slug*",
       "destination": "/project-detail.html"
     }
   ]
