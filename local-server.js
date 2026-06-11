@@ -1,11 +1,18 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const root = __dirname;
 const port = Number(process.env.PORT || 8080);
 const dataDir = path.join(root, "data");
 const projectsFile = path.join(dataDir, "projects.json");
+const jobsFile = path.join(dataDir, "jobs.json");
+const newsFile = path.join(dataDir, "news.json");
+const authCookieName = "bb_admin_session";
+const authSecret = process.env.ADMIN_SECRET || "blauwe-bagger-local-admin-secret";
+const adminUser = process.env.ADMIN_USER || "owner";
+const adminPassword = process.env.ADMIN_PASSWORD || "blauwebagger";
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -107,6 +114,31 @@ function normalizeLines(input) {
     .filter(Boolean);
 }
 
+async function ensureJsonStore(filePath) {
+  await fs.promises.mkdir(dataDir, { recursive: true });
+
+  if (!fs.existsSync(filePath)) {
+    await fs.promises.writeFile(filePath, "[]\n", "utf8");
+  }
+}
+
+async function readJsonStore(filePath) {
+  await ensureJsonStore(filePath);
+  const raw = await fs.promises.readFile(filePath, "utf8");
+
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function writeJsonStore(filePath, items) {
+  await ensureJsonStore(filePath);
+  await fs.promises.writeFile(filePath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
+}
+
 function normalizeProjectCategory(value) {
   const category = String(value || "").trim().toLowerCase();
 
@@ -192,6 +224,101 @@ function collectRequestBody(request) {
   });
 }
 
+function parseCookies(request) {
+  return Object.fromEntries(
+    String(request.headers.cookie || "")
+      .split(";")
+      .map((cookie) => cookie.trim())
+      .filter(Boolean)
+      .map((cookie) => {
+        const index = cookie.indexOf("=");
+        return index === -1
+          ? [cookie, ""]
+          : [decodeURIComponent(cookie.slice(0, index)), decodeURIComponent(cookie.slice(index + 1))];
+      }),
+  );
+}
+
+function signSession(value) {
+  return crypto.createHmac("sha256", authSecret).update(value).digest("hex");
+}
+
+function createSessionToken() {
+  const issuedAt = Date.now().toString();
+  return `${issuedAt}.${signSession(issuedAt)}`;
+}
+
+function isAuthenticated(request) {
+  const token = parseCookies(request)[authCookieName];
+
+  if (!token) {
+    return false;
+  }
+
+  const [issuedAt, signature] = token.split(".");
+  const age = Date.now() - Number(issuedAt);
+
+  if (!issuedAt || !signature || !Number.isFinite(age) || age > 1000 * 60 * 60 * 12) {
+    return false;
+  }
+
+  const expected = signSession(issuedAt);
+
+  if (signature.length !== expected.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+}
+
+function requireAdmin(request, response) {
+  if (isAuthenticated(request)) {
+    return true;
+  }
+
+  sendJson(response, 401, { error: "Niet ingelogd." });
+  return false;
+}
+
+async function handleAuthApi(request, response, url) {
+  if (request.method === "GET" && url.pathname === "/api/auth/session") {
+    sendJson(response, 200, { authenticated: isAuthenticated(request) });
+    return true;
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/auth/login") {
+    const rawBody = await collectRequestBody(request);
+    const payload = JSON.parse(rawBody || "{}");
+    const username = String(payload.username || "").trim();
+    const password = String(payload.password || "");
+
+    if (username !== adminUser || password !== adminPassword) {
+      sendJson(response, 401, { error: "Ongeldige login." });
+      return true;
+    }
+
+    response.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Set-Cookie": `${authCookieName}=${encodeURIComponent(createSessionToken())}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200`,
+    });
+    response.end(JSON.stringify({ ok: true }, null, 2));
+    return true;
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/auth/logout") {
+    response.writeHead(200, {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Set-Cookie": `${authCookieName}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`,
+    });
+    response.end(JSON.stringify({ ok: true }, null, 2));
+    return true;
+  }
+
+  return false;
+}
+
 async function handleProjectsApi(request, response, url) {
   const slug = decodeURIComponent(url.pathname.replace(/^\/api\/projects\/?/, "")).trim();
   const projects = await readProjects();
@@ -202,6 +329,10 @@ async function handleProjectsApi(request, response, url) {
   }
 
   if (request.method === "POST" && url.pathname === "/api/projects") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
     const rawBody = await collectRequestBody(request);
     const payload = JSON.parse(rawBody || "{}");
     const nextProject = normalizeProjectInput(payload, projects);
@@ -235,6 +366,10 @@ async function handleProjectsApi(request, response, url) {
   }
 
   if (request.method === "PUT") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
     const rawBody = await collectRequestBody(request);
     const payload = JSON.parse(rawBody || "{}");
     const updatedProject = normalizeProjectInput(payload, projects, existingProject);
@@ -257,8 +392,109 @@ async function handleProjectsApi(request, response, url) {
   }
 
   if (request.method === "DELETE") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
     const nextProjects = projects.filter((project) => project.id !== existingProject.id);
     await writeProjects(nextProjects);
+    sendJson(response, 200, { ok: true });
+    return true;
+  }
+
+  sendJson(response, 405, { error: "Methode niet toegestaan." });
+  return true;
+}
+
+function normalizeAdminPostInput(input, items, currentItem = null, fallbackType = "item") {
+  const title = String(input.title || "").trim();
+
+  if (!title) {
+    throw new Error("Titel is verplicht.");
+  }
+
+  const now = new Date().toISOString();
+  const slugBase = slugify(String(input.slug || title));
+  const body = normalizeParagraphs(input.body);
+
+  return {
+    id: currentItem?.id || `${fallbackType}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    slug: uniqueSlug(slugBase, items, currentItem?.id),
+    title,
+    excerpt: String(input.excerpt || "").trim() || (body[0] ? body[0].slice(0, 220) : ""),
+    date: String(input.date || currentItem?.date || new Date().toISOString().slice(0, 10)).slice(0, 10),
+    category: String(input.category || currentItem?.category || "").trim(),
+    status: String(input.status || currentItem?.status || "Concept").trim() || "Concept",
+    body,
+    createdAt: currentItem?.createdAt || now,
+    updatedAt: now,
+  };
+}
+
+async function handleContentApi(request, response, url, config) {
+  const slug = decodeURIComponent(url.pathname.replace(new RegExp(`^/api/${config.route}/?`), "")).trim();
+  const items = await readJsonStore(config.file);
+
+  if (request.method === "GET" && url.pathname === `/api/${config.route}`) {
+    sendJson(response, 200, sortProjects(items));
+    return true;
+  }
+
+  if (request.method === "POST" && url.pathname === `/api/${config.route}`) {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
+    const rawBody = await collectRequestBody(request);
+    const payload = JSON.parse(rawBody || "{}");
+    const nextItem = normalizeAdminPostInput(payload, items, null, config.type);
+    await writeJsonStore(config.file, sortProjects([nextItem, ...items]));
+    sendJson(response, 201, nextItem);
+    return true;
+  }
+
+  if (!slug) {
+    sendJson(response, 404, { error: `${config.label} niet gevonden.` });
+    return true;
+  }
+
+  const existingItem = items.find((item) => item.slug === slug);
+
+  if (!existingItem) {
+    sendJson(response, 404, { error: `${config.label} niet gevonden.` });
+    return true;
+  }
+
+  if (request.method === "GET") {
+    sendJson(response, 200, existingItem);
+    return true;
+  }
+
+  if (request.method === "PUT") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
+    const rawBody = await collectRequestBody(request);
+    const payload = JSON.parse(rawBody || "{}");
+    const updatedItem = normalizeAdminPostInput(payload, items, existingItem, config.type);
+    await writeJsonStore(
+      config.file,
+      sortProjects(items.map((item) => (item.id === existingItem.id ? updatedItem : item))),
+    );
+    sendJson(response, 200, updatedItem);
+    return true;
+  }
+
+  if (request.method === "DELETE") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+
+    await writeJsonStore(
+      config.file,
+      items.filter((item) => item.id !== existingItem.id),
+    );
     sendJson(response, 200, { ok: true });
     return true;
   }
@@ -329,8 +565,36 @@ const server = http.createServer(async (request, response) => {
   try {
     const url = new URL(request.url, `http://${request.headers.host}`);
 
+    if (url.pathname.startsWith("/api/auth")) {
+      const handled = await handleAuthApi(request, response, url);
+
+      if (handled) {
+        return;
+      }
+    }
+
     if (url.pathname.startsWith("/api/projects")) {
       await handleProjectsApi(request, response, url);
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/jobs")) {
+      await handleContentApi(request, response, url, {
+        route: "jobs",
+        file: jobsFile,
+        type: "job",
+        label: "Vacature",
+      });
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/news")) {
+      await handleContentApi(request, response, url, {
+        route: "news",
+        file: newsFile,
+        type: "news",
+        label: "Nieuwsbericht",
+      });
       return;
     }
 

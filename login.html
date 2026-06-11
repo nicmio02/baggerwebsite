@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Login voor het Blauwe Bagger beheer." />
+    <title>Blauwe Bagger | Login</title>
+    <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
+    <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
+    <link rel="stylesheet" href="styles.css?v=admin-login-1" />
+  </head>
+  <body data-page="admin-login">
+    <main class="login-page" id="main">
+      <section class="login-section" aria-labelledby="login-title">
+        <div class="login-card">
+          <img src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+          <p class="section-kicker">Eigenaar login</p>
+          <h1 id="login-title">Beheer projecten, vacatures en nieuws.</h1>
+          <p>
+            Log in om content toe te voegen aan de Blauwe Bagger backendmodule.
+          </p>
+
+          <form class="admin-form" data-login-form>
+            <label>
+              Gebruiker
+              <input name="username" autocomplete="username" required />
+            </label>
+            <label>
+              Wachtwoord
+              <input name="password" type="password" autocomplete="current-password" required />
+            </label>
+            <button class="primary-link" type="submit">
+              <span>Login</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+            </button>
+            <p class="admin-status" data-login-status></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="admin.js?v=backend-module-1"></script>
+  </body>
+</html>

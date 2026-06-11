@@ -10,9 +10,9 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=nav-motion" />
+    <link rel="stylesheet" href="styles.css?v=backend-module-1" />
   </head>
-  <body data-page="projecten">
+  <body data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
@@ -44,8 +44,8 @@
             <span></span>
             <span class="sr-only">Menu</span>
           </button>
-          <a class="icon-button icon-button--desktop" href="/projecten" aria-label="Terug naar projecten">
-            <span>Terug naar projecten</span>
+          <a class="icon-button icon-button--desktop" href="/projecten" aria-label="Terug naar website">
+            <span>Website</span>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
           </a>
         </div>
@@ -57,6 +57,7 @@
         <a href="/services/grondstoffen">Voor grondstoffen</a>
         <a class="is-current" href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a href="/projecten">Website</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -65,24 +66,24 @@
       <section class="page-hero" aria-labelledby="page-title">
         <div class="section-inner page-hero-grid">
           <div class="page-hero-copy reveal">
-            <p class="eyebrow">Projectbeheer</p>
-            <h1 id="page-title">Voeg projecten toe zonder de website handmatig aan te passen.</h1>
+            <p class="eyebrow">Backend</p>
+            <h1 id="page-title">Contentbeheer voor merk-eigenaren.</h1>
             <p>
-              Deze lokale tool schrijft projecten naar de projectdatabase. De overzichtspagina en
-              losse projectroutes lezen die data daarna automatisch uit.
+              Voeg projecten, vacatures en nieuwsberichten toe vanuit een afgeschermde omgeving.
+              De module schrijft naar lokale JSON-data en is klaar om op een Node-host te draaien.
             </p>
           </div>
           <aside class="page-hero-aside reveal" aria-label="Hoe het werkt">
             <p>Hoe het werkt</p>
-            <strong>Invullen, opslaan, publiceren</strong>
+            <strong>Inloggen, invullen, publiceren</strong>
             <span>
-              Geef een titel, datum, categorie, samenvatting en inhoud op. Daarna staat het project
-              direct op <code>/projecten</code> en op zijn eigen slug.
+              Gebruik de tabs hieronder om content te beheren. Projecten verschijnen direct op
+              <code>/projecten</code>; vacatures en nieuws worden opgeslagen voor de Over ons-pagina.
             </span>
             <ul class="page-hero-list">
-              <li>Nieuwe posts toevoegen</li>
-              <li>Bestaande projecten bewerken</li>
-              <li>Projecten verwijderen</li>
+              <li>Projectpagina's beheren</li>
+              <li>Job offers klaarzetten</li>
+              <li>Nieuws posts voorbereiden</li>
             </ul>
           </aside>
         </div>
@@ -90,12 +91,21 @@
 
       <section class="admin-section" aria-labelledby="admin-title">
         <div class="section-inner">
-          <div class="section-heading reveal">
-            <p class="section-kicker">Tool</p>
-            <h2 id="admin-title">Projecten beheren</h2>
+          <div class="section-heading admin-heading reveal">
+            <div>
+              <p class="section-kicker">Beheer</p>
+              <h2 id="admin-title">Backend module</h2>
+            </div>
+            <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
           </div>
 
-          <div class="admin-shell" data-project-admin>
+          <div class="admin-tabs reveal" role="tablist" aria-label="Backend onderdelen">
+            <button class="is-active" type="button" data-admin-tab="projects">Projecten</button>
+            <button type="button" data-admin-tab="jobs">Vacatures</button>
+            <button type="button" data-admin-tab="news">Nieuws</button>
+          </div>
+
+          <div class="admin-shell admin-tab-panel is-active" data-admin-panel="projects" data-project-admin>
             <section class="admin-panel reveal">
               <h2>Nieuw of bestaand project</h2>
               <form class="admin-form" data-admin-form>
@@ -193,6 +203,146 @@
               </div>
             </aside>
           </div>
+
+          <div class="admin-shell admin-tab-panel" data-admin-panel="jobs" hidden>
+            <section class="admin-panel reveal">
+              <h2>Nieuwe of bestaande vacature</h2>
+              <form class="admin-form" data-content-form data-content-type="jobs" data-content-label="Vacature">
+                <div class="admin-form-grid">
+                  <label>
+                    Titel
+                    <input name="title" required />
+                  </label>
+                  <label>
+                    Slug
+                    <input name="slug" placeholder="wordt automatisch gevuld" />
+                  </label>
+                </div>
+
+                <div class="admin-form-grid">
+                  <label>
+                    Datum
+                    <input name="date" type="date" required />
+                  </label>
+                  <label>
+                    Type
+                    <select name="category">
+                      <option>Open sollicitatie</option>
+                      <option>Stage</option>
+                      <option>Business development</option>
+                      <option>Techniek & data</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  Status
+                  <select name="status">
+                    <option>Open</option>
+                    <option>Concept</option>
+                    <option>Gesloten</option>
+                  </select>
+                </label>
+
+                <label>
+                  Korte omschrijving
+                  <textarea name="excerpt" rows="3" required></textarea>
+                </label>
+
+                <label>
+                  Volledige tekst
+                  <textarea name="body" rows="8" placeholder="Gebruik lege regels tussen alinea's."></textarea>
+                </label>
+
+                <div class="admin-actions">
+                  <button class="primary-link" type="submit">
+                    <span>Opslaan</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+                  </button>
+                  <button class="button-ghost" type="button" data-content-reset>Nieuwe vacature</button>
+                </div>
+
+                <p class="admin-status" data-content-status></p>
+              </form>
+            </section>
+
+            <aside class="admin-list-panel reveal">
+              <h2>Bestaande vacatures</h2>
+              <div class="admin-project-list" data-content-list="jobs">
+                <div class="empty-state">Vacatures worden geladen...</div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="admin-shell admin-tab-panel" data-admin-panel="news" hidden>
+            <section class="admin-panel reveal">
+              <h2>Nieuw of bestaand nieuwsbericht</h2>
+              <form class="admin-form" data-content-form data-content-type="news" data-content-label="Nieuwsbericht">
+                <div class="admin-form-grid">
+                  <label>
+                    Titel
+                    <input name="title" required />
+                  </label>
+                  <label>
+                    Slug
+                    <input name="slug" placeholder="wordt automatisch gevuld" />
+                  </label>
+                </div>
+
+                <div class="admin-form-grid">
+                  <label>
+                    Datum
+                    <input name="date" type="date" required />
+                  </label>
+                  <label>
+                    Categorie
+                    <select name="category">
+                      <option>Pilots</option>
+                      <option>Materiaalonderzoek</option>
+                      <option>Samenwerkingen</option>
+                      <option>Bedrijf</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  Status
+                  <select name="status">
+                    <option>Gepubliceerd</option>
+                    <option>Concept</option>
+                    <option>Archief</option>
+                  </select>
+                </label>
+
+                <label>
+                  Korte intro
+                  <textarea name="excerpt" rows="3" required></textarea>
+                </label>
+
+                <label>
+                  Bericht
+                  <textarea name="body" rows="8" placeholder="Gebruik lege regels tussen alinea's."></textarea>
+                </label>
+
+                <div class="admin-actions">
+                  <button class="primary-link" type="submit">
+                    <span>Opslaan</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+                  </button>
+                  <button class="button-ghost" type="button" data-content-reset>Nieuw bericht</button>
+                </div>
+
+                <p class="admin-status" data-content-status></p>
+              </form>
+            </section>
+
+            <aside class="admin-list-panel reveal">
+              <h2>Bestaande nieuwsberichten</h2>
+              <div class="admin-project-list" data-content-list="news">
+                <div class="empty-state">Nieuws wordt geladen...</div>
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
     </main>
@@ -239,6 +389,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
+    <script src="admin.js?v=backend-module-1"></script>
     <script src="projects.js"></script>
   </body>
 </html>

@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Home</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=main-home-clean" />
+    <link rel="stylesheet" href="styles.css?v=services-dark-1" />
   </head>
   <body data-page="home">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -63,8 +63,11 @@
     <main id="main" class="home-main">
       <section class="home-hero" id="top" aria-labelledby="hero-title">
         <div class="home-hero-media" aria-hidden="true">
-          <video class="home-hero-video" autoplay muted playsinline>
+          <video class="home-hero-video is-active" data-hero-video="0" autoplay muted playsinline preload="auto">
             <source src="assets/media/bagger-process-hero.mp4" type="video/mp4" />
+          </video>
+          <video class="home-hero-video" data-hero-video="1" muted playsinline preload="auto">
+            <source src="assets/media/zandwinning.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-frame">
@@ -72,17 +75,21 @@
             <div class="home-hero-copy">
               <h1 id="hero-title">
                 <span>Van Bagger</span>
-                <span>tot</span>
-                <span class="home-hero-accent wave-underline">Grondstof</span>
+                <span class="home-hero-connector">tot</span>
+                <span class="home-hero-accent">Grondstof</span>
               </h1>
+              <p class="home-hero-subtitle" data-i18n-html="hero-subtitle">
+                Iedere stroom is een nieuw hoofdstuk in <em>circulair</em> grondstofgebruik.
+              </p>
               <div class="home-hero-actions" aria-label="Hero acties">
-                <a class="home-hero-action home-hero-action--primary" href="/het-plan">
-                  Ontdek het plan
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg>
+                <a class="home-hero-explore" href="/het-plan">
+                  <span>Explore</span>
+                  <span aria-hidden="true">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="m8 8 8 8M16 8v8H8" />
+                    </svg>
+                  </span>
                 </a>
-                <a class="home-hero-action home-hero-action--secondary" href="/services">Onze services</a>
               </div>
             </div>
           </article>
@@ -98,6 +105,64 @@
               zetten bagger om tot bruikbare grondstoffen die bijdragen aan een
               <span class="home-mission-accent wave-underline">circulaire toekomst.</span>
             </p>
+
+            <div class="home-mission-process" aria-label="Route van bagger naar grondstof">
+              <article class="home-mission-process__step">
+                <span class="home-mission-process__icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <path d="M9 30c6-5 12-5 18 0s12 5 18 0" />
+                    <path d="M14 23h20l-4 10H18z" />
+                    <path d="M19 18h10" />
+                  </svg>
+                </span>
+                <span class="home-mission-process__body">
+                  <strong>Bagger</strong>
+                  <span>Afvalstroom</span>
+                </span>
+              </article>
+
+              <span class="home-mission-process__connector" aria-hidden="true">
+                <svg viewBox="0 0 70 12">
+                  <path d="M2 6h58" />
+                  <path d="M55 2l9 4-9 4" />
+                </svg>
+              </span>
+
+              <article class="home-mission-process__step">
+                <span class="home-mission-process__icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <path d="M13 15h22v18H13z" />
+                    <path d="M20 15v18M13 22h22M13 28h22" />
+                    <path d="M10 38h28" />
+                  </svg>
+                </span>
+                <span class="home-mission-process__body">
+                  <strong>Scheiden</strong>
+                  <span>Data &amp; verwerking</span>
+                </span>
+              </article>
+
+              <span class="home-mission-process__connector" aria-hidden="true">
+                <svg viewBox="0 0 70 12">
+                  <path d="M2 6h58" />
+                  <path d="M55 2l9 4-9 4" />
+                </svg>
+              </span>
+
+              <article class="home-mission-process__step">
+                <span class="home-mission-process__icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48">
+                    <path d="M15 33h18M17 27h14M20 21h8" />
+                    <path d="M13 38h22" />
+                    <path d="M18 15h12" />
+                  </svg>
+                </span>
+                <span class="home-mission-process__body">
+                  <strong>Grondstof</strong>
+                  <span>Nieuwe toepassing</span>
+                </span>
+              </article>
+            </div>
           </div>
 
           <div class="home-flow-graphic reveal" aria-hidden="true">
@@ -143,6 +208,17 @@
         <div class="home-frame home-problem-frame">
           <h2 id="problem-title" class="home-problem-heading reveal">Het Probleem</h2>
 
+          <div class="home-problem-meter reveal" aria-label="Vergelijking grondstofstromen">
+            <div data-i18n-html="problem-meter-dredging">
+              <span class="home-problem-meter__label"><span data-count="40">0</span> miljoen m<sup>3</sup></span>
+              <span class="home-problem-meter__context">bagger per jaar</span>
+            </div>
+            <div data-i18n-html="problem-meter-concrete">
+              <span class="home-problem-meter__label"><span data-count="30">0</span> miljard tons</span>
+              <span class="home-problem-meter__context">primaire grondstoffen</span>
+            </div>
+          </div>
+
           <div class="home-problem-columns">
             <article class="home-problem-panel reveal">
               <h3>Bagger industrie</h3>
@@ -165,15 +241,6 @@
                 druk om te verduurzamen groeit snel.
               </p>
             </article>
-          </div>
-
-          <div class="home-problem-meter reveal" aria-label="Vergelijking grondstofstromen">
-            <div data-i18n-html="problem-meter-dredging">
-              <span class="home-problem-meter__label"><span data-count="40">0</span> miljoen m<sup>3</sup></span>
-            </div>
-            <div data-i18n-html="problem-meter-concrete">
-              <span class="home-problem-meter__label"><span data-count="30">0</span> miljard tons</span>
-            </div>
           </div>
         </div>
       </section>
@@ -335,7 +402,10 @@
 
         <div class="home-footer-bottom">
           <span>&copy; Blauwe Bagger. All rights reserved.</span>
-          <a href="/contact">Privacy Policy</a>
+          <span class="home-footer-bottom__links">
+            <a href="/login">Eigenaar login</a>
+            <a href="/contact">Privacy Policy</a>
+          </span>
         </div>
 
         <div class="home-footer-wordmark" aria-hidden="true">
@@ -344,12 +414,6 @@
         </div>
       </div>
     </footer>
-
-    <a class="home-back-to-top" href="#top" aria-label="Terug naar boven">
-      <svg aria-hidden="true" viewBox="0 0 24 24">
-        <path d="M12 18V6m-5 5 5-5 5 5" />
-      </svg>
-    </a>
 
     <script src="script.js?v=lang-switch"></script>
     <script src="projects.js"></script>

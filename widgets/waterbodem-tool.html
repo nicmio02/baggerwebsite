@@ -17,40 +17,46 @@
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        scrollbar-width: none;
+      }
+
+      html::-webkit-scrollbar,
+      body::-webkit-scrollbar {
+        display: none;
+      }
+
       body {
         display: grid;
-        min-height: 100vh;
+        min-height: 100%;
         margin: 0;
         color: var(--ink);
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background:
-          radial-gradient(circle at 80% 18%, rgba(201, 235, 255, 0.72), transparent 34%),
-          linear-gradient(rgba(56, 81, 147, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(56, 81, 147, 0.04) 1px, transparent 1px),
-          #f8fbff;
-        background-size: auto, 42px 42px, 42px 42px, auto;
+        background: #ffffff;
         place-items: center;
       }
 
       main {
         display: grid;
-        gap: 24px;
+        gap: 18px;
         justify-items: center;
-        width: min(100% - 48px, 420px);
-        padding: 36px;
+        width: min(100% - 44px, 380px);
+        padding: 0;
         text-align: center;
-        background: rgba(255, 255, 255, 0.74);
-        border: 1px dashed var(--line);
-        border-radius: 24px;
-        box-shadow:
-          0 22px 48px rgba(7, 14, 36, 0.08),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .icon {
         display: grid;
-        width: 76px;
-        height: 76px;
+        width: 62px;
+        height: 62px;
         color: #ffffff;
         background: var(--blue);
         border-radius: 50%;
@@ -59,8 +65,8 @@
       }
 
       .icon svg {
-        width: 34px;
-        height: 34px;
+        width: 28px;
+        height: 28px;
         fill: none;
         stroke: currentColor;
         stroke-linecap: round;
@@ -69,18 +75,18 @@
       }
 
       h1 {
-        max-width: 13ch;
+        max-width: 16ch;
         margin: 0;
-        font-size: clamp(1.75rem, 8vw, 2.6rem);
-        line-height: 1.02;
-        letter-spacing: -0.04em;
+        font-size: clamp(1.6rem, 5vw, 2.1rem);
+        line-height: 1.06;
+        letter-spacing: -0.035em;
       }
 
       p {
         max-width: 29ch;
         margin: 0;
         color: var(--muted);
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 650;
         line-height: 1.5;
       }

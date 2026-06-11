@@ -15,8 +15,7 @@ const productCards = document.querySelectorAll("[data-product]");
 const productDetail = document.querySelector("[data-product-detail]");
 const contactForm = document.querySelector("[data-contact-form]");
 const formNote = document.querySelector("[data-form-note]");
-const heroVideo = document.querySelector(".home-hero-video");
-const heroVideoSource = heroVideo?.querySelector("source");
+const heroVideos = Array.from(document.querySelectorAll(".home-hero-video"));
 const solutionSequence = document.querySelector("[data-solution-sequence]");
 const solutionSteps = solutionSequence?.querySelectorAll("[data-solution-step]") || [];
 const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
@@ -37,12 +36,12 @@ const pageLanguage =
 
 const heroVideoClips = [
   {
-    src: "assets/media/bagger-process-hero.mp4",
+    videoIndex: 0,
     start: 0,
     end: 4.5,
   },
   {
-    src: "assets/media/zandwinning.mp4",
+    videoIndex: 1,
     start: 92,
     end: 96,
   },
@@ -76,11 +75,13 @@ const i18n = {
       "Van Bagger": "From Sediment",
       tot: "to",
       Grondstof: "Raw Material",
+      Explore: "Explore",
       Bagger: "Sediment",
       Scheiden: "Separating",
       "Ontdek het plan": "Explore the plan",
       "Onze services": "Our services",
       "Onze Missie": "Our Mission",
+      "Route van bagger naar grondstof": "Route from sediment to raw material",
       "Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij zetten bagger om tot bruikbare grondstoffen die bijdragen aan een circulaire toekomst.":
         "Blauwe Bagger works toward a world where raw materials are never lost. We turn dredged sediment into usable raw materials that contribute to a circular future.",
       "Het Probleem": "The Problem",
@@ -94,6 +95,9 @@ const i18n = {
       "Input scan": "Input scan",
       "BlueBox module": "BlueBox module",
       "Output routes": "Output routes",
+      Afvalstroom: "Waste stream",
+      "Data & verwerking": "Data & processing",
+      "Nieuwe toepassing": "New application",
       Analyse: "Analysis",
       Verwerking: "Processing",
       "BlueBox verwerking": "BlueBox processing",
@@ -157,10 +161,11 @@ const i18n = {
       "All rights reserved.": "All rights reserved.",
       "Privacy Policy": "Privacy Policy",
       "Neem contact op!": "Contact us",
-      "Terug naar boven": "Back to top",
       "Deze pagina wordt gebouwd.": "This page is being built.",
     },
     html: {
+      "hero-subtitle":
+        'Every stream is a new chapter in <em>circular</em> raw material use.',
       "mission-copy":
         'Blauwe Bagger works toward a world where raw materials are never lost. We turn dredged sediment into usable raw materials that contribute to a <span class="home-mission-accent wave-underline">circular future.</span>',
       "problem-dredging":
@@ -168,9 +173,9 @@ const i18n = {
       "problem-concrete":
         'At the same time, the construction sector extracts hundreds of millions of tonnes of <strong>primary raw materials</strong> every year to produce concrete. That makes it one of the <em>most polluting industries in the world</em>; globally, <strong>8% of CO<sub>2</sub> emissions</strong> come from construction and concrete. The pressure to become more sustainable is growing fast.',
       "problem-meter-dredging":
-        '<span class="home-problem-meter__label"><span data-count="40">0</span> million m<sup>3</sup></span>',
+        '<span class="home-problem-meter__label"><span data-count="40">0</span> million m<sup>3</sup></span><span class="home-problem-meter__context">dredged sediment per year</span>',
       "problem-meter-concrete":
-        '<span class="home-problem-meter__label"><span data-count="30">0</span> billion tons</span>',
+        '<span class="home-problem-meter__label"><span data-count="30">0</span> billion tons</span><span class="home-problem-meter__context">primary raw materials</span>',
     },
   },
 };
@@ -489,36 +494,76 @@ function handlePageActivity() {
   scheduleHeaderAutoHide();
 }
 
-function playHeroClip(index = 0) {
-  if (!heroVideo || !heroVideoSource || !heroVideoClips.length) {
+function waitForHeroVideo(video) {
+  if (video.readyState >= 2) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    video.addEventListener("loadeddata", resolve, { once: true });
+    video.load();
+  });
+}
+
+function seekHeroVideo(video, time) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      window.clearTimeout(timeoutId);
+      video.removeEventListener("seeked", finish);
+      resolve();
+    };
+    const timeoutId = window.setTimeout(finish, 900);
+
+    video.addEventListener("seeked", finish, { once: true });
+
+    try {
+      video.currentTime = time;
+    } catch (error) {
+      finish();
+    }
+  });
+}
+
+async function playHeroClip(index = 0) {
+  if (!heroVideos.length || !heroVideoClips.length) {
     return;
   }
 
-  const clip = heroVideoClips[index % heroVideoClips.length];
-  activeHeroClip = index % heroVideoClips.length;
+  const clipIndex = index % heroVideoClips.length;
+  const clip = heroVideoClips[clipIndex];
+  const video = heroVideos[clip.videoIndex ?? clipIndex % heroVideos.length];
+
+  if (!video) {
+    return;
+  }
+
+  activeHeroClip = clipIndex;
   window.clearTimeout(heroClipTimer);
 
-  const startClip = () => {
-    heroVideo.currentTime = clip.start;
-    heroVideo.play().catch(() => {});
-    heroClipTimer = window.setTimeout(() => {
-      playHeroClip(activeHeroClip + 1);
-    }, Math.max(1000, (clip.end - clip.start) * 1000));
-  };
+  await waitForHeroVideo(video);
+  await seekHeroVideo(video, clip.start);
 
-  if (heroVideoSource.getAttribute("src") !== clip.src) {
-    heroVideoSource.setAttribute("src", clip.src);
-    heroVideo.addEventListener("loadedmetadata", startClip, { once: true });
-    heroVideo.load();
-    return;
-  }
+  await video.play().catch(() => {});
+  video.classList.add("is-active");
 
-  if (heroVideo.readyState >= 1) {
-    startClip();
-    return;
-  }
+  window.setTimeout(() => {
+    heroVideos.forEach((candidate) => {
+      if (candidate !== video) {
+        candidate.classList.remove("is-active");
+        candidate.pause();
+      }
+    });
+  }, 420);
 
-  heroVideo.addEventListener("loadedmetadata", startClip, { once: true });
+  heroClipTimer = window.setTimeout(() => {
+    playHeroClip(activeHeroClip + 1);
+  }, Math.max(1000, (clip.end - clip.start) * 1000));
 }
 
 function setMobileMenu(open) {
@@ -899,3 +944,59 @@ blueprintSteps.forEach((step) => {
 if (header) {
   syncHeaderOffset();
 }
+
+function escapePublicContent(value) {
+  return String(value || "").replace(/[&<>"']/g, (character) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+
+    return entities[character];
+  });
+}
+
+async function hydratePublicContentBoard(board) {
+  const type = board.getAttribute("data-public-content");
+
+  if (!type) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/${type}`, { credentials: "same-origin" });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const items = await response.json();
+    const visibleItems = Array.isArray(items)
+      ? items.filter((item) => !/concept|gesloten|archief/i.test(item.status || "")).slice(0, 3)
+      : [];
+
+    if (!visibleItems.length) {
+      return;
+    }
+
+    board.innerHTML = visibleItems
+      .map(
+        (item, index) => `
+          <article class="about-board-card reveal is-visible">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <h3>${escapePublicContent(item.title)}</h3>
+            <p>${escapePublicContent(item.excerpt)}</p>
+            <a href="/contact">${type === "jobs" ? "Neem contact op" : "Lees meer"} -&gt;</a>
+          </article>
+        `,
+      )
+      .join("");
+  } catch {
+    // Keep the static fallback cards when the backend is not available.
+  }
+}
+
+document.querySelectorAll("[data-public-content]").forEach(hydratePublicContentBoard);
