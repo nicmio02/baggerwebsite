@@ -56,21 +56,63 @@ async function readBlobStore(config) {
     return null;
   }
 
-  const result = await blob.list({ prefix: config.blobPath, limit: 1 });
-  const file = result.blobs.find((entry) => entry.pathname === config.blobPath);
+  try {
+    const result = await blob.get(config.blobPath, { access: "private" });
 
-  if (!file) {
-    return null;
+    if (result?.statusCode !== 200 || !result.stream) {
+      return null;
+    }
+
+    const parsed = JSON.parse(await readStreamAsText(result.stream));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    if (isBlobNotFoundError(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+async function readStreamAsText(stream) {
+  if (typeof stream.getReader === "function") {
+    const reader = stream.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) {
+        break;
+      }
+
+      chunks.push(Buffer.from(value));
+    }
+
+    return Buffer.concat(chunks).toString("utf8");
   }
 
-  const response = await fetch(`${file.url}?t=${Date.now()}`, { cache: "no-store" });
+  if (typeof stream[Symbol.asyncIterator] === "function") {
+    const chunks = [];
 
-  if (!response.ok) {
-    return null;
+    for await (const chunk of stream) {
+      chunks.push(Buffer.from(chunk));
+    }
+
+    return Buffer.concat(chunks).toString("utf8");
   }
 
-  const parsed = await response.json();
-  return Array.isArray(parsed) ? parsed : [];
+  if (typeof stream.text === "function") {
+    return stream.text();
+  }
+
+  return "";
+}
+
+function isBlobNotFoundError(error) {
+  const name = String(error?.name || "");
+  const message = String(error?.message || "");
+  return /not.*found/i.test(name) || /not.*found/i.test(message);
 }
 
 async function readStore(type) {
@@ -93,7 +135,7 @@ async function writeStore(type, items) {
   }
 
   await blob.put(config.blobPath, `${JSON.stringify(items, null, 2)}\n`, {
-    access: "public",
+    access: "private",
     allowOverwrite: true,
     contentType: "application/json; charset=utf-8",
   });
