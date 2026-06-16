@@ -1733,12 +1733,13 @@ body[data-page="producten"] main > :not(.build-screen) {
   align-items: center;
 }
 
-.service-widget-table {
+.service-widget-ladder {
   display: grid;
   align-self: center;
+  gap: 12px;
   min-height: 460px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.66);
+  padding: clamp(18px, 2vw, 26px);
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(56, 81, 147, 0.14);
   border-radius: 24px;
   box-shadow:
@@ -1746,48 +1747,69 @@ body[data-page="producten"] main > :not(.build-screen) {
     inset 0 0 0 1px rgba(255, 255, 255, 0.72);
 }
 
-.service-widget-row {
+.service-widget-ladder__head,
+.service-widget-impact {
   display: grid;
-  grid-template-columns: minmax(160px, 0.8fr) minmax(0, 1fr) minmax(0, 1fr);
-  min-height: 94px;
-  border-bottom: 1px solid rgba(17, 25, 48, 0.22);
-}
-
-.service-widget-row:last-child {
-  border-bottom: 0;
-}
-
-.service-widget-row span {
-  display: grid;
+  grid-template-columns: minmax(150px, 0.75fr) minmax(0, 1fr) 44px minmax(0, 1fr);
   align-items: center;
-  justify-items: center;
+  gap: clamp(12px, 1.8vw, 22px);
+}
+
+.service-widget-ladder__head {
+  padding: 4px clamp(8px, 1vw, 14px) 10px;
+  color: rgba(17, 25, 48, 0.46);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.service-widget-ladder__head span:nth-child(3) {
+  grid-column: 4;
+  color: rgba(56, 81, 147, 0.82);
+}
+
+.service-widget-impact {
+  min-height: 86px;
+  padding: clamp(16px, 2vw, 22px) clamp(14px, 2vw, 22px);
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(56, 81, 147, 0.1);
+  border-radius: 18px;
+}
+
+.service-widget-impact__label {
+  color: rgba(17, 25, 48, 0.72);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.service-widget-impact__from,
+.service-widget-impact__to {
   min-width: 0;
-  padding: 18px clamp(14px, 2vw, 28px);
-  color: rgba(17, 25, 48, 0.66);
-  font-size: clamp(0.96rem, 1.08vw, 1.1rem);
-  font-weight: 650;
-  line-height: 1.32;
-  text-align: center;
+  color: rgba(17, 25, 48, 0.58);
+  font-size: clamp(0.95rem, 1.06vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.28;
 }
 
-.service-widget-row span + span {
-  border-left: 1px solid rgba(56, 81, 147, 0.045);
-}
-
-.service-widget-row--head span {
-  color: #111930;
-  font-family: var(--font-display);
+.service-widget-impact__to {
+  color: #385193;
   font-weight: 850;
 }
 
-.service-widget-row [role="rowheader"] {
-  color: rgba(17, 25, 48, 0.58);
-  font-weight: 700;
-}
-
-.service-widget-row span:last-child {
-  color: rgba(56, 81, 147, 0.88);
-  font-weight: 780;
+.service-widget-impact__arrow {
+  display: grid;
+  width: 44px;
+  height: 32px;
+  align-items: center;
+  justify-items: center;
+  color: #385193;
+  font-size: 1rem;
+  font-weight: 950;
+  background: rgba(56, 81, 147, 0.08);
+  border: 1px solid rgba(56, 81, 147, 0.12);
+  border-radius: 999px;
 }
 
 .service-widget-frame {
@@ -1829,7 +1851,7 @@ body[data-page="producten"] main > :not(.build-screen) {
     grid-template-columns: 1fr;
   }
 
-  .service-widget-table {
+  .service-widget-ladder {
     min-height: auto;
   }
 }
@@ -1857,43 +1879,52 @@ body[data-page="producten"] main > :not(.build-screen) {
     gap: 26px;
   }
 
-  .service-widget-table {
+  .service-widget-ladder {
+    gap: 12px;
+    padding: 14px;
     border-radius: 20px;
   }
 
-  .service-widget-row {
-    grid-template-columns: 1fr;
-    min-height: 0;
-    padding: 18px;
-    gap: 8px;
-  }
-
-  .service-widget-row--head {
+  .service-widget-ladder__head {
     display: none;
   }
 
-  .service-widget-row span {
-    justify-items: start;
-    padding: 0;
-    text-align: left;
+  .service-widget-impact {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 18px;
+    gap: 10px;
   }
 
-  .service-widget-row span + span {
-    border-left: 0;
+  .service-widget-impact__label {
+    font-size: 1.05rem;
   }
 
-  .service-widget-row span:nth-child(2)::before {
+  .service-widget-impact__arrow {
+    width: 36px;
+    height: 28px;
+    justify-self: start;
+    transform: rotate(90deg);
+  }
+
+  .service-widget-impact__from::before {
     margin-right: 8px;
-    color: rgba(17, 25, 48, 0.5);
-    font-weight: 850;
-    content: "Traditioneel:";
+    color: rgba(17, 25, 48, 0.46);
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    content: "Traditioneel";
   }
 
-  .service-widget-row span:nth-child(3)::before {
+  .service-widget-impact__to::before {
     margin-right: 8px;
     color: rgba(56, 81, 147, 0.72);
-    font-weight: 850;
-    content: "Met Blauwe Bagger:";
+    font-size: 0.72rem;
+    font-weight: 950;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    content: "Met Blauwe Bagger";
   }
 
   .service-widget-frame {
@@ -12558,7 +12589,7 @@ body[data-page="contact"] .contact-form-section::before {
 
 body[data-page="het-plan"] .plan-infographic,
 body[data-page="service-detail"] .service-detail-visual,
-body[data-page="service-detail"] .service-widget-table,
+body[data-page="service-detail"] .service-widget-ladder,
 body[data-page="service-detail"] .service-widget-frame,
 body[data-page="service-detail"] .material-offer-card,
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card,

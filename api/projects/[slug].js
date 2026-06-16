@@ -1,5 +1,5 @@
 const { handleItem } = require("../_content");
 
-module.exports = function handler(request, response) {
-  handleItem(request, response, "projects", request.query.slug);
+module.exports = async function handler(request, response) {
+  await handleItem(request, response, "projects", request.query.slug);
 };

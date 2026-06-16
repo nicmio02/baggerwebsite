@@ -1,5 +1,5 @@
 const { handleCollection } = require("../_content");
 
-module.exports = function handler(request, response) {
-  handleCollection(request, response, "news");
+module.exports = async function handler(request, response) {
+  await handleCollection(request, response, "news");
 };
