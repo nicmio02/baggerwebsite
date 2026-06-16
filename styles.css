@@ -1345,7 +1345,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-detail-hero {
   position: relative;
   overflow: hidden;
-  min-height: auto;
+  min-height: 100svh;
   padding: clamp(164px, 17vh, 212px) 0 clamp(72px, 9vh, 104px);
   background:
     radial-gradient(circle at 82% 22%, rgba(201, 235, 255, 0.72), transparent 32%),
@@ -12503,6 +12503,10 @@ body[data-page="contact"] .contact-details-section {
   background-size: auto !important;
 }
 
+body[data-page="service-detail"] .service-detail-hero {
+  min-height: 100svh;
+}
+
 body[data-page="service-detail"] .service-route-section,
 body[data-page="over-ons"] .about-team-section,
 body[data-page="over-ons"] .about-board-section--news,
@@ -12782,6 +12786,10 @@ body[data-page="over-ons"] .about-team-link:focus-visible {
 }
 
 @media (max-width: 760px) {
+  body[data-page="service-detail"] .service-detail-hero {
+    min-height: auto;
+  }
+
   body:not([data-homepage-variant="bluebox-lab"]) .home-section {
     padding-bottom: 72px;
   }
