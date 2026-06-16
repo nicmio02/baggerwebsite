@@ -72,8 +72,7 @@ const i18n = {
       "Neem contact op": "Contact",
       Contact: "Contact",
       Menu: "Menu",
-      "Van Bagger": "From Sediment",
-      tot: "to",
+      "Bagger als": "Sediment as",
       Grondstof: "Raw Material",
       Explore: "Explore",
       Bagger: "Sediment",
@@ -86,7 +85,7 @@ const i18n = {
         "Blauwe Bagger works toward a world where raw materials are never lost. We turn dredged sediment into usable raw materials that contribute to a circular future.",
       "Het Probleem": "The Problem",
       "Bagger industrie": "Dredging industry",
-      "Beton industrie": "Concrete industry",
+      "Bouw industrie": "Construction industry",
       "xxx miljoen m3": "xxx million m3",
       Procesaanpak: "Process approach",
       "Onze Oplossing": "Our Solution",
@@ -137,13 +136,24 @@ const i18n = {
       "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
         "One route for dredging projects and one route for secondary raw materials.",
       "Voor baggeraars": "For dredging contractors",
+      "Voor Baggeraars": "For dredging contractors",
       "Werken met de BlueBox": "Work with the BlueBox",
+      "Services voor de bagger industrie": "Services for the dredging industry",
       "Minder stortkosten, minder transport en sterker in aanbestedingen.":
         "Lower disposal costs, less transport and a stronger position in tenders.",
+      "Minder stortkosten, minder transport en sterker in aanbestedingen. De BlueBox scheidt bagger direct op locatie.":
+        "Lower disposal costs, less transport and a stronger position in tenders. The BlueBox separates dredged sediment directly on site.",
       "Voor grondstoffen": "For raw materials",
+      "Voor Grondstoffen": "For raw materials",
       "Secundaire grondstoffen, primaire kwaliteit": "Secondary raw materials, primary quality",
+      "Secundaire grondstoffen voor de bouw": "Secondary raw materials for construction",
       "BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie.":
         "BlueSand, BlueFiller and BlueCalc as sustainable inputs for concrete production.",
+      "BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie en wegfunderingen.":
+        "BlueSand, BlueFiller and BlueCalc as sustainable inputs for concrete production and road foundations.",
+      BlueClay: "BlueClay",
+      "Geactiveerde kleifractie met een uitzonderlijk fijne deeltjesgrootte. Gewonnen uit gescheiden baggerspecie en nabewerkt tot een consistent, hoogwaardig product.":
+        "Activated clay fraction with an exceptionally fine particle size. Recovered from separated dredged sediment and post-processed into a consistent, high-quality product.",
       "Bekijk grondstoffen": "View raw materials",
       "De toepassingen": "Applications",
       Producten: "Products",
@@ -759,8 +769,8 @@ function updateCarouselControls(carousel) {
   const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
   const hasOverflow = maxScroll > 2;
 
-  previousButton.disabled = !hasOverflow || track.scrollLeft <= 2;
-  nextButton.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
+  previousButton.disabled = !hasOverflow;
+  nextButton.disabled = !hasOverflow;
 }
 
 function scrollCarousel(carousel, direction) {
@@ -770,8 +780,20 @@ function scrollCarousel(carousel, direction) {
     return;
   }
 
-  track.scrollBy({
-    left: direction * getCarouselStep(track),
+  const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+  const step = getCarouselStep(track);
+  let nextLeft = track.scrollLeft + direction * step;
+
+  if (direction > 0 && track.scrollLeft >= maxScroll - 2) {
+    nextLeft = 0;
+  } else if (direction < 0 && track.scrollLeft <= 2) {
+    nextLeft = maxScroll;
+  } else {
+    nextLeft = Math.min(Math.max(nextLeft, 0), maxScroll);
+  }
+
+  track.scrollTo({
+    left: nextLeft,
     behavior: "smooth",
   });
 }

@@ -27,6 +27,10 @@
       "destination": "/producten/bluecalc.html"
     },
     {
+      "source": "/producten/blueclay",
+      "destination": "/producten/blueclay.html"
+    },
+    {
       "source": "/projecten/:slug*",
       "destination": "/project-detail.html"
     }
