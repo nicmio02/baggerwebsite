@@ -23,6 +23,7 @@ const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
 const carousels = document.querySelectorAll("[data-carousel]");
+const baggerWidget = document.querySelector("#bagger-widget");
 const blueHeaderSections = document.querySelectorAll(".home-section--blue, .home-section--blueprint");
 const urlParams = new URLSearchParams(window.location.search);
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -807,9 +808,32 @@ function scrollCarousel(carousel, direction) {
   });
 }
 
+function resizeBaggerWidget(event) {
+  const allowedOrigins = new Set(["https://bbtool.nl", "https://www.bbtool.nl"]);
+
+  if (!baggerWidget || !allowedOrigins.has(event.origin) || event.data?.type !== "bagger-widget:resize") {
+    return;
+  }
+
+  const height = Number(event.data.height);
+
+  if (!Number.isFinite(height) || height <= 0) {
+    return;
+  }
+
+  const nextHeight = `${Math.min(Math.max(Math.ceil(height), 360), 2200)}px`;
+  baggerWidget.style.height = nextHeight;
+  baggerWidget.style.minHeight = nextHeight;
+  baggerWidget.parentElement?.style.setProperty("min-height", nextHeight);
+}
+
 applyPageLanguage();
 
 playHeroClip();
+
+if (baggerWidget) {
+  window.addEventListener("message", resizeBaggerWidget);
+}
 
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener("click", () => {

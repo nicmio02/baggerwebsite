@@ -1882,9 +1882,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   position: relative;
   display: grid;
   align-self: start;
-  height: clamp(620px, 42vw, 680px);
-  min-height: 0;
-  max-height: 680px;
+  min-height: clamp(620px, 42vw, 680px);
   overflow: hidden;
   background: #ffffff;
   border: 1px solid rgba(56, 81, 147, 0.14);
@@ -1900,9 +1898,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-widget-frame iframe {
   display: block;
   width: 100%;
-  height: calc(100% + 90px);
-  min-height: 0;
-  margin-bottom: -90px;
+  height: clamp(620px, 42vw, 680px);
+  min-height: clamp(620px, 42vw, 680px);
   overflow: hidden;
   background: #ffffff;
   border: 0;
@@ -2004,16 +2001,13 @@ body[data-page="producten"] main > :not(.build-screen) {
   }
 
   .service-widget-frame {
-    height: clamp(610px, 138vw, 740px);
-    min-height: 0;
-    max-height: 740px;
+    min-height: clamp(610px, 138vw, 740px);
     border-radius: 16px;
   }
 
   .service-widget-frame iframe {
-    height: calc(100% + 70px);
-    margin-bottom: -70px;
-    min-height: 0;
+    height: clamp(610px, 138vw, 740px);
+    min-height: clamp(610px, 138vw, 740px);
   }
 }
 
