@@ -1344,9 +1344,11 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .service-detail-hero {
   position: relative;
+  display: grid;
+  align-items: center;
   overflow: hidden;
   min-height: 100svh;
-  padding: clamp(164px, 17vh, 212px) 0 clamp(72px, 9vh, 104px);
+  padding: calc(var(--header-height) + clamp(28px, 4vh, 58px)) 0 clamp(58px, 8vh, 96px);
   background:
     radial-gradient(circle at 82% 22%, rgba(201, 235, 255, 0.72), transparent 32%),
     radial-gradient(circle at 12% 82%, rgba(56, 81, 147, 0.08), transparent 32%),
@@ -2391,6 +2393,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   }
 
   .service-detail-hero {
+    display: block;
     min-height: auto;
     padding-top: 132px;
   }
@@ -7326,6 +7329,7 @@ body[data-page="home"] .site-header:has(.menu-toggle[aria-expanded="true"]) .men
   letter-spacing: 0;
   line-height: 0.9;
   opacity: 0.86;
+  transform: translateY(clamp(0.16rem, 0.7vw, 0.52rem));
 }
 
 body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .nav-shell {
@@ -8457,98 +8461,6 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   background-image: var(--wave-pattern);
   background-size: 0.78em 0.22em;
   filter: none;
-}
-
-.home-mission-process {
-  display: grid;
-  grid-template-columns: minmax(150px, 1fr) auto minmax(150px, 1fr) auto minmax(150px, 1fr);
-  align-items: center;
-  justify-self: center;
-  gap: clamp(12px, 2vw, 22px);
-  width: min(980px, 100%);
-  margin-top: clamp(6px, 1.6vw, 16px);
-  padding: clamp(14px, 1.7vw, 18px) clamp(16px, 2.2vw, 24px);
-  background: #ffffff;
-  border: 1px solid rgba(17, 25, 48, 0.14);
-  border-radius: 999px;
-  box-shadow: 0 22px 56px rgba(7, 14, 36, 0.08);
-}
-
-.home-mission-process__step {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-width: 0;
-}
-
-.home-mission-process__step:nth-of-type(2) .home-mission-process__icon {
-  color: #ffffff;
-  background: #111930;
-}
-
-.home-mission-process__icon {
-  display: grid;
-  flex: 0 0 auto;
-  width: 50px;
-  height: 50px;
-  color: #111930;
-  background: #ffffff;
-  border: 1px solid rgba(17, 25, 48, 0.16);
-  border-radius: 50%;
-  box-shadow: 0 10px 24px rgba(7, 14, 36, 0.06);
-  place-items: center;
-}
-
-.home-mission-process__icon svg {
-  width: 28px;
-  height: 28px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.8;
-}
-
-.home-mission-process__body {
-  display: grid;
-  min-width: 0;
-  gap: 2px;
-  text-align: left;
-}
-
-.home-mission-process__body strong {
-  color: #111930;
-  font-family: var(--font-display);
-  font-size: clamp(1.08rem, 1.16vw, 1.24rem);
-  font-weight: 900;
-  letter-spacing: 0;
-  line-height: 1.1;
-}
-
-.home-mission-process__body span {
-  color: #5b6478;
-  font-size: clamp(0.82rem, 0.9vw, 0.94rem);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.home-mission-process__connector {
-  display: grid;
-  width: clamp(46px, 5vw, 78px);
-  color: #111930;
-  place-items: center;
-}
-
-.home-mission-process__connector svg {
-  display: block;
-  width: 100%;
-  height: 12px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.8;
 }
 
 .home-flow-graphic {
@@ -10406,13 +10318,9 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .site-footer--brand,
 .site-footer--home {
-  padding: 36px 0 24px;
-  background:
-    linear-gradient(rgba(56, 81, 147, 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 81, 147, 0.022) 1px, transparent 1px),
-    #f7f9fc;
-  background-size: 54px 54px, 54px 54px, auto;
-  border-top: 0;
+  padding: clamp(42px, 6vw, 72px) 0 clamp(28px, 4vw, 46px);
+  background: #ffffff;
+  border-top: 1px solid rgba(17, 25, 48, 0.08);
 }
 
 .site-footer--brand .home-frame,
@@ -10421,23 +10329,36 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   border-left: 0;
 }
 
+.site-footer--brand .home-frame::before,
+.site-footer--home .home-frame::before {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin-bottom: clamp(26px, 4vw, 42px);
+  background: #385193;
+  border-radius: 999px;
+}
+
 .home-footer-top {
-  padding: 20px 0 26px;
-  border-bottom: 1px solid rgba(24, 36, 76, 0.08);
+  padding: 0 0 clamp(24px, 3vw, 34px);
 }
 
 .home-footer-top h2 {
   margin: 0;
   color: #111930;
-  font-size: 1.1rem;
+  font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .home-footer-meta {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
-  padding: 30px 0;
-  border-bottom: 1px solid rgba(24, 36, 76, 0.08);
+  grid-template-columns: minmax(180px, 1fr) minmax(280px, 1.35fr) minmax(120px, auto);
+  gap: clamp(28px, 5vw, 76px);
+  padding: clamp(28px, 4vw, 44px) 0;
+  border-top: 1px solid rgba(17, 25, 48, 0.1);
+  border-bottom: 1px solid rgba(17, 25, 48, 0.1);
 }
 
 .home-footer-meta p,
@@ -10445,14 +10366,29 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-bottom {
   margin: 0;
   color: #111930;
-  font-size: 0.98rem;
-  line-height: 1.45;
+  font-size: clamp(0.92rem, 0.95vw, 1.02rem);
+  font-weight: 700;
+  line-height: 1.55;
 }
 
 .home-footer-links {
   display: grid;
   justify-items: end;
-  gap: 10px;
+  align-content: start;
+  gap: 12px;
+}
+
+.home-footer-meta a,
+.home-footer-bottom a {
+  text-decoration: none;
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+.home-footer-meta a:hover,
+.home-footer-meta a:focus-visible,
+.home-footer-bottom a:hover,
+.home-footer-bottom a:focus-visible {
+  color: #385193;
 }
 
 .home-footer-bottom {
@@ -10460,7 +10396,8 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 24px 0 0;
+  padding: clamp(18px, 2.5vw, 28px) 0 0;
+  color: rgba(17, 25, 48, 0.72);
 }
 
 .home-footer-bottom__links {
@@ -10473,11 +10410,14 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-wordmark {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
-  padding: 80px 0 6px;
-  font-size: clamp(4.8rem, 11vw, 10rem);
+  justify-content: flex-end;
+  gap: clamp(8px, 1.4vw, 18px);
+  padding: clamp(24px, 4vw, 42px) 0 0;
+  font-size: clamp(2.2rem, 5.8vw, 6.8rem);
   font-weight: 900;
-  line-height: 0.9;
+  line-height: 0.82;
+  letter-spacing: -0.07em;
+  opacity: 0.9;
 }
 
 .home-footer-wordmark span:first-child {
@@ -10939,29 +10879,6 @@ body.is-past-hero .home-floating-cta {
 
   .home-section--products {
     padding-top: 42px;
-  }
-
-  .home-mission-process {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    width: min(420px, 100%);
-    padding: 14px;
-    border-radius: 22px;
-  }
-
-  .home-mission-process__connector {
-    justify-self: center;
-    width: 34px;
-    transform: rotate(90deg);
-  }
-
-  .home-mission-process__step {
-    justify-content: flex-start;
-    padding: 6px;
-  }
-
-  .home-mission-process__body strong {
-    font-size: 1rem;
   }
 
   .home-kicker {
@@ -12497,7 +12414,7 @@ body:not([data-homepage-variant="bluebox-lab"]) .home-service-card__diagram {
 }
 
 body:not([data-homepage-variant="bluebox-lab"]) .home-footer-wordmark {
-  padding-top: clamp(56px, 7vw, 90px);
+  padding-top: clamp(24px, 4vw, 42px);
 }
 
 body:not([data-homepage-variant="bluebox-lab"]) .home-service-card {
@@ -12761,6 +12678,8 @@ body[data-page="service-detail"] .material-offer-section::before {
 }
 
 body[data-page="service-detail"] .material-offer-head {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(12px, 1.8vw, 20px);
   align-items: center;
   margin-bottom: clamp(34px, 5vh, 58px);
 }
@@ -12770,12 +12689,13 @@ body[data-page="service-detail"] .material-offer-head p {
 }
 
 body[data-page="service-detail"] .material-offer-head h2 {
-  max-width: none;
+  max-width: min(1480px, 100%);
   color: #ffffff;
-  font-size: clamp(1.95rem, 2.65vw, 3.15rem);
+  font-size: clamp(2.25rem, 4vw, 4.2rem);
   letter-spacing: -0.04em;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 0.94;
+  text-wrap: balance;
+  white-space: normal;
 }
 
 @media (max-width: 980px) {
@@ -12845,9 +12765,48 @@ body[data-page="over-ons"] .about-team-link:focus-visible {
   border-color: #c9ebff;
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks {
+  background:
+    linear-gradient(180deg, rgba(8, 14, 32, 0.42) 0%, rgba(8, 14, 32, 0.62) 100%),
+    linear-gradient(90deg, rgba(17, 25, 48, 0.78) 0%, rgba(17, 25, 48, 0.46) 52%, rgba(17, 25, 48, 0.72) 100%),
+    url("/assets/media/bricks-background.jpg") center / cover no-repeat !important;
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating {
+  background:
+    linear-gradient(180deg, rgba(8, 14, 32, 0.38) 0%, rgba(8, 14, 32, 0.66) 100%),
+    linear-gradient(90deg, rgba(17, 25, 48, 0.78) 0%, rgba(17, 25, 48, 0.42) 52%, rgba(17, 25, 48, 0.72) 100%),
+    url("/assets/media/excavating.jpg") center / cover no-repeat !important;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks::before,
+body[data-page="service-detail"] .service-detail-hero--excavating::before {
+  display: none !important;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-kicker,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker {
+  color: #c9ebff;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy),
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__copy,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy),
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__copy {
+  color: #ffffff;
+  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
+  max-width: 1080px;
+}
+
 .site-footer--brand,
 .site-footer--home {
-  background: #f7f9fc !important;
+  background: #ffffff !important;
   background-image: none !important;
   background-size: auto !important;
 }
