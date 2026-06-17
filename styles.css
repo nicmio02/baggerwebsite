@@ -9221,6 +9221,14 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   transition: opacity 420ms ease, transform 420ms ease;
 }
 
+.home-approach-visual--bluebox {
+  min-height: 170px;
+}
+
+.home-approach-visual--bluebox img {
+  width: min(340px, 96%);
+}
+
 .home-approach-visual svg {
   width: min(220px, 88%);
   height: auto;
