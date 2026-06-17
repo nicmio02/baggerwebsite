@@ -7229,6 +7229,10 @@ body[data-page="home"] .site-header:has(.menu-toggle[aria-expanded="true"]) .men
   inset: 0;
   z-index: -2;
   overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(6, 12, 28, 0.74) 0%, rgba(6, 12, 28, 0.28) 47%, rgba(6, 12, 28, 0.2) 100%),
+    linear-gradient(0deg, rgba(6, 12, 28, 0.66) 0%, rgba(6, 12, 28, 0.1) 44%, rgba(6, 12, 28, 0.32) 100%),
+    url("assets/media/home-hero-aerial.jpg") center 44% / cover no-repeat;
 }
 
 .home-hero-video {
@@ -7242,7 +7246,7 @@ body[data-page="home"] .site-header:has(.menu-toggle[aria-expanded="true"]) .men
   transition: opacity 420ms ease;
 }
 
-.home-hero-video.is-active {
+.home-hero-video.is-active.is-loaded {
   opacity: 1;
 }
 
@@ -7495,10 +7499,8 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
   body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav a,
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav a {
-    color: rgba(17, 25, 48, 0.9);
-    text-shadow:
-      0 1px 18px rgba(255, 255, 255, 0.86),
-      0 0 2px rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.94);
+    text-shadow: none;
   }
 
   body:not([data-page="home"]) .site-header:not(.is-condensed) .main-nav a:hover,
@@ -7507,9 +7509,9 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav a:hover,
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav a:focus-visible,
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav a.is-current {
-    color: #385193;
-    background: rgba(255, 255, 255, 0.52);
-    box-shadow: 0 0 24px rgba(255, 255, 255, 0.58);
+    color: #ffffff;
+    background: transparent;
+    box-shadow: none;
   }
 
   body[data-page="home"]:not([data-homepage-variant="bluebox-lab"]) .site-header:not(.is-condensed) .main-nav a {
@@ -7545,22 +7547,20 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
     width: 1px;
     height: 34px;
     content: "";
-    background: rgba(17, 25, 48, 0.24);
+    background: rgba(255, 255, 255, 0.36);
   }
 
   body:not([data-page="home"]) .site-header:not(.is-condensed) .language-toggle a,
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .language-toggle a {
-    color: rgba(17, 25, 48, 0.62);
+    color: rgba(255, 255, 255, 0.68);
     font-size: clamp(1rem, 1vw, 1.18rem);
     font-weight: 800;
-    text-shadow:
-      0 1px 16px rgba(255, 255, 255, 0.88),
-      0 0 2px rgba(255, 255, 255, 0.9);
+    text-shadow: none;
   }
 
   body:not([data-page="home"]) .site-header:not(.is-condensed) .language-toggle a[aria-current="true"],
   body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .language-toggle a[aria-current="true"] {
-    color: #111930;
+    color: #ffffff;
   }
 
   body[data-page="home"]:not([data-homepage-variant="bluebox-lab"]) .site-header:not(.is-condensed) .language-toggle::before {
@@ -11312,7 +11312,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
 body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:hover,
 body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:focus-visible,
 body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a.is-current {
-  color: #385193;
+  color: #ffffff;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -12698,10 +12698,22 @@ body[data-page="service-detail"] .material-offer-head h2 {
   white-space: normal;
 }
 
+body[data-page="service-detail"] .material-offer-carousel {
+  padding-inline: 0;
+}
+
+body[data-page="service-detail"] .material-offer-controls {
+  inset-inline: -72px;
+}
+
 @media (max-width: 980px) {
   body[data-page="service-detail"] .material-offer-head h2 {
     max-width: 760px;
     white-space: normal;
+  }
+
+  body[data-page="service-detail"] .material-offer-controls {
+    inset-inline: auto;
   }
 }
 

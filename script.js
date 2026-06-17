@@ -507,11 +507,19 @@ function handlePageActivity() {
 
 function waitForHeroVideo(video) {
   if (video.readyState >= 2) {
+    video.classList.add("is-loaded");
     return Promise.resolve();
   }
 
   return new Promise((resolve) => {
-    video.addEventListener("loadeddata", resolve, { once: true });
+    video.addEventListener(
+      "loadeddata",
+      () => {
+        video.classList.add("is-loaded");
+        resolve();
+      },
+      { once: true },
+    );
     video.load();
   });
 }
