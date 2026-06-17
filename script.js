@@ -138,7 +138,7 @@ const i18n = {
       "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
         "One route for dredging projects and one route for secondary raw materials.",
       "Voor bagger industrie": "For dredging industry",
-      "Voor Bagger Industrie": "For dredging industry",
+      "Voor baggerindustrie": "For dredging industry",
       "Werken met de BlueBox": "Work with the BlueBox",
       "Services voor de bagger industrie": "Services for the dredging industry",
       "Minder stortkosten, minder transport en sterker in aanbestedingen.":
@@ -146,7 +146,6 @@ const i18n = {
       "Minder stortkosten, minder transport en sterker in aanbestedingen. De BlueBox scheidt bagger direct op locatie.":
         "Lower disposal costs, less transport and a stronger position in tenders. The BlueBox separates dredged sediment directly on site.",
       "Voor de bouw": "For construction",
-      "Voor de Bouw": "For construction",
       "Secundaire grondstoffen, primaire kwaliteit": "Secondary raw materials, primary quality",
       "Secundaire grondstoffen voor de bouw": "Secondary raw materials for construction",
       "BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie.":
