@@ -137,16 +137,16 @@ const i18n = {
       "Kies je route binnen Blauwe Bagger": "Choose your route within Blauwe Bagger",
       "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
         "One route for dredging projects and one route for secondary raw materials.",
-      "Voor baggeraars": "For dredging contractors",
-      "Voor Baggeraars": "For dredging contractors",
+      "Voor bagger industrie": "For dredging industry",
+      "Voor Bagger Industrie": "For dredging industry",
       "Werken met de BlueBox": "Work with the BlueBox",
       "Services voor de bagger industrie": "Services for the dredging industry",
       "Minder stortkosten, minder transport en sterker in aanbestedingen.":
         "Lower disposal costs, less transport and a stronger position in tenders.",
       "Minder stortkosten, minder transport en sterker in aanbestedingen. De BlueBox scheidt bagger direct op locatie.":
         "Lower disposal costs, less transport and a stronger position in tenders. The BlueBox separates dredged sediment directly on site.",
-      "Voor grondstoffen": "For raw materials",
-      "Voor Grondstoffen": "For raw materials",
+      "Voor de bouw": "For construction",
+      "Voor de Bouw": "For construction",
       "Secundaire grondstoffen, primaire kwaliteit": "Secondary raw materials, primary quality",
       "Secundaire grondstoffen voor de bouw": "Secondary raw materials for construction",
       "BlueSand, BlueFiller en BlueCalc als duurzame input voor betonproductie.":
@@ -169,7 +169,6 @@ const i18n = {
       "Verstuur bericht": "Send message",
       "Het formulier opent je mailprogramma met alle ingevulde gegevens.":
         "The form opens your email app with all entered details.",
-      "Word een partner!": "Become a partner",
       "All rights reserved.": "All rights reserved.",
       "Privacy Policy": "Privacy Policy",
       "Neem contact op!": "Contact us",

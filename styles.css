@@ -56,8 +56,7 @@ h4,
 .home-outline-button,
 .home-project-card__cta,
 .home-product-card strong,
-.home-team-card h3,
-.home-footer-top h2 {
+.home-team-card h3 {
   font-family: var(--font-display);
 }
 
@@ -8669,17 +8668,19 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-problem-meter {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(18px, 3vw, 34px);
+  gap: 0;
   width: min(1180px, 100%);
   min-height: auto;
-  margin: clamp(32px, 6vh, 62px) auto 0;
-  overflow: visible;
+  margin: clamp(34px, 5vh, 54px) auto 0;
+  overflow: hidden;
   color: #ffffff;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  backdrop-filter: none;
+  background: rgba(7, 14, 36, 0.24);
+  border: 1px solid rgba(201, 235, 255, 0.34);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 24px 64px rgba(3, 8, 24, 0.18);
+  backdrop-filter: blur(8px);
 }
 
 .home-problem-meter div {
@@ -8687,14 +8688,12 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   align-items: center;
   justify-content: center;
   gap: clamp(10px, 1.5vw, 14px);
-  min-height: clamp(132px, 16vw, 190px);
-  padding: clamp(22px, 2.5vw, 32px);
-  background: rgba(7, 14, 36, 0.22);
-  border: 1px solid rgba(201, 235, 255, 0.22);
-  border-radius: 18px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 24px 58px rgba(3, 8, 24, 0.16);
+  min-height: clamp(118px, 11vw, 150px);
+  padding: clamp(24px, 2.8vw, 38px) clamp(28px, 4vw, 54px);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   font-weight: 900;
   line-height: 1;
   text-align: center;
@@ -8738,7 +8737,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 }
 
 .home-problem-meter div + div {
-  border-left: 1px solid rgba(201, 235, 255, 0.22);
+  border-left: 1px solid rgba(201, 235, 255, 0.34);
 }
 
 .home-problem-grid,
@@ -10323,29 +10322,6 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   border-left: 0;
 }
 
-.site-footer--brand .home-frame::before,
-.site-footer--home .home-frame::before {
-  content: "";
-  display: block;
-  width: 72px;
-  height: 4px;
-  margin-bottom: clamp(26px, 4vw, 42px);
-  background: #385193;
-  border-radius: 999px;
-}
-
-.home-footer-top {
-  padding: 0 0 clamp(24px, 3vw, 34px);
-}
-
-.home-footer-top h2 {
-  margin: 0;
-  color: #111930;
-  font-size: clamp(1.45rem, 2.4vw, 2.35rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
 .home-footer-meta {
   display: grid;
   grid-template-columns: minmax(180px, 1fr) minmax(280px, 1.35fr) minmax(120px, auto);
@@ -10798,13 +10774,18 @@ body.is-past-hero .home-floating-cta {
 
   .home-problem-meter {
     grid-template-columns: 1fr;
-    gap: 14px;
     width: 100%;
+    border-radius: 28px;
   }
 
   .home-problem-meter div {
-    min-height: 138px;
-    padding: 20px 16px;
+    min-height: 116px;
+    padding: 22px 18px;
+  }
+
+  .home-problem-meter div + div {
+    border-top: 1px solid rgba(201, 235, 255, 0.34);
+    border-left: 0;
   }
 
   .home-problem-meter__label {
@@ -11309,6 +11290,46 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .main-
   color: #ffffff;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+@media (min-width: 1081px) {
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > a,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a {
+    color: #111930;
+    text-shadow: none;
+  }
+
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > a:hover,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > a:focus-visible,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > a.is-current,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:hover,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:focus-visible,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a.is-current {
+    color: #385193;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .language-toggle::before {
+    background: rgba(17, 25, 48, 0.18);
+  }
+
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .language-toggle a {
+    color: rgba(17, 25, 48, 0.52);
+    text-shadow: none;
+  }
+
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .language-toggle a:hover,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .language-toggle a:focus-visible,
+  body:not([data-page="home"]):not([data-page="service-detail"]) .site-header:not(.is-condensed) .language-toggle a[aria-current="true"] {
+    color: #111930;
+  }
+
+  body[data-page="service-detail"] .site-header:not(.is-condensed) .main-nav > a,
+  body[data-page="service-detail"] .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a,
+  body[data-page="service-detail"] .site-header:not(.is-condensed) .language-toggle a {
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.36);
+  }
 }
 
 @media (min-width: 761px) {
@@ -12775,14 +12796,14 @@ body[data-page="service-detail"] .service-detail-hero--bricks {
   background:
     linear-gradient(180deg, rgba(8, 14, 32, 0.42) 0%, rgba(8, 14, 32, 0.62) 100%),
     linear-gradient(90deg, rgba(17, 25, 48, 0.78) 0%, rgba(17, 25, 48, 0.46) 52%, rgba(17, 25, 48, 0.72) 100%),
-    url("/assets/media/bricks-background.jpg") center / cover no-repeat !important;
+    url("/assets/media/brickpile.webp") center / cover no-repeat !important;
 }
 
 body[data-page="service-detail"] .service-detail-hero--excavating {
   background:
     linear-gradient(180deg, rgba(8, 14, 32, 0.38) 0%, rgba(8, 14, 32, 0.66) 100%),
     linear-gradient(90deg, rgba(17, 25, 48, 0.78) 0%, rgba(17, 25, 48, 0.42) 52%, rgba(17, 25, 48, 0.72) 100%),
-    url("/assets/media/excavating.jpg") center / cover no-repeat !important;
+    url("/assets/media/waterexcavate.webp") center / cover no-repeat !important;
 }
 
 body[data-page="service-detail"] .service-detail-hero--bricks::before,
