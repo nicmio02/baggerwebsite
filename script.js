@@ -73,6 +73,7 @@ const i18n = {
       Contact: "Contact",
       Menu: "Menu",
       "Bagger als": "Sediment as",
+      als: "as",
       Grondstof: "Raw Material",
       Explore: "Explore",
       Bagger: "Sediment",
