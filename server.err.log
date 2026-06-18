@@ -1,0 +1,16 @@
+node:events:486
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EMFILE: too many open files, open 'C:\Users\ralfs\Documents\Codex\2026-05-22\i-want-to-work-on-my\baggerwebsite\assets\media\bagger-process-hero.mp4'
+Emitted 'error' event on ReadStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -4066,
+  code: 'EMFILE',
+  syscall: 'open',
+  path: 'C:\\Users\\ralfs\\Documents\\Codex\\2026-05-22\\i-want-to-work-on-my\\baggerwebsite\\assets\\media\\bagger-process-hero.mp4'
+}
+
+Node.js v24.14.0

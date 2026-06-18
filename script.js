@@ -43,8 +43,8 @@ const heroVideoClips = [
   },
   {
     videoIndex: 1,
-    start: 92,
-    end: 96,
+    start: 94,
+    end: 98,
   },
 ];
 
@@ -86,8 +86,8 @@ const i18n = {
       "Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij zetten bagger om tot bruikbare grondstoffen die bijdragen aan een circulaire toekomst.":
         "Blauwe Bagger works toward a world where raw materials are never lost. We turn dredged sediment into usable raw materials that contribute to a circular future.",
       "Het Probleem": "The Problem",
-      "Bagger industrie": "Dredging industry",
-      "Bouw industrie": "Construction industry",
+      "Baggerindustrie": "Dredging industry",
+      "Betonindustrie": "Concrete industry",
       "xxx miljoen m3": "xxx million m3",
       Procesaanpak: "Process approach",
       "Onze Oplossing": "Our Solution",
