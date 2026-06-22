@@ -463,15 +463,29 @@ function projectCategoryLabel(project) {
   return projectBoardSections.find((section) => section.key === sectionKey)?.label || defaultProjectCategory;
 }
 
+function projectCoverFallback(project) {
+  const key = projectBoardSectionFor(project);
+
+  if (key === "samenwerkingen") {
+    return "/assets/media/installatie.jpeg";
+  }
+
+  if (key === "rd") {
+    return "/assets/media/bluebox-tablet.png";
+  }
+
+  return "/assets/media/truck.png";
+}
+
 function renderProjectBoardCard(project) {
-  const image = normalizeAssetUrl(project.coverImage);
+  const image = normalizeAssetUrl(project.coverImage || projectCoverFallback(project));
   const date = formatDate(project.date);
   const category = projectCategoryLabel(project);
 
   return `
     <a class="project-board-card project-board-card--live reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
-      <div class="project-board-card__media ${image ? "" : "project-board-card__media--empty"}" aria-hidden="true">
-        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)}" />` : ""}
+      <div class="project-board-card__media" aria-hidden="true">
+        <img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)}" />
       </div>
       <div class="project-board-card__body">
         <div class="project-board-card__meta">
@@ -489,9 +503,17 @@ function renderProjectBoardCard(project) {
 }
 
 function renderProjectBoardPlaceholder(item, index) {
+  const fallbackImages = [
+    "/assets/media/installatie.jpeg",
+    "/assets/media/bricks-background.jpg",
+    "/assets/media/bluebox-tablet.png",
+  ];
+  const image = fallbackImages[index % fallbackImages.length];
+
   return `
     <a class="project-board-card project-board-card--placeholder reveal is-visible" href="/projecten/${encodeURIComponent(item.slug)}" data-placeholder-index="${index + 1}">
       <div class="project-board-card__media project-board-card__media--placeholder" aria-hidden="true">
+        <img src="${escapeHtml(image)}" alt="" />
         <span>${escapeHtml(item.mark)}</span>
       </div>
       <div class="project-board-card__body">
@@ -524,6 +546,10 @@ function normalizeClientParagraphs(input) {
 
 function escapeAttribute(value) {
   return escapeHtml(value).replace(/`/g, "&#96;");
+}
+
+function isBuilderEditor() {
+  return Boolean(builderPreview);
 }
 
 function renderProjectBoard() {
@@ -896,8 +922,18 @@ const projectBlockTypes = {
       ["title", "Titel", "input"],
       ["emphasis", "Blauw/cursief woord", "input"],
       ["subtitle", "Intro tekst", "textarea"],
-      ["image", "Achtergrondbeeld", "input"],
+      ["image", "Achtergrondbeeld", "image"],
       ["align", "Uitlijning", "select", ["Links", "Midden"]],
+    ],
+  },
+  meta: {
+    label: "Projectgegevens",
+    fields: [
+      ["location", "Locatie", "input"],
+      ["period", "Periode", "input"],
+      ["volume", "Volume", "input"],
+      ["client", "Opdrachtgever", "input"],
+      ["status", "Status", "input"],
     ],
   },
   facts: {
@@ -932,7 +968,7 @@ const projectBlockTypes = {
     label: "Fotogalerij",
     fields: [
       ["title", "Titel", "input"],
-      ["images", "Afbeeldingen, een per regel: pad of URL, alt tekst", "textarea"],
+      ["images", "Afbeeldingen", "gallery"],
     ],
   },
   cta: {
@@ -952,15 +988,23 @@ function createProjectBlock(type, project = {}) {
     ? project.highlights.join("\n")
     : String(project.highlights || "");
   const title = project.title || "Nieuw project";
+  const heroImage = project.coverImage || "assets/media/installatie.jpeg";
 
   const defaults = {
     hero: {
-      overline: `${projectCategoryLabel(project)} ${project.date ? `, ${formatDate(project.date)}` : ""}`.trim(),
+      overline: `${projectCategoryLabel(project)}${project.date ? `, ${formatDate(project.date)}` : ""}`.trim(),
       title,
       emphasis: "",
       subtitle: project.excerpt || "",
-      image: project.coverImage || "",
+      image: heroImage,
       align: "Links",
+    },
+    meta: {
+      location: project.location || "Kildepot, Dordrecht",
+      period: project.date ? formatDate(project.date).replace(" ", "\n") : "Mei\n2026",
+      volume: "10 m3",
+      client: "Provincie Zuid-Holland",
+      status: project.status || "Afgerond",
     },
     facts: {
       eyebrow: "Over dit project",
@@ -1014,7 +1058,7 @@ function createProjectBlock(type, project = {}) {
 }
 
 function defaultProjectBlocks(project = {}) {
-  return ["hero", "facts", "metrics", "gallery", "cta"].map((type) => createProjectBlock(type, project));
+  return ["hero", "meta", "facts", "metrics", "gallery", "cta"].map((type) => createProjectBlock(type, project));
 }
 
 function normalizeAdminBlocks(blocks, project = {}) {
@@ -1048,6 +1092,35 @@ function renderBlockField(block, field) {
   const [name, label, kind, options = []] = field;
   const value = block.fields?.[name] || "";
   const fieldId = `${block.id}-${name}`;
+
+  if (kind === "image") {
+    const image = normalizeAssetUrl(value);
+
+    return `
+      <label for="${escapeAttribute(fieldId)}">
+        ${escapeHtml(label)}
+        <input id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" value="${escapeAttribute(value)}" />
+      </label>
+      <label class="builder-upload-control">
+        <span>Afbeelding uploaden</span>
+        <input type="file" accept="image/*" data-image-upload data-target-field="${escapeAttribute(name)}" />
+      </label>
+      ${image ? `<img class="builder-upload-preview" src="${escapeAttribute(image)}" alt="" />` : ""}
+    `;
+  }
+
+  if (kind === "gallery") {
+    return `
+      <label for="${escapeAttribute(fieldId)}">
+        ${escapeHtml(label)}
+        <textarea id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" rows="5">${escapeHtml(value)}</textarea>
+      </label>
+      <label class="builder-upload-control">
+        <span>Afbeeldingen uploaden</span>
+        <input type="file" accept="image/*" multiple data-gallery-upload data-target-field="${escapeAttribute(name)}" />
+      </label>
+    `;
+  }
 
   if (kind === "textarea") {
     return `
@@ -1116,6 +1189,35 @@ function renderBlockEditor() {
 
   renderBlockInspector();
   renderBuilderPreview();
+}
+
+function previewEditable(value, field, tagName = "span", className = "") {
+  if (!isBuilderEditor()) {
+    return `<${tagName}${className ? ` class="${className}"` : ""}>${escapeHtml(value)}</${tagName}>`;
+  }
+
+  return `<${tagName}${className ? ` class="${className}"` : ""} contenteditable="true" spellcheck="false" data-preview-field="${escapeAttribute(
+    field,
+  )}">${escapeHtml(value)}</${tagName}>`;
+}
+
+function wrapPreviewBlock(block, markup) {
+  if (!isBuilderEditor()) {
+    return markup;
+  }
+
+  const active = block.id === activeBlockId ? " is-selected" : "";
+
+  return `
+    <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}">
+      <div class="builder-preview-toolbar" contenteditable="false">
+        <button type="button" data-preview-move="-1">Omhoog</button>
+        <button type="button" data-preview-move="1">Omlaag</button>
+        <button type="button" data-preview-remove>Verwijder</button>
+      </div>
+      ${markup}
+    </div>
+  `;
 }
 
 function setAdminBlocks(blocks) {
@@ -1237,6 +1339,18 @@ function renderProjectSwitch(projects) {
   `;
 }
 
+function updateInspectorField(fieldName, value) {
+  if (!blockInspector) {
+    return;
+  }
+
+  const field = blockInspector.querySelector(`[data-block-field="${CSS.escape(fieldName)}"]`);
+
+  if (field && field.value !== value) {
+    field.value = value;
+  }
+}
+
 function moveAdminBlock(id, direction) {
   collectAdminBlocks();
   const index = adminBlocks.findIndex((block) => block.id === id);
@@ -1262,22 +1376,60 @@ function addAdminBlock(type) {
   renderBlockEditor();
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Afbeelding kon niet worden gelezen."));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadImageFile(file) {
+  const data = await fileToDataUrl(file);
+  const response = await fetch("/api/uploads", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      filename: file.name,
+      type: file.type,
+      data,
+    }),
+  });
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(payload.error || "Upload mislukt.");
+  }
+
+  return payload.url;
+}
+
+function setUploadingStatus(message, isError = false) {
+  setAdminStatus(message, isError);
+}
+
 function renderProjectBlockHero(block, project) {
   const fields = block.fields || {};
-  const image = normalizeAssetUrl(fields.image || project.coverImage);
+  const image = normalizeAssetUrl(fields.image || project.coverImage || "assets/media/installatie.jpeg");
   const title = fields.title || project.title;
   const emphasis = fields.emphasis ? ` <em>${escapeHtml(fields.emphasis)}</em>` : "";
   const centered = fields.align === "Midden" ? " project-builder-hero--center" : "";
 
-  return `
+  const markup = `
     <section class="project-builder-hero${centered}" ${image ? `style="--project-hero-image: url('${escapeAttribute(image)}')"` : ""}>
       <div class="project-builder-hero__copy">
-        <p>${escapeHtml(fields.overline || projectCategoryLabel(project))}</p>
-        <h1>${escapeHtml(title)}${emphasis}</h1>
-        <span>${escapeHtml(fields.subtitle || project.excerpt || "")}</span>
+        ${previewEditable(fields.overline || projectCategoryLabel(project), "overline", "p")}
+        <h1>${previewEditable(title, "title")}${emphasis}</h1>
+        ${previewEditable(fields.subtitle || project.excerpt || "", "subtitle", "span")}
       </div>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlockFacts(block) {
@@ -1299,15 +1451,49 @@ function renderProjectBlockFacts(block) {
     .map((item) => `<p>${escapeHtml(item)}</p>`)
     .join("");
 
-  return `
+  const markup = `
     <section class="project-builder-section project-builder-facts">
       <div>
-        <p class="project-builder-kicker">${escapeHtml(fields.eyebrow || "Over dit project")}</p>
-        <div class="project-builder-richtext">${paragraphs}</div>
+        ${previewEditable(fields.eyebrow || "Over dit project", "eyebrow", "p", "project-builder-kicker")}
+        <div class="project-builder-richtext" ${
+          isBuilderEditor() ? 'contenteditable="true" spellcheck="false" data-preview-field="body"' : ""
+        }>${paragraphs}</div>
       </div>
       <dl>${facts}</dl>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
+function renderProjectBlockMeta(block) {
+  const fields = block.fields || {};
+  const items = [
+    ["Locatie", "location", fields.location || ""],
+    ["Periode", "period", fields.period || ""],
+    ["Volume", "volume", fields.volume || ""],
+    ["Opdrachtgever", "client", fields.client || ""],
+    ["Status", "status", fields.status || ""],
+  ];
+
+  const markup = `
+    <section class="project-builder-meta">
+      ${items
+        .map(([label, field, value]) => {
+          const isStatus = label === "Status";
+
+          return `
+            <div class="${isStatus ? "project-builder-meta__status" : ""}">
+              <span>${escapeHtml(label)}</span>
+              ${previewEditable(value, field, isStatus ? "strong" : "p")}
+            </div>
+          `;
+        })
+        .join("")}
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlockMetrics(block) {
@@ -1323,7 +1509,7 @@ function renderProjectBlockMetrics(block) {
     )
     .join("");
 
-  return `<section class="project-builder-metrics">${items}</section>`;
+  return wrapPreviewBlock(block, `<section class="project-builder-metrics">${items}</section>`);
 }
 
 function renderProjectBlockText(block) {
@@ -1336,13 +1522,17 @@ function renderProjectBlockText(block) {
     .map((item) => `<p>${escapeHtml(item)}</p>`)
     .join("");
 
-  return `
+  const markup = `
     <section class="project-builder-section project-builder-text${dark}">
-      <p class="project-builder-kicker">${escapeHtml(fields.eyebrow || "Verdieping")}</p>
-      <h2>${escapeHtml(fields.title || "")}</h2>
-      <div class="project-builder-richtext">${paragraphs}</div>
+      ${previewEditable(fields.eyebrow || "Verdieping", "eyebrow", "p", "project-builder-kicker")}
+      ${previewEditable(fields.title || "", "title", "h2")}
+      <div class="project-builder-richtext" ${
+        isBuilderEditor() ? 'contenteditable="true" spellcheck="false" data-preview-field="body"' : ""
+      }>${paragraphs}</div>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlockProcess(block) {
@@ -1360,12 +1550,14 @@ function renderProjectBlockProcess(block) {
     )
     .join("");
 
-  return `
+  const markup = `
     <section class="project-builder-section project-builder-process">
-      <h2>${escapeHtml(block.fields?.title || "Aanpak")}</h2>
+      ${previewEditable(block.fields?.title || "Aanpak", "title", "h2")}
       <ol>${steps}</ol>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlockGallery(block) {
@@ -1378,24 +1570,28 @@ function renderProjectBlockGallery(block) {
     })
     .join("");
 
-  return `
+  const markup = `
     <section class="project-builder-section project-builder-gallery">
-      <p class="project-builder-kicker">${escapeHtml(block.fields?.title || "Foto's")}</p>
+      ${previewEditable(block.fields?.title || "Foto's", "title", "p", "project-builder-kicker")}
       <div>${images}</div>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlockCta(block) {
   const fields = block.fields || {};
-  return `
+  const markup = `
     <section class="project-builder-cta">
-      <p>${escapeHtml(fields.text || "")}</p>
+      ${previewEditable(fields.text || "", "text", "p")}
       <a class="outline-btn" href="${escapeAttribute(fields.buttonHref || "/contact")}">${escapeHtml(
         fields.buttonLabel || "Neem contact op",
       )} &rarr;</a>
     </section>
   `;
+
+  return wrapPreviewBlock(block, markup);
 }
 
 function renderProjectBlocks(project) {
@@ -1403,6 +1599,7 @@ function renderProjectBlocks(project) {
   return blocks
     .map((block) => {
       if (block.type === "hero") return renderProjectBlockHero(block, project);
+      if (block.type === "meta") return renderProjectBlockMeta(block);
       if (block.type === "facts") return renderProjectBlockFacts(block);
       if (block.type === "metrics") return renderProjectBlockMetrics(block);
       if (block.type === "text") return renderProjectBlockText(block);
@@ -1783,7 +1980,7 @@ async function initProjectDetail() {
 }
 
 function initProjectAdmin() {
-  if (!projectAdminRoot || !adminForm || !adminList) {
+  if (!projectAdminRoot || !adminForm) {
     return;
   }
 
@@ -1820,8 +2017,33 @@ function initProjectAdmin() {
     }
   });
 
+  adminForm.querySelector("[data-project-cover-upload]")?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      setUploadingStatus("Afbeelding uploaden...");
+      const url = await uploadImageFile(file);
+      const coverField = adminForm.elements.namedItem("coverImage");
+
+      if (coverField) {
+        coverField.value = url;
+      }
+
+      setUploadingStatus("Afbeelding geupload.");
+      renderBuilderPreview();
+    } catch (error) {
+      setUploadingStatus(error.message, true);
+    } finally {
+      event.target.value = "";
+    }
+  });
+
   adminForm.addEventListener("submit", submitAdminForm);
-  adminList.addEventListener("click", async (event) => {
+  adminList?.addEventListener("click", async (event) => {
     try {
       await handleAdminListClick(event);
     } catch (error) {
@@ -1876,6 +2098,55 @@ function initProjectAdmin() {
     }
   });
 
+  blockInspector?.addEventListener("change", async (event) => {
+    const imageUpload = event.target.closest("[data-image-upload]");
+    const galleryUpload = event.target.closest("[data-gallery-upload]");
+
+    if (!imageUpload && !galleryUpload) {
+      return;
+    }
+
+    const files = Array.from(event.target.files || []);
+
+    if (!files.length) {
+      return;
+    }
+
+    const block = adminBlocks.find((item) => item.id === activeBlockId);
+    const fieldName = event.target.getAttribute("data-target-field");
+
+    if (!block || !fieldName) {
+      return;
+    }
+
+    try {
+      setUploadingStatus(files.length === 1 ? "Afbeelding uploaden..." : "Afbeeldingen uploaden...");
+      const urls = [];
+
+      for (const file of files) {
+        urls.push(await uploadImageFile(file));
+      }
+
+      if (imageUpload) {
+        block.fields[fieldName] = urls[0];
+      }
+
+      if (galleryUpload) {
+        const currentValue = String(block.fields[fieldName] || "").trim();
+        const additions = urls.map((url, index) => `${url}, ${files[index]?.name || "Afbeelding"}`).join("\n");
+        block.fields[fieldName] = [currentValue, additions].filter(Boolean).join("\n");
+      }
+
+      setUploadingStatus(files.length === 1 ? "Afbeelding geupload." : "Afbeeldingen geupload.");
+      renderBlockInspector();
+      renderBuilderPreview();
+    } catch (error) {
+      setUploadingStatus(error.message, true);
+    } finally {
+      event.target.value = "";
+    }
+  });
+
   blockList?.addEventListener("click", (event) => {
     const blockElement = event.target.closest("[data-block-id]");
 
@@ -1898,6 +2169,76 @@ function initProjectAdmin() {
     activeBlockId = adminBlocks[0]?.id || "";
     renderBlockEditor();
   });
+
+  builderPreview?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      event.preventDefault();
+    }
+
+    const toolbarButton = event.target.closest("[data-preview-move], [data-preview-remove]");
+    const blockElement = event.target.closest("[data-preview-block-id]");
+
+    if (!blockElement) {
+      return;
+    }
+
+    const blockId = blockElement.getAttribute("data-preview-block-id");
+
+    if (toolbarButton) {
+      event.preventDefault();
+      event.stopPropagation();
+      collectAdminBlocks();
+
+      if (toolbarButton.matches("[data-preview-remove]")) {
+        adminBlocks = adminBlocks.filter((block) => block.id !== blockId);
+        activeBlockId = adminBlocks[0]?.id || "";
+        renderBlockEditor();
+        return;
+      }
+
+      moveAdminBlock(blockId, Number(toolbarButton.getAttribute("data-preview-move")));
+      activeBlockId = blockId;
+      renderBlockEditor();
+      return;
+    }
+
+    if (activeBlockId !== blockId) {
+      activeBlockId = blockId;
+      renderBlockEditor();
+    }
+  });
+
+  builderPreview?.addEventListener("input", (event) => {
+    const field = event.target.closest("[data-preview-field]");
+    const blockElement = event.target.closest("[data-preview-block-id]");
+
+    if (!field || !blockElement) {
+      return;
+    }
+
+    const block = adminBlocks.find((item) => item.id === blockElement.getAttribute("data-preview-block-id"));
+
+    if (!block) {
+      return;
+    }
+
+    const fieldName = field.getAttribute("data-preview-field");
+    const value = field.textContent.trim();
+    block.fields[fieldName] = value;
+    activeBlockId = block.id;
+    updateInspectorField(fieldName, value);
+  });
+
+  builderPreview?.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.target.closest("[data-preview-field]") && event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        event.target.blur();
+      }
+    },
+    true,
+  );
 
   blockList?.addEventListener("dragstart", (event) => {
     const blockElement = event.target.closest("[data-block-id]");

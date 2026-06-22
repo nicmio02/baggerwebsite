@@ -122,6 +122,10 @@
                   Cover
                   <input name="coverImage" placeholder="assets/media/zandstort.png" />
                 </label>
+                <label class="builder-upload-control">
+                  <span>Cover uploaden</span>
+                  <input data-project-cover-upload type="file" accept="image/*" />
+                </label>
                 <label>
                   Samenvatting
                   <textarea name="excerpt" rows="3" required></textarea>
@@ -156,6 +160,7 @@
             <summary>Blokken</summary>
             <div class="builder-palette" data-block-palette>
               <button type="button" data-add-block="hero">Hero</button>
+              <button type="button" data-add-block="meta">Meta</button>
               <button type="button" data-add-block="facts">Kernpunten</button>
               <button type="button" data-add-block="metrics">Resultaten</button>
               <button type="button" data-add-block="text">Tekst</button>
@@ -184,7 +189,6 @@
           <p class="admin-status" data-admin-status></p>
         </form>
 
-        <div class="admin-project-list" data-admin-list hidden></div>
       </aside>
 
       <section class="builder-canvas" aria-label="Project preview">

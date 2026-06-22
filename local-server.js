@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const root = __dirname;
 const port = Number(process.env.PORT || 8080);
 const dataDir = path.join(root, "data");
+const uploadsDir = path.join(root, "assets", "uploads");
 const projectsFile = path.join(dataDir, "projects.json");
 const jobsFile = path.join(dataDir, "jobs.json");
 const newsFile = path.join(dataDir, "news.json");
@@ -114,7 +115,47 @@ function normalizeLines(input) {
     .filter(Boolean);
 }
 
-const allowedProjectBlocks = new Set(["hero", "facts", "metrics", "text", "process", "gallery", "cta"]);
+function safeUploadName(value) {
+  const extension = path.extname(String(value || "")).toLowerCase() || ".jpg";
+  const base = path
+    .basename(String(value || "upload"), extension)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 70);
+
+  return `${base || "upload"}-${Date.now()}${extension}`;
+}
+
+async function handleUploadsApi(request, response) {
+  if (request.method !== "POST") {
+    sendJson(response, 405, { error: "Methode niet toegestaan." });
+    return true;
+  }
+
+  if (!requireAdmin(request, response)) {
+    return true;
+  }
+
+  const rawBody = await collectRequestBody(request);
+  const payload = JSON.parse(rawBody || "{}");
+  const match = String(payload.data || "").match(/^data:([^;]+);base64,(.+)$/);
+
+  if (!match || !/^image\//.test(match[1])) {
+    sendJson(response, 400, { error: "Upload een geldige afbeelding." });
+    return true;
+  }
+
+  await fs.promises.mkdir(uploadsDir, { recursive: true });
+  const filename = safeUploadName(payload.filename);
+  await fs.promises.writeFile(path.join(uploadsDir, filename), Buffer.from(match[2], "base64"));
+  sendJson(response, 201, { url: `/assets/uploads/${filename}` });
+  return true;
+}
+
+const allowedProjectBlocks = new Set(["hero", "meta", "facts", "metrics", "text", "process", "gallery", "cta"]);
 
 function normalizeProjectBlocks(input, currentProject = null) {
   const source = Array.isArray(input) ? input : Array.isArray(currentProject?.blocks) ? currentProject.blocks : [];
@@ -234,7 +275,7 @@ function collectRequestBody(request) {
     request.on("data", (chunk) => {
       size += chunk.length;
 
-      if (size > 2 * 1024 * 1024) {
+      if (size > 8 * 1024 * 1024) {
         reject(new Error("Payload te groot."));
         request.destroy();
         return;
@@ -619,6 +660,11 @@ const server = http.createServer(async (request, response) => {
         type: "news",
         label: "Nieuwsbericht",
       });
+      return;
+    }
+
+    if (url.pathname === "/api/uploads") {
+      await handleUploadsApi(request, response);
       return;
     }
 

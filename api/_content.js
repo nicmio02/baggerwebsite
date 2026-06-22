@@ -186,7 +186,7 @@ function normalizeLines(input) {
     .filter(Boolean);
 }
 
-const allowedProjectBlocks = new Set(["hero", "facts", "metrics", "text", "process", "gallery", "cta"]);
+const allowedProjectBlocks = new Set(["hero", "meta", "facts", "metrics", "text", "process", "gallery", "cta"]);
 
 function normalizeProjectBlocks(input, currentItem = null) {
   const source = Array.isArray(input) ? input : Array.isArray(currentItem?.blocks) ? currentItem.blocks : [];
