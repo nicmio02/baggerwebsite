@@ -1097,15 +1097,16 @@ function renderBlockField(block, field) {
     const image = normalizeAssetUrl(value);
 
     return `
-      <label for="${escapeAttribute(fieldId)}">
-        ${escapeHtml(label)}
-        <input id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" value="${escapeAttribute(value)}" />
-      </label>
-      <label class="builder-upload-control">
-        <span>Afbeelding uploaden</span>
-        <input type="file" accept="image/*" data-image-upload data-target-field="${escapeAttribute(name)}" />
-      </label>
-      ${image ? `<img class="builder-upload-preview" src="${escapeAttribute(image)}" alt="" />` : ""}
+      <div class="builder-upload-field">
+        <span class="builder-upload-label">${escapeHtml(label)}</span>
+        <input id="${escapeAttribute(fieldId)}" type="hidden" data-block-field="${escapeAttribute(name)}" value="${escapeAttribute(value)}" />
+        <label class="builder-upload-control">
+          <span>${image ? "Afbeelding vervangen" : "Afbeelding uploaden"}</span>
+          <small>${image ? "Afbeelding staat klaar" : "Sleep of kies een bestand"}</small>
+          <input type="file" accept="image/*" data-image-upload data-target-field="${escapeAttribute(name)}" />
+        </label>
+        ${image ? `<img class="builder-upload-preview" src="${escapeAttribute(image)}" alt="" />` : ""}
+      </div>
     `;
   }
 
@@ -1423,8 +1424,8 @@ function renderProjectBlockHero(block, project) {
     <section class="project-builder-hero${centered}" ${image ? `style="--project-hero-image: url('${escapeAttribute(image)}')"` : ""}>
       <div class="project-builder-hero__copy">
         ${previewEditable(fields.overline || projectCategoryLabel(project), "overline", "p")}
-        <h1>${previewEditable(title, "title")}${emphasis}</h1>
-        ${previewEditable(fields.subtitle || project.excerpt || "", "subtitle", "span")}
+        <h1>${previewEditable(title, "title", "span", "project-builder-hero__title-text")}${emphasis}</h1>
+        ${previewEditable(fields.subtitle || project.excerpt || "", "subtitle", "span", "project-builder-hero__subtitle")}
       </div>
     </section>
   `;

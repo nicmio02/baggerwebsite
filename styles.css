@@ -4769,7 +4769,17 @@ body.has-project-static-detail > .site-footer {
   letter-spacing: -0.035em;
 }
 
-.project-builder-hero__copy span {
+.project-builder-hero__title-text {
+  display: inline;
+  max-width: none;
+  margin-top: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.project-builder-hero__subtitle {
   display: block;
   max-width: 900px;
   margin-top: clamp(12px, 1.8vw, 22px);
@@ -5731,11 +5741,14 @@ body.has-project-static-detail > .site-footer {
   align-content: start;
   gap: 14px;
   min-height: 0;
-  padding: 16px;
+  padding: 16px 16px 128px;
   overflow: auto;
 }
 
 .builder-sidebar-form details {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: min(54svh, 520px);
   overflow: hidden;
   background: #ffffff;
   border: 1px solid rgba(56, 81, 147, 0.14);
@@ -5772,6 +5785,18 @@ body.has-project-static-detail > .site-footer {
   display: grid;
   gap: 12px;
   padding: 0 14px 14px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.builder-field-stack {
+  max-height: min(42svh, 430px);
+}
+
+.builder-inspector {
+  max-height: min(48svh, 520px);
 }
 
 .builder-control-row {
@@ -5789,6 +5814,10 @@ body.has-project-static-detail > .site-footer {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   padding: 0 14px 14px;
+  max-height: 186px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 .builder-palette button {
@@ -5811,6 +5840,7 @@ body.has-project-static-detail > .site-footer {
 }
 
 .project-builder-admin .admin-block-builder {
+  max-height: 220px;
   padding-top: 0;
   background: transparent;
   border: 0;
@@ -5819,6 +5849,21 @@ body.has-project-static-detail > .site-footer {
 
 .project-builder-admin .admin-block-list {
   gap: 8px;
+}
+
+.builder-field-stack::-webkit-scrollbar,
+.builder-inspector::-webkit-scrollbar,
+.builder-palette::-webkit-scrollbar,
+.project-builder-admin .admin-block-builder::-webkit-scrollbar {
+  width: 8px;
+}
+
+.builder-field-stack::-webkit-scrollbar-thumb,
+.builder-inspector::-webkit-scrollbar-thumb,
+.builder-palette::-webkit-scrollbar-thumb,
+.project-builder-admin .admin-block-builder::-webkit-scrollbar-thumb {
+  background: rgba(56, 81, 147, 0.28);
+  border-radius: 999px;
 }
 
 .project-builder-admin .admin-block-item {
@@ -5878,18 +5923,47 @@ body.has-project-static-detail > .site-footer {
   font-size: 0.82rem;
 }
 
+.builder-upload-field {
+  display: grid;
+  gap: 10px;
+}
+
+.builder-upload-label {
+  color: #111930;
+  font-size: 0.94rem;
+  font-weight: 950;
+}
+
 .builder-upload-control {
   position: relative;
   display: grid;
-  min-height: 46px;
+  min-height: 76px;
+  padding: 14px;
   color: #385193;
   font-size: 0.9rem;
   font-weight: 900;
+  text-align: center;
   cursor: pointer;
   background: #f8fbff;
   border: 1px dashed rgba(56, 81, 147, 0.34);
   border-radius: 12px;
   place-items: center;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.builder-upload-control span {
+  display: block;
+}
+
+.builder-upload-control small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(17, 25, 48, 0.52);
+  font-size: 0.72rem;
+  font-weight: 800;
 }
 
 .builder-upload-control:hover,
@@ -5897,6 +5971,11 @@ body.has-project-static-detail > .site-footer {
   color: #ffffff;
   background: #385193;
   border-color: #385193;
+}
+
+.builder-upload-control:hover small,
+.builder-upload-control:focus-within small {
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .builder-upload-control input[type="file"] {
