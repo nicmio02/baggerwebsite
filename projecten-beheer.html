@@ -12,7 +12,7 @@
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
     <link rel="stylesheet" href="styles.css?v=backend-module-1" />
   </head>
-  <body data-page="projecten" data-admin-private>
+  <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
@@ -62,65 +62,35 @@
       </nav>
     </header>
 
-    <main id="main">
-      <section class="page-hero" aria-labelledby="page-title">
-        <div class="section-inner page-hero-grid">
-          <div class="page-hero-copy reveal">
-            <p class="eyebrow">Backend</p>
-            <h1 id="page-title">Contentbeheer voor merk-eigenaren.</h1>
-            <p>
-              Voeg projecten, vacatures en nieuwsberichten toe vanuit een afgeschermde omgeving.
-              De module schrijft naar lokale JSON-data en is klaar om op een Node-host te draaien.
-            </p>
-          </div>
-          <aside class="page-hero-aside reveal" aria-label="Hoe het werkt">
-            <p>Hoe het werkt</p>
-            <strong>Inloggen, invullen, publiceren</strong>
-            <span>
-              Gebruik de tabs hieronder om content te beheren. Projecten verschijnen direct op
-              <code>/projecten</code>; vacatures en nieuws worden opgeslagen voor de Over ons-pagina.
-            </span>
-            <ul class="page-hero-list">
-              <li>Projectpagina's beheren</li>
-              <li>Job offers klaarzetten</li>
-              <li>Nieuws posts voorbereiden</li>
-            </ul>
-          </aside>
+    <main id="main" class="builder-main" data-project-admin>
+      <aside class="builder-sidebar">
+        <div class="builder-sidebar__top">
+          <a class="brand-link" href="/projecten" aria-label="Blauwe Bagger projecten">
+            <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+          </a>
+          <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
         </div>
-      </section>
 
-      <section class="admin-section" aria-labelledby="admin-title">
-        <div class="section-inner">
-          <div class="section-heading admin-heading reveal">
-            <div>
-              <p class="section-kicker">Beheer</p>
-              <h2 id="admin-title">Backend module</h2>
-            </div>
-            <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+        <form id="project-builder-form" class="admin-form builder-sidebar-form" data-admin-form>
+          <div class="builder-control-row">
+            <select data-project-switch aria-label="Project kiezen">
+              <option value="">Nieuw project</option>
+            </select>
+            <button class="button-ghost" type="button" data-admin-reset>Nieuw</button>
           </div>
 
-          <div class="admin-tabs reveal" role="tablist" aria-label="Backend onderdelen">
-            <button class="is-active" type="button" data-admin-tab="projects">Projecten</button>
-            <button type="button" data-admin-tab="jobs">Vacatures</button>
-            <button type="button" data-admin-tab="news">Nieuws</button>
-          </div>
-
-          <div class="admin-shell admin-tab-panel is-active" data-admin-panel="projects" data-project-admin>
-            <section class="admin-panel reveal">
-              <h2>Nieuw of bestaand project</h2>
-              <form class="admin-form" data-admin-form>
-                <div class="admin-form-grid">
-                  <label>
-                    Titel
-                    <input name="title" required />
-                  </label>
-                  <label>
-                    Slug
-                    <input name="slug" placeholder="wordt automatisch gevuld" />
-                  </label>
-                </div>
-
-                <div class="admin-form-grid">
+          <details open>
+            <summary>Project</summary>
+            <div class="builder-field-stack">
+              <label>
+                Titel
+                <input name="title" required />
+              </label>
+              <label>
+                Slug
+                <input name="slug" placeholder="wordt automatisch gevuld" />
+              </label>
+              <div class="admin-form-grid">
                   <label>
                     Datum
                     <input name="date" type="date" required />
@@ -134,7 +104,6 @@
                     </select>
                   </label>
                 </div>
-
                 <div class="admin-form-grid">
                   <label>
                     Locatie
@@ -149,12 +118,10 @@
                     </select>
                   </label>
                 </div>
-
                 <label>
-                  Cover image pad of URL
+                  Cover
                   <input name="coverImage" placeholder="assets/media/zandstort.png" />
                 </label>
-
                 <label>
                   Samenvatting
                   <textarea name="excerpt" rows="3" required></textarea>
@@ -178,55 +145,61 @@
                     placeholder="Een highlight per regel."
                   ></textarea>
                 </label>
-
-                <section class="admin-block-builder" data-block-builder aria-labelledby="project-blocks-title">
-                  <div class="admin-block-builder__head">
-                    <div>
-                      <p class="section-kicker">Page builder</p>
-                      <h3 id="project-blocks-title">Projectpagina blokken</h3>
-                    </div>
-                    <select data-block-add aria-label="Blok toevoegen">
-                      <option value="">Blok toevoegen</option>
-                      <option value="hero">Hero met beeld</option>
-                      <option value="facts">Intro en kernpunten</option>
-                      <option value="metrics">Resultatenrij</option>
-                      <option value="text">Tekstblok</option>
-                      <option value="process">Stappenplan</option>
-                      <option value="gallery">Fotogalerij</option>
-                      <option value="cta">Contactblok</option>
-                    </select>
-                  </div>
-                  <div class="admin-block-builder__hint">
-                    Gebruik deze standaardblokken voor vrije projectpagina's. Velden met meerdere items gebruiken
-                    een nieuwe regel per item en een komma tussen titel en tekst.
-                  </div>
-                  <div class="admin-block-list" data-block-list></div>
-                </section>
-
                 <label class="admin-checkbox">
                   <input name="featured" type="checkbox" />
-                  <span>Markeer als uitgelicht project</span>
+                  <span>Uitgelicht</span>
                 </label>
-
-                <div class="admin-actions">
-                  <button class="primary-link" type="submit">
-                    <span>Opslaan</span>
-                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-                  </button>
-                  <button class="button-ghost" type="button" data-admin-reset>Nieuw project</button>
-                </div>
-
-                <p class="admin-status" data-admin-status></p>
-              </form>
-            </section>
-
-            <aside class="admin-list-panel reveal">
-              <h2>Bestaande projecten</h2>
-              <div class="admin-project-list" data-admin-list>
-                <div class="empty-state">Projecten worden geladen...</div>
               </div>
-            </aside>
+            </details>
+
+          <details open>
+            <summary>Blokken</summary>
+            <div class="builder-palette" data-block-palette>
+              <button type="button" data-add-block="hero">Hero</button>
+              <button type="button" data-add-block="facts">Kernpunten</button>
+              <button type="button" data-add-block="metrics">Resultaten</button>
+              <button type="button" data-add-block="text">Tekst</button>
+              <button type="button" data-add-block="process">Stappen</button>
+              <button type="button" data-add-block="gallery">Galerij</button>
+              <button type="button" data-add-block="cta">CTA</button>
+            </div>
+            <div class="admin-block-builder" data-block-builder>
+              <div class="admin-block-list" data-block-list></div>
+            </div>
+          </details>
+
+          <details open>
+            <summary>Instellingen</summary>
+            <div class="builder-inspector" data-block-inspector></div>
+          </details>
+
+          <div class="admin-actions builder-actions">
+            <button class="primary-link" type="submit">
+              <span>Opslaan</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+            </button>
+            <a class="button-ghost" href="/projecten" target="_blank" rel="noreferrer">Live</a>
           </div>
+
+          <p class="admin-status" data-admin-status></p>
+        </form>
+
+        <div class="admin-project-list" data-admin-list hidden></div>
+      </aside>
+
+      <section class="builder-canvas" aria-label="Project preview">
+        <div class="builder-preview" data-builder-preview></div>
+      </section>
+
+      <section class="admin-section builder-hidden-admin" hidden>
+        <div class="section-inner">
+          <div class="admin-tabs" role="tablist" aria-label="Backend onderdelen">
+            <button class="is-active" type="button" data-admin-tab="projects">Projecten</button>
+            <button type="button" data-admin-tab="jobs">Vacatures</button>
+            <button type="button" data-admin-tab="news">Nieuws</button>
+          </div>
+
+          <div class="admin-tab-panel is-active" data-admin-panel="projects"></div>
 
           <div class="admin-shell admin-tab-panel" data-admin-panel="jobs" hidden>
             <section class="admin-panel reveal">
@@ -367,11 +340,10 @@
               </div>
             </aside>
           </div>
-        </div>
       </section>
     </main>
 
-    <footer class="site-footer site-footer--brand">
+    <footer class="site-footer site-footer--brand" hidden>
       <div class="home-frame">
         <div class="home-footer-meta">
           <div>
