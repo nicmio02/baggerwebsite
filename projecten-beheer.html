@@ -179,6 +179,30 @@
                   ></textarea>
                 </label>
 
+                <section class="admin-block-builder" data-block-builder aria-labelledby="project-blocks-title">
+                  <div class="admin-block-builder__head">
+                    <div>
+                      <p class="section-kicker">Page builder</p>
+                      <h3 id="project-blocks-title">Projectpagina blokken</h3>
+                    </div>
+                    <select data-block-add aria-label="Blok toevoegen">
+                      <option value="">Blok toevoegen</option>
+                      <option value="hero">Hero met beeld</option>
+                      <option value="facts">Intro en kernpunten</option>
+                      <option value="metrics">Resultatenrij</option>
+                      <option value="text">Tekstblok</option>
+                      <option value="process">Stappenplan</option>
+                      <option value="gallery">Fotogalerij</option>
+                      <option value="cta">Contactblok</option>
+                    </select>
+                  </div>
+                  <div class="admin-block-builder__hint">
+                    Gebruik deze standaardblokken voor vrije projectpagina's. Velden met meerdere items gebruiken
+                    een nieuwe regel per item en een komma tussen titel en tekst.
+                  </div>
+                  <div class="admin-block-list" data-block-list></div>
+                </section>
+
                 <label class="admin-checkbox">
                   <input name="featured" type="checkbox" />
                   <span>Markeer als uitgelicht project</span>
@@ -349,7 +373,7 @@
 
     <footer class="site-footer site-footer--brand">
       <div class="home-frame">
-<div class="home-footer-meta">
+        <div class="home-footer-meta">
           <div>
             <p>Blauwe Bagger B.V.</p>
             <p>Monumentenwerf</p>
@@ -365,19 +389,15 @@
           </div>
 
           <div class="home-footer-links">
+            <a class="home-footer-partner" href="/contact">Word een partner <span aria-hidden="true">-&gt;</span></a>
             <a href="/over-ons">LinkedIn</a>
             <a href="/contact">Instagram</a>
           </div>
         </div>
 
         <div class="home-footer-bottom">
-          <span>&copy; Blauwe Bagger. All rights reserved.</span>
+          <span>&copy; 2026 Blauwe Bagger. All rights reserved.</span>
           <a href="/contact">Privacy Policy</a>
-        </div>
-
-        <div class="home-footer-wordmark" aria-hidden="true">
-          <span>Blauwe</span>
-          <span>Bagger</span>
         </div>
       </div>
     </footer>

@@ -186,6 +186,29 @@ function normalizeLines(input) {
     .filter(Boolean);
 }
 
+const allowedProjectBlocks = new Set(["hero", "facts", "metrics", "text", "process", "gallery", "cta"]);
+
+function normalizeProjectBlocks(input, currentItem = null) {
+  const source = Array.isArray(input) ? input : Array.isArray(currentItem?.blocks) ? currentItem.blocks : [];
+
+  return source
+    .filter((block) => allowedProjectBlocks.has(block?.type))
+    .slice(0, 24)
+    .map((block, index) => {
+      const fields = block.fields && typeof block.fields === "object" ? block.fields : {};
+
+      return {
+        id: String(block.id || `block_${index + 1}`).slice(0, 80),
+        type: block.type,
+        fields: Object.fromEntries(
+          Object.entries(fields)
+            .slice(0, 16)
+            .map(([key, value]) => [String(key).slice(0, 40), String(value || "").slice(0, 5000)]),
+        ),
+      };
+    });
+}
+
 function normalizeProjectCategory(value) {
   const category = String(value || "").trim().toLowerCase();
 
@@ -243,6 +266,7 @@ function normalizeProjectInput(input, items, currentItem = null) {
     featured: Boolean(input.featured),
     body,
     highlights: normalizeLines(input.highlights).slice(0, 6),
+    blocks: normalizeProjectBlocks(input.blocks, currentItem),
     createdAt: currentItem?.createdAt || now,
     updatedAt: now,
   };

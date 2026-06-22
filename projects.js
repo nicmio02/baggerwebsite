@@ -9,6 +9,11 @@ const adminForm = document.querySelector("[data-admin-form]");
 const adminList = document.querySelector("[data-admin-list]");
 const adminStatus = document.querySelector("[data-admin-status]");
 const adminResetButton = document.querySelector("[data-admin-reset]");
+const blockBuilder = document.querySelector("[data-block-builder]");
+const blockList = document.querySelector("[data-block-list]");
+const blockAddSelect = document.querySelector("[data-block-add]");
+let adminBlocks = [];
+let draggedBlockId = "";
 
 function escapeHtml(value) {
   return String(value || "")
@@ -494,6 +499,16 @@ function renderProjectBoardPlaceholder(item, index) {
   `;
 }
 
+function splitListLine(line) {
+  const parts = String(line || "").split(/\s*[,|]\s*/);
+  const first = parts.shift() || "";
+  return [first.trim(), parts.join(", ").trim()];
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value).replace(/`/g, "&#96;");
+}
+
 function renderProjectBoard() {
   if (!projectBoardRoot) {
     return false;
@@ -856,12 +871,440 @@ function renderStaticProjectDetail(project) {
   `;
 }
 
+const projectBlockTypes = {
+  hero: {
+    label: "Hero met beeld",
+    fields: [
+      ["overline", "Bovenregel", "input"],
+      ["title", "Titel", "input"],
+      ["emphasis", "Blauw/cursief woord", "input"],
+      ["subtitle", "Intro tekst", "textarea"],
+      ["image", "Achtergrondbeeld", "input"],
+      ["align", "Uitlijning", "select", ["Links", "Midden"]],
+    ],
+  },
+  facts: {
+    label: "Intro en kernpunten",
+    fields: [
+      ["eyebrow", "Label", "input"],
+      ["body", "Tekst", "textarea"],
+      ["facts", "Kernpunten, een per regel: label, waarde", "textarea"],
+    ],
+  },
+  metrics: {
+    label: "Resultatenrij",
+    fields: [["items", "Resultaten, een per regel: getal, label", "textarea"]],
+  },
+  text: {
+    label: "Tekstblok",
+    fields: [
+      ["eyebrow", "Label", "input"],
+      ["title", "Titel", "input"],
+      ["body", "Tekst", "textarea"],
+      ["variant", "Stijl", "select", ["Wit", "Blauw vlak"]],
+    ],
+  },
+  process: {
+    label: "Stappenplan",
+    fields: [
+      ["title", "Titel", "input"],
+      ["steps", "Stappen, een per regel: titel, tekst", "textarea"],
+    ],
+  },
+  gallery: {
+    label: "Fotogalerij",
+    fields: [
+      ["title", "Titel", "input"],
+      ["images", "Afbeeldingen, een per regel: pad of URL, alt tekst", "textarea"],
+    ],
+  },
+  cta: {
+    label: "Contactblok",
+    fields: [
+      ["text", "Tekst", "textarea"],
+      ["buttonLabel", "Knoptekst", "input"],
+      ["buttonHref", "Link", "input"],
+    ],
+  },
+};
+
+function createProjectBlock(type, project = {}) {
+  const id = `block_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  const body = Array.isArray(project.body) ? project.body.join("\n\n") : String(project.body || "");
+  const highlights = Array.isArray(project.highlights)
+    ? project.highlights.join("\n")
+    : String(project.highlights || "");
+  const title = project.title || "Nieuw project";
+
+  const defaults = {
+    hero: {
+      overline: `${projectCategoryLabel(project)} ${project.date ? `, ${formatDate(project.date)}` : ""}`.trim(),
+      title,
+      emphasis: "",
+      subtitle: project.excerpt || "",
+      image: project.coverImage || "",
+      align: "Links",
+    },
+    facts: {
+      eyebrow: "Over dit project",
+      body: body || project.excerpt || "",
+      facts: [
+        `Locatie, ${project.location || "Nederland"}`,
+        `Periode, ${project.date ? formatDate(project.date) : "Nog te bepalen"}`,
+        `Status, ${project.status || "Actief"}`,
+      ].join("\n"),
+    },
+    metrics: {
+      items: highlights
+        ? highlights
+            .split(/\r?\n/)
+            .filter(Boolean)
+            .slice(0, 3)
+            .map((item) => `${item}, Kernpunt`)
+            .join("\n")
+        : "BlueSand, Secundaire zandfractie\nBlueFiller, Fijne kleifractie\nCO2 omlaag, Minder primaire winning",
+    },
+    text: {
+      eyebrow: "Verdieping",
+      title: "Wat hebben we gedaan?",
+      body: body || project.excerpt || "",
+      variant: "Wit",
+    },
+    process: {
+      title: "Aanpak",
+      steps:
+        "Analyse, We brengen de baggerstroom en randvoorwaarden in kaart.\nScheiding, De BlueBox scheidt materiaalstromen op locatie.\nToepassing, Bruikbare fracties worden voorbereid voor hergebruik.",
+    },
+    gallery: {
+      title: "Foto's van het project",
+      images: [project.coverImage || "assets/media/bluebox-tablet.png", "assets/media/installatie.jpeg", "assets/media/baggeren.jpeg"]
+        .filter(Boolean)
+        .map((image) => `${image}, ${title}`)
+        .join("\n"),
+    },
+    cta: {
+      text: "Ben je een waterschap, gemeente of partner? Blauwe Bagger denkt mee over de circulaire route voor jouw baggerstroom.",
+      buttonLabel: "Neem contact op",
+      buttonHref: "/contact",
+    },
+  };
+
+  return {
+    id,
+    type,
+    fields: defaults[type] || {},
+  };
+}
+
+function defaultProjectBlocks(project = {}) {
+  return ["hero", "facts", "metrics", "gallery", "cta"].map((type) => createProjectBlock(type, project));
+}
+
+function normalizeAdminBlocks(blocks, project = {}) {
+  if (Array.isArray(blocks) && blocks.length) {
+    return blocks
+      .filter((block) => projectBlockTypes[block.type])
+      .map((block) => ({
+        id: block.id || `block_${Math.random().toString(36).slice(2, 9)}`,
+        type: block.type,
+        fields: { ...(block.fields || {}) },
+      }));
+  }
+
+  return defaultProjectBlocks(project);
+}
+
+function linesToPairs(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map(splitListLine)
+    .filter(([label, body]) => label || body);
+}
+
+function blockTitle(block) {
+  return projectBlockTypes[block.type]?.label || "Blok";
+}
+
+function renderBlockField(block, field) {
+  const [name, label, kind, options = []] = field;
+  const value = block.fields?.[name] || "";
+  const fieldId = `${block.id}-${name}`;
+
+  if (kind === "textarea") {
+    return `
+      <label for="${escapeAttribute(fieldId)}">
+        ${escapeHtml(label)}
+        <textarea id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" rows="4">${escapeHtml(value)}</textarea>
+      </label>
+    `;
+  }
+
+  if (kind === "select") {
+    return `
+      <label for="${escapeAttribute(fieldId)}">
+        ${escapeHtml(label)}
+        <select id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}">
+          ${options
+            .map(
+              (option) =>
+                `<option value="${escapeAttribute(option)}" ${option === value ? "selected" : ""}>${escapeHtml(option)}</option>`,
+            )
+            .join("")}
+        </select>
+      </label>
+    `;
+  }
+
+  return `
+    <label for="${escapeAttribute(fieldId)}">
+      ${escapeHtml(label)}
+      <input id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" value="${escapeAttribute(value)}" />
+    </label>
+  `;
+}
+
+function renderBlockEditor() {
+  if (!blockList) {
+    return;
+  }
+
+  if (!adminBlocks.length) {
+    blockList.innerHTML = `<div class="empty-state">Nog geen blokken. Voeg een standaardblok toe om de projectpagina op te bouwen.</div>`;
+    return;
+  }
+
+  blockList.innerHTML = adminBlocks
+    .map((block, index) => {
+      const definition = projectBlockTypes[block.type];
+
+      return `
+        <article class="admin-block-item" data-block-id="${escapeAttribute(block.id)}" draggable="true">
+          <div class="admin-block-item__bar">
+            <div>
+              <span class="admin-block-item__index">${String(index + 1).padStart(2, "0")}</span>
+              <strong>${escapeHtml(blockTitle(block))}</strong>
+            </div>
+            <div class="admin-block-item__actions">
+              <button class="button-ghost" type="button" data-block-move="-1" ${index === 0 ? "disabled" : ""}>Omhoog</button>
+              <button class="button-ghost" type="button" data-block-move="1" ${
+                index === adminBlocks.length - 1 ? "disabled" : ""
+              }>Omlaag</button>
+              <button class="button-ghost button-danger" type="button" data-block-remove>Verwijder</button>
+            </div>
+          </div>
+          <div class="admin-block-fields">
+            ${definition.fields.map((field) => renderBlockField(block, field)).join("")}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function setAdminBlocks(blocks) {
+  adminBlocks = normalizeAdminBlocks(blocks);
+  renderBlockEditor();
+}
+
+function collectAdminBlocks() {
+  if (!blockList) {
+    return [];
+  }
+
+  blockList.querySelectorAll("[data-block-id]").forEach((blockElement) => {
+    const block = adminBlocks.find((item) => item.id === blockElement.getAttribute("data-block-id"));
+
+    if (!block) {
+      return;
+    }
+
+    blockElement.querySelectorAll("[data-block-field]").forEach((field) => {
+      block.fields[field.getAttribute("data-block-field")] = field.value;
+    });
+  });
+
+  return adminBlocks.map((block) => ({
+    id: block.id,
+    type: block.type,
+    fields: { ...block.fields },
+  }));
+}
+
+function moveAdminBlock(id, direction) {
+  collectAdminBlocks();
+  const index = adminBlocks.findIndex((block) => block.id === id);
+  const nextIndex = index + direction;
+
+  if (index < 0 || nextIndex < 0 || nextIndex >= adminBlocks.length) {
+    return;
+  }
+
+  const [block] = adminBlocks.splice(index, 1);
+  adminBlocks.splice(nextIndex, 0, block);
+  renderBlockEditor();
+}
+
+function renderProjectBlockHero(block, project) {
+  const fields = block.fields || {};
+  const image = normalizeAssetUrl(fields.image || project.coverImage);
+  const title = fields.title || project.title;
+  const emphasis = fields.emphasis ? ` <em>${escapeHtml(fields.emphasis)}</em>` : "";
+  const centered = fields.align === "Midden" ? " project-builder-hero--center" : "";
+
+  return `
+    <section class="project-builder-hero${centered}" ${image ? `style="--project-hero-image: url('${escapeAttribute(image)}')"` : ""}>
+      <div class="project-builder-hero__copy">
+        <p>${escapeHtml(fields.overline || projectCategoryLabel(project))}</p>
+        <h1>${escapeHtml(title)}${emphasis}</h1>
+        <span>${escapeHtml(fields.subtitle || project.excerpt || "")}</span>
+      </div>
+    </section>
+  `;
+}
+
+function renderProjectBlockFacts(block) {
+  const fields = block.fields || {};
+  const facts = linesToPairs(fields.facts)
+    .map(
+      ([label, value]) => `
+        <div>
+          <dt>${escapeHtml(label)}</dt>
+          <dd>${escapeHtml(value)}</dd>
+        </div>
+      `,
+    )
+    .join("");
+  const paragraphs = String(fields.body || "")
+    .split(/\n\s*\n/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => `<p>${escapeHtml(item)}</p>`)
+    .join("");
+
+  return `
+    <section class="project-builder-section project-builder-facts">
+      <div>
+        <p class="project-builder-kicker">${escapeHtml(fields.eyebrow || "Over dit project")}</p>
+        <div class="project-builder-richtext">${paragraphs}</div>
+      </div>
+      <dl>${facts}</dl>
+    </section>
+  `;
+}
+
+function renderProjectBlockMetrics(block) {
+  const items = linesToPairs(block.fields?.items)
+    .slice(0, 4)
+    .map(
+      ([number, label]) => `
+        <div class="project-builder-metric">
+          <strong>${escapeHtml(number)}</strong>
+          <span>${escapeHtml(label)}</span>
+        </div>
+      `,
+    )
+    .join("");
+
+  return `<section class="project-builder-metrics">${items}</section>`;
+}
+
+function renderProjectBlockText(block) {
+  const fields = block.fields || {};
+  const dark = fields.variant === "Blauw vlak" ? " project-builder-section--dark" : "";
+  const paragraphs = String(fields.body || "")
+    .split(/\n\s*\n/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => `<p>${escapeHtml(item)}</p>`)
+    .join("");
+
+  return `
+    <section class="project-builder-section project-builder-text${dark}">
+      <p class="project-builder-kicker">${escapeHtml(fields.eyebrow || "Verdieping")}</p>
+      <h2>${escapeHtml(fields.title || "")}</h2>
+      <div class="project-builder-richtext">${paragraphs}</div>
+    </section>
+  `;
+}
+
+function renderProjectBlockProcess(block) {
+  const steps = linesToPairs(block.fields?.steps)
+    .map(
+      ([title, text], index) => `
+        <li>
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <strong>${escapeHtml(title)}</strong>
+            <p>${escapeHtml(text)}</p>
+          </div>
+        </li>
+      `,
+    )
+    .join("");
+
+  return `
+    <section class="project-builder-section project-builder-process">
+      <h2>${escapeHtml(block.fields?.title || "Aanpak")}</h2>
+      <ol>${steps}</ol>
+    </section>
+  `;
+}
+
+function renderProjectBlockGallery(block) {
+  const images = linesToPairs(block.fields?.images)
+    .map(([image, alt]) => {
+      const src = normalizeAssetUrl(image);
+      return src
+        ? `<figure><img src="${escapeAttribute(src)}" alt="${escapeAttribute(alt || "Projectbeeld")}" /></figure>`
+        : "";
+    })
+    .join("");
+
+  return `
+    <section class="project-builder-section project-builder-gallery">
+      <p class="project-builder-kicker">${escapeHtml(block.fields?.title || "Foto's")}</p>
+      <div>${images}</div>
+    </section>
+  `;
+}
+
+function renderProjectBlockCta(block) {
+  const fields = block.fields || {};
+  return `
+    <section class="project-builder-cta">
+      <p>${escapeHtml(fields.text || "")}</p>
+      <a class="outline-btn" href="${escapeAttribute(fields.buttonHref || "/contact")}">${escapeHtml(
+        fields.buttonLabel || "Neem contact op",
+      )} &rarr;</a>
+    </section>
+  `;
+}
+
+function renderProjectBlocks(project) {
+  const blocks = normalizeAdminBlocks(project.blocks, project);
+  return blocks
+    .map((block) => {
+      if (block.type === "hero") return renderProjectBlockHero(block, project);
+      if (block.type === "facts") return renderProjectBlockFacts(block);
+      if (block.type === "metrics") return renderProjectBlockMetrics(block);
+      if (block.type === "text") return renderProjectBlockText(block);
+      if (block.type === "process") return renderProjectBlockProcess(block);
+      if (block.type === "gallery") return renderProjectBlockGallery(block);
+      if (block.type === "cta") return renderProjectBlockCta(block);
+      return "";
+    })
+    .join("");
+}
+
 function renderProjectDetail(project) {
   if (!projectDetailRoot) {
     return;
   }
 
   document.body.classList.remove("has-project-static-detail");
+  const hasBlocks = Array.isArray(project.blocks) && project.blocks.length;
 
   const paragraphs = (project.body || [])
     .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
@@ -871,6 +1314,19 @@ function renderProjectDetail(project) {
     .join("");
 
   document.title = `Blauwe Bagger | ${project.title}`;
+
+  if (hasBlocks) {
+    projectDetailRoot.innerHTML = `
+      <div class="project-builder-page">
+        <nav class="project-builder-breadcrumb" aria-label="Project breadcrumb">
+          <a href="/projecten">Alle projecten</a>
+          <span>${escapeHtml(project.title)}</span>
+        </nav>
+        ${renderProjectBlocks(project)}
+      </div>
+    `;
+    return;
+  }
 
   projectDetailRoot.innerHTML = `
     <div class="section-inner detail-shell">
@@ -928,6 +1384,7 @@ function projectToFormState(project) {
     body: Array.isArray(project.body) ? project.body.join("\n\n") : "",
     highlights: Array.isArray(project.highlights) ? project.highlights.join("\n") : "",
     featured: Boolean(project.featured),
+    blocks: normalizeAdminBlocks(project.blocks, project),
   };
 }
 
@@ -941,6 +1398,10 @@ function fillAdminForm(project) {
   adminForm.dataset.slugManual = "true";
 
   Object.entries(values).forEach(([key, value]) => {
+    if (key === "blocks") {
+      return;
+    }
+
     const field = adminForm.elements.namedItem(key);
 
     if (!field) {
@@ -953,6 +1414,8 @@ function fillAdminForm(project) {
       field.value = value;
     }
   });
+
+  setAdminBlocks(values.blocks);
 
   setAdminStatus(`Je bewerkt nu "${project.title}".`);
 }
@@ -981,6 +1444,8 @@ function resetAdminForm() {
   if (categoryField) {
     categoryField.value = defaultProjectCategory;
   }
+
+  setAdminBlocks(defaultProjectBlocks({}));
 
   setAdminStatus("Klaar voor een nieuw project.");
 }
@@ -1053,6 +1518,7 @@ async function submitAdminForm(event) {
     body: formData.get("body"),
     highlights: formData.get("highlights"),
     featured: formData.get("featured") === "on",
+    blocks: collectAdminBlocks(),
   };
 
   setAdminStatus("Bezig met opslaan...");
@@ -1226,6 +1692,123 @@ function initProjectAdmin() {
 
   adminResetButton?.addEventListener("click", () => {
     resetAdminForm();
+  });
+
+  blockAddSelect?.addEventListener("change", () => {
+    const type = blockAddSelect.value;
+
+    if (!type || !projectBlockTypes[type]) {
+      return;
+    }
+
+    const formData = new FormData(adminForm);
+    collectAdminBlocks();
+    adminBlocks.push(
+      createProjectBlock(type, {
+        title: formData.get("title"),
+        date: formData.get("date"),
+        category: formData.get("category"),
+        location: formData.get("location"),
+        status: formData.get("status"),
+        coverImage: formData.get("coverImage"),
+        excerpt: formData.get("excerpt"),
+        body: formData.get("body"),
+        highlights: formData.get("highlights"),
+      }),
+    );
+    blockAddSelect.value = "";
+    renderBlockEditor();
+  });
+
+  blockList?.addEventListener("input", (event) => {
+    const field = event.target.closest("[data-block-field]");
+    const blockElement = event.target.closest("[data-block-id]");
+
+    if (!field || !blockElement) {
+      return;
+    }
+
+    const block = adminBlocks.find((item) => item.id === blockElement.getAttribute("data-block-id"));
+
+    if (block) {
+      block.fields[field.getAttribute("data-block-field")] = field.value;
+    }
+  });
+
+  blockList?.addEventListener("click", (event) => {
+    const blockElement = event.target.closest("[data-block-id]");
+
+    if (!blockElement) {
+      return;
+    }
+
+    const blockId = blockElement.getAttribute("data-block-id");
+    const moveButton = event.target.closest("[data-block-move]");
+    const removeButton = event.target.closest("[data-block-remove]");
+
+    if (moveButton) {
+      moveAdminBlock(blockId, Number(moveButton.getAttribute("data-block-move")));
+    }
+
+    if (removeButton) {
+      collectAdminBlocks();
+      adminBlocks = adminBlocks.filter((block) => block.id !== blockId);
+      renderBlockEditor();
+    }
+  });
+
+  blockList?.addEventListener("dragstart", (event) => {
+    const blockElement = event.target.closest("[data-block-id]");
+
+    if (!blockElement) {
+      return;
+    }
+
+    draggedBlockId = blockElement.getAttribute("data-block-id");
+    blockElement.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", draggedBlockId);
+  });
+
+  blockList?.addEventListener("dragend", () => {
+    draggedBlockId = "";
+    blockList.querySelectorAll(".is-dragging, .is-drop-target").forEach((element) => {
+      element.classList.remove("is-dragging", "is-drop-target");
+    });
+  });
+
+  blockList?.addEventListener("dragover", (event) => {
+    const blockElement = event.target.closest("[data-block-id]");
+
+    if (!blockElement || !draggedBlockId || blockElement.getAttribute("data-block-id") === draggedBlockId) {
+      return;
+    }
+
+    event.preventDefault();
+    blockList.querySelectorAll(".is-drop-target").forEach((element) => element.classList.remove("is-drop-target"));
+    blockElement.classList.add("is-drop-target");
+  });
+
+  blockList?.addEventListener("drop", (event) => {
+    const blockElement = event.target.closest("[data-block-id]");
+    const targetId = blockElement?.getAttribute("data-block-id");
+
+    if (!targetId || !draggedBlockId || targetId === draggedBlockId) {
+      return;
+    }
+
+    event.preventDefault();
+    collectAdminBlocks();
+    const fromIndex = adminBlocks.findIndex((block) => block.id === draggedBlockId);
+    const toIndex = adminBlocks.findIndex((block) => block.id === targetId);
+
+    if (fromIndex < 0 || toIndex < 0) {
+      return;
+    }
+
+    const [block] = adminBlocks.splice(fromIndex, 1);
+    adminBlocks.splice(toIndex, 0, block);
+    renderBlockEditor();
   });
 }
 
