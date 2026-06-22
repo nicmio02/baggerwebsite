@@ -1385,32 +1385,6 @@ function updateBlockListField(block, fieldName, index, part, value) {
   updateInspectorField(fieldName, block.fields[fieldName]);
 }
 
-function initBuilderPanelWheelScroll() {
-  const sidebarForm = document.querySelector(".builder-sidebar-form");
-
-  sidebarForm?.addEventListener(
-    "wheel",
-    (event) => {
-      const panel = event.target.closest(".builder-sidebar-form details[open]");
-
-      if (!panel || panel.scrollHeight <= panel.clientHeight) {
-        return;
-      }
-
-      const scrollingDown = event.deltaY > 0;
-      const scrollingUp = event.deltaY < 0;
-      const canScrollDown = panel.scrollTop + panel.clientHeight < panel.scrollHeight - 1;
-      const canScrollUp = panel.scrollTop > 0;
-
-      if ((scrollingDown && canScrollDown) || (scrollingUp && canScrollUp)) {
-        event.preventDefault();
-        panel.scrollTop += event.deltaY;
-      }
-    },
-    { passive: false },
-  );
-}
-
 function moveAdminBlock(id, direction) {
   collectAdminBlocks();
   const index = adminBlocks.findIndex((block) => block.id === id);
@@ -1928,50 +1902,70 @@ function renderAdminList(projects) {
   }
 
   const newProjectCard = `
-    <button class="admin-project-card admin-project-card--new" type="button" data-new-project-card>
+    <button class="admin-project-card admin-project-card--new admin-project-card--board" type="button" data-new-project-card>
       <span class="admin-project-card__plus" aria-hidden="true">+</span>
       <strong>New project</strong>
     </button>
   `;
 
-  const projectCards = projects
-    .map(
-      (project) => `
-        <article class="admin-project-card">
-          <div class="admin-project-card__media">
-            ${normalizeAssetUrl(project.coverImage) ? `<img src="${escapeAttribute(normalizeAssetUrl(project.coverImage))}" alt="" />` : ""}
+  const renderAdminProjectCard = (project) => {
+    const image = normalizeAssetUrl(project.coverImage || projectCoverFallback(project));
+
+    return `
+      <article class="admin-project-card admin-project-card--board">
+        <div class="admin-project-card__media">
+          ${image ? `<img src="${escapeAttribute(image)}" alt="" />` : ""}
+        </div>
+        <div class="admin-project-card__body">
+          <div class="blog-meta">
+            <span class="pill">${escapeHtml(projectCategoryLabel(project))}</span>
+            <span class="pill">${escapeHtml(project.status)}</span>
           </div>
-          <div class="admin-project-card__body">
-            <div class="blog-meta">
-              <span class="pill">${escapeHtml(projectCategoryLabel(project))}</span>
-              <span class="pill">${escapeHtml(project.status)}</span>
-            </div>
-            <h3>${escapeHtml(project.title)}</h3>
-            <p>${escapeHtml(project.excerpt)}</p>
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.excerpt)}</p>
+        </div>
+        <div class="admin-project-card__actions">
+          <button class="admin-project-card__icon" type="button" data-edit-project="${escapeAttribute(project.slug)}" aria-label="${escapeAttribute(
+            `${project.title} bewerken`,
+          )}" title="Bewerk">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 16-.8 3.8L8 19l10.5-10.5-3-3L5 16Z" /><path d="m14.5 6.5 3 3" /></svg>
+          </button>
+          <a class="admin-project-card__icon" href="/projecten/${encodeURIComponent(project.slug)}" target="_blank" rel="noreferrer" aria-label="${escapeAttribute(
+            `${project.title} live bekijken`,
+          )}" title="Bekijk live">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
+          </a>
+          <button class="admin-project-card__icon admin-project-card__icon--danger" type="button" data-delete-project="${escapeAttribute(
+            project.slug,
+          )}" aria-label="${escapeAttribute(`${project.title} verwijderen`)}" title="Verwijder">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14" /><path d="M10 11v6M14 11v6" /><path d="m9 7 .5-2h5l.5 2" /><path d="M7 7l1 12h8l1-12" /></svg>
+          </button>
+        </div>
+      </article>
+    `;
+  };
+
+  const rows = projectBoardSections
+    .map((section) => {
+      const cards = projects.filter((project) => projectBoardSectionFor(project) === section.key);
+
+      return `
+        <section class="admin-project-row" aria-labelledby="admin-project-row-${section.key}">
+          <h2 id="admin-project-row-${section.key}">${escapeHtml(section.label)}</h2>
+          <div class="admin-project-row__grid">
+            ${cards.length ? cards.map(renderAdminProjectCard).join("") : `<div class="admin-project-empty">Nog geen projecten in ${escapeHtml(section.label)}.</div>`}
           </div>
-          <div class="admin-project-card__actions">
-            <button class="admin-project-card__icon" type="button" data-edit-project="${escapeAttribute(project.slug)}" aria-label="${escapeAttribute(
-              `${project.title} bewerken`,
-            )}" title="Bewerk">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 16-.8 3.8L8 19l10.5-10.5-3-3L5 16Z" /><path d="m14.5 6.5 3 3" /></svg>
-            </button>
-            <a class="admin-project-card__icon" href="/projecten/${encodeURIComponent(project.slug)}" target="_blank" rel="noreferrer" aria-label="${escapeAttribute(
-              `${project.title} live bekijken`,
-            )}" title="Bekijk live">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
-            </a>
-            <button class="admin-project-card__icon admin-project-card__icon--danger" type="button" data-delete-project="${escapeAttribute(
-              project.slug,
-            )}" aria-label="${escapeAttribute(`${project.title} verwijderen`)}" title="Verwijder">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14" /><path d="M10 11v6M14 11v6" /><path d="m9 7 .5-2h5l.5 2" /><path d="M7 7l1 12h8l1-12" /></svg>
-            </button>
-          </div>
-        </article>
-      `,
-    )
+        </section>
+      `;
+    })
     .join("");
 
-  adminList.innerHTML = `${newProjectCard}${projectCards}`;
+  adminList.innerHTML = `
+    <section class="admin-project-row admin-project-row--new" aria-label="Nieuw project">
+      <div class="admin-project-row__grid admin-project-row__grid--new">${newProjectCard}</div>
+    </section>
+    ${rows}
+  `;
 }
 
 async function refreshAdmin() {
@@ -2167,7 +2161,6 @@ async function initProjectAdmin() {
   const slugField = adminForm.elements.namedItem("slug");
 
   resetAdminForm();
-  initBuilderPanelWheelScroll();
   showProjectDashboard(false);
   const initialProjects = await refreshAdmin();
   const params = new URLSearchParams(window.location.search);
