@@ -63,16 +63,34 @@
     </header>
 
     <main id="main" class="builder-main" data-project-admin>
-      <aside class="builder-sidebar">
-        <div class="builder-sidebar__top">
+      <section class="builder-dashboard" data-admin-dashboard>
+        <div class="builder-dashboard__top">
           <a class="brand-link" href="/projecten" aria-label="Blauwe Bagger projecten">
             <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
           </a>
           <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
         </div>
+        <div class="builder-dashboard__head">
+          <div>
+            <p>Projectbeheer</p>
+            <h1>Projecten</h1>
+          </div>
+          <a class="button-ghost" href="/projecten" target="_blank" rel="noreferrer">Bekijk website</a>
+        </div>
+        <div class="builder-dashboard__grid" data-admin-list></div>
+      </section>
+
+      <aside class="builder-sidebar" data-builder-editor hidden>
+        <div class="builder-sidebar__top">
+          <a class="brand-link" href="/projecten" aria-label="Blauwe Bagger projecten">
+            <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+          </a>
+          <button class="button-ghost" type="button" data-admin-dashboard-open>Projecten</button>
+          <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+        </div>
 
         <form id="project-builder-form" class="admin-form builder-sidebar-form" data-admin-form>
-          <div class="builder-control-row">
+          <div class="builder-control-row builder-project-switch" hidden>
             <select data-project-switch aria-label="Project kiezen">
               <option value="">Nieuw project</option>
             </select>
@@ -159,14 +177,38 @@
           <details open>
             <summary>Blokken</summary>
             <div class="builder-palette" data-block-palette>
-              <button type="button" data-add-block="hero">Hero</button>
-              <button type="button" data-add-block="meta">Meta</button>
-              <button type="button" data-add-block="facts">Kernpunten</button>
-              <button type="button" data-add-block="metrics">Resultaten</button>
-              <button type="button" data-add-block="text">Tekst</button>
-              <button type="button" data-add-block="process">Stappen</button>
-              <button type="button" data-add-block="gallery">Galerij</button>
-              <button type="button" data-add-block="cta">CTA</button>
+              <button type="button" data-add-block="hero" aria-label="Hero" title="Hero">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" /><path d="M7 15h7M7 11h10" /></svg>
+                <span>Hero</span>
+              </button>
+              <button type="button" data-add-block="meta" aria-label="Meta" title="Meta">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14" /><path d="M8 7v10" /></svg>
+                <span>Meta</span>
+              </button>
+              <button type="button" data-add-block="facts" aria-label="Kernpunten" title="Kernpunten">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 7h12M6 12h12M6 17h12" /><path d="m4 7 .5.5L6 6M4 12l.5.5L6 11M4 17l.5.5L6 16" /></svg>
+                <span>Kernpunten</span>
+              </button>
+              <button type="button" data-add-block="metrics" aria-label="Resultaten" title="Resultaten">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19V5M5 19h14" /><path d="M9 16v-5M13 16V8M17 16v-8" /></svg>
+                <span>Resultaten</span>
+              </button>
+              <button type="button" data-add-block="text" aria-label="Tekst" title="Tekst">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 6h14M8 6v12M16 6v12M9 18h6" /></svg>
+                <span>Tekst</span>
+              </button>
+              <button type="button" data-add-block="process" aria-label="Stappen" title="Stappen">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 6h12M7 12h12M7 18h12" /><path d="M4 6h.01M4 12h.01M4 18h.01" /></svg>
+                <span>Stappen</span>
+              </button>
+              <button type="button" data-add-block="gallery" aria-label="Galerij" title="Galerij">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14v11H5z" /><path d="m8 15 3-3 2 2 2-3 3 4" /><path d="M8 10h.01" /></svg>
+                <span>Galerij</span>
+              </button>
+              <button type="button" data-add-block="cta" aria-label="CTA" title="CTA">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 8h14v8H5z" /><path d="M8 12h6M14 10l3 2-3 2" /></svg>
+                <span>CTA</span>
+              </button>
             </div>
             <div class="admin-block-builder" data-block-builder>
               <div class="admin-block-list" data-block-list></div>
@@ -191,7 +233,7 @@
 
       </aside>
 
-      <section class="builder-canvas" aria-label="Project preview">
+      <section class="builder-canvas" aria-label="Project preview" data-builder-editor hidden>
         <div class="builder-preview" data-builder-preview></div>
       </section>
 

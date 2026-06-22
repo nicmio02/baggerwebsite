@@ -1,7 +1,7 @@
 const loginForm = document.querySelector("[data-login-form]");
 const loginStatus = document.querySelector("[data-login-status]");
 const privateAdminPage = document.querySelector("[data-admin-private]");
-const logoutButton = document.querySelector("[data-admin-logout]");
+const logoutButtons = document.querySelectorAll("[data-admin-logout]");
 const tabButtons = document.querySelectorAll("[data-admin-tab]");
 const tabPanels = document.querySelectorAll("[data-admin-panel]");
 const contentForms = document.querySelectorAll("[data-content-form]");
@@ -100,10 +100,10 @@ function initLogin() {
 }
 
 function initLogout() {
-  logoutButton?.addEventListener("click", async () => {
+  logoutButtons.forEach((button) => button.addEventListener("click", async () => {
     await fetchJson("/api/auth/logout", { method: "POST", body: "{}" }).catch(() => null);
     window.location.href = "/login";
-  });
+  }));
 }
 
 function initTabs() {

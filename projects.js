@@ -9,6 +9,9 @@ const adminForm = document.querySelector("[data-admin-form]");
 const adminList = document.querySelector("[data-admin-list]");
 const adminStatus = document.querySelector("[data-admin-status]");
 const adminResetButton = document.querySelector("[data-admin-reset]");
+const adminDashboard = document.querySelector("[data-admin-dashboard]");
+const adminDashboardOpenButtons = document.querySelectorAll("[data-admin-dashboard-open]");
+const builderEditorRegions = document.querySelectorAll("[data-builder-editor]");
 const blockBuilder = document.querySelector("[data-block-builder]");
 const blockList = document.querySelector("[data-block-list]");
 const blockAddSelect = document.querySelector("[data-block-add]");
@@ -18,6 +21,7 @@ const builderPreview = document.querySelector("[data-builder-preview]");
 const projectSwitch = document.querySelector("[data-project-switch]");
 let adminBlocks = [];
 let draggedBlockId = "";
+let draggedBlockType = "";
 let activeBlockId = "";
 let adminProjectsCache = [];
 
@@ -1202,6 +1206,18 @@ function previewEditable(value, field, tagName = "span", className = "") {
   )}">${escapeHtml(value)}</${tagName}>`;
 }
 
+function previewListEditable(value, field, index, part, tagName = "span", className = "") {
+  if (!isBuilderEditor()) {
+    return `<${tagName}${className ? ` class="${className}"` : ""}>${escapeHtml(value)}</${tagName}>`;
+  }
+
+  return `<${tagName}${className ? ` class="${className}"` : ""} contenteditable="true" spellcheck="false" data-preview-list-field="${escapeAttribute(
+    field,
+  )}" data-preview-list-index="${escapeAttribute(index)}" data-preview-list-part="${escapeAttribute(part)}">${escapeHtml(
+    value,
+  )}</${tagName}>`;
+}
+
 function wrapPreviewBlock(block, markup) {
   if (!isBuilderEditor()) {
     return markup;
@@ -1210,7 +1226,7 @@ function wrapPreviewBlock(block, markup) {
   const active = block.id === activeBlockId ? " is-selected" : "";
 
   return `
-    <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}">
+    <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}" draggable="true">
       <div class="builder-preview-toolbar" contenteditable="false">
         <button type="button" data-preview-move="-1">Omhoog</button>
         <button type="button" data-preview-move="1">Omlaag</button>
@@ -1352,6 +1368,49 @@ function updateInspectorField(fieldName, value) {
   }
 }
 
+function updateBlockListField(block, fieldName, index, part, value) {
+  const pairs = linesToPairs(block.fields?.[fieldName]);
+  const lineIndex = Number(index);
+
+  if (!Number.isFinite(lineIndex) || lineIndex < 0) {
+    return;
+  }
+
+  while (pairs.length <= lineIndex) {
+    pairs.push(["", ""]);
+  }
+
+  pairs[lineIndex][part === "label" ? 0 : 1] = value;
+  block.fields[fieldName] = pairs.map(([label, body]) => `${label}, ${body}`.trim()).join("\n");
+  updateInspectorField(fieldName, block.fields[fieldName]);
+}
+
+function initBuilderPanelWheelScroll() {
+  const sidebarForm = document.querySelector(".builder-sidebar-form");
+
+  sidebarForm?.addEventListener(
+    "wheel",
+    (event) => {
+      const panel = event.target.closest(".builder-sidebar-form details[open]");
+
+      if (!panel || panel.scrollHeight <= panel.clientHeight) {
+        return;
+      }
+
+      const scrollingDown = event.deltaY > 0;
+      const scrollingUp = event.deltaY < 0;
+      const canScrollDown = panel.scrollTop + panel.clientHeight < panel.scrollHeight - 1;
+      const canScrollUp = panel.scrollTop > 0;
+
+      if ((scrollingDown && canScrollDown) || (scrollingUp && canScrollUp)) {
+        event.preventDefault();
+        panel.scrollTop += event.deltaY;
+      }
+    },
+    { passive: false },
+  );
+}
+
 function moveAdminBlock(id, direction) {
   collectAdminBlocks();
   const index = adminBlocks.findIndex((block) => block.id === id);
@@ -1366,15 +1425,77 @@ function moveAdminBlock(id, direction) {
   renderBlockEditor();
 }
 
-function addAdminBlock(type) {
+function moveAdminBlockTo(id, targetIndex) {
+  collectAdminBlocks();
+  const fromIndex = adminBlocks.findIndex((block) => block.id === id);
+
+  if (fromIndex < 0) {
+    return;
+  }
+
+  const [block] = adminBlocks.splice(fromIndex, 1);
+  const nextIndex = Math.max(0, Math.min(targetIndex > fromIndex ? targetIndex - 1 : targetIndex, adminBlocks.length));
+  adminBlocks.splice(nextIndex, 0, block);
+  activeBlockId = block.id;
+  renderBlockEditor();
+}
+
+function insertAdminBlock(type, targetIndex = adminBlocks.length) {
   if (!type || !projectBlockTypes[type]) {
     return;
   }
 
   collectAdminBlocks();
-  adminBlocks.push(createProjectBlock(type, currentAdminProjectFromForm()));
-  activeBlockId = adminBlocks[adminBlocks.length - 1].id;
+  const block = createProjectBlock(type, currentAdminProjectFromForm());
+  const nextIndex = Math.max(0, Math.min(targetIndex, adminBlocks.length));
+  adminBlocks.splice(nextIndex, 0, block);
+  activeBlockId = block.id;
   renderBlockEditor();
+}
+
+function addAdminBlock(type) {
+  insertAdminBlock(type);
+}
+
+function clearBuilderDropState() {
+  draggedBlockId = "";
+  draggedBlockType = "";
+  [blockList, builderPreview, blockPalette].filter(Boolean).forEach((root) => {
+    root.querySelectorAll(".is-dragging, .is-drop-target, .is-drop-before, .is-drop-after").forEach((element) => {
+      element.classList.remove("is-dragging", "is-drop-target", "is-drop-before", "is-drop-after");
+    });
+  });
+}
+
+function previewDropIndex(event) {
+  const blockElement = event.target.closest("[data-preview-block-id]");
+
+  if (!blockElement) {
+    return adminBlocks.length;
+  }
+
+  const blockId = blockElement.getAttribute("data-preview-block-id");
+  const index = adminBlocks.findIndex((block) => block.id === blockId);
+  const rect = blockElement.getBoundingClientRect();
+  const isAfter = event.clientY > rect.top + rect.height / 2;
+
+  return Math.max(0, index + (isAfter ? 1 : 0));
+}
+
+function markPreviewDropTarget(event) {
+  builderPreview?.querySelectorAll(".is-drop-target, .is-drop-before, .is-drop-after").forEach((element) => {
+    element.classList.remove("is-drop-target", "is-drop-before", "is-drop-after");
+  });
+
+  const blockElement = event.target.closest("[data-preview-block-id]");
+
+  if (!blockElement) {
+    builderPreview?.classList.add("is-drop-after");
+    return;
+  }
+
+  const rect = blockElement.getBoundingClientRect();
+  blockElement.classList.add("is-drop-target", event.clientY > rect.top + rect.height / 2 ? "is-drop-after" : "is-drop-before");
 }
 
 function fileToDataUrl(file) {
@@ -1437,10 +1558,10 @@ function renderProjectBlockFacts(block) {
   const fields = block.fields || {};
   const facts = linesToPairs(fields.facts)
     .map(
-      ([label, value]) => `
+      ([label, value], index) => `
         <div>
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(value)}</dd>
+          <dt>${previewListEditable(label, "facts", index, "label")}</dt>
+          <dd>${previewListEditable(value, "facts", index, "value")}</dd>
         </div>
       `,
     )
@@ -1501,10 +1622,10 @@ function renderProjectBlockMetrics(block) {
   const items = linesToPairs(block.fields?.items)
     .slice(0, 4)
     .map(
-      ([number, label]) => `
+      ([number, label], index) => `
         <div class="project-builder-metric">
-          <strong>${escapeHtml(number)}</strong>
-          <span>${escapeHtml(label)}</span>
+          ${previewListEditable(number, "items", index, "label", "strong")}
+          ${previewListEditable(label, "items", index, "value", "span")}
         </div>
       `,
     )
@@ -1543,8 +1664,8 @@ function renderProjectBlockProcess(block) {
         <li>
           <span>${String(index + 1).padStart(2, "0")}</span>
           <div>
-            <strong>${escapeHtml(title)}</strong>
-            <p>${escapeHtml(text)}</p>
+            ${previewListEditable(title, "steps", index, "label", "strong")}
+            ${previewListEditable(text, "steps", index, "value", "p")}
           </div>
         </li>
       `,
@@ -1586,8 +1707,9 @@ function renderProjectBlockCta(block) {
   const markup = `
     <section class="project-builder-cta">
       ${previewEditable(fields.text || "", "text", "p")}
-      <a class="outline-btn" href="${escapeAttribute(fields.buttonHref || "/contact")}">${escapeHtml(
+      <a class="outline-btn" href="${escapeAttribute(fields.buttonHref || "/contact")}">${previewEditable(
         fields.buttonLabel || "Neem contact op",
+        "buttonLabel",
       )} &rarr;</a>
     </section>
   `;
@@ -1702,7 +1824,7 @@ function projectToFormState(project) {
   };
 }
 
-function fillAdminForm(project) {
+function fillAdminForm(project, updateUrl = true) {
   if (!adminForm) {
     return;
   }
@@ -1733,9 +1855,33 @@ function fillAdminForm(project) {
   renderBuilderPreview();
 
   setAdminStatus(`Je bewerkt nu "${project.title}".`);
+  showProjectEditor(updateUrl);
 }
 
-function resetAdminForm() {
+function showProjectDashboard(updateUrl = true) {
+  adminDashboard?.removeAttribute("hidden");
+  builderEditorRegions.forEach((region) => {
+    region.setAttribute("hidden", "");
+  });
+
+  if (updateUrl) {
+    window.history.pushState({}, "", "/projecten-beheer");
+  }
+}
+
+function showProjectEditor(updateUrl = true) {
+  adminDashboard?.setAttribute("hidden", "");
+  builderEditorRegions.forEach((region) => {
+    region.removeAttribute("hidden");
+  });
+
+  if (updateUrl) {
+    const slug = adminForm?.dataset.editingSlug || "";
+    window.history.pushState({}, "", slug ? `/projecten-beheer?edit=${encodeURIComponent(slug)}` : "/projecten-beheer?new=1");
+  }
+}
+
+function resetAdminForm(openEditor = false, updateUrl = true) {
   if (!adminForm) {
     return;
   }
@@ -1767,6 +1913,10 @@ function resetAdminForm() {
   renderBuilderPreview();
 
   setAdminStatus("Klaar voor een nieuw project.");
+
+  if (openEditor) {
+    showProjectEditor(updateUrl);
+  }
 }
 
 function renderAdminList(projects) {
@@ -1777,42 +1927,65 @@ function renderAdminList(projects) {
     return;
   }
 
-  if (!projects.length) {
-    adminList.innerHTML = `<div class="empty-state">Nog geen projecten opgeslagen.</div>`;
-    return;
-  }
+  const newProjectCard = `
+    <button class="admin-project-card admin-project-card--new" type="button" data-new-project-card>
+      <span class="admin-project-card__plus" aria-hidden="true">+</span>
+      <strong>New project</strong>
+    </button>
+  `;
 
-  adminList.innerHTML = projects
+  const projectCards = projects
     .map(
       (project) => `
-        <article class="admin-project-item">
-          <div class="blog-meta">
-            <span class="pill">${escapeHtml(projectCategoryLabel(project))}</span>
-            <span class="pill">${escapeHtml(project.status)}</span>
+        <article class="admin-project-card">
+          <div class="admin-project-card__media">
+            ${normalizeAssetUrl(project.coverImage) ? `<img src="${escapeAttribute(normalizeAssetUrl(project.coverImage))}" alt="" />` : ""}
           </div>
-          <h3>${escapeHtml(project.title)}</h3>
-          <p>${escapeHtml(project.excerpt)}</p>
-          <div class="admin-project-actions">
-            <button class="button-ghost" type="button" data-edit-project="${escapeHtml(project.slug)}">Bewerk</button>
-            <a class="button-ghost" href="/projecten/${encodeURIComponent(project.slug)}">Bekijk live</a>
-            <button class="button-ghost button-danger" type="button" data-delete-project="${escapeHtml(project.slug)}">Verwijder</button>
+          <div class="admin-project-card__body">
+            <div class="blog-meta">
+              <span class="pill">${escapeHtml(projectCategoryLabel(project))}</span>
+              <span class="pill">${escapeHtml(project.status)}</span>
+            </div>
+            <h3>${escapeHtml(project.title)}</h3>
+            <p>${escapeHtml(project.excerpt)}</p>
+          </div>
+          <div class="admin-project-card__actions">
+            <button class="admin-project-card__icon" type="button" data-edit-project="${escapeAttribute(project.slug)}" aria-label="${escapeAttribute(
+              `${project.title} bewerken`,
+            )}" title="Bewerk">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 16-.8 3.8L8 19l10.5-10.5-3-3L5 16Z" /><path d="m14.5 6.5 3 3" /></svg>
+            </button>
+            <a class="admin-project-card__icon" href="/projecten/${encodeURIComponent(project.slug)}" target="_blank" rel="noreferrer" aria-label="${escapeAttribute(
+              `${project.title} live bekijken`,
+            )}" title="Bekijk live">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
+            </a>
+            <button class="admin-project-card__icon admin-project-card__icon--danger" type="button" data-delete-project="${escapeAttribute(
+              project.slug,
+            )}" aria-label="${escapeAttribute(`${project.title} verwijderen`)}" title="Verwijder">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14" /><path d="M10 11v6M14 11v6" /><path d="m9 7 .5-2h5l.5 2" /><path d="M7 7l1 12h8l1-12" /></svg>
+            </button>
           </div>
         </article>
       `,
     )
     .join("");
+
+  adminList.innerHTML = `${newProjectCard}${projectCards}`;
 }
 
 async function refreshAdmin() {
   if (!projectAdminRoot) {
-    return;
+    return [];
   }
 
   try {
     const projects = await fetchProjects();
     renderAdminList(projects);
+    return projects;
   } catch (error) {
     adminList.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
+    return [];
   }
 }
 
@@ -1871,6 +2044,12 @@ async function submitAdminForm(event) {
 async function handleAdminListClick(event) {
   const editButton = event.target.closest("[data-edit-project]");
   const deleteButton = event.target.closest("[data-delete-project]");
+  const newProjectButton = event.target.closest("[data-new-project-card]");
+
+  if (newProjectButton) {
+    resetAdminForm(true);
+    return;
+  }
 
   if (editButton) {
     const slug = editButton.getAttribute("data-edit-project");
@@ -1879,7 +2058,6 @@ async function handleAdminListClick(event) {
 
     if (project) {
       fillAdminForm(project);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     return;
@@ -1980,7 +2158,7 @@ async function initProjectDetail() {
   }
 }
 
-function initProjectAdmin() {
+async function initProjectAdmin() {
   if (!projectAdminRoot || !adminForm) {
     return;
   }
@@ -1989,7 +2167,50 @@ function initProjectAdmin() {
   const slugField = adminForm.elements.namedItem("slug");
 
   resetAdminForm();
-  refreshAdmin();
+  initBuilderPanelWheelScroll();
+  showProjectDashboard(false);
+  const initialProjects = await refreshAdmin();
+  const params = new URLSearchParams(window.location.search);
+  const editSlug = params.get("edit");
+
+  if (params.has("new")) {
+    resetAdminForm(true, false);
+  } else if (editSlug) {
+    const project = initialProjects.find((item) => item.slug === editSlug);
+
+    if (project) {
+      fillAdminForm(project, false);
+    }
+  }
+
+  adminDashboardOpenButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      showProjectDashboard();
+    });
+  });
+
+  window.addEventListener("popstate", async () => {
+    const nextParams = new URLSearchParams(window.location.search);
+    const nextEditSlug = nextParams.get("edit");
+
+    if (nextParams.has("new")) {
+      resetAdminForm(false, false);
+      showProjectEditor(false);
+      return;
+    }
+
+    if (nextEditSlug) {
+      const projects = adminProjectsCache.length ? adminProjectsCache : await refreshAdmin();
+      const project = projects.find((item) => item.slug === nextEditSlug);
+
+      if (project) {
+        fillAdminForm(project, false);
+      }
+      return;
+    }
+
+    showProjectDashboard(false);
+  });
 
   titleField?.addEventListener("input", () => {
     if (adminForm.dataset.slugManual === "true") {
@@ -2053,14 +2274,14 @@ function initProjectAdmin() {
   });
 
   adminResetButton?.addEventListener("click", () => {
-    resetAdminForm();
+    resetAdminForm(true);
   });
 
   projectSwitch?.addEventListener("change", () => {
     const slug = projectSwitch.value;
 
     if (!slug) {
-      resetAdminForm();
+      resetAdminForm(true);
       return;
     }
 
@@ -2083,6 +2304,26 @@ function initProjectAdmin() {
       addAdminBlock(button.getAttribute("data-add-block"));
     }
   });
+
+  blockPalette?.querySelectorAll("[data-add-block]").forEach((button) => {
+    button.setAttribute("draggable", "true");
+  });
+
+  blockPalette?.addEventListener("dragstart", (event) => {
+    const button = event.target.closest("[data-add-block]");
+
+    if (!button) {
+      return;
+    }
+
+    draggedBlockId = "";
+    draggedBlockType = button.getAttribute("data-add-block");
+    button.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "copy";
+    event.dataTransfer.setData("text/plain", `block-type:${draggedBlockType}`);
+  });
+
+  blockPalette?.addEventListener("dragend", clearBuilderDropState);
 
   blockInspector?.addEventListener("input", (event) => {
     const field = event.target.closest("[data-block-field]");
@@ -2211,9 +2452,10 @@ function initProjectAdmin() {
 
   builderPreview?.addEventListener("input", (event) => {
     const field = event.target.closest("[data-preview-field]");
+    const listField = event.target.closest("[data-preview-list-field]");
     const blockElement = event.target.closest("[data-preview-block-id]");
 
-    if (!field || !blockElement) {
+    if ((!field && !listField) || !blockElement) {
       return;
     }
 
@@ -2223,23 +2465,97 @@ function initProjectAdmin() {
       return;
     }
 
-    const fieldName = field.getAttribute("data-preview-field");
-    const value = field.textContent.trim();
-    block.fields[fieldName] = value;
+    const value = (field || listField).textContent.trim();
     activeBlockId = block.id;
-    updateInspectorField(fieldName, value);
+
+    if (field) {
+      const fieldName = field.getAttribute("data-preview-field");
+      block.fields[fieldName] = value;
+      updateInspectorField(fieldName, value);
+      return;
+    }
+
+    const fieldName = listField.getAttribute("data-preview-list-field");
+    updateBlockListField(
+      block,
+      fieldName,
+      listField.getAttribute("data-preview-list-index"),
+      listField.getAttribute("data-preview-list-part"),
+      value,
+    );
   });
 
   builderPreview?.addEventListener(
     "keydown",
     (event) => {
-      if (event.target.closest("[data-preview-field]") && event.key === "Enter" && !event.shiftKey) {
+      if (
+        (event.target.closest("[data-preview-field]") || event.target.closest("[data-preview-list-field]")) &&
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
         event.preventDefault();
         event.target.blur();
       }
     },
     true,
   );
+
+  builderPreview?.addEventListener("dragstart", (event) => {
+    const blockElement = event.target.closest("[data-preview-block-id]");
+
+    if (!blockElement || event.target.closest("[data-preview-field], [data-preview-list-field]")) {
+      event.preventDefault();
+      return;
+    }
+
+    draggedBlockType = "";
+    draggedBlockId = blockElement.getAttribute("data-preview-block-id");
+    blockElement.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", `block-id:${draggedBlockId}`);
+  });
+
+  builderPreview?.addEventListener("dragover", (event) => {
+    if (!draggedBlockId && !draggedBlockType) {
+      return;
+    }
+
+    event.preventDefault();
+    event.dataTransfer.dropEffect = draggedBlockType ? "copy" : "move";
+    markPreviewDropTarget(event);
+  });
+
+  builderPreview?.addEventListener("dragleave", (event) => {
+    if (builderPreview.contains(event.relatedTarget)) {
+      return;
+    }
+
+    builderPreview.querySelectorAll(".is-drop-target, .is-drop-before, .is-drop-after").forEach((element) => {
+      element.classList.remove("is-drop-target", "is-drop-before", "is-drop-after");
+    });
+  });
+
+  builderPreview?.addEventListener("drop", (event) => {
+    if (!draggedBlockId && !draggedBlockType) {
+      return;
+    }
+
+    event.preventDefault();
+    const targetIndex = previewDropIndex(event);
+
+    if (draggedBlockType) {
+      insertAdminBlock(draggedBlockType, targetIndex);
+      clearBuilderDropState();
+      return;
+    }
+
+    if (draggedBlockId) {
+      moveAdminBlockTo(draggedBlockId, targetIndex);
+      clearBuilderDropState();
+    }
+  });
+
+  builderPreview?.addEventListener("dragend", clearBuilderDropState);
 
   blockList?.addEventListener("dragstart", (event) => {
     const blockElement = event.target.closest("[data-block-id]");
@@ -2249,17 +2565,13 @@ function initProjectAdmin() {
     }
 
     draggedBlockId = blockElement.getAttribute("data-block-id");
+    draggedBlockType = "";
     blockElement.classList.add("is-dragging");
     event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", draggedBlockId);
+    event.dataTransfer.setData("text/plain", `block-id:${draggedBlockId}`);
   });
 
-  blockList?.addEventListener("dragend", () => {
-    draggedBlockId = "";
-    blockList.querySelectorAll(".is-dragging, .is-drop-target").forEach((element) => {
-      element.classList.remove("is-dragging", "is-drop-target");
-    });
-  });
+  blockList?.addEventListener("dragend", clearBuilderDropState);
 
   blockList?.addEventListener("dragover", (event) => {
     const blockElement = event.target.closest("[data-block-id]");
@@ -2282,17 +2594,7 @@ function initProjectAdmin() {
     }
 
     event.preventDefault();
-    collectAdminBlocks();
-    const fromIndex = adminBlocks.findIndex((block) => block.id === draggedBlockId);
-    const toIndex = adminBlocks.findIndex((block) => block.id === targetId);
-
-    if (fromIndex < 0 || toIndex < 0) {
-      return;
-    }
-
-    const [block] = adminBlocks.splice(fromIndex, 1);
-    adminBlocks.splice(toIndex, 0, block);
-    renderBlockEditor();
+    moveAdminBlockTo(draggedBlockId, adminBlocks.findIndex((block) => block.id === targetId));
   });
 }
 
