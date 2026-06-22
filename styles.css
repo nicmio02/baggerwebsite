@@ -10135,7 +10135,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-problem-meter {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, var(--meter-left, 1fr)) minmax(0, var(--meter-right, 1fr));
   gap: 0;
   width: min(1180px, 100%);
   min-height: auto;
@@ -10144,7 +10144,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   color: #ffffff;
   background: rgba(7, 14, 36, 0.24);
   border: 1px solid rgba(201, 235, 255, 0.34);
-  border-radius: 999px;
+  border-radius: clamp(30px, 4vw, 52px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.09),
     0 24px 64px rgba(3, 8, 24, 0.18);
@@ -11825,20 +11825,32 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-meta {
   display: grid;
-  grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 0.68fr) minmax(220px, 0.74fr) minmax(190px, 0.52fr);
-  gap: clamp(28px, 5vw, 92px);
+  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 0.72fr) minmax(300px, 0.94fr) minmax(210px, 0.56fr);
+  gap: clamp(28px, 4vw, 76px);
   padding: 0 0 clamp(44px, 5vw, 68px);
   border-bottom: 1px solid rgba(56, 81, 147, 0.16);
 }
 
 .home-footer-meta::before {
-  content: "Blauwe Bagger\A Van baggerstroom naar\A herbruikbare grondstof.";
+  content: "Blauwe Bagger";
+  grid-column: 1;
+  grid-row: 1;
+  color: #111930;
+  font-weight: 950;
+}
+
+.home-footer-meta::after {
+  content: "Van baggerstroom naar\A herbruikbare grondstof.";
+  grid-column: 1;
+  grid-row: 1;
+  padding-top: 38px;
   white-space: pre-line;
 }
 
 .home-footer-meta p,
 .home-footer-meta a,
 .home-footer-meta::before,
+.home-footer-meta::after,
 .home-footer-bottom {
   margin: 0;
   color: rgba(17, 25, 48, 0.68);
@@ -11847,15 +11859,27 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   line-height: 1.7;
 }
 
-.home-footer-meta::before::first-line {
-  color: #385193;
-  font-weight: 750;
+.home-footer-meta::before {
+  color: #111930;
+  font-weight: 950;
 }
 
 .home-footer-meta > div {
   display: grid;
   align-content: start;
   gap: 6px;
+}
+
+.home-footer-meta > div:nth-child(1) {
+  grid-column: 2;
+}
+
+.home-footer-meta > div:nth-child(2) {
+  grid-column: 3;
+}
+
+.home-footer-links {
+  grid-column: 4;
 }
 
 .home-footer-meta > div::before,
@@ -11877,6 +11901,11 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   content: "Contact";
 }
 
+.home-footer-meta > div:nth-child(2) p {
+  max-width: none;
+  white-space: nowrap;
+}
+
 .home-footer-links::before {
   content: "Samenwerken";
 }
@@ -11892,16 +11921,16 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  width: min(100%, 232px);
-  min-height: 58px;
-  padding: 0 22px;
+  width: min(100%, 238px);
+  min-height: 54px;
+  padding: 0 18px;
   margin-bottom: 18px;
   color: #ffffff !important;
   font-size: clamp(0.96rem, 1vw, 1.08rem);
   font-weight: 800;
   background: linear-gradient(135deg, #385193 0%, #20386f 100%);
   border: 1px solid rgba(56, 81, 147, 0.18);
-  border-radius: 999px;
+  border-radius: 10px;
   box-shadow:
     0 16px 30px rgba(56, 81, 147, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -12391,6 +12420,20 @@ body.is-past-hero .home-floating-cta {
   .home-contact-form__grid,
   .home-footer-meta {
     grid-template-columns: 1fr;
+  }
+
+  .home-footer-meta::before,
+  .home-footer-meta::after,
+  .home-footer-meta > div:nth-child(1),
+  .home-footer-meta > div:nth-child(2),
+  .home-footer-links {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .home-footer-meta::after {
+    padding-top: 0;
+    margin-top: -20px;
   }
 
   .home-projects-grid {
