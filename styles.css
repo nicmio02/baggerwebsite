@@ -4678,6 +4678,10 @@ body.has-project-static-detail > .site-footer {
   transform: translateX(-50%);
 }
 
+body:not(.project-builder-admin) .project-builder-breadcrumb {
+  top: clamp(132px, 9vw, 168px);
+}
+
 .project-builder-breadcrumb a::before {
   content: "< ";
 }
@@ -6196,7 +6200,7 @@ body.has-project-static-detail > .site-footer {
   align-content: start;
   gap: 12px;
   min-height: 0;
-  padding: 14px 14px 118px;
+  padding: 14px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -6503,13 +6507,9 @@ body.has-project-static-detail > .site-footer {
 }
 
 .builder-actions {
-  position: sticky;
-  bottom: 0;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
-  padding: 14px 0 0;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 74%, rgba(255, 255, 255, 0));
 }
 
 .builder-actions .primary-link {
@@ -6518,9 +6518,37 @@ body.has-project-static-detail > .site-footer {
 }
 
 .project-builder-admin .admin-status {
-  padding: 0 2px 8px;
   font-size: 0.86rem;
   line-height: 1.35;
+}
+
+.builder-sidebar__footer {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), #ffffff 30%);
+  border-top: 1px solid rgba(56, 81, 147, 0.12);
+  box-shadow: 0 -16px 32px rgba(7, 14, 36, 0.06);
+}
+
+.builder-status-toast {
+  min-height: 0;
+  padding: 10px 12px;
+  color: #385193;
+  background: rgba(56, 81, 147, 0.08);
+  border: 1px solid rgba(56, 81, 147, 0.14);
+  border-radius: 10px;
+}
+
+.builder-status-toast:empty {
+  display: none;
+}
+
+.builder-status-toast.is-error {
+  color: #ab2d4c;
+  background: rgba(171, 45, 76, 0.08);
+  border-color: rgba(171, 45, 76, 0.18);
 }
 
 .builder-canvas {
@@ -14937,4 +14965,60 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card_
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card:hover .project-board-card__cta,
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card:focus-visible .project-board-card__cta {
   color: #ffffff;
+}
+
+@media (min-width: 1081px) {
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > a,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .language-toggle a {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.38);
+  }
+
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > a:hover,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > a:focus-visible,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > a.is-current,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:hover,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a:focus-visible,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .main-nav > .nav-dropdown > a.is-current,
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .language-toggle a[aria-current="true"] {
+    color: #ffffff;
+  }
+
+  :is(
+    body[data-page="projecten"].has-project-static-detail,
+    body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  ) .site-header:not(.is-condensed) .language-toggle::before {
+    background: rgba(255, 255, 255, 0.26);
+  }
 }
