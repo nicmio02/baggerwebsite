@@ -976,6 +976,13 @@ const projectBlockTypes = {
     label: "Resultatenrij",
     fields: [["items", "Resultaten, een per regel: getal, label", "textarea"]],
   },
+  resultCards: {
+    label: "Resultaatkaarten",
+    fields: [
+      ["eyebrow", "Label", "input"],
+      ["items", "Kaarten, een per regel: getal, titel, tekst", "textarea"],
+    ],
+  },
   text: {
     label: "Tekstblok",
     fields: [
@@ -996,6 +1003,17 @@ const projectBlockTypes = {
       ["noteBody", "Kleine tekst rechts", "textarea"],
     ],
   },
+  imageText: {
+    label: "Beeld en tekst",
+    fields: [
+      ["image", "Afbeelding", "image"],
+      ["eyebrow", "Label", "input"],
+      ["title", "Titel", "input"],
+      ["emphasis", "Cursieve regel", "input"],
+      ["body", "Tekst", "textarea"],
+      ["imageSide", "Afbeelding", "select", ["Links", "Rechts"]],
+    ],
+  },
   featureGrid: {
     label: "Vier vakken",
     fields: [
@@ -1010,8 +1028,22 @@ const projectBlockTypes = {
       ["steps", "Stappen, een per regel: titel, tekst", "textarea"],
     ],
   },
+  testList: {
+    label: "Testlijst",
+    fields: [
+      ["title", "Titel", "input"],
+      ["steps", "Onderdelen, een per regel: titel, tekst", "textarea"],
+    ],
+  },
   gallery: {
     label: "Fotogalerij",
+    fields: [
+      ["title", "Titel", "input"],
+      ["images", "Afbeeldingen", "gallery"],
+    ],
+  },
+  photoCollage: {
+    label: "Fotocollage",
     fields: [
       ["title", "Titel", "input"],
       ["images", "Afbeeldingen", "gallery"],
@@ -1071,6 +1103,11 @@ function createProjectBlock(type, project = {}) {
             .join("\n")
         : "BlueSand, Secundaire zandfractie\nBlueFiller, Fijne kleifractie\nCO2 omlaag, Minder primaire winning",
     },
+    resultCards: {
+      eyebrow: "Resultaten praktijktest",
+      items:
+        "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht v, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
+    },
     text: {
       eyebrow: "Verdieping",
       title: "Wat hebben we gedaan?",
@@ -1089,6 +1126,15 @@ function createProjectBlock(type, project = {}) {
       noteBody:
         "Blauwe Bagger brengt praktijkkennis, data en mobiele verwerking samen om de circulaire route van bagger naar grondstof concreet te maken.",
     },
+    imageText: {
+      image: project.coverImage || "assets/media/installatie.jpeg",
+      eyebrow: "Stadsontwikkeling Amsterdam",
+      title: "Buiteneiland als onderdeel van",
+      emphasis: "duurzame gebiedsontwikkeling",
+      body:
+        "Het Buiteneiland wordt gefaseerd aangelegd en opgevuld met herbruikbare grond, vervoerd per schip om wegverkeer te minimaliseren.\n\nDeze praktijktest sluit direct aan op die ambitie: baggerspecie wordt niet afgevoerd, maar ter plekke omgezet in bouwmateriaal.",
+      imageSide: "Links",
+    },
     featureGrid: {
       title: "Wat doet het consortium?",
       items:
@@ -1099,9 +1145,25 @@ function createProjectBlock(type, project = {}) {
       steps:
         "Analyse, We brengen de baggerstroom en randvoorwaarden in kaart.\nScheiding, De BlueBox scheidt materiaalstromen op locatie.\nToepassing, Bruikbare fracties worden voorbereid voor hergebruik.",
     },
+    testList: {
+      title: "Wat doen we tijdens deze test?",
+      steps:
+        "Scheiding op locatie met de BlueBox v1, De BlueBox wordt op een baggerlocatie ingezet. De installatie ontwatert en scheidt de bagger ter plekke in bruikbare fracties.\nFysische en chemische analyses, De gescheiden fracties worden onderzocht op mechanische en chemische eigenschappen en vergeleken met waterbodemonderzoek.\nValidatie scheidingstechnologie, Een kerndoel van de test is het valideren van de BlueBox in een nieuw baggermilieu.\nIteratieve verbetering, Verbeterpunten die naar voren komen worden na de test doorgevoerd in de installatie.",
+    },
     gallery: {
       title: "Foto's van het project",
       images: [project.coverImage || "assets/media/bluebox-tablet.png", "assets/media/installatie.jpeg", "assets/media/baggeren.jpeg"]
+        .filter(Boolean)
+        .map((image) => `${image}, ${title}`)
+        .join("\n"),
+    },
+    photoCollage: {
+      title: "Foto's van de praktijktest",
+      images: [
+        project.coverImage || "assets/media/bluebox-tablet.png",
+        "assets/media/installatie.jpeg",
+        "assets/media/baggeren.jpeg",
+      ]
         .filter(Boolean)
         .map((image) => `${image}, ${title}`)
         .join("\n"),
@@ -1149,6 +1211,15 @@ function linesToPairs(value) {
 
 function blockTitle(block) {
   return projectBlockTypes[block.type]?.label || "Blok";
+}
+
+function blockFontScale(block) {
+  const value = Number(block.fields?.fontScale);
+  return Number.isFinite(value) ? Math.min(130, Math.max(70, value)) : 100;
+}
+
+function blockFontScaleStyle(block) {
+  return `style="--block-font-scale: ${(blockFontScale(block) / 100).toFixed(2)}"`;
 }
 
 function renderBlockField(block, field) {
@@ -1279,17 +1350,39 @@ function previewListEditable(value, field, index, part, tagName = "span", classN
 
 function wrapPreviewBlock(block, markup) {
   if (!isBuilderEditor()) {
-    return markup;
+    return blockFontScale(block) === 100
+      ? markup
+      : `<div class="project-builder-font-scale" ${blockFontScaleStyle(block)}>${markup}</div>`;
   }
 
   const active = block.id === activeBlockId ? " is-selected" : "";
+  const fontScale = blockFontScale(block);
 
   return `
-    <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}" draggable="true">
+    <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}" ${blockFontScaleStyle(
+      block,
+    )} draggable="true">
       <div class="builder-preview-toolbar" contenteditable="false">
-        <button type="button" data-preview-move="-1">Omhoog</button>
-        <button type="button" data-preview-move="1">Omlaag</button>
-        <button type="button" data-preview-remove>Verwijder</button>
+        <button type="button" data-preview-font-scale="-5" aria-label="Tekst kleiner" title="Tekst kleiner (${fontScale}%)">
+          <span aria-hidden="true" class="builder-preview-toolbar__type builder-preview-toolbar__type--small">A-</span>
+          <span class="sr-only">Tekst kleiner</span>
+        </button>
+        <button type="button" data-preview-font-scale="5" aria-label="Tekst groter" title="Tekst groter (${fontScale}%)">
+          <span aria-hidden="true" class="builder-preview-toolbar__type">A+</span>
+          <span class="sr-only">Tekst groter</span>
+        </button>
+        <button type="button" data-preview-move="-1" aria-label="Omhoog" title="Omhoog">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" /></svg>
+          <span class="sr-only">Omhoog</span>
+        </button>
+        <button type="button" data-preview-move="1" aria-label="Omlaag" title="Omlaag">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+          <span class="sr-only">Omlaag</span>
+        </button>
+        <button type="button" data-preview-remove aria-label="Verwijder" title="Verwijder">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13" /></svg>
+          <span class="sr-only">Verwijder</span>
+        </button>
       </div>
       ${markup}
     </div>
@@ -1670,6 +1763,44 @@ function renderProjectBlockMetrics(block) {
   );
 }
 
+function renderProjectBlockResultCards(block) {
+  const fields = block.fields || {};
+  const cards = String(fields.items || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split(/(?:\s*\|\s*|,\s+)/);
+      return {
+        value: parts.shift() || "",
+        title: parts.shift() || "",
+        body: parts.join(", "),
+      };
+    })
+    .slice(0, 4)
+    .map(
+      (item, index) => `
+        <article class="project-builder-result-card">
+          ${previewListEditable(item.value, "items", index, "label", "strong")}
+          ${previewListEditable(item.title, "items", index, "title", "h3")}
+          ${previewListEditable(item.body, "items", index, "value", "p")}
+        </article>
+      `,
+    )
+    .join("");
+
+  const markup = `
+    <section class="project-builder-section project-builder-result-cards">
+      ${previewEditable(fields.eyebrow || "Resultaten praktijktest", "eyebrow", "p", "project-builder-kicker")}
+      <div class="project-builder-result-cards__grid">
+        ${cards}
+      </div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderProjectBlockText(block) {
   const fields = block.fields || {};
   const dark = fields.variant === "Blauw vlak" ? " project-builder-section--dark" : "";
@@ -1727,6 +1858,33 @@ function renderProjectBlockColumns(block) {
         ${previewEditable(fields.rightEyebrow || "Missie", "rightEyebrow", "p", "project-builder-kicker")}
         ${renderColumnRichText(fields.rightBody || "", "rightBody")}
         ${note}
+      </div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
+function renderProjectBlockImageText(block) {
+  const fields = block.fields || {};
+  const image = normalizeAssetUrl(fields.image || "assets/media/installatie.jpeg");
+  const reversed = fields.imageSide === "Rechts" ? " project-builder-image-text--reverse" : "";
+  const imageMarkup = image
+    ? `<figure class="project-builder-image-text__media"><img src="${escapeAttribute(image)}" alt="${escapeAttribute(
+        fields.title || "Projectbeeld",
+      )}" /></figure>`
+    : `<figure class="project-builder-image-text__media"></figure>`;
+
+  const markup = `
+    <section class="project-builder-section project-builder-image-text${reversed}">
+      ${imageMarkup}
+      <div class="project-builder-image-text__copy">
+        ${previewEditable(fields.eyebrow || "Stadsontwikkeling Amsterdam", "eyebrow", "p", "project-builder-kicker")}
+        <h2>
+          ${previewEditable(fields.title || "Buiteneiland als onderdeel van", "title", "span")}
+          ${previewEditable(fields.emphasis || "duurzame gebiedsontwikkeling", "emphasis", "em")}
+        </h2>
+        ${renderColumnRichText(fields.body || "", "body", "project-builder-image-text__body")}
       </div>
     </section>
   `;
@@ -1799,6 +1957,32 @@ function renderProjectBlockProcess(block) {
   return wrapPreviewBlock(block, markup);
 }
 
+function renderProjectBlockTestList(block) {
+  const fields = block.fields || {};
+  const rows = linesToPairs(fields.steps)
+    .map(
+      ([title, text], index) => `
+        <li>
+          <span class="project-builder-test-list__number">${index + 1}</span>
+          <div>
+            ${previewListEditable(title, "steps", index, "label", "strong")}
+            ${previewListEditable(text, "steps", index, "value", "p")}
+          </div>
+        </li>
+      `,
+    )
+    .join("");
+
+  const markup = `
+    <section class="project-builder-section project-builder-test-list">
+      ${previewEditable(fields.title || "Wat doen we tijdens deze test?", "title", "h2")}
+      <ol>${rows}</ol>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderProjectBlockGallery(block) {
   const images = linesToPairs(block.fields?.images)
     .map(([image, alt]) => {
@@ -1813,6 +1997,28 @@ function renderProjectBlockGallery(block) {
     <section class="project-builder-section project-builder-gallery">
       ${previewEditable(block.fields?.title || "Foto's", "title", "p", "project-builder-kicker")}
       <div>${images}</div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
+function renderProjectBlockPhotoCollage(block) {
+  const fields = block.fields || {};
+  const images = linesToPairs(fields.images)
+    .slice(0, 6)
+    .map(([image, alt]) => {
+      const src = normalizeAssetUrl(image);
+      return src
+        ? `<figure><img src="${escapeAttribute(src)}" alt="${escapeAttribute(alt || "Projectbeeld")}" /></figure>`
+        : "";
+    })
+    .join("");
+
+  const markup = `
+    <section class="project-builder-section project-builder-photo-collage">
+      ${previewEditable(fields.title || "Foto's van de praktijktest", "title", "p", "project-builder-kicker")}
+      <div class="project-builder-photo-collage__grid">${images}</div>
     </section>
   `;
 
@@ -1842,11 +2048,15 @@ function renderProjectBlocks(project) {
       if (block.type === "meta") return renderProjectBlockMeta(block);
       if (block.type === "facts") return renderProjectBlockFacts(block);
       if (block.type === "metrics") return renderProjectBlockMetrics(block);
+      if (block.type === "resultCards") return renderProjectBlockResultCards(block);
       if (block.type === "text") return renderProjectBlockText(block);
       if (block.type === "columns") return renderProjectBlockColumns(block);
+      if (block.type === "imageText") return renderProjectBlockImageText(block);
       if (block.type === "featureGrid") return renderProjectBlockFeatureGrid(block);
       if (block.type === "process") return renderProjectBlockProcess(block);
+      if (block.type === "testList") return renderProjectBlockTestList(block);
       if (block.type === "gallery") return renderProjectBlockGallery(block);
+      if (block.type === "photoCollage") return renderProjectBlockPhotoCollage(block);
       if (block.type === "cta") return renderProjectBlockCta(block);
       return "";
     })
@@ -2601,7 +2811,7 @@ async function initProjectAdmin() {
       event.preventDefault();
     }
 
-    const toolbarButton = event.target.closest("[data-preview-move], [data-preview-remove]");
+    const toolbarButton = event.target.closest("[data-preview-move], [data-preview-remove], [data-preview-font-scale]");
     const blockElement = event.target.closest("[data-preview-block-id]");
 
     if (!blockElement) {
@@ -2619,6 +2829,19 @@ async function initProjectAdmin() {
         adminBlocks = adminBlocks.filter((block) => block.id !== blockId);
         activeBlockId = adminBlocks[0]?.id || "";
         renderBlockEditor();
+        return;
+      }
+
+      if (toolbarButton.matches("[data-preview-font-scale]")) {
+        const block = adminBlocks.find((item) => item.id === blockId);
+        const delta = Number(toolbarButton.getAttribute("data-preview-font-scale"));
+
+        if (block && Number.isFinite(delta)) {
+          block.fields.fontScale = String(Math.min(130, Math.max(70, blockFontScale(block) + delta)));
+          activeBlockId = blockId;
+          renderBlockEditor();
+        }
+
         return;
       }
 

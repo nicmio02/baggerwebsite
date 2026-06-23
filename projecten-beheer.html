@@ -235,10 +235,22 @@
             <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
           </a>
           <div class="builder-sidebar__nav">
-            <button class="button-ghost" type="button" data-admin-dashboard-open>Projecten</button>
-            <button class="button-ghost" type="button" data-builder-sidebar-toggle>Menu sluiten</button>
-            <button class="button-ghost" type="button" data-builder-fullscreen-toggle>Volledig scherm</button>
-            <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+            <button class="button-ghost builder-icon-button" type="button" data-admin-dashboard-open aria-label="Projecten" title="Projecten">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h7v6H4zM13 5h7v6h-7zM4 13h7v6H4zM13 13h7v6h-7z" /></svg>
+              <span class="sr-only">Projecten</span>
+            </button>
+            <button class="button-ghost builder-icon-button" type="button" data-builder-sidebar-toggle aria-label="Menu sluiten" title="Menu sluiten">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h12v14H4zM20 8l-4 4 4 4" /></svg>
+              <span class="sr-only">Menu sluiten</span>
+            </button>
+            <button class="button-ghost builder-icon-button" type="button" data-builder-fullscreen-toggle aria-label="Volledig scherm" title="Volledig scherm">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 4H4v4M16 4h4v4M8 20H4v-4M16 20h4v-4" /><path d="M4 4l6 6M20 4l-6 6M4 20l6-6M20 20l-6-6" /></svg>
+              <span class="sr-only">Volledig scherm</span>
+            </button>
+            <button class="button-ghost builder-icon-button" type="button" data-admin-logout aria-label="Uitloggen" title="Uitloggen">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 6V5a2 2 0 0 1 2-2h6v18h-6a2 2 0 0 1-2-2v-1" /><path d="M3 12h11M11 8l4 4-4 4" /></svg>
+              <span class="sr-only">Uitloggen</span>
+            </button>
           </div>
         </div>
 
@@ -346,6 +358,10 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19V5M5 19h14" /><path d="M9 16v-5M13 16V8M17 16v-8" /></svg>
                 <span>Resultaten</span>
               </button>
+              <button type="button" data-add-block="resultCards" aria-label="Resultaatkaarten" title="Resultaatkaarten">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" /><path d="M8 10h3M8 14h5M15 10h1M15 14h1" /></svg>
+                <span>Kaarten</span>
+              </button>
               <button type="button" data-add-block="text" aria-label="Tekst" title="Tekst">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 6h14M8 6v12M16 6v12M9 18h6" /></svg>
                 <span>Tekst</span>
@@ -353,6 +369,10 @@
               <button type="button" data-add-block="columns" aria-label="Twee kolommen" title="Twee kolommen">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5v14M12 5v14M19 5v14" /><path d="M7 8h3M7 12h3M14 8h3M14 12h3" /></svg>
                 <span>Kolommen</span>
+              </button>
+              <button type="button" data-add-block="imageText" aria-label="Beeld en tekst" title="Beeld en tekst">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h8v12H4z" /><path d="M15 7h5M15 12h5M15 17h4" /><path d="m6 15 2-2 2 2" /></svg>
+                <span>Beeld + tekst</span>
               </button>
               <button type="button" data-add-block="featureGrid" aria-label="Vier vakken" title="Vier vakken">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5h14v14H5z" /><path d="M12 5v14M5 12h14" /></svg>
@@ -362,9 +382,17 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 6h12M7 12h12M7 18h12" /><path d="M4 6h.01M4 12h.01M4 18h.01" /></svg>
                 <span>Stappen</span>
               </button>
+              <button type="button" data-add-block="testList" aria-label="Testlijst" title="Testlijst">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 6h.01M5 12h.01M5 18h.01" /><path d="M9 6h10M9 12h10M9 18h10" /></svg>
+                <span>Testlijst</span>
+              </button>
               <button type="button" data-add-block="gallery" aria-label="Galerij" title="Galerij">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14v11H5z" /><path d="m8 15 3-3 2 2 2-3 3 4" /><path d="M8 10h.01" /></svg>
                 <span>Galerij</span>
+              </button>
+              <button type="button" data-add-block="photoCollage" aria-label="Fotocollage" title="Fotocollage">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h8v12H4zM14 6h6v5h-6zM14 13h6v5h-6z" /><path d="m6 15 2-2 2 2" /></svg>
+                <span>Collage</span>
               </button>
               <button type="button" data-add-block="cta" aria-label="CTA" title="CTA">
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 8h14v8H5z" /><path d="M8 12h6M14 10l3 2-3 2" /></svg>
