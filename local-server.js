@@ -155,7 +155,18 @@ async function handleUploadsApi(request, response) {
   return true;
 }
 
-const allowedProjectBlocks = new Set(["hero", "meta", "facts", "metrics", "text", "process", "gallery", "cta"]);
+const allowedProjectBlocks = new Set([
+  "hero",
+  "meta",
+  "facts",
+  "metrics",
+  "text",
+  "columns",
+  "featureGrid",
+  "process",
+  "gallery",
+  "cta",
+]);
 
 function normalizeProjectBlocks(input, currentProject = null) {
   const source = Array.isArray(input) ? input : Array.isArray(currentProject?.blocks) ? currentProject.blocks : [];

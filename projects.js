@@ -74,6 +74,10 @@ function normalizeAssetUrl(value) {
   return `/${raw.replace(/^\.?\//, "")}`;
 }
 
+function projectDetailUrl(slug) {
+  return `/project-detail?slug=${encodeURIComponent(slug || "")}`;
+}
+
 function coverMarkup(project, className) {
   const image = normalizeAssetUrl(project.coverImage);
 
@@ -491,7 +495,7 @@ function renderProjectBoardCard(project) {
   const category = projectCategoryLabel(project);
 
   return `
-    <a class="project-board-card project-board-card--live reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
+    <a class="project-board-card project-board-card--live reveal is-visible" href="${escapeAttribute(projectDetailUrl(project.slug))}">
       <div class="project-board-card__media" aria-hidden="true">
         <img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)}" />
       </div>
@@ -519,7 +523,7 @@ function renderProjectBoardPlaceholder(item, index) {
   const image = fallbackImages[index % fallbackImages.length];
 
   return `
-    <a class="project-board-card project-board-card--placeholder reveal is-visible" href="/projecten/${encodeURIComponent(item.slug)}" data-placeholder-index="${index + 1}">
+    <a class="project-board-card project-board-card--placeholder reveal is-visible" href="${escapeAttribute(projectDetailUrl(item.slug))}" data-placeholder-index="${index + 1}">
       <div class="project-board-card__media project-board-card__media--placeholder" aria-hidden="true">
         <img src="${escapeHtml(image)}" alt="" />
         <span>${escapeHtml(item.mark)}</span>
@@ -750,7 +754,7 @@ function renderProjectFeed(projects) {
       ${projectMeta(featuredProject, true)}
       <h2>${escapeHtml(featuredProject.title)}</h2>
       <p>${escapeHtml(featuredProject.excerpt)}</p>
-      <a class="primary-link" href="/projecten/${encodeURIComponent(featuredProject.slug)}">
+      <a class="primary-link" href="${escapeAttribute(projectDetailUrl(featuredProject.slug))}">
         <span>Lees project</span>
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
       </a>
@@ -760,7 +764,7 @@ function renderProjectFeed(projects) {
   projectGridRoot.innerHTML = remainingProjects
     .map(
       (project) => `
-        <a class="blog-card reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
+        <a class="blog-card reveal is-visible" href="${escapeAttribute(projectDetailUrl(project.slug))}">
           ${coverMarkup(project, "blog-card__media")}
           <div class="blog-card__body">
             ${projectMeta(project)}
@@ -796,7 +800,7 @@ function renderHomeProjects(projects) {
       const variant = index === 0 ? "featured" : index === 1 ? "tall" : "small";
 
       return `
-        <a class="home-project-card home-project-card--${variant} reveal is-visible" href="/projecten/${encodeURIComponent(project.slug)}">
+        <a class="home-project-card home-project-card--${variant} reveal is-visible" href="${escapeAttribute(projectDetailUrl(project.slug))}">
           ${coverMarkup(project, "home-project-card__media")}
           <div class="home-project-card__meta">
             <span class="home-project-chip">${escapeHtml(projectCategoryLabel(project))}</span>
@@ -981,6 +985,24 @@ const projectBlockTypes = {
       ["variant", "Stijl", "select", ["Wit", "Blauw vlak"]],
     ],
   },
+  columns: {
+    label: "Twee kolommen",
+    fields: [
+      ["leftEyebrow", "Linker label", "input"],
+      ["leftBody", "Linker tekst", "textarea"],
+      ["rightEyebrow", "Rechter label", "input"],
+      ["rightBody", "Rechter tekst", "textarea"],
+      ["noteTitle", "Kleine titel rechts", "input"],
+      ["noteBody", "Kleine tekst rechts", "textarea"],
+    ],
+  },
+  featureGrid: {
+    label: "Vier vakken",
+    fields: [
+      ["title", "Titel", "input"],
+      ["items", "Vakken, een per regel: label, titel, tekst", "textarea"],
+    ],
+  },
   process: {
     label: "Stappenplan",
     fields: [
@@ -1054,6 +1076,23 @@ function createProjectBlock(type, project = {}) {
       title: "Wat hebben we gedaan?",
       body: body || project.excerpt || "",
       variant: "Wit",
+    },
+    columns: {
+      leftEyebrow: "Over dit project",
+      leftBody:
+        body ||
+        "Beschrijf hier de achtergrond van het project. Gebruik een lege regel om een nieuwe alinea te beginnen.\n\nVoeg daarna de context, partijen en belangrijkste aanleiding toe.",
+      rightEyebrow: "Missie",
+      rightBody:
+        "Beschrijf hier de ambitie, doelstelling of gezamenlijke missie van het project. Houd deze tekst ruim en redactioneel.",
+      noteTitle: "Rol van Blauwe Bagger",
+      noteBody:
+        "Blauwe Bagger brengt praktijkkennis, data en mobiele verwerking samen om de circulaire route van bagger naar grondstof concreet te maken.",
+    },
+    featureGrid: {
+      title: "Wat doet het consortium?",
+      items:
+        "Standaarden, Sectornormen ontwikkelen, Het consortium werkt aan eenduidige kwaliteitsstandaarden voor secundaire grondstoffen uit bagger.\nPilots, Praktijkproeven financieren, Via het consortium worden pilots opgezet waarbij baggerstromen daadwerkelijk circulair worden verwerkt.\nRegelgeving, Beleid agenderen, Overheden en waterschappen worden betrokken om regelgeving rond baggerhergebruik te moderniseren.\nNetwerk, Ketensamenwerking opbouwen, Door partijen aan elkaar te verbinden ontstaat de keten die nodig is om bagger als grondstof te laten functioneren.",
     },
     process: {
       title: "Aanpak",
@@ -1654,6 +1693,87 @@ function renderProjectBlockText(block) {
   return wrapPreviewBlock(block, markup);
 }
 
+function renderColumnRichText(value, fieldName, className = "project-builder-column-copy") {
+  const paragraphs = String(value || "")
+    .split(/\n\s*\n/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => `<p>${escapeHtml(item)}</p>`)
+    .join("");
+
+  return `<div class="${className}" ${
+    isBuilderEditor() ? `contenteditable="true" spellcheck="false" data-preview-field="${escapeAttribute(fieldName)}"` : ""
+  }>${paragraphs}</div>`;
+}
+
+function renderProjectBlockColumns(block) {
+  const fields = block.fields || {};
+  const note = String(fields.noteTitle || fields.noteBody || "").trim()
+    ? `
+      <div class="project-builder-column-note">
+        ${previewEditable(fields.noteTitle || "Rol van Blauwe Bagger", "noteTitle", "h3")}
+        ${renderColumnRichText(fields.noteBody || "", "noteBody", "project-builder-column-note__body")}
+      </div>
+    `
+    : "";
+
+  const markup = `
+    <section class="project-builder-section project-builder-columns">
+      <div class="project-builder-column">
+        ${previewEditable(fields.leftEyebrow || "Over dit project", "leftEyebrow", "p", "project-builder-kicker")}
+        ${renderColumnRichText(fields.leftBody || "", "leftBody")}
+      </div>
+      <div class="project-builder-column">
+        ${previewEditable(fields.rightEyebrow || "Missie", "rightEyebrow", "p", "project-builder-kicker")}
+        ${renderColumnRichText(fields.rightBody || "", "rightBody")}
+        ${note}
+      </div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
+function renderProjectBlockFeatureGrid(block) {
+  const fields = block.fields || {};
+  const items = String(fields.items || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split(/\s*[,|]\s*/);
+      return {
+        eyebrow: parts.shift() || "",
+        title: parts.shift() || "",
+        body: parts.join(", "),
+      };
+    })
+    .slice(0, 4);
+
+  const cards = items
+    .map(
+      (item, index) => `
+        <article class="project-builder-feature-cell">
+          ${previewListEditable(item.eyebrow, "items", index, "label", "p", "project-builder-kicker")}
+          ${previewListEditable(item.title, "items", index, "title", "h3")}
+          ${previewListEditable(item.body, "items", index, "value", "p", "project-builder-feature-cell__body")}
+        </article>
+      `,
+    )
+    .join("");
+
+  const markup = `
+    <section class="project-builder-section project-builder-feature-grid">
+      ${previewEditable(fields.title || "Wat doet het consortium?", "title", "h2")}
+      <div class="project-builder-feature-grid__cells">
+        ${cards}
+      </div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderProjectBlockProcess(block) {
   const steps = linesToPairs(block.fields?.steps)
     .map(
@@ -1723,6 +1843,8 @@ function renderProjectBlocks(project) {
       if (block.type === "facts") return renderProjectBlockFacts(block);
       if (block.type === "metrics") return renderProjectBlockMetrics(block);
       if (block.type === "text") return renderProjectBlockText(block);
+      if (block.type === "columns") return renderProjectBlockColumns(block);
+      if (block.type === "featureGrid") return renderProjectBlockFeatureGrid(block);
       if (block.type === "process") return renderProjectBlockProcess(block);
       if (block.type === "gallery") return renderProjectBlockGallery(block);
       if (block.type === "cta") return renderProjectBlockCta(block);
@@ -1972,7 +2094,7 @@ function renderAdminList(projects) {
           )}" title="Bewerk">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 16-.8 3.8L8 19l10.5-10.5-3-3L5 16Z" /><path d="m14.5 6.5 3 3" /></svg>
           </button>
-          <a class="admin-project-card__icon" href="/projecten/${encodeURIComponent(project.slug)}" target="_blank" rel="noreferrer" aria-label="${escapeAttribute(
+          <a class="admin-project-card__icon" href="${escapeAttribute(projectDetailUrl(project.slug))}" target="_blank" rel="noreferrer" aria-label="${escapeAttribute(
             `${project.title} live bekijken`,
           )}" title="Bekijk live">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg>
@@ -2164,7 +2286,11 @@ async function initProjectDetail() {
     return;
   }
 
-  const slug = decodeURIComponent(window.location.pathname.replace(/^\/projecten\//, "").replace(/\/$/, ""));
+  const params = new URLSearchParams(window.location.search);
+  const slug = (
+    params.get("slug") ||
+    decodeURIComponent(window.location.pathname.replace(/^\/projecten\//, "").replace(/^\/project-detail\/?/, "").replace(/\/$/, ""))
+  ).trim();
 
   if (!slug) {
     projectDetailRoot.innerHTML = `<div class="section-inner"><div class="empty-state">Geen projectslug gevonden.</div></div>`;
