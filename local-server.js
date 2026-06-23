@@ -160,13 +160,26 @@ const allowedProjectBlocks = new Set([
   "meta",
   "facts",
   "metrics",
+  "resultCards",
   "text",
+  "simpleText",
   "columns",
+  "imageText",
   "featureGrid",
   "process",
+  "testList",
   "gallery",
+  "photoCollage",
   "cta",
 ]);
+
+function normalizeBlockFieldValue(value) {
+  if (value && typeof value === "object") {
+    return JSON.stringify(value).slice(0, 5000);
+  }
+
+  return String(value || "").slice(0, 5000);
+}
 
 function normalizeProjectBlocks(input, currentProject = null) {
   const source = Array.isArray(input) ? input : Array.isArray(currentProject?.blocks) ? currentProject.blocks : [];
@@ -183,7 +196,7 @@ function normalizeProjectBlocks(input, currentProject = null) {
         fields: Object.fromEntries(
           Object.entries(fields)
             .slice(0, 16)
-            .map(([key, value]) => [String(key).slice(0, 40), String(value || "").slice(0, 5000)]),
+            .map(([key, value]) => [String(key).slice(0, 40), normalizeBlockFieldValue(value)]),
         ),
       };
     });

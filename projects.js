@@ -1020,6 +1020,14 @@ const projectBlockTypes = {
       ["variant", "Stijl", "select", ["Wit", "Blauw vlak"]],
     ],
   },
+  simpleText: {
+    label: "Simpel tekstblok",
+    fields: [
+      ["title", "Titel", "input"],
+      ["body", "Tekst", "textarea"],
+      ["width", "Breedte", "select", ["Normaal", "Breed"]],
+    ],
+  },
   columns: {
     label: "Twee kolommen",
     fields: [
@@ -1141,6 +1149,12 @@ function createProjectBlock(type, project = {}) {
       title: "Wat hebben we gedaan?",
       body: body || project.excerpt || "",
       variant: "Wit",
+    },
+    simpleText: {
+      title: "Opstap naar schaal",
+      body:
+        "Na afronding van alle praktijktesten in 2026 bundelt Blauwe Bagger de opgedane inzichten in de ontwikkeling van de BlueBox v2 - een installatie die 25 m3 per uur kan verwerken. Dat is de snelheid waarop de meeste reguliere baggerprojecten worden uitgevoerd. De stap van praktijktest naar volwaardige inzet wordt zo klein mogelijk gemaakt.",
+      width: "Normaal",
     },
     columns: {
       leftEyebrow: "Over dit project",
@@ -1845,7 +1859,7 @@ function renderProjectBlockFacts(block) {
     )
     .join("");
   const paragraphs = String(fields.body || "")
-    .split(/\n\s*\n/)
+    .split(/\n+/)
     .map((item) => item.trim())
     .filter(Boolean)
     .map((item) => `<p>${escapeHtml(item)}</p>`)
@@ -1980,13 +1994,27 @@ function renderProjectBlockText(block) {
   return wrapPreviewBlock(block, markup);
 }
 
+function renderProjectBlockSimpleText(block) {
+  const fields = block.fields || {};
+  const wide = fields.width === "Breed" ? " project-builder-simple-text--wide" : "";
+
+  const markup = `
+    <section class="project-builder-section project-builder-simple-text${wide}">
+      ${previewEditable(fields.title || "Opstap naar schaal", "title", "h2")}
+      ${renderColumnRichText(fields.body || "", "body", "project-builder-simple-text__body")}
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderColumnRichText(value, fieldName, className = "project-builder-column-copy") {
   const scaleKey = textScaleKey(fieldName);
   const scaleAttributes = renderingPreviewBlock
     ? `${textFontScaleStyle(renderingPreviewBlock, scaleKey)} data-preview-scale-key="${escapeAttribute(scaleKey)}"`
     : "";
   const paragraphs = String(value || "")
-    .split(/\n\s*\n/)
+    .split(/\n+/)
     .map((item) => item.trim())
     .filter(Boolean)
     .map((item) => `<p>${escapeHtml(item)}</p>`)
@@ -2213,6 +2241,7 @@ function renderProjectBlocks(project) {
         if (block.type === "metrics") return renderProjectBlockMetrics(block);
         if (block.type === "resultCards") return renderProjectBlockResultCards(block);
         if (block.type === "text") return renderProjectBlockText(block);
+        if (block.type === "simpleText") return renderProjectBlockSimpleText(block);
         if (block.type === "columns") return renderProjectBlockColumns(block);
         if (block.type === "imageText") return renderProjectBlockImageText(block);
         if (block.type === "featureGrid") return renderProjectBlockFeatureGrid(block);
@@ -3094,7 +3123,7 @@ async function initProjectAdmin() {
       return;
     }
 
-    const value = (field || listField).textContent.trim();
+    const value = (field || listField).innerText.trim();
     activeBlockId = block.id;
     activePreviewTextBlockId = block.id;
 
@@ -3126,10 +3155,20 @@ async function initProjectAdmin() {
   builderPreview?.addEventListener(
     "keydown",
     (event) => {
+      const previewField = event.target.closest("[data-preview-field]");
+      const multilineField =
+        previewField &&
+        (previewField.matches("div") ||
+          previewField.classList.contains("project-builder-richtext") ||
+          previewField.classList.contains("project-builder-column-copy") ||
+          previewField.classList.contains("project-builder-simple-text__body") ||
+          previewField.classList.contains("project-builder-image-text__body"));
+
       if (
-        (event.target.closest("[data-preview-field]") || event.target.closest("[data-preview-list-field]")) &&
+        (previewField || event.target.closest("[data-preview-list-field]")) &&
         event.key === "Enter" &&
-        !event.shiftKey
+        !event.shiftKey &&
+        !multilineField
       ) {
         event.preventDefault();
         event.target.blur();

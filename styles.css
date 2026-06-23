@@ -4783,8 +4783,13 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-text h2,
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-simple-text h2,
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-process h2 {
   font-size: calc(clamp(2.1rem, 4vw, 4.6rem) * var(--block-font-scale));
+}
+
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-simple-text__body {
+  font-size: calc(clamp(1.16rem, 1.48vw, 1.55rem) * var(--block-font-scale));
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-process strong {
@@ -5331,6 +5336,49 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   line-height: 0.96;
 }
 
+.project-builder-simple-text {
+  display: grid;
+  gap: clamp(34px, 4.5vw, 62px);
+  max-width: min(1180px, calc(100% - 48px));
+  min-height: clamp(460px, 54vw, 720px);
+  padding: clamp(92px, 12vw, 190px) clamp(24px, 4vw, 64px);
+  margin-right: auto;
+  margin-left: auto;
+  align-content: start;
+  background: #ffffff;
+  border: 0;
+  box-shadow: none;
+}
+
+.project-builder-simple-text--wide {
+  max-width: min(1380px, calc(100% - 48px));
+}
+
+.project-builder-simple-text h2 {
+  max-width: 900px;
+  margin: 0;
+  color: #151515;
+  font-family: var(--font-body);
+  font-size: clamp(2.1rem, 3vw, 3.15rem);
+  font-weight: 430;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+}
+
+.project-builder-simple-text__body {
+  display: grid;
+  gap: 18px;
+  max-width: 1040px;
+  color: rgba(15, 15, 18, 0.88);
+  font-size: clamp(1.16rem, 1.48vw, 1.55rem);
+  font-weight: 420;
+  line-height: 1.72;
+}
+
+.project-builder-simple-text__body p {
+  margin: 0;
+}
+
 .project-builder-section--dark {
   color: #ffffff;
   background:
@@ -5567,6 +5615,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   }
 
   .project-builder-result-card,
+  .project-builder-simple-text,
   .project-builder-photo-collage figure {
     min-height: auto;
   }
@@ -5619,6 +5668,12 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   .project-builder-section,
   .project-builder-cta {
     padding: 36px 22px;
+  }
+
+  .project-builder-simple-text {
+    max-width: 100%;
+    min-height: 0;
+    padding: 56px 24px;
   }
 
   .project-builder-columns {
