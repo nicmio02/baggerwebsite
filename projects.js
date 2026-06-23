@@ -1811,6 +1811,10 @@ function markPreviewDropTarget(event) {
   blockElement.classList.add("is-drop-target", event.clientY > rect.top + rect.height / 2 ? "is-drop-after" : "is-drop-before");
 }
 
+const maxUploadRequestBytes = 7.5 * 1024 * 1024;
+const maxUploadImageBytes = 5 * 1024 * 1024;
+const maxUploadImageEdge = 2400;
+
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1820,8 +1824,89 @@ function fileToDataUrl(file) {
   });
 }
 
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) {
+          resolve(blob);
+          return;
+        }
+
+        reject(new Error("Afbeelding kon niet worden verkleind."));
+      },
+      type,
+      quality,
+    );
+  });
+}
+
+function imageFromFile(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Afbeelding kon niet worden gelezen."));
+    };
+    image.src = url;
+  });
+}
+
+async function prepareImageForUpload(file) {
+  const canResize = /^image\/(jpeg|png|webp)$/i.test(file.type || "");
+  const image = canResize ? await imageFromFile(file) : null;
+  const shouldResize =
+    image &&
+    (file.size > maxUploadImageBytes ||
+      Math.max(image.naturalWidth || image.width || 0, image.naturalHeight || image.height || 0) > maxUploadImageEdge);
+
+  if (!shouldResize) {
+    const data = await fileToDataUrl(file);
+
+    if (data.length > maxUploadRequestBytes) {
+      throw new Error("Afbeelding is te groot. Gebruik een kleinere afbeelding of exporteer hem onder 5 MB.");
+    }
+
+    return {
+      data,
+      filename: file.name,
+      type: file.type,
+    };
+  }
+
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  const scale = Math.min(1, maxUploadImageEdge / Math.max(sourceWidth, sourceHeight));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(sourceWidth * scale));
+  canvas.height = Math.max(1, Math.round(sourceHeight * scale));
+
+  const context = canvas.getContext("2d");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  const blob = await canvasToBlob(canvas, "image/webp", 0.84);
+  const data = await fileToDataUrl(blob);
+
+  if (data.length > maxUploadRequestBytes) {
+    throw new Error("Afbeelding blijft te groot na verkleinen. Gebruik een afbeelding onder 5 MB.");
+  }
+
+  return {
+    data,
+    filename: file.name.replace(/\.[a-z0-9]+$/i, "") + ".webp",
+    type: "image/webp",
+  };
+}
+
 async function uploadImageFile(file) {
-  const data = await fileToDataUrl(file);
+  const upload = await prepareImageForUpload(file);
   const response = await fetch("/api/uploads", {
     method: "POST",
     credentials: "same-origin",
@@ -1829,9 +1914,9 @@ async function uploadImageFile(file) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      filename: file.name,
-      type: file.type,
-      data,
+      filename: upload.filename,
+      type: upload.type,
+      data: upload.data,
     }),
   });
   const payload = await response.json().catch(() => ({}));
