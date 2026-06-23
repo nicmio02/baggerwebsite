@@ -2773,6 +2773,20 @@ body[data-page="producten"] main > :not(.build-screen) {
   transform: translateY(-50%);
 }
 
+.plan-timeline-progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  width: var(--timeline-progress, 12%);
+  height: 4px;
+  background: linear-gradient(90deg, rgba(22, 71, 107, 0.96), rgba(56, 81, 147, 0.52));
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(22, 71, 107, 0.16);
+  transform: translateY(-50%);
+  transition: width 240ms ease;
+}
+
 .plan-timeline-line::after {
   position: absolute;
   top: 50%;
@@ -2792,11 +2806,15 @@ body[data-page="producten"] main > :not(.build-screen) {
   left: var(--timeline-pos);
   display: grid;
   justify-items: center;
+  padding: 0;
   color: rgba(17, 25, 48, 0.48);
   font-size: clamp(0.86rem, 1vw, 1.02rem);
   font-weight: 850;
   letter-spacing: -0.01em;
   text-align: center;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
   transform: translate(-50%, -50%);
 }
 
@@ -2821,6 +2839,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   position: absolute;
   width: max-content;
   max-width: 170px;
+  pointer-events: none;
 }
 
 .plan-timeline-point--top::after {
@@ -2842,6 +2861,20 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-timeline-point--active {
   color: #16476b;
+}
+
+.plan-timeline-point:hover,
+.plan-timeline-point:focus-visible {
+  color: #16476b;
+  outline: none;
+}
+
+.plan-timeline-point:hover::before,
+.plan-timeline-point:focus-visible::before {
+  border-color: rgba(22, 71, 107, 0.62);
+  box-shadow:
+    0 0 0 4px rgba(248, 251, 255, 0.96),
+    0 6px 16px rgba(22, 71, 107, 0.14);
 }
 
 .plan-timeline-point--active::before {

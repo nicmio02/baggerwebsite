@@ -22,6 +22,12 @@ const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
 const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]");
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
+const planTimelineAxis = document.querySelector(".plan-timeline-axis");
+const planTimelineSteps = document.querySelectorAll("[data-plan-timeline-step]");
+const planActiveYear = document.querySelector("[data-plan-active-year]");
+const planActivePeriod = document.querySelector("[data-plan-active-period]");
+const planActiveTitle = document.querySelector("[data-plan-active-title]");
+const planActiveCopy = document.querySelector("[data-plan-active-copy]");
 const carousels = document.querySelectorAll("[data-carousel]");
 const baggerWidget = document.querySelector("#bagger-widget");
 const blueHeaderSections = document.querySelectorAll(".home-section--blue, .home-section--blueprint");
@@ -758,6 +764,43 @@ function selectBlueprintStep(step) {
   }
 }
 
+function selectPlanTimelineStep(step) {
+  if (!step || !planTimelineSteps.length) {
+    return;
+  }
+
+  planTimelineSteps.forEach((item) => {
+    const isActive = item === step;
+    item.classList.toggle("plan-timeline-point--active", isActive);
+
+    if (isActive) {
+      item.setAttribute("aria-current", "true");
+    } else {
+      item.removeAttribute("aria-current");
+    }
+  });
+
+  if (planTimelineAxis) {
+    planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "12%");
+  }
+
+  if (planActiveYear) {
+    planActiveYear.textContent = step.dataset.planYear || "";
+  }
+
+  if (planActivePeriod) {
+    planActivePeriod.textContent = step.dataset.planPeriod || "";
+  }
+
+  if (planActiveTitle) {
+    planActiveTitle.textContent = step.dataset.planTitle || "";
+  }
+
+  if (planActiveCopy) {
+    planActiveCopy.textContent = step.dataset.planCopy || "";
+  }
+}
+
 function getCarouselStep(track) {
   const firstItem = track?.children?.[0];
   const style = track ? window.getComputedStyle(track) : null;
@@ -992,6 +1035,10 @@ blueprintSteps.forEach((step) => {
   }
 
   button.addEventListener("click", () => selectBlueprintStep(step));
+});
+
+planTimelineSteps.forEach((step) => {
+  step.addEventListener("click", () => selectPlanTimelineStep(step));
 });
 
 if (header) {
