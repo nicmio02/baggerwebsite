@@ -1252,16 +1252,37 @@ function linesToPairs(value, options = {}) {
     .filter(Boolean)
     .forEach((line) => {
       const hasDivider = /[,|]/.test(line);
+      const pair = splitListLine(line);
 
-      if (mergeContinuations && !hasDivider && pairs.length) {
-        pairs[pairs.length - 1][1] = [pairs[pairs.length - 1][1], line].filter(Boolean).join(" ");
+      if (mergeContinuations && pairs.length && (!hasDivider || !looksLikeListPair(pair))) {
+        pairs[pairs.length - 1][1] = [pairs[pairs.length - 1][1], line.replace(/\s+/g, " ").trim()]
+          .filter(Boolean)
+          .join(" ");
         return;
       }
 
-      pairs.push(splitListLine(line));
+      pairs.push(pair);
     });
 
   return pairs.filter(([label, body]) => label || body);
+}
+
+function looksLikeListPair([label, body]) {
+  const cleanLabel = String(label || "").trim();
+
+  if (!cleanLabel || !String(body || "").trim()) {
+    return false;
+  }
+
+  if (cleanLabel.length > 90 || cleanLabel.split(/\s+/).length > 10) {
+    return false;
+  }
+
+  if (/^[a-z]/.test(cleanLabel) || /[.!?]$/.test(cleanLabel)) {
+    return false;
+  }
+
+  return true;
 }
 
 function pairsToLines(pairs) {
