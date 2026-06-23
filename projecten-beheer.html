@@ -234,8 +234,12 @@
           <a class="brand-link" href="/projecten" aria-label="Blauwe Bagger projecten">
             <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
           </a>
-          <button class="button-ghost" type="button" data-admin-dashboard-open>Projecten</button>
-          <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+          <div class="builder-sidebar__nav">
+            <button class="button-ghost" type="button" data-admin-dashboard-open>Projecten</button>
+            <button class="button-ghost" type="button" data-builder-sidebar-toggle>Menu sluiten</button>
+            <button class="button-ghost" type="button" data-builder-fullscreen-toggle>Volledig scherm</button>
+            <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+          </div>
         </div>
 
         <form id="project-builder-form" class="admin-form builder-sidebar-form" data-admin-form>
@@ -383,6 +387,10 @@
       </aside>
 
       <section class="builder-canvas" aria-label="Project preview" data-builder-editor hidden>
+        <div class="builder-canvas__tools">
+          <button class="button-ghost" type="button" data-builder-sidebar-restore>Menu openen</button>
+          <button class="button-ghost" type="button" data-builder-fullscreen-exit>Editor openen</button>
+        </div>
         <div class="builder-preview" data-builder-preview></div>
       </section>
 

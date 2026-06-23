@@ -11,6 +11,10 @@ const adminStatus = document.querySelector("[data-admin-status]");
 const adminResetButton = document.querySelector("[data-admin-reset]");
 const adminDashboard = document.querySelector("[data-admin-dashboard]");
 const adminDashboardOpenButtons = document.querySelectorAll("[data-admin-dashboard-open]");
+const builderSidebarToggle = document.querySelector("[data-builder-sidebar-toggle]");
+const builderSidebarRestore = document.querySelector("[data-builder-sidebar-restore]");
+const builderFullscreenToggle = document.querySelector("[data-builder-fullscreen-toggle]");
+const builderFullscreenExit = document.querySelector("[data-builder-fullscreen-exit]");
 const builderEditorRegions = document.querySelectorAll("[data-builder-editor]");
 const blockBuilder = document.querySelector("[data-block-builder]");
 const blockList = document.querySelector("[data-block-list]");
@@ -1593,8 +1597,8 @@ function renderProjectBlockMeta(block) {
 }
 
 function renderProjectBlockMetrics(block) {
-  const items = linesToPairs(block.fields?.items)
-    .slice(0, 4)
+  const metricPairs = linesToPairs(block.fields?.items).slice(0, 4);
+  const items = metricPairs
     .map(
       ([number, label], index) => `
         <div class="project-builder-metric">
@@ -1605,7 +1609,10 @@ function renderProjectBlockMetrics(block) {
     )
     .join("");
 
-  return wrapPreviewBlock(block, `<section class="project-builder-metrics">${items}</section>`);
+  return wrapPreviewBlock(
+    block,
+    `<section class="project-builder-metrics project-builder-metrics--count-${metricPairs.length}" data-metric-count="${metricPairs.length}">${items}</section>`,
+  );
 }
 
 function renderProjectBlockText(block) {
@@ -1832,7 +1839,26 @@ function fillAdminForm(project, updateUrl = true) {
   showProjectEditor(updateUrl);
 }
 
+function setBuilderViewMode(mode = "editor") {
+  if (!projectAdminRoot) {
+    return;
+  }
+
+  projectAdminRoot.classList.toggle("is-sidebar-collapsed", mode === "collapsed");
+  projectAdminRoot.classList.toggle("is-preview-fullscreen", mode === "fullscreen");
+
+  if (builderSidebarToggle) {
+    builderSidebarToggle.textContent = mode === "collapsed" ? "Menu openen" : "Menu sluiten";
+    builderSidebarToggle.setAttribute("aria-pressed", mode === "collapsed" ? "true" : "false");
+  }
+
+  if (builderFullscreenToggle) {
+    builderFullscreenToggle.setAttribute("aria-pressed", mode === "fullscreen" ? "true" : "false");
+  }
+}
+
 function showProjectDashboard(updateUrl = true) {
+  setBuilderViewMode("editor");
   adminDashboard?.removeAttribute("hidden");
   builderEditorRegions.forEach((region) => {
     region.setAttribute("hidden", "");
@@ -2180,6 +2206,29 @@ async function initProjectAdmin() {
     button.addEventListener("click", () => {
       showProjectDashboard();
     });
+  });
+
+  builderSidebarToggle?.addEventListener("click", () => {
+    const isCollapsed = projectAdminRoot.classList.contains("is-sidebar-collapsed");
+    setBuilderViewMode(isCollapsed ? "editor" : "collapsed");
+  });
+
+  builderSidebarRestore?.addEventListener("click", () => {
+    setBuilderViewMode("editor");
+  });
+
+  builderFullscreenToggle?.addEventListener("click", () => {
+    setBuilderViewMode("fullscreen");
+  });
+
+  builderFullscreenExit?.addEventListener("click", () => {
+    setBuilderViewMode("editor");
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && projectAdminRoot.classList.contains("is-preview-fullscreen")) {
+      setBuilderViewMode("editor");
+    }
   });
 
   window.addEventListener("popstate", async () => {
