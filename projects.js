@@ -1242,13 +1242,34 @@ function normalizeAdminBlocks(blocks, project = {}) {
   return defaultProjectBlocks(project);
 }
 
-function linesToPairs(value) {
-  return String(value || "")
+function linesToPairs(value, options = {}) {
+  const mergeContinuations = Boolean(options.mergeContinuations);
+  const pairs = [];
+
+  String(value || "")
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter(Boolean)
-    .map(splitListLine)
-    .filter(([label, body]) => label || body);
+    .forEach((line) => {
+      const hasDivider = /[,|]/.test(line);
+
+      if (mergeContinuations && !hasDivider && pairs.length) {
+        pairs[pairs.length - 1][1] = [pairs[pairs.length - 1][1], line].filter(Boolean).join(" ");
+        return;
+      }
+
+      pairs.push(splitListLine(line));
+    });
+
+  return pairs.filter(([label, body]) => label || body);
+}
+
+function pairsToLines(pairs) {
+  return pairs
+    .map(([label, body]) => [label, body].map((value) => String(value || "").replace(/\s+/g, " ").trim()))
+    .map(([label, body]) => (body ? `${label}, ${body}` : label))
+    .filter(Boolean)
+    .join("\n");
 }
 
 function blockTitle(block) {
@@ -1551,6 +1572,10 @@ function collectAdminBlocks() {
     root.querySelectorAll("[data-block-field]").forEach((field) => {
       block.fields[field.getAttribute("data-block-field")] = field.value;
     });
+
+    if ((block.type === "process" || block.type === "testList") && block.fields.steps) {
+      block.fields.steps = pairsToLines(linesToPairs(block.fields.steps, { mergeContinuations: true }));
+    }
   });
 
   return adminBlocks.map((block) => ({
@@ -1683,7 +1708,7 @@ function updateInspectorField(fieldName, value) {
 }
 
 function updateBlockListField(block, fieldName, index, part, value) {
-  const pairs = linesToPairs(block.fields?.[fieldName]);
+  const pairs = linesToPairs(block.fields?.[fieldName], { mergeContinuations: fieldName === "steps" });
   const lineIndex = Number(index);
 
   if (!Number.isFinite(lineIndex) || lineIndex < 0) {
@@ -1694,8 +1719,8 @@ function updateBlockListField(block, fieldName, index, part, value) {
     pairs.push(["", ""]);
   }
 
-  pairs[lineIndex][part === "label" ? 0 : 1] = value;
-  block.fields[fieldName] = pairs.map(([label, body]) => `${label}, ${body}`.trim()).join("\n");
+  pairs[lineIndex][part === "label" ? 0 : 1] = String(value || "").replace(/\s+/g, " ").trim();
+  block.fields[fieldName] = pairsToLines(pairs);
   updateInspectorField(fieldName, block.fields[fieldName]);
 }
 
@@ -2117,7 +2142,7 @@ function renderProjectBlockFeatureGrid(block) {
 }
 
 function renderProjectBlockProcess(block) {
-  const steps = linesToPairs(block.fields?.steps)
+  const steps = linesToPairs(block.fields?.steps, { mergeContinuations: true })
     .map(
       ([title, text], index) => `
         <li>
@@ -2143,7 +2168,7 @@ function renderProjectBlockProcess(block) {
 
 function renderProjectBlockTestList(block) {
   const fields = block.fields || {};
-  const rows = linesToPairs(fields.steps)
+  const rows = linesToPairs(fields.steps, { mergeContinuations: true })
     .map(
       ([title, text], index) => `
         <li>
