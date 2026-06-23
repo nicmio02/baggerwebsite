@@ -28,6 +28,9 @@ let draggedBlockId = "";
 let draggedBlockType = "";
 let activeBlockId = "";
 let adminProjectsCache = [];
+let renderingPreviewBlock = null;
+let activePreviewTextBlockId = "";
+let activePreviewTextKey = "";
 
 function escapeHtml(value) {
   return String(value || "")
@@ -543,6 +546,31 @@ function splitListLine(line) {
   const parts = String(line || "").split(/\s*[,|]\s*/);
   const first = parts.shift() || "";
   return [first.trim(), parts.join(", ").trim()];
+}
+
+function parseGalleryItems(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const commaIndex = line.indexOf(",");
+      const image = (commaIndex === -1 ? line : line.slice(0, commaIndex)).trim();
+      const caption = (commaIndex === -1 ? "" : line.slice(commaIndex + 1)).trim();
+      return { image, caption };
+    })
+    .filter((item) => item.image);
+}
+
+function serializeGalleryItems(items) {
+  return items
+    .map((item) => {
+      const image = String(item.image || "").trim();
+      const caption = String(item.caption || "").trim();
+      return caption ? `${image}, ${caption}` : image;
+    })
+    .filter(Boolean)
+    .join("\n");
 }
 
 function normalizeClientParagraphs(input) {
@@ -1222,6 +1250,62 @@ function blockFontScaleStyle(block) {
   return `style="--block-font-scale: ${(blockFontScale(block) / 100).toFixed(2)}"`;
 }
 
+function fieldFontScales(block) {
+  const scales = block?.fields?.fontScales;
+
+  if (scales && typeof scales === "object" && !Array.isArray(scales)) {
+    return scales;
+  }
+
+  if (typeof scales === "string") {
+    try {
+      const parsed = JSON.parse(scales);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  return {};
+}
+
+function textScaleKey(field) {
+  return `field:${field}`;
+}
+
+function listTextScaleKey(field, index, part) {
+  return `list:${field}:${index}:${part}`;
+}
+
+function textFontScale(block, key) {
+  const value = Number(fieldFontScales(block)[key]);
+
+  if (Number.isFinite(value)) {
+    return Math.min(130, Math.max(70, value));
+  }
+
+  return blockFontScale(block);
+}
+
+function textFontScaleStyle(block, key) {
+  const scale = textFontScale(block, key);
+  return scale === 100 ? "" : ` style="font-size: calc(1em * ${(scale / 100).toFixed(2)})"`;
+}
+
+function scalePreviewText(block, key, delta) {
+  if (!block || !key || !Number.isFinite(delta)) {
+    return;
+  }
+
+  const nextScale = Math.min(130, Math.max(70, textFontScale(block, key) + delta));
+
+  block.fields.fontScales = {
+    ...fieldFontScales(block),
+    [key]: String(nextScale),
+  };
+  delete block.fields.fontScale;
+}
+
 function renderBlockField(block, field) {
   const [name, label, kind, options = []] = field;
   const value = block.fields?.[name] || "";
@@ -1245,15 +1329,47 @@ function renderBlockField(block, field) {
   }
 
   if (kind === "gallery") {
+    const items = parseGalleryItems(value);
+
     return `
-      <label for="${escapeAttribute(fieldId)}">
-        ${escapeHtml(label)}
-        <textarea id="${escapeAttribute(fieldId)}" data-block-field="${escapeAttribute(name)}" rows="5">${escapeHtml(value)}</textarea>
-      </label>
-      <label class="builder-upload-control">
-        <span>Afbeeldingen uploaden</span>
-        <input type="file" accept="image/*" multiple data-gallery-upload data-target-field="${escapeAttribute(name)}" />
-      </label>
+      <div class="builder-gallery-field" data-gallery-field="${escapeAttribute(name)}">
+        <span class="builder-upload-label">${escapeHtml(label)}</span>
+        <input id="${escapeAttribute(fieldId)}" type="hidden" data-block-field="${escapeAttribute(name)}" value="${escapeAttribute(value)}" />
+        <div class="builder-gallery-list">
+          ${
+            items.length
+              ? items
+                  .map(
+                    (item, index) => `
+                      <article class="builder-gallery-item" data-gallery-item data-gallery-image="${escapeAttribute(item.image)}">
+                        <img src="${escapeAttribute(normalizeAssetUrl(item.image))}" alt="" />
+                        <div class="builder-gallery-item__body">
+                          <input data-gallery-caption value="${escapeAttribute(item.caption)}" placeholder="Bijschrift" aria-label="Bijschrift afbeelding ${index + 1}" />
+                          <div class="builder-gallery-item__actions">
+                            <button type="button" data-gallery-move="-1" ${index === 0 ? "disabled" : ""} aria-label="Afbeelding omhoog" title="Omhoog">
+                              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" /></svg>
+                            </button>
+                            <button type="button" data-gallery-move="1" ${index === items.length - 1 ? "disabled" : ""} aria-label="Afbeelding omlaag" title="Omlaag">
+                              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg>
+                            </button>
+                            <button type="button" data-gallery-remove aria-label="Afbeelding verwijderen" title="Verwijder">
+                              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M10 11v6M14 11v6M8 7l1-3h6l1 3M7 7l1 13h8l1-13" /></svg>
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    `,
+                  )
+                  .join("")
+              : `<div class="builder-gallery-empty">Nog geen afbeeldingen gekozen.</div>`
+          }
+        </div>
+        <label class="builder-upload-control">
+          <span>Afbeeldingen uploaden</span>
+          <small>Nieuwe beelden worden onderaan toegevoegd</small>
+          <input type="file" accept="image/*" multiple data-gallery-upload data-target-field="${escapeAttribute(name)}" />
+        </label>
+      </div>
     `;
   }
 
@@ -1327,21 +1443,31 @@ function renderBlockEditor() {
 }
 
 function previewEditable(value, field, tagName = "span", className = "") {
+  const scaleKey = textScaleKey(field);
+  const scaleAttributes = renderingPreviewBlock
+    ? `${textFontScaleStyle(renderingPreviewBlock, scaleKey)} data-preview-scale-key="${escapeAttribute(scaleKey)}"`
+    : "";
+
   if (!isBuilderEditor()) {
-    return `<${tagName}${className ? ` class="${className}"` : ""}>${escapeHtml(value)}</${tagName}>`;
+    return `<${tagName}${className ? ` class="${className}"` : ""}${scaleAttributes}>${escapeHtml(value)}</${tagName}>`;
   }
 
-  return `<${tagName}${className ? ` class="${className}"` : ""} contenteditable="true" spellcheck="false" data-preview-field="${escapeAttribute(
+  return `<${tagName}${className ? ` class="${className}"` : ""}${scaleAttributes} contenteditable="true" spellcheck="false" data-preview-field="${escapeAttribute(
     field,
   )}">${escapeHtml(value)}</${tagName}>`;
 }
 
 function previewListEditable(value, field, index, part, tagName = "span", className = "") {
+  const scaleKey = listTextScaleKey(field, index, part);
+  const scaleAttributes = renderingPreviewBlock
+    ? `${textFontScaleStyle(renderingPreviewBlock, scaleKey)} data-preview-scale-key="${escapeAttribute(scaleKey)}"`
+    : "";
+
   if (!isBuilderEditor()) {
-    return `<${tagName}${className ? ` class="${className}"` : ""}>${escapeHtml(value)}</${tagName}>`;
+    return `<${tagName}${className ? ` class="${className}"` : ""}${scaleAttributes}>${escapeHtml(value)}</${tagName}>`;
   }
 
-  return `<${tagName}${className ? ` class="${className}"` : ""} contenteditable="true" spellcheck="false" data-preview-list-field="${escapeAttribute(
+  return `<${tagName}${className ? ` class="${className}"` : ""}${scaleAttributes} contenteditable="true" spellcheck="false" data-preview-list-field="${escapeAttribute(
     field,
   )}" data-preview-list-index="${escapeAttribute(index)}" data-preview-list-part="${escapeAttribute(part)}">${escapeHtml(
     value,
@@ -1356,20 +1482,19 @@ function wrapPreviewBlock(block, markup) {
   }
 
   const active = block.id === activeBlockId ? " is-selected" : "";
-  const fontScale = blockFontScale(block);
 
   return `
     <div class="builder-preview-block${active}" data-preview-block-id="${escapeAttribute(block.id)}" ${blockFontScaleStyle(
       block,
     )} draggable="true">
       <div class="builder-preview-toolbar" contenteditable="false">
-        <button type="button" data-preview-font-scale="-5" aria-label="Tekst kleiner" title="Tekst kleiner (${fontScale}%)">
+        <button type="button" data-preview-font-scale="-5" aria-label="Geselecteerde tekst kleiner" title="Geselecteerde tekst kleiner">
           <span aria-hidden="true" class="builder-preview-toolbar__type builder-preview-toolbar__type--small">A-</span>
-          <span class="sr-only">Tekst kleiner</span>
+          <span class="sr-only">Geselecteerde tekst kleiner</span>
         </button>
-        <button type="button" data-preview-font-scale="5" aria-label="Tekst groter" title="Tekst groter (${fontScale}%)">
+        <button type="button" data-preview-font-scale="5" aria-label="Geselecteerde tekst groter" title="Geselecteerde tekst groter">
           <span aria-hidden="true" class="builder-preview-toolbar__type">A+</span>
-          <span class="sr-only">Tekst groter</span>
+          <span class="sr-only">Geselecteerde tekst groter</span>
         </button>
         <button type="button" data-preview-move="-1" aria-label="Omhoog" title="Omhoog">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" /></svg>
@@ -1463,6 +1588,33 @@ function renderBuilderPreview() {
       ${renderProjectBlocks(project)}
     </div>
   `;
+}
+
+function galleryItemsFromField(root) {
+  return Array.from(root.querySelectorAll("[data-gallery-item]")).map((item) => ({
+    image: item.getAttribute("data-gallery-image") || item.querySelector("img")?.getAttribute("src") || "",
+    caption: item.querySelector("[data-gallery-caption]")?.value || "",
+  }));
+}
+
+function updateGalleryBlockField(root, shouldRenderInspector = false) {
+  const fieldName = root?.getAttribute("data-gallery-field");
+  const hiddenField = root?.querySelector("[data-block-field]");
+  const block = adminBlocks.find((item) => item.id === activeBlockId);
+
+  if (!fieldName || !hiddenField || !block) {
+    return;
+  }
+
+  const value = serializeGalleryItems(galleryItemsFromField(root));
+  hiddenField.value = value;
+  block.fields[fieldName] = value;
+
+  if (shouldRenderInspector) {
+    renderBlockInspector();
+  }
+
+  renderBuilderPreview();
 }
 
 function renderBlockInspector() {
@@ -1804,6 +1956,10 @@ function renderProjectBlockResultCards(block) {
 function renderProjectBlockText(block) {
   const fields = block.fields || {};
   const dark = fields.variant === "Blauw vlak" ? " project-builder-section--dark" : "";
+  const bodyScaleKey = textScaleKey("body");
+  const bodyScaleAttributes = renderingPreviewBlock
+    ? `${textFontScaleStyle(renderingPreviewBlock, bodyScaleKey)} data-preview-scale-key="${escapeAttribute(bodyScaleKey)}"`
+    : "";
   const paragraphs = String(fields.body || "")
     .split(/\n\s*\n/)
     .map((item) => item.trim())
@@ -1815,7 +1971,7 @@ function renderProjectBlockText(block) {
     <section class="project-builder-section project-builder-text${dark}">
       ${previewEditable(fields.eyebrow || "Verdieping", "eyebrow", "p", "project-builder-kicker")}
       ${previewEditable(fields.title || "", "title", "h2")}
-      <div class="project-builder-richtext" ${
+      <div class="project-builder-richtext"${bodyScaleAttributes} ${
         isBuilderEditor() ? 'contenteditable="true" spellcheck="false" data-preview-field="body"' : ""
       }>${paragraphs}</div>
     </section>
@@ -1825,6 +1981,10 @@ function renderProjectBlockText(block) {
 }
 
 function renderColumnRichText(value, fieldName, className = "project-builder-column-copy") {
+  const scaleKey = textScaleKey(fieldName);
+  const scaleAttributes = renderingPreviewBlock
+    ? `${textFontScaleStyle(renderingPreviewBlock, scaleKey)} data-preview-scale-key="${escapeAttribute(scaleKey)}"`
+    : "";
   const paragraphs = String(value || "")
     .split(/\n\s*\n/)
     .map((item) => item.trim())
@@ -1832,7 +1992,7 @@ function renderColumnRichText(value, fieldName, className = "project-builder-col
     .map((item) => `<p>${escapeHtml(item)}</p>`)
     .join("");
 
-  return `<div class="${className}" ${
+  return `<div class="${className}"${scaleAttributes} ${
     isBuilderEditor() ? `contenteditable="true" spellcheck="false" data-preview-field="${escapeAttribute(fieldName)}"` : ""
   }>${paragraphs}</div>`;
 }
@@ -2044,21 +2204,27 @@ function renderProjectBlocks(project) {
   const blocks = normalizeAdminBlocks(project.blocks, project);
   return blocks
     .map((block) => {
-      if (block.type === "hero") return renderProjectBlockHero(block, project);
-      if (block.type === "meta") return renderProjectBlockMeta(block);
-      if (block.type === "facts") return renderProjectBlockFacts(block);
-      if (block.type === "metrics") return renderProjectBlockMetrics(block);
-      if (block.type === "resultCards") return renderProjectBlockResultCards(block);
-      if (block.type === "text") return renderProjectBlockText(block);
-      if (block.type === "columns") return renderProjectBlockColumns(block);
-      if (block.type === "imageText") return renderProjectBlockImageText(block);
-      if (block.type === "featureGrid") return renderProjectBlockFeatureGrid(block);
-      if (block.type === "process") return renderProjectBlockProcess(block);
-      if (block.type === "testList") return renderProjectBlockTestList(block);
-      if (block.type === "gallery") return renderProjectBlockGallery(block);
-      if (block.type === "photoCollage") return renderProjectBlockPhotoCollage(block);
-      if (block.type === "cta") return renderProjectBlockCta(block);
-      return "";
+      renderingPreviewBlock = block;
+
+      try {
+        if (block.type === "hero") return renderProjectBlockHero(block, project);
+        if (block.type === "meta") return renderProjectBlockMeta(block);
+        if (block.type === "facts") return renderProjectBlockFacts(block);
+        if (block.type === "metrics") return renderProjectBlockMetrics(block);
+        if (block.type === "resultCards") return renderProjectBlockResultCards(block);
+        if (block.type === "text") return renderProjectBlockText(block);
+        if (block.type === "columns") return renderProjectBlockColumns(block);
+        if (block.type === "imageText") return renderProjectBlockImageText(block);
+        if (block.type === "featureGrid") return renderProjectBlockFeatureGrid(block);
+        if (block.type === "process") return renderProjectBlockProcess(block);
+        if (block.type === "testList") return renderProjectBlockTestList(block);
+        if (block.type === "gallery") return renderProjectBlockGallery(block);
+        if (block.type === "photoCollage") return renderProjectBlockPhotoCollage(block);
+        if (block.type === "cta") return renderProjectBlockCta(block);
+        return "";
+      } finally {
+        renderingPreviewBlock = null;
+      }
     })
     .join("");
 }
@@ -2720,6 +2886,13 @@ async function initProjectAdmin() {
   blockPalette?.addEventListener("dragend", clearBuilderDropState);
 
   blockInspector?.addEventListener("input", (event) => {
+    const galleryCaption = event.target.closest("[data-gallery-caption]");
+
+    if (galleryCaption) {
+      updateGalleryBlockField(galleryCaption.closest("[data-gallery-field]"));
+      return;
+    }
+
     const field = event.target.closest("[data-block-field]");
 
     if (!field) {
@@ -2732,6 +2905,45 @@ async function initProjectAdmin() {
       block.fields[field.getAttribute("data-block-field")] = field.value;
       renderBuilderPreview();
     }
+  });
+
+  blockInspector?.addEventListener("click", (event) => {
+    const moveButton = event.target.closest("[data-gallery-move]");
+    const removeButton = event.target.closest("[data-gallery-remove]");
+
+    if (!moveButton && !removeButton) {
+      return;
+    }
+
+    const item = event.target.closest("[data-gallery-item]");
+    const root = event.target.closest("[data-gallery-field]");
+
+    if (!item || !root) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (removeButton) {
+      item.remove();
+      updateGalleryBlockField(root, true);
+      return;
+    }
+
+    const direction = Number(moveButton.getAttribute("data-gallery-move"));
+    const sibling = direction < 0 ? item.previousElementSibling : item.nextElementSibling;
+
+    if (!sibling || !sibling.matches("[data-gallery-item]")) {
+      return;
+    }
+
+    if (direction < 0) {
+      root.querySelector(".builder-gallery-list")?.insertBefore(item, sibling);
+    } else {
+      root.querySelector(".builder-gallery-list")?.insertBefore(sibling, item);
+    }
+
+    updateGalleryBlockField(root, true);
   });
 
   blockInspector?.addEventListener("change", async (event) => {
@@ -2813,12 +3025,18 @@ async function initProjectAdmin() {
 
     const toolbarButton = event.target.closest("[data-preview-move], [data-preview-remove], [data-preview-font-scale]");
     const blockElement = event.target.closest("[data-preview-block-id]");
+    const textTarget = event.target.closest("[data-preview-scale-key]");
 
     if (!blockElement) {
       return;
     }
 
     const blockId = blockElement.getAttribute("data-preview-block-id");
+
+    if (textTarget) {
+      activePreviewTextBlockId = blockId;
+      activePreviewTextKey = textTarget.getAttribute("data-preview-scale-key") || "";
+    }
 
     if (toolbarButton) {
       event.preventDefault();
@@ -2835,10 +3053,14 @@ async function initProjectAdmin() {
       if (toolbarButton.matches("[data-preview-font-scale]")) {
         const block = adminBlocks.find((item) => item.id === blockId);
         const delta = Number(toolbarButton.getAttribute("data-preview-font-scale"));
+        const fallbackKey = blockElement.querySelector("[data-preview-scale-key]")?.getAttribute("data-preview-scale-key") || "";
+        const targetKey = activePreviewTextBlockId === blockId && activePreviewTextKey ? activePreviewTextKey : fallbackKey;
 
-        if (block && Number.isFinite(delta)) {
-          block.fields.fontScale = String(Math.min(130, Math.max(70, blockFontScale(block) + delta)));
+        if (block && targetKey && Number.isFinite(delta)) {
+          scalePreviewText(block, targetKey, delta);
           activeBlockId = blockId;
+          activePreviewTextBlockId = blockId;
+          activePreviewTextKey = targetKey;
           renderBlockEditor();
         }
 
@@ -2874,15 +3096,24 @@ async function initProjectAdmin() {
 
     const value = (field || listField).textContent.trim();
     activeBlockId = block.id;
+    activePreviewTextBlockId = block.id;
 
     if (field) {
       const fieldName = field.getAttribute("data-preview-field");
+      activePreviewTextKey = field.getAttribute("data-preview-scale-key") || textScaleKey(fieldName);
       block.fields[fieldName] = value;
       updateInspectorField(fieldName, value);
       return;
     }
 
     const fieldName = listField.getAttribute("data-preview-list-field");
+    activePreviewTextKey =
+      listField.getAttribute("data-preview-scale-key") ||
+      listTextScaleKey(
+        fieldName,
+        listField.getAttribute("data-preview-list-index"),
+        listField.getAttribute("data-preview-list-part"),
+      );
     updateBlockListField(
       block,
       fieldName,
