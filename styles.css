@@ -2627,26 +2627,26 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-intro-copy {
   display: grid;
-  gap: clamp(22px, 3vw, 34px);
-  max-width: min(1120px, 100%);
+  gap: clamp(32px, 4vw, 54px);
+  max-width: min(1180px, 100%);
 }
 
 .plan-intro-copy p {
   margin: 0;
   color: rgba(17, 25, 48, 0.78);
-  font-size: clamp(1rem, 1.18vw, 1.16rem);
+  font-size: clamp(1.12rem, 1.42vw, 1.42rem);
   font-weight: 500;
   letter-spacing: -0.012em;
-  line-height: 1.55;
+  line-height: 1.7;
 }
 
 .plan-intro-copy .plan-intro-lead {
-  max-width: 980px;
+  max-width: 1120px;
   color: rgba(17, 25, 48, 0.82);
   font-size: clamp(1.2rem, 1.55vw, 1.52rem);
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.38;
+  line-height: 1.55;
 }
 
 .plan-intro-copy strong {
@@ -2655,7 +2655,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-intro-copy em {
-  color: rgba(17, 25, 48, 0.74);
+  color: #16476b;
+  font-style: italic;
 }
 
 .plan-principles {
@@ -2705,8 +2706,9 @@ body[data-page="producten"] main > :not(.build-screen) {
   line-height: 1.42;
 }
 
+.plan-intro-body,
 .plan-intro-support {
-  max-width: 980px;
+  max-width: 1120px;
 }
 
 .plan-intro-note {
@@ -2719,6 +2721,226 @@ body[data-page="producten"] main > :not(.build-screen) {
   background: rgba(56, 81, 147, 0.08);
   border: 1px solid rgba(56, 81, 147, 0.16);
   border-radius: 999px;
+}
+
+.plan-timeline-section {
+  padding: clamp(72px, 9vw, 128px) 0 clamp(96px, 11vw, 150px);
+  color: #111930;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(201, 235, 255, 0.54), transparent 28%),
+    linear-gradient(rgba(56, 81, 147, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 81, 147, 0.032) 1px, transparent 1px),
+    #f8fbff;
+  background-size: auto, 54px 54px, 54px 54px, auto;
+}
+
+.plan-timeline-frame {
+  display: grid;
+  gap: clamp(48px, 6vw, 88px);
+}
+
+.plan-timeline-title {
+  margin: 0;
+  color: #111930;
+  font-size: clamp(2rem, 2.6vw, 3rem);
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.plan-timeline-title em {
+  color: #16476b;
+  font-style: italic;
+}
+
+.plan-timeline-map {
+  display: grid;
+  gap: clamp(28px, 4vw, 52px);
+}
+
+.plan-timeline-axis {
+  position: relative;
+  min-height: clamp(178px, 18vw, 230px);
+}
+
+.plan-timeline-line {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(56, 81, 147, 0.08), rgba(56, 81, 147, 0.28));
+  transform: translateY(-50%);
+}
+
+.plan-timeline-line::after {
+  position: absolute;
+  top: 50%;
+  right: -2px;
+  width: 0;
+  height: 0;
+  content: "";
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 12px solid rgba(56, 81, 147, 0.28);
+  transform: translateY(-50%);
+}
+
+.plan-timeline-point {
+  position: absolute;
+  top: 50%;
+  left: var(--timeline-pos);
+  display: grid;
+  justify-items: center;
+  color: rgba(17, 25, 48, 0.48);
+  font-size: clamp(0.86rem, 1vw, 1.02rem);
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.plan-timeline-point::before {
+  width: 14px;
+  height: 14px;
+  content: "";
+  background: #f8fbff;
+  border: 3px solid rgba(56, 81, 147, 0.34);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(248, 251, 255, 0.96);
+}
+
+.plan-timeline-point::after {
+  width: 1px;
+  height: clamp(34px, 4vw, 48px);
+  content: "";
+  background: rgba(56, 81, 147, 0.16);
+}
+
+.plan-timeline-point span {
+  position: absolute;
+  width: max-content;
+  max-width: 170px;
+}
+
+.plan-timeline-point--top::after {
+  order: -1;
+  margin-bottom: 10px;
+}
+
+.plan-timeline-point--top span {
+  bottom: calc(100% + clamp(42px, 4.6vw, 56px));
+}
+
+.plan-timeline-point--bottom::after {
+  margin-top: 10px;
+}
+
+.plan-timeline-point--bottom span {
+  top: calc(100% + clamp(42px, 4.6vw, 56px));
+}
+
+.plan-timeline-point--active {
+  color: #16476b;
+}
+
+.plan-timeline-point--active::before {
+  width: 18px;
+  height: 18px;
+  background: #16476b;
+  border: 5px solid #c9ebff;
+  box-shadow:
+    0 0 0 4px #f8fbff,
+    0 8px 18px rgba(22, 71, 107, 0.24);
+}
+
+.plan-timeline-years {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding-top: 22px;
+  border-top: 1px solid rgba(56, 81, 147, 0.1);
+}
+
+.plan-timeline-years span {
+  color: rgba(17, 25, 48, 0.42);
+  font-size: clamp(0.95rem, 1.1vw, 1.12rem);
+  font-weight: 850;
+}
+
+.plan-timeline-years span:not(:first-child) {
+  text-align: center;
+}
+
+.plan-timeline-years span:last-child {
+  text-align: right;
+}
+
+.plan-timeline-feature {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.18fr) minmax(0, 1fr);
+  gap: clamp(38px, 6vw, 82px);
+  padding: clamp(34px, 4.5vw, 58px);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(56, 81, 147, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 26px 54px rgba(7, 14, 36, 0.07);
+}
+
+.plan-timeline-feature strong,
+.plan-timeline-item__date strong {
+  display: block;
+  color: #16476b;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.plan-timeline-feature span,
+.plan-timeline-item__date span {
+  display: block;
+  margin-top: 9px;
+  color: rgba(17, 25, 48, 0.42);
+  font-size: clamp(0.88rem, 1vw, 1rem);
+  font-weight: 850;
+}
+
+.plan-timeline-feature h3,
+.plan-timeline-item__copy h3 {
+  margin: 0 0 18px;
+  color: #111930;
+  font-size: clamp(1.45rem, 2vw, 2.18rem);
+  font-weight: 880;
+  letter-spacing: -0.032em;
+  line-height: 1.08;
+}
+
+.plan-timeline-feature p,
+.plan-timeline-item__copy p {
+  max-width: 940px;
+  margin: 0;
+  color: rgba(17, 25, 48, 0.72);
+  font-size: clamp(1rem, 1.24vw, 1.24rem);
+  font-weight: 520;
+  line-height: 1.7;
+}
+
+.plan-timeline-list {
+  display: grid;
+  gap: clamp(44px, 5.2vw, 76px);
+}
+
+.plan-timeline-item {
+  display: grid;
+  grid-template-columns: minmax(115px, 0.14fr) minmax(0, 1fr);
+  gap: clamp(34px, 5vw, 72px);
+  align-items: start;
+}
+
+.plan-timeline-item__date {
+  padding-right: clamp(22px, 3vw, 42px);
+  border-right: 1px solid rgba(56, 81, 147, 0.1);
 }
 
 @media (max-width: 680px) {
@@ -2734,6 +2956,33 @@ body[data-page="producten"] main > :not(.build-screen) {
   .plan-intro-note {
     width: 100%;
     border-radius: 18px;
+  }
+
+  .plan-timeline-map {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .plan-timeline-axis {
+    min-width: 780px;
+    min-height: 250px;
+  }
+
+  .plan-timeline-years {
+    min-width: 780px;
+  }
+
+  .plan-timeline-feature,
+  .plan-timeline-item {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .plan-timeline-item__date {
+    padding-right: 0;
+    padding-bottom: 16px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(56, 81, 147, 0.1);
   }
 }
 
@@ -3540,7 +3789,7 @@ body:not([data-page="home"]) .page-hero-aside strong {
   position: relative;
   --project-board-gap: clamp(14px, 1.7vw, 22px);
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: var(--project-board-gap);
   min-width: 0;
   padding: clamp(10px, 1.3vw, 16px);
@@ -3596,14 +3845,6 @@ body:not([data-page="home"]) .page-hero-aside strong {
     box-shadow 180ms ease,
     transform 180ms ease;
   scroll-snap-align: start;
-}
-
-.project-board-card:nth-child(2) {
-  margin-top: clamp(12px, 1.35vw, 18px);
-}
-
-.project-board-card:nth-child(3n) {
-  margin-bottom: clamp(12px, 1.35vw, 18px);
 }
 
 .project-board-arrow {
@@ -15523,8 +15764,17 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card 
   border-color: rgba(56, 81, 147, 0.16);
 }
 
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-row__grid {
+  align-items: flex-start;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card {
+  min-height: clamp(250px, 18.6vw, 350px);
+}
+
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card__media,
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card__media--placeholder {
+  height: 100%;
   background: #111930 !important;
   background-image: none !important;
 }

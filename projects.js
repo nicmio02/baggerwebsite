@@ -1595,10 +1595,6 @@ function renderBuilderPreview() {
 
   builderPreview.innerHTML = `
     <div class="project-builder-page">
-      <nav class="project-builder-breadcrumb" aria-label="Project breadcrumb">
-        <a href="/projecten">Alle projecten</a>
-        <span>${escapeHtml(project.title || "Nieuw project")}</span>
-      </nav>
       ${renderProjectBlocks(project)}
     </div>
   `;
@@ -2278,10 +2274,6 @@ function renderProjectDetail(project) {
   if (hasBlocks) {
     projectDetailRoot.innerHTML = `
       <div class="project-builder-page">
-        <nav class="project-builder-breadcrumb" aria-label="Project breadcrumb">
-          <a href="/projecten">Alle projecten</a>
-          <span>${escapeHtml(project.title)}</span>
-        </nav>
         ${renderProjectBlocks(project)}
       </div>
     `;
