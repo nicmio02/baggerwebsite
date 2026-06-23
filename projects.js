@@ -560,13 +560,25 @@ function isBuilderEditor() {
   return Boolean(builderPreview);
 }
 
-function renderProjectBoard() {
+function renderProjectBoard(projects = []) {
   if (!projectBoardRoot) {
     return false;
   }
 
+  const cmsProjects = Array.isArray(projects) ? projects.filter((project) => project?.slug && project?.title) : [];
+  const hasCmsProjects = cmsProjects.length > 0;
+
   projectBoardRoot.innerHTML = projectBoardSections
     .map((section) => {
+      const sectionProjects = cmsProjects.filter((project) => projectBoardSectionFor(project) === section.key);
+      const cards = hasCmsProjects
+        ? sectionProjects.map(renderProjectBoardCard).join("")
+        : section.placeholders.map(renderProjectBoardPlaceholder).join("");
+
+      if (!cards) {
+        return "";
+      }
+
       return `
         <section class="project-board-row reveal is-visible" aria-labelledby="project-board-${section.key}">
           <h2 id="project-board-${section.key}" class="project-board-row__label">${section.label}</h2>
@@ -580,7 +592,7 @@ function renderProjectBoard() {
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 6 9 12l6 6" /></svg>
             </button>
             <div class="project-board-row__grid" data-project-carousel-track>
-              ${section.placeholders.map(renderProjectBoardPlaceholder).join("")}
+              ${cards}
             </div>
             <button
               class="project-board-arrow project-board-arrow--next"
@@ -595,6 +607,10 @@ function renderProjectBoard() {
       `;
     })
     .join("");
+
+  if (!projectBoardRoot.innerHTML.trim()) {
+    projectBoardRoot.innerHTML = `<div class="empty-state">Er zijn nog geen projecten gepubliceerd. Gebruik <a href="/projecten-beheer">de beheertool</a> om de eerste post toe te voegen.</div>`;
+  }
 
   window.requestAnimationFrame(updateProjectBoardCarousels);
   return true;
@@ -2155,15 +2171,15 @@ async function initProjectDetail() {
     return;
   }
 
-  if (staticProjectPages[slug]) {
-    renderStaticProjectDetail(staticProjectPages[slug]);
-    return;
-  }
-
   try {
     const project = await fetchProject(slug);
     renderProjectDetail(project);
   } catch (error) {
+    if (staticProjectPages[slug]) {
+      renderStaticProjectDetail(staticProjectPages[slug]);
+      return;
+    }
+
     projectDetailRoot.innerHTML = `
       <div class="section-inner">
         <div class="empty-state">
