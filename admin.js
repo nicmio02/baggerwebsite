@@ -125,7 +125,7 @@ function itemToForm(form, item) {
   form.dataset.editingSlug = item.slug || "";
   form.dataset.slugManual = "true";
 
-  ["title", "slug", "date", "category", "status", "excerpt"].forEach((key) => {
+  ["title", "slug", "date", "category", "workload", "status", "excerpt"].forEach((key) => {
     const field = form.elements.namedItem(key);
 
     if (field) {
@@ -261,6 +261,7 @@ function initContentForms() {
             slug: formData.get("slug"),
             date: formData.get("date"),
             category: formData.get("category"),
+            workload: formData.get("workload"),
             status: formData.get("status"),
             excerpt: formData.get("excerpt"),
             body: formData.get("body"),

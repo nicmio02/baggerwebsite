@@ -548,6 +548,18 @@ function splitListLine(line) {
   return [first.trim(), parts.join(", ").trim()];
 }
 
+function splitListParts(line, maxParts = 2) {
+  const parts = String(line || "")
+    .split(/\s*[,|]\s*/)
+    .map((part) => part.trim());
+
+  if (parts.length <= maxParts) {
+    return parts;
+  }
+
+  return [...parts.slice(0, maxParts - 1), parts.slice(maxParts - 1).join(", ")];
+}
+
 function parseGalleryItems(value) {
   return String(value || "")
     .split(/\r?\n/)
@@ -1011,6 +1023,15 @@ const projectBlockTypes = {
       ["items", "Kaarten, een per regel: getal, titel, tekst", "textarea"],
     ],
   },
+  metalScience: {
+    label: "pH extractiekaarten",
+    fields: [
+      ["eyebrow", "Label", "input"],
+      ["title", "Titel", "input"],
+      ["body", "Tekst", "textarea"],
+      ["items", "Kaarten, een per regel: symbool, naam, pH-label, tekst", "textarea"],
+    ],
+  },
   text: {
     label: "Tekstblok",
     fields: [
@@ -1143,6 +1164,14 @@ function createProjectBlock(type, project = {}) {
       eyebrow: "Resultaten praktijktest",
       items:
         "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht v, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
+    },
+    metalScience: {
+      eyebrow: "De wetenschap achter de extractie",
+      title: "Elk metaal lost op bij een eigen pH-waarde",
+      body:
+        "De kern van de extractiemethode ligt in zuurgraad. Elk zwaar metaal heeft een specifieke pH-waarde waarop het in oplossing gaat - en dus uit de baggermatrix kan worden losgemaakt. Door de zuurgraad stapsgewijs te verlagen kunnen metalen een voor een worden afgescheiden. Dit maakt gerichte extractie mogelijk zonder de hele baggerstroom te behandelen als een verontreinigde massa.",
+      items:
+        "Cu, Koper, pH=5-6, Koper lost op bij een relatief milde verlaging van de pH - extractie kan plaatsvinden zonder sterk zure omstandigheden.\nZn, Zink, pH=4-5, Zink vereist een iets lagere zuurgraad dan koper. Door de pH na koperextractie verder te verlagen kan zink selectief worden afgescheiden.\nNi, Nikkel, pH=3-4, Nikkel lost op onder sterkere zure omstandigheden. De sequentiele aanpak maakt het mogelijk ook nikkel gericht te winnen uit de restfractie.",
     },
     text: {
       eyebrow: "Verdieping",
@@ -1289,6 +1318,26 @@ function pairsToLines(pairs) {
   return pairs
     .map(([label, body]) => [label, body].map((value) => String(value || "").replace(/\s+/g, " ").trim()))
     .map(([label, body]) => (body ? `${label}, ${body}` : label))
+    .filter(Boolean)
+    .join("\n");
+}
+
+function metalScienceItems(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [symbol = "", name = "", ph = "", body = ""] = splitListParts(line, 4);
+      return { symbol, name, ph, body };
+    })
+    .filter((item) => item.symbol || item.name || item.ph || item.body);
+}
+
+function metalScienceItemsToLines(items) {
+  return items
+    .map((item) => [item.symbol, item.name, item.ph, item.body].map((value) => String(value || "").replace(/\s+/g, " ").trim()))
+    .map((parts) => parts.join(", ").replace(/(?:,\s*)+$/g, ""))
     .filter(Boolean)
     .join("\n");
 }
@@ -1729,6 +1778,25 @@ function updateInspectorField(fieldName, value) {
 }
 
 function updateBlockListField(block, fieldName, index, part, value) {
+  if (block.type === "metalScience" && fieldName === "items") {
+    const items = metalScienceItems(block.fields?.items);
+    const lineIndex = Number(index);
+
+    if (!Number.isFinite(lineIndex) || lineIndex < 0) {
+      return;
+    }
+
+    while (items.length <= lineIndex) {
+      items.push({ symbol: "", name: "", ph: "", body: "" });
+    }
+
+    const key = part === "label" ? "symbol" : part === "title" ? "name" : part === "badge" ? "ph" : "body";
+    items[lineIndex][key] = String(value || "").replace(/\s+/g, " ").trim();
+    block.fields.items = metalScienceItemsToLines(items);
+    updateInspectorField("items", block.fields.items);
+    return;
+  }
+
   const pairs = linesToPairs(block.fields?.[fieldName], { mergeContinuations: fieldName === "steps" });
   const lineIndex = Number(index);
 
@@ -2094,6 +2162,38 @@ function renderProjectBlockResultCards(block) {
   return wrapPreviewBlock(block, markup);
 }
 
+function renderProjectBlockMetalScience(block) {
+  const fields = block.fields || {};
+  const cards = metalScienceItems(fields.items)
+    .slice(0, 6)
+    .map(
+      (item, index) => `
+        <article class="project-builder-metal-card">
+          ${previewListEditable(item.symbol, "items", index, "label", "strong")}
+          ${previewListEditable(item.name, "items", index, "title", "span", "project-builder-metal-card__name")}
+          ${previewListEditable(item.ph, "items", index, "badge", "span", "project-builder-metal-card__ph")}
+          ${previewListEditable(item.body, "items", index, "value", "p", "project-builder-metal-card__body")}
+        </article>
+      `,
+    )
+    .join("");
+
+  const markup = `
+    <section class="project-builder-section project-builder-metal-science">
+      <div class="project-builder-metal-science__intro">
+        ${previewEditable(fields.eyebrow || "De wetenschap achter de extractie", "eyebrow", "p", "project-builder-kicker")}
+        ${previewEditable(fields.title || "Elk metaal lost op bij een eigen pH-waarde", "title", "h2")}
+        ${renderColumnRichText(fields.body || "", "body", "project-builder-metal-science__body")}
+      </div>
+      <div class="project-builder-metal-science__grid">
+        ${cards}
+      </div>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderProjectBlockText(block) {
   const fields = block.fields || {};
   const dark = fields.variant === "Blauw vlak" ? " project-builder-section--dark" : "";
@@ -2367,6 +2467,7 @@ function renderProjectBlocks(project) {
         if (block.type === "facts") return renderProjectBlockFacts(block);
         if (block.type === "metrics") return renderProjectBlockMetrics(block);
         if (block.type === "resultCards") return renderProjectBlockResultCards(block);
+        if (block.type === "metalScience") return renderProjectBlockMetalScience(block);
         if (block.type === "text") return renderProjectBlockText(block);
         if (block.type === "simpleText") return renderProjectBlockSimpleText(block);
         if (block.type === "columns") return renderProjectBlockColumns(block);

@@ -1075,14 +1075,20 @@ async function hydratePublicContentBoard(board) {
 
     const items = await response.json();
     const visibleItems = Array.isArray(items)
-      ? items.filter((item) => !/concept|gesloten|archief/i.test(item.status || "")).slice(0, 3)
+      ? items.filter((item) => !/concept|gesloten|archief/i.test(item.status || ""))
       : [];
 
     if (!visibleItems.length) {
       return;
     }
 
+    if (type === "jobs") {
+      renderPublicVacancies(board, visibleItems);
+      return;
+    }
+
     board.innerHTML = visibleItems
+      .slice(0, 3)
       .map(
         (item, index) => `
           <article class="about-board-card reveal is-visible">
@@ -1097,6 +1103,37 @@ async function hydratePublicContentBoard(board) {
   } catch {
     // Keep the static fallback cards when the backend is not available.
   }
+}
+
+function renderPublicVacancies(board, items) {
+  const summary = document.querySelector("[data-vacancy-summary]");
+  const latestDate = items
+    .map((item) => new Date(item.updatedAt || item.date || ""))
+    .filter((date) => Number.isFinite(date.getTime()))
+    .sort((a, b) => b - a)[0];
+  const updatedLabel = latestDate
+    ? new Intl.DateTimeFormat("nl-NL", { month: "long", year: "numeric" }).format(latestDate)
+    : new Intl.DateTimeFormat("nl-NL", { month: "long", year: "numeric" }).format(new Date());
+
+  if (summary) {
+    summary.textContent = `${items.length} ${items.length === 1 ? "vacature" : "vacatures"} · bijgewerkt ${updatedLabel}`;
+  }
+
+  board.innerHTML = items
+    .map(
+      (item) => `
+        <article class="about-vacancy-row reveal is-visible">
+          <div class="about-vacancy-row__main">
+            <h3>${escapePublicContent(item.title)}</h3>
+            <p>${escapePublicContent(item.excerpt || "Bekijk de vacature voor meer informatie.")}</p>
+          </div>
+          <span>${escapePublicContent(item.category || "Vacature")}</span>
+          <span>${escapePublicContent(item.workload || item.status || "In overleg")}</span>
+          <a href="/contact">Bekijk <span aria-hidden="true">-&gt;</span></a>
+        </article>
+      `,
+    )
+    .join("");
 }
 
 document.querySelectorAll("[data-public-content]").forEach(hydratePublicContentBoard);
