@@ -1,5 +1,5 @@
 const path = require("path");
-const { put } = require("@vercel/blob");
+const { get, put } = require("@vercel/blob");
 const { requireAdmin, sendJson } = require("../_auth");
 
 function safeUploadName(value) {
@@ -38,7 +38,83 @@ function collectRequestBody(request) {
   });
 }
 
+function safeBlobPath(value) {
+  const raw = String(value || "").trim();
+  const decoded = raw.includes("%") ? decodeURIComponent(raw) : raw;
+  const clean = decoded.replace(/^\/+/, "");
+
+  if (!/^uploads\/[a-z0-9][a-z0-9._-]*$/i.test(clean)) {
+    return "";
+  }
+
+  return clean;
+}
+
+async function streamToBuffer(stream) {
+  if (typeof stream.getReader === "function") {
+    const reader = stream.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) {
+        break;
+      }
+
+      chunks.push(Buffer.from(value));
+    }
+
+    return Buffer.concat(chunks);
+  }
+
+  if (typeof stream[Symbol.asyncIterator] === "function") {
+    const chunks = [];
+
+    for await (const chunk of stream) {
+      chunks.push(Buffer.from(chunk));
+    }
+
+    return Buffer.concat(chunks);
+  }
+
+  if (typeof stream.arrayBuffer === "function") {
+    return Buffer.from(await stream.arrayBuffer());
+  }
+
+  return Buffer.alloc(0);
+}
+
 module.exports = async function handler(request, response) {
+  if (request.method === "GET") {
+    try {
+      const requestUrl = new URL(request.url, "http://localhost");
+      const blobPath = safeBlobPath(requestUrl.searchParams.get("path"));
+
+      if (!blobPath) {
+        sendJson(response, 400, { error: "Ongeldig afbeeldingspad." });
+        return;
+      }
+
+      const blob = await get(blobPath, { access: "private" });
+
+      if (blob?.statusCode !== 200 || !blob.stream) {
+        sendJson(response, 404, { error: "Afbeelding niet gevonden." });
+        return;
+      }
+
+      const buffer = await streamToBuffer(blob.stream);
+      response.statusCode = 200;
+      response.setHeader("Content-Type", blob.contentType || "application/octet-stream");
+      response.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      response.end(buffer);
+    } catch (error) {
+      sendJson(response, 404, { error: error.message || "Afbeelding niet gevonden." });
+    }
+
+    return;
+  }
+
   if (request.method !== "POST") {
     sendJson(response, 405, { error: "Methode niet toegestaan." });
     return;
@@ -59,13 +135,14 @@ module.exports = async function handler(request, response) {
 
     const filename = safeUploadName(payload.filename);
     const buffer = Buffer.from(match[2], "base64");
-    const blob = await put(`uploads/${filename}`, buffer, {
-      access: "public",
+    const blobPath = `uploads/${filename}`;
+    await put(blobPath, buffer, {
+      access: "private",
       contentType: match[1],
       allowOverwrite: false,
     });
 
-    sendJson(response, 201, { url: blob.url });
+    sendJson(response, 201, { path: blobPath, url: `/api/uploads?path=${encodeURIComponent(blobPath)}` });
   } catch (error) {
     sendJson(response, 400, { error: error.message || "Upload mislukt." });
   }
