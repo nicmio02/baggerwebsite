@@ -13376,11 +13376,11 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .site-footer--brand,
 .site-footer--home {
   padding: clamp(74px, 8vw, 118px) 0 clamp(34px, 4vw, 52px);
-  color: #ffffff;
+  color: #111930;
   background:
-    radial-gradient(circle at 8% 8%, rgba(201, 235, 255, 0.24), transparent 32%),
-    linear-gradient(135deg, #0e1830 0%, #1d356d 52%, #385193 100%);
-  border-top: 1px solid rgba(201, 235, 255, 0.18);
+    radial-gradient(circle at 8% 0%, rgba(201, 235, 255, 0.56), transparent 34%),
+    linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+  border-top: 1px solid rgba(56, 81, 147, 0.14);
 }
 
 .site-footer--brand .home-frame,
@@ -13392,11 +13392,11 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-meta {
   display: grid;
-  grid-template-columns: minmax(320px, 1.1fr) minmax(170px, 0.56fr) minmax(170px, 0.56fr) minmax(280px, 0.86fr);
-  column-gap: clamp(34px, 5vw, 92px);
+  grid-template-columns: minmax(360px, 0.86fr) minmax(180px, 0.58fr) minmax(180px, 0.58fr) minmax(280px, 0.86fr);
+  column-gap: clamp(56px, 6vw, 128px);
   row-gap: clamp(54px, 6vw, 96px);
   padding: 0 0 clamp(44px, 5vw, 68px);
-  border-bottom: 1px solid rgba(201, 235, 255, 0.2);
+  border-bottom: 1px solid rgba(56, 81, 147, 0.16);
 }
 
 .home-footer-meta::before {
@@ -13413,7 +13413,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-meta a,
 .home-footer-bottom {
   margin: 0;
-  color: rgba(239, 246, 255, 0.74);
+  color: rgba(17, 25, 48, 0.68);
   font-size: clamp(0.94rem, 1vw, 1.08rem);
   font-weight: 500;
   line-height: 1.7;
@@ -13433,19 +13433,21 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   grid-column: 1;
   gap: clamp(24px, 4vw, 48px);
   min-width: 0;
+  max-width: 400px;
 }
 
 .home-footer-logo {
-  display: inline-block;
-  width: max-content;
+  display: block;
+  width: 100%;
   max-width: 100%;
-  color: #ffffff !important;
+  color: #385193 !important;
   font-family: var(--font-display);
-  font-size: clamp(2.35rem, 4vw, 5rem) !important;
+  font-size: clamp(2rem, 2.35vw, 3rem) !important;
   font-weight: 950 !important;
-  letter-spacing: -0.07em;
-  line-height: 0.82 !important;
+  letter-spacing: -0.025em;
+  line-height: 0.95 !important;
   text-decoration: none;
+  word-spacing: 0.08em;
   white-space: nowrap;
 }
 
@@ -13471,7 +13473,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-heading {
   margin-bottom: 12px;
-  color: rgba(201, 235, 255, 0.72);
+  color: rgba(56, 81, 147, 0.68);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -13491,15 +13493,15 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   min-height: 54px;
   padding: 0 18px;
   margin-bottom: 18px;
-  color: #18336b !important;
+  color: #ffffff !important;
   font-size: clamp(0.96rem, 1vw, 1.08rem);
   font-weight: 800;
-  background: #ffffff;
-  border: 1px solid rgba(201, 235, 255, 0.48);
+  background: linear-gradient(135deg, #385193 0%, #20386f 100%);
+  border: 1px solid rgba(56, 81, 147, 0.18);
   border-radius: 8px;
   box-shadow:
-    0 18px 34px rgba(5, 12, 31, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    0 16px 30px rgba(56, 81, 147, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -13508,10 +13510,10 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-partner:hover,
 .home-footer-partner:focus-visible {
-  border-color: rgba(201, 235, 255, 0.86);
+  border-color: rgba(56, 81, 147, 0.34);
   box-shadow:
-    0 22px 42px rgba(5, 12, 31, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    0 20px 38px rgba(56, 81, 147, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   outline: none;
   transform: translateY(-2px);
 }
@@ -13526,7 +13528,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-meta a:focus-visible,
 .home-footer-bottom a:hover,
 .home-footer-bottom a:focus-visible {
-  color: #c9ebff;
+  color: #385193;
 }
 
 .home-footer-bottom {
@@ -13535,7 +13537,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   justify-content: space-between;
   gap: 20px;
   padding: clamp(24px, 3vw, 36px) 0 0;
-  color: rgba(239, 246, 255, 0.56);
+  color: rgba(17, 25, 48, 0.56);
   font-weight: 500;
 }
 
@@ -14395,9 +14397,10 @@ body.is-past-hero .home-floating-cta {
   }
 
   .home-footer-logo {
-    font-size: clamp(2.25rem, 13vw, 3.7rem) !important;
-    letter-spacing: -0.06em;
-    white-space: normal;
+    font-size: clamp(1.8rem, 9vw, 2.8rem) !important;
+    letter-spacing: -0.025em;
+    word-spacing: 0.06em;
+    white-space: nowrap;
   }
 
   .home-footer-wordmark {
