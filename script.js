@@ -1018,23 +1018,10 @@ if (productCards.length && productDetail) {
 }
 
 if (solutionSequence && solutionSteps.length) {
-  setSolutionStep(0);
-
-  const solutionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          startSolutionSequence();
-          return;
-        }
-
-        stopSolutionSequence();
-      });
-    },
-    { threshold: 0.36 },
-  );
-
-  solutionObserver.observe(solutionSequence);
+  stopSolutionSequence();
+  solutionSteps.forEach((step) => {
+    step.classList.remove("is-active");
+  });
 }
 
 blueprintSteps.forEach((step) => {

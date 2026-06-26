@@ -13375,12 +13375,12 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .site-footer--brand,
 .site-footer--home {
-  padding: clamp(76px, 8vw, 116px) 0 clamp(34px, 4vw, 52px);
-  color: #111930;
+  padding: clamp(74px, 8vw, 118px) 0 clamp(34px, 4vw, 52px);
+  color: #ffffff;
   background:
-    radial-gradient(circle at 12% 0%, rgba(201, 235, 255, 0.52), transparent 34%),
-    linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
-  border-top: 1px solid rgba(56, 81, 147, 0.14);
+    radial-gradient(circle at 8% 8%, rgba(201, 235, 255, 0.24), transparent 32%),
+    linear-gradient(135deg, #0e1830 0%, #1d356d 52%, #385193 100%);
+  border-top: 1px solid rgba(201, 235, 255, 0.18);
 }
 
 .site-footer--brand .home-frame,
@@ -13392,25 +13392,32 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-meta {
   display: grid;
-  grid-template-columns: minmax(180px, 0.85fr) minmax(220px, 0.72fr) minmax(300px, 0.94fr) minmax(210px, 0.56fr);
-  gap: clamp(28px, 4vw, 76px);
+  grid-template-columns: minmax(280px, 1.1fr) minmax(220px, 0.72fr) minmax(300px, 0.94fr) minmax(230px, 0.66fr);
+  gap: clamp(30px, 4.4vw, 82px);
+  min-height: clamp(300px, 28vw, 430px);
   padding: 0 0 clamp(44px, 5vw, 68px);
-  border-bottom: 1px solid rgba(56, 81, 147, 0.16);
+  border-bottom: 1px solid rgba(201, 235, 255, 0.2);
 }
 
 .home-footer-meta::before {
-  content: "Blauwe Bagger";
+  content: "Blauwe\A Bagger";
   grid-column: 1;
   grid-row: 1;
-  color: #111930;
+  color: #ffffff;
+  font-size: clamp(3.7rem, 7.4vw, 9.4rem);
   font-weight: 950;
+  letter-spacing: -0.07em;
+  line-height: 0.78;
+  white-space: pre-line;
 }
 
 .home-footer-meta::after {
   content: "Van baggerstroom naar\A herbruikbare grondstof.";
   grid-column: 1;
   grid-row: 1;
-  padding-top: 38px;
+  align-self: end;
+  max-width: 260px;
+  padding-top: 0;
   white-space: pre-line;
 }
 
@@ -13420,15 +13427,18 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-meta::after,
 .home-footer-bottom {
   margin: 0;
-  color: rgba(17, 25, 48, 0.68);
+  color: rgba(239, 246, 255, 0.74);
   font-size: clamp(0.94rem, 1vw, 1.08rem);
   font-weight: 500;
   line-height: 1.7;
 }
 
 .home-footer-meta::before {
-  color: #111930;
+  color: #ffffff;
+  font-size: clamp(3.7rem, 7.4vw, 9.4rem);
   font-weight: 950;
+  letter-spacing: -0.07em;
+  line-height: 0.78;
 }
 
 .home-footer-meta > div {
@@ -13452,7 +13462,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-meta > div::before,
 .home-footer-links::before {
   margin-bottom: 12px;
-  color: rgba(56, 81, 147, 0.58);
+  color: rgba(201, 235, 255, 0.72);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -13470,7 +13480,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-meta > div:nth-child(2) p {
   max-width: none;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .home-footer-links::before {
@@ -13492,15 +13502,15 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   min-height: 54px;
   padding: 0 18px;
   margin-bottom: 18px;
-  color: #ffffff !important;
+  color: #18336b !important;
   font-size: clamp(0.96rem, 1vw, 1.08rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #385193 0%, #20386f 100%);
-  border: 1px solid rgba(56, 81, 147, 0.18);
-  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(201, 235, 255, 0.48);
+  border-radius: 8px;
   box-shadow:
-    0 16px 30px rgba(56, 81, 147, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    0 18px 34px rgba(5, 12, 31, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -13509,10 +13519,10 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-partner:hover,
 .home-footer-partner:focus-visible {
-  border-color: rgba(201, 235, 255, 0.46);
+  border-color: rgba(201, 235, 255, 0.86);
   box-shadow:
-    0 20px 38px rgba(56, 81, 147, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 22px 42px rgba(5, 12, 31, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
   outline: none;
   transform: translateY(-2px);
 }
@@ -13527,7 +13537,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 .home-footer-meta a:focus-visible,
 .home-footer-bottom a:hover,
 .home-footer-bottom a:focus-visible {
-  color: #385193;
+  color: #c9ebff;
 }
 
 .home-footer-bottom {
@@ -13536,7 +13546,7 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   justify-content: space-between;
   gap: 20px;
   padding: clamp(24px, 3vw, 36px) 0 0;
-  color: rgba(56, 81, 147, 0.48);
+  color: rgba(239, 246, 255, 0.56);
   font-weight: 500;
 }
 
