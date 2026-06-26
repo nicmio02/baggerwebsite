@@ -4275,7 +4275,7 @@ body:not([data-page="home"]) .page-hero-aside strong {
 }
 
 body.has-project-static-detail > .site-footer {
-  display: none;
+  display: block;
 }
 
 .project-static-page {
@@ -13392,39 +13392,25 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
 
 .home-footer-meta {
   display: grid;
-  grid-template-columns: minmax(280px, 1.1fr) minmax(220px, 0.72fr) minmax(300px, 0.94fr) minmax(230px, 0.66fr);
-  gap: clamp(30px, 4.4vw, 82px);
-  min-height: clamp(300px, 28vw, 430px);
+  grid-template-columns: minmax(320px, 1.1fr) minmax(170px, 0.56fr) minmax(170px, 0.56fr) minmax(280px, 0.86fr);
+  column-gap: clamp(34px, 5vw, 92px);
+  row-gap: clamp(54px, 6vw, 96px);
   padding: 0 0 clamp(44px, 5vw, 68px);
   border-bottom: 1px solid rgba(201, 235, 255, 0.2);
 }
 
 .home-footer-meta::before {
-  content: "Blauwe\A Bagger";
-  grid-column: 1;
-  grid-row: 1;
-  color: #ffffff;
-  font-size: clamp(3.7rem, 7.4vw, 9.4rem);
-  font-weight: 950;
-  letter-spacing: -0.07em;
-  line-height: 0.78;
-  white-space: pre-line;
+  display: none;
+  content: none;
 }
 
 .home-footer-meta::after {
-  content: "Van baggerstroom naar\A herbruikbare grondstof.";
-  grid-column: 1;
-  grid-row: 1;
-  align-self: end;
-  max-width: 260px;
-  padding-top: 0;
-  white-space: pre-line;
+  display: none;
+  content: none;
 }
 
 .home-footer-meta p,
 .home-footer-meta a,
-.home-footer-meta::before,
-.home-footer-meta::after,
 .home-footer-bottom {
   margin: 0;
   color: rgba(239, 246, 255, 0.74);
@@ -13433,34 +13419,57 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   line-height: 1.7;
 }
 
-.home-footer-meta::before {
-  color: #ffffff;
-  font-size: clamp(3.7rem, 7.4vw, 9.4rem);
-  font-weight: 950;
-  letter-spacing: -0.07em;
-  line-height: 0.78;
-}
-
-.home-footer-meta > div {
+.home-footer-brand,
+.home-footer-column,
+.home-footer-links,
+.home-footer-address,
+.home-footer-contact {
   display: grid;
   align-content: start;
-  gap: 6px;
+  gap: 7px;
 }
 
-.home-footer-meta > div:nth-child(1) {
-  grid-column: 2;
+.home-footer-brand {
+  grid-column: 1;
+  gap: clamp(24px, 4vw, 48px);
+  min-width: 0;
 }
 
-.home-footer-meta > div:nth-child(2) {
-  grid-column: 3;
+.home-footer-logo {
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
+  color: #ffffff !important;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 4vw, 5rem) !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.07em;
+  line-height: 0.82 !important;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.home-footer-brand p {
+  max-width: 300px;
+}
+
+.home-footer-column {
+  min-width: 0;
 }
 
 .home-footer-links {
   grid-column: 4;
 }
 
-.home-footer-meta > div::before,
-.home-footer-links::before {
+.home-footer-address {
+  grid-column: 2;
+}
+
+.home-footer-contact {
+  grid-column: 3 / span 2;
+}
+
+.home-footer-heading {
   margin-bottom: 12px;
   color: rgba(201, 235, 255, 0.72);
   font-size: 0.8rem;
@@ -13470,28 +13479,8 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   text-transform: uppercase;
 }
 
-.home-footer-meta > div:nth-child(1)::before {
-  content: "Adres";
-}
-
-.home-footer-meta > div:nth-child(2)::before {
-  content: "Contact";
-}
-
-.home-footer-meta > div:nth-child(2) p {
+.home-footer-contact p {
   max-width: none;
-  white-space: normal;
-}
-
-.home-footer-links::before {
-  content: "Samenwerken";
-}
-
-.home-footer-links {
-  display: grid;
-  justify-items: start;
-  align-content: start;
-  gap: 12px;
 }
 
 .home-footer-partner {
@@ -13555,6 +13544,56 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 18px;
+}
+
+.site-footer--surface-light {
+  color: #111930;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(201, 235, 255, 0.56), transparent 34%),
+    linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+  border-top-color: rgba(56, 81, 147, 0.14);
+}
+
+.site-footer--surface-light .home-footer-meta {
+  border-bottom-color: rgba(56, 81, 147, 0.16);
+}
+
+.site-footer--surface-light .home-footer-logo {
+  color: #385193 !important;
+}
+
+.site-footer--surface-light .home-footer-meta p,
+.site-footer--surface-light .home-footer-meta a,
+.site-footer--surface-light .home-footer-bottom {
+  color: rgba(17, 25, 48, 0.68);
+}
+
+.site-footer--surface-light .home-footer-heading {
+  color: rgba(56, 81, 147, 0.68);
+}
+
+.site-footer--surface-light .home-footer-partner {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #385193 0%, #20386f 100%);
+  border-color: rgba(56, 81, 147, 0.18);
+  box-shadow:
+    0 16px 30px rgba(56, 81, 147, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.site-footer--surface-light .home-footer-partner:hover,
+.site-footer--surface-light .home-footer-partner:focus-visible {
+  border-color: rgba(56, 81, 147, 0.34);
+  box-shadow:
+    0 20px 38px rgba(56, 81, 147, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.site-footer--surface-light .home-footer-meta a:hover,
+.site-footer--surface-light .home-footer-meta a:focus-visible,
+.site-footer--surface-light .home-footer-bottom a:hover,
+.site-footer--surface-light .home-footer-bottom a:focus-visible {
+  color: #385193;
 }
 
 .home-footer-wordmark {
@@ -13999,18 +14038,16 @@ body.is-past-hero .home-floating-cta {
     grid-template-columns: 1fr;
   }
 
-  .home-footer-meta::before,
-  .home-footer-meta::after,
-  .home-footer-meta > div:nth-child(1),
-  .home-footer-meta > div:nth-child(2),
+  .home-footer-brand,
+  .home-footer-column,
   .home-footer-links {
     grid-column: 1;
     grid-row: auto;
   }
 
-  .home-footer-meta::after {
-    padding-top: 0;
-    margin-top: -20px;
+  .home-footer-address,
+  .home-footer-contact {
+    grid-column: 1;
   }
 
   .home-projects-grid {
@@ -14355,6 +14392,12 @@ body.is-past-hero .home-floating-cta {
 
   .home-floating-cta a {
     flex: 1;
+  }
+
+  .home-footer-logo {
+    font-size: clamp(2.25rem, 13vw, 3.7rem) !important;
+    letter-spacing: -0.06em;
+    white-space: normal;
   }
 
   .home-footer-wordmark {

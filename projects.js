@@ -970,14 +970,6 @@ function renderStaticProjectDetail(project) {
         <p class="cta-text">${renderStaticProjectCta(project.cta)}</p>
         <a class="outline-btn" href="/contact">Neem contact op &rarr;</a>
       </div>
-
-      <footer>
-        <div class="brand">Blauwe Bagger - Van Bagger tot Grondstof</div>
-        <div class="footer-links">
-          <a href="/projecten">&larr; Alle projecten</a>
-          <a href="/contact">Contact</a>
-        </div>
-      </footer>
     </div>
   `;
 }
