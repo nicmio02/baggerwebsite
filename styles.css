@@ -2877,13 +2877,14 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-timeline-section {
   padding: clamp(72px, 9vw, 128px) 0 clamp(96px, 11vw, 150px);
-  color: #111930;
+  color: #ffffff;
   background:
-    radial-gradient(circle at 82% 16%, rgba(201, 235, 255, 0.54), transparent 28%),
-    linear-gradient(rgba(56, 81, 147, 0.032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 81, 147, 0.032) 1px, transparent 1px),
-    #f8fbff;
-  background-size: auto, 54px 54px, 54px 54px, auto;
+    radial-gradient(circle at 82% 14%, rgba(201, 235, 255, 0.22), transparent 30%),
+    radial-gradient(circle at 12% 78%, rgba(94, 128, 205, 0.26), transparent 34%),
+    linear-gradient(rgba(201, 235, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 235, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(135deg, #0e1830 0%, #172a59 48%, #385193 100%);
+  background-size: auto, auto, 54px 54px, 54px 54px, auto;
 }
 
 .plan-timeline-frame {
@@ -2893,7 +2894,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-timeline-title {
   margin: 0;
-  color: #111930;
+  color: #ffffff;
   font-size: clamp(2rem, 2.6vw, 3rem);
   font-weight: 850;
   letter-spacing: -0.035em;
@@ -2901,7 +2902,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-title em {
-  color: #16476b;
+  color: #c9ebff;
   font-style: italic;
 }
 
@@ -2921,7 +2922,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   right: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, rgba(56, 81, 147, 0.08), rgba(56, 81, 147, 0.28));
+  background: linear-gradient(90deg, rgba(201, 235, 255, 0.14), rgba(201, 235, 255, 0.5));
   transform: translateY(-50%);
 }
 
@@ -2932,9 +2933,9 @@ body[data-page="producten"] main > :not(.build-screen) {
   z-index: 1;
   width: var(--timeline-progress, 12%);
   height: 4px;
-  background: linear-gradient(90deg, rgba(22, 71, 107, 0.96), rgba(56, 81, 147, 0.52));
+  background: linear-gradient(90deg, #c9ebff 0%, #ffffff 46%, rgba(201, 235, 255, 0.7) 100%);
   border-radius: 999px;
-  box-shadow: 0 10px 22px rgba(22, 71, 107, 0.16);
+  box-shadow: 0 10px 28px rgba(201, 235, 255, 0.18);
   transform: translateY(-50%);
   transition: width 240ms ease;
 }
@@ -2948,7 +2949,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   content: "";
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-left: 12px solid rgba(56, 81, 147, 0.28);
+  border-left: 12px solid rgba(201, 235, 255, 0.54);
   transform: translateY(-50%);
 }
 
@@ -2959,7 +2960,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   display: grid;
   justify-items: center;
   padding: 0;
-  color: rgba(17, 25, 48, 0.48);
+  color: rgba(239, 246, 255, 0.64);
   font-size: clamp(0.86rem, 1vw, 1.02rem);
   font-weight: 850;
   letter-spacing: -0.01em;
@@ -2974,17 +2975,17 @@ body[data-page="producten"] main > :not(.build-screen) {
   width: 14px;
   height: 14px;
   content: "";
-  background: #f8fbff;
-  border: 3px solid rgba(56, 81, 147, 0.34);
+  background: #162b5b;
+  border: 3px solid rgba(201, 235, 255, 0.58);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(248, 251, 255, 0.96);
+  box-shadow: 0 0 0 4px rgba(201, 235, 255, 0.1);
 }
 
 .plan-timeline-point::after {
   width: 1px;
   height: clamp(34px, 4vw, 48px);
   content: "";
-  background: rgba(56, 81, 147, 0.16);
+  background: rgba(201, 235, 255, 0.22);
 }
 
 .plan-timeline-point span {
@@ -3012,42 +3013,42 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-point--active {
-  color: #16476b;
+  color: #ffffff;
 }
 
 .plan-timeline-point:hover,
 .plan-timeline-point:focus-visible {
-  color: #16476b;
+  color: #ffffff;
   outline: none;
 }
 
 .plan-timeline-point:hover::before,
 .plan-timeline-point:focus-visible::before {
-  border-color: rgba(22, 71, 107, 0.62);
+  border-color: rgba(255, 255, 255, 0.82);
   box-shadow:
-    0 0 0 4px rgba(248, 251, 255, 0.96),
-    0 6px 16px rgba(22, 71, 107, 0.14);
+    0 0 0 5px rgba(201, 235, 255, 0.14),
+    0 8px 20px rgba(201, 235, 255, 0.22);
 }
 
 .plan-timeline-point--active::before {
   width: 18px;
   height: 18px;
-  background: #16476b;
-  border: 5px solid #c9ebff;
+  background: #c9ebff;
+  border: 5px solid #ffffff;
   box-shadow:
-    0 0 0 4px #f8fbff,
-    0 8px 18px rgba(22, 71, 107, 0.24);
+    0 0 0 6px rgba(201, 235, 255, 0.2),
+    0 10px 28px rgba(201, 235, 255, 0.28);
 }
 
 .plan-timeline-years {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   padding-top: 22px;
-  border-top: 1px solid rgba(56, 81, 147, 0.1);
+  border-top: 1px solid rgba(201, 235, 255, 0.18);
 }
 
 .plan-timeline-years span {
-  color: rgba(17, 25, 48, 0.42);
+  color: rgba(239, 246, 255, 0.6);
   font-size: clamp(0.95rem, 1.1vw, 1.12rem);
   font-weight: 850;
 }
@@ -3065,16 +3066,17 @@ body[data-page="producten"] main > :not(.build-screen) {
   grid-template-columns: minmax(120px, 0.18fr) minmax(0, 1fr);
   gap: clamp(38px, 6vw, 82px);
   padding: clamp(34px, 4.5vw, 58px);
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(56, 81, 147, 0.1);
+  color: #111930;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(201, 235, 255, 0.3);
   border-radius: 8px;
-  box-shadow: 0 26px 54px rgba(7, 14, 36, 0.07);
+  box-shadow: 0 28px 58px rgba(7, 14, 36, 0.24);
 }
 
 .plan-timeline-feature strong,
 .plan-timeline-item__date strong {
   display: block;
-  color: #16476b;
+  color: #385193;
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 4vw, 4.2rem);
   font-weight: 950;
