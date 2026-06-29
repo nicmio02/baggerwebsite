@@ -1005,6 +1005,15 @@ const projectBlockTypes = {
     label: "Resultatenrij",
     fields: [["items", "Resultaten, een per regel: getal, label", "textarea"]],
   },
+  statQuote: {
+    label: "Stat quote",
+    fields: [
+      ["number", "Groot cijfer", "input"],
+      ["label", "Label onder cijfer", "input"],
+      ["caption", "Kleine regel", "input"],
+      ["text", "Quote tekst", "textarea"],
+    ],
+  },
   resultCards: {
     label: "Resultaatkaarten",
     fields: [
@@ -1125,7 +1134,7 @@ function createProjectBlock(type, project = {}) {
     },
     meta: {
       location: project.location || "Kildepot, Dordrecht",
-      period: project.date ? formatDate(project.date).replace(" ", "\n") : "Mei\n2026",
+      period: project.date ? formatDate(project.date) : "Mei 2026",
       volume: "10 m3",
       client: "Provincie Zuid-Holland",
       status: project.status || "Afgerond",
@@ -1149,10 +1158,17 @@ function createProjectBlock(type, project = {}) {
             .join("\n")
         : "BlueSand, Secundaire zandfractie\nBlueFiller, Fijne kleifractie\nCO2 omlaag, Minder primaire winning",
     },
+    statQuote: {
+      number: "90%",
+      label: "circulaire verwaarding",
+      caption: "van baggerspecie in 2030",
+      text:
+        "De maatschappelijke kosten van baggerspecie omzetten in maatschappelijke baten - en de wereldwijde positie van Nederland als baggerland versterken.",
+    },
     resultCards: {
       eyebrow: "Resultaten praktijktest",
       items:
-        "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht v, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
+        "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht ✓, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
     },
     metalScience: {
       eyebrow: "De wetenschap achter de extractie",
@@ -2113,6 +2129,33 @@ function renderProjectBlockMetrics(block) {
   );
 }
 
+function renderProjectBlockStatQuote(block) {
+  const fields = block.fields || {};
+  const textScaleKeyName = textScaleKey("text");
+  const textScaleAttributes = renderingPreviewBlock
+    ? `${textFontScaleStyle(renderingPreviewBlock, textScaleKeyName)} data-preview-scale-key="${escapeAttribute(textScaleKeyName)}"`
+    : "";
+
+  const markup = `
+    <section class="project-builder-section project-builder-stat-quote">
+      <div class="project-builder-stat-quote__stat">
+        ${previewEditable(fields.number || "90%", "number", "strong")}
+        ${previewEditable(fields.label || "circulaire verwaarding", "label", "span")}
+        ${previewEditable(fields.caption || "van baggerspecie in 2030", "caption", "small")}
+      </div>
+      <div class="project-builder-stat-quote__divider" aria-hidden="true"></div>
+      <p class="project-builder-stat-quote__text"${textScaleAttributes} ${
+        isBuilderEditor() ? 'contenteditable="true" spellcheck="false" data-preview-field="text"' : ""
+      }>${escapeHtml(
+        fields.text ||
+          "De maatschappelijke kosten van baggerspecie omzetten in maatschappelijke baten - en de wereldwijde positie van Nederland als baggerland versterken.",
+      )}</p>
+    </section>
+  `;
+
+  return wrapPreviewBlock(block, markup);
+}
+
 function renderProjectBlockResultCards(block) {
   const fields = block.fields || {};
   const cards = String(fields.items || "")
@@ -2455,6 +2498,7 @@ function renderProjectBlocks(project) {
         if (block.type === "meta") return renderProjectBlockMeta(block);
         if (block.type === "facts") return renderProjectBlockFacts(block);
         if (block.type === "metrics") return renderProjectBlockMetrics(block);
+        if (block.type === "statQuote") return renderProjectBlockStatQuote(block);
         if (block.type === "resultCards") return renderProjectBlockResultCards(block);
         if (block.type === "metalScience") return renderProjectBlockMetalScience(block);
         if (block.type === "text") return renderProjectBlockText(block);

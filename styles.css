@@ -5236,6 +5236,19 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   font-size: calc(0.9rem * var(--block-font-scale));
 }
 
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-stat-quote__stat strong {
+  font-size: calc(clamp(4.1rem, 7vw, 7.5rem) * var(--block-font-scale));
+}
+
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-stat-quote__stat span,
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-stat-quote__stat small {
+  font-size: calc(clamp(0.86rem, 1vw, 1.05rem) * var(--block-font-scale));
+}
+
+:is(.builder-preview-block, .project-builder-font-scale) .project-builder-stat-quote__text {
+  font-size: calc(clamp(1.35rem, 1.85vw, 2.05rem) * var(--block-font-scale));
+}
+
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-result-card strong {
   font-size: calc(clamp(2.3rem, 3.7vw, 4.4rem) * var(--block-font-scale));
 }
@@ -5450,7 +5463,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   font-size: clamp(0.95rem, 1.08vw, 1.1rem);
   font-weight: 520;
   line-height: 1.55;
-  white-space: pre-line;
+  white-space: normal;
 }
 
 .project-builder-meta__status strong {
@@ -5754,9 +5767,71 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   font-weight: 850;
 }
 
+.project-builder-stat-quote {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.28fr) 2px minmax(0, 1fr);
+  gap: clamp(34px, 5.8vw, 76px);
+  align-items: center;
+  max-width: min(1320px, calc(100% - 48px));
+  min-height: clamp(260px, 24vw, 340px);
+  padding: clamp(48px, 7vw, 92px) clamp(54px, 8vw, 120px);
+  margin-right: auto;
+  margin-left: auto;
+  background: #f7f7f7;
+  border: 1px solid rgba(17, 25, 48, 0.06);
+  box-shadow: none;
+}
+
+.project-builder-stat-quote__stat {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+}
+
+.project-builder-stat-quote__stat strong {
+  display: block;
+  margin: 0;
+  color: #385193;
+  font-family: var(--font-body);
+  font-size: clamp(4.1rem, 7vw, 7.5rem);
+  font-weight: 380;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+}
+
+.project-builder-stat-quote__stat span,
+.project-builder-stat-quote__stat small {
+  display: block;
+  margin-top: 12px;
+  color: rgba(17, 25, 48, 0.36);
+  font-size: clamp(0.86rem, 1vw, 1.05rem);
+  font-weight: 560;
+  line-height: 1.24;
+}
+
+.project-builder-stat-quote__stat small {
+  margin-top: 6px;
+}
+
+.project-builder-stat-quote__divider {
+  width: 2px;
+  height: clamp(120px, 11vw, 170px);
+  background: #385193;
+}
+
+.project-builder-stat-quote__text {
+  max-width: 720px;
+  margin: 0;
+  color: #151515;
+  font-size: clamp(1.35rem, 1.85vw, 2.05rem);
+  font-weight: 430;
+  letter-spacing: 0.025em;
+  line-height: 1.45;
+}
+
 .project-builder-result-cards {
   display: grid;
-  gap: clamp(26px, 3.5vw, 48px);
+  gap: clamp(26px, 3.5vw, 46px);
   background: #ffffff;
   border-color: transparent;
   box-shadow: none;
@@ -5771,8 +5846,9 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 .project-builder-result-card {
   display: grid;
   align-content: start;
-  min-height: clamp(260px, 24vw, 360px);
-  padding: clamp(28px, 4vw, 58px);
+  gap: clamp(14px, 1.6vw, 22px);
+  min-height: clamp(205px, 15vw, 250px);
+  padding: clamp(26px, 3.2vw, 44px);
   border: 1px solid rgba(17, 25, 48, 0.12);
   background: #ffffff;
 }
@@ -5787,6 +5863,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   font-weight: 760;
   letter-spacing: -0.035em;
   line-height: 0.95;
+  white-space: nowrap;
 }
 
 .project-builder-result-card h3 {
@@ -5801,7 +5878,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 
 .project-builder-result-card p {
   max-width: 32ch;
-  margin: clamp(24px, 3.2vw, 44px) 0 0;
+  margin: clamp(8px, 1vw, 14px) 0 0;
   color: rgba(17, 25, 48, 0.44);
   font-size: clamp(0.94rem, 1.06vw, 1.08rem);
   font-weight: 620;
@@ -5923,16 +6000,16 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 
 .project-builder-simple-text {
   display: grid;
-  gap: clamp(34px, 4.5vw, 62px);
+  gap: clamp(22px, 3vw, 36px);
   max-width: min(1180px, calc(100% - 48px));
-  min-height: clamp(460px, 54vw, 720px);
-  padding: clamp(92px, 12vw, 190px) clamp(24px, 4vw, 64px);
+  min-height: auto;
+  padding: clamp(56px, 9vh, 98px) clamp(28px, 5vw, 72px);
   margin-right: auto;
   margin-left: auto;
   align-content: start;
-  background: #ffffff;
-  border: 0;
-  box-shadow: none;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(56, 81, 147, 0.12);
+  box-shadow: 0 22px 48px rgba(7, 14, 36, 0.055);
 }
 
 .project-builder-simple-text--wide {
@@ -5942,22 +6019,22 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 .project-builder-simple-text h2 {
   max-width: 900px;
   margin: 0;
-  color: #151515;
-  font-family: var(--font-body);
-  font-size: clamp(2.1rem, 3vw, 3.15rem);
-  font-weight: 430;
-  letter-spacing: -0.01em;
-  line-height: 1.18;
+  color: #111930;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4vw, 4.6rem);
+  font-weight: 850;
+  letter-spacing: -0.048em;
+  line-height: 0.96;
 }
 
 .project-builder-simple-text__body {
   display: grid;
-  gap: 18px;
-  max-width: 1040px;
-  color: rgba(15, 15, 18, 0.88);
-  font-size: clamp(1.16rem, 1.48vw, 1.55rem);
-  font-weight: 420;
-  line-height: 1.72;
+  gap: 16px;
+  max-width: 940px;
+  color: rgba(17, 25, 48, 0.72);
+  font-size: clamp(1.05rem, 1.28vw, 1.34rem);
+  font-weight: 520;
+  line-height: 1.68;
 }
 
 .project-builder-simple-text__body p {
@@ -6180,6 +6257,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   .project-builder-facts,
   .project-builder-columns,
   .project-builder-feature-grid__cells,
+  .project-builder-stat-quote,
   .project-builder-result-cards__grid,
   .project-builder-metal-science__grid,
   .project-builder-photo-collage__grid,
@@ -6225,6 +6303,16 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
     border-left: 0;
   }
 
+  .project-builder-stat-quote {
+    gap: 28px;
+    justify-items: start;
+  }
+
+  .project-builder-stat-quote__divider {
+    width: 100%;
+    height: 2px;
+  }
+
   .project-builder-gallery > div {
     grid-template-columns: 1fr 1fr;
   }
@@ -6260,7 +6348,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   .project-builder-simple-text {
     max-width: 100%;
     min-height: 0;
-    padding: 56px 24px;
+    padding: 36px 22px;
   }
 
   .project-builder-columns {
