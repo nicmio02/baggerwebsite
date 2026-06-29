@@ -1935,10 +1935,10 @@ body[data-page="producten"] main > :not(.build-screen) {
   margin: 0;
   color: #111930;
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 4.8vw, 5.4rem);
-  font-weight: 860;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 3.7vw, 4.2rem);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
 }
 
 .service-widget-layout {
@@ -1967,9 +1967,9 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-widget-ladder__head,
 .service-widget-impact {
   display: grid;
-  grid-template-columns: minmax(150px, 0.75fr) minmax(0, 1fr) 44px minmax(0, 1fr);
+  grid-template-columns: minmax(190px, 0.9fr) minmax(155px, 0.82fr) 44px minmax(190px, 1fr);
   align-items: center;
-  gap: clamp(12px, 1.8vw, 22px);
+  gap: clamp(16px, 2vw, 26px);
 }
 
 .service-widget-ladder__head {
@@ -2032,7 +2032,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-widget-frame {
   position: relative;
   display: grid;
-  align-self: start;
+  align-self: stretch;
   min-height: clamp(620px, 42vw, 680px);
   overflow: hidden;
   background: #ffffff;
@@ -2049,8 +2049,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-widget-frame iframe {
   display: block;
   width: 100%;
-  height: clamp(620px, 42vw, 680px);
-  min-height: clamp(620px, 42vw, 680px);
+  height: 100%;
+  min-height: 100%;
   overflow: hidden;
   background: #ffffff;
   border: 0;
@@ -2877,14 +2877,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-timeline-section {
   padding: clamp(72px, 9vw, 128px) 0 clamp(96px, 11vw, 150px);
-  color: #ffffff;
-  background:
-    radial-gradient(circle at 82% 14%, rgba(201, 235, 255, 0.22), transparent 30%),
-    radial-gradient(circle at 12% 78%, rgba(94, 128, 205, 0.26), transparent 34%),
-    linear-gradient(rgba(201, 235, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 235, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(135deg, #0e1830 0%, #172a59 48%, #385193 100%);
-  background-size: auto, auto, 54px 54px, 54px 54px, auto;
+  color: #111930;
+  background: #f6f9fc;
 }
 
 .plan-timeline-frame {
@@ -2894,7 +2888,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-timeline-title {
   margin: 0;
-  color: #ffffff;
+  color: #111930;
   font-size: clamp(2rem, 2.6vw, 3rem);
   font-weight: 850;
   letter-spacing: -0.035em;
@@ -2902,7 +2896,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-title em {
-  color: #c9ebff;
+  color: #385193;
   font-style: italic;
 }
 
@@ -2922,22 +2916,28 @@ body[data-page="producten"] main > :not(.build-screen) {
   right: 0;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, rgba(201, 235, 255, 0.14), rgba(201, 235, 255, 0.5));
+  background: #d5dde7;
   transform: translateY(-50%);
 }
 
 .plan-timeline-progress {
   position: absolute;
   top: 50%;
-  left: 0;
+  left: var(--timeline-period-start, 12%);
   z-index: 1;
-  width: var(--timeline-progress, 12%);
+  width: calc(var(--timeline-period-end, 32%) - var(--timeline-period-start, 12%));
   height: 4px;
-  background: linear-gradient(90deg, #c9ebff 0%, #ffffff 46%, rgba(201, 235, 255, 0.7) 100%);
+  background: #aeb8c4;
   border-radius: 999px;
-  box-shadow: 0 10px 28px rgba(201, 235, 255, 0.18);
+  box-shadow: none;
+  opacity: 0;
+  pointer-events: none;
   transform: translateY(-50%);
-  transition: width 240ms ease;
+  transition: opacity 180ms ease;
+}
+
+.plan-timeline-axis--period-visible .plan-timeline-progress {
+  opacity: 1;
 }
 
 .plan-timeline-line::after {
@@ -2949,7 +2949,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   content: "";
   border-top: 7px solid transparent;
   border-bottom: 7px solid transparent;
-  border-left: 12px solid rgba(201, 235, 255, 0.54);
+  border-left: 12px solid #d5dde7;
   transform: translateY(-50%);
 }
 
@@ -2960,7 +2960,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   display: grid;
   justify-items: center;
   padding: 0;
-  color: rgba(239, 246, 255, 0.64);
+  color: #8d9aa8;
   font-size: clamp(0.86rem, 1vw, 1.02rem);
   font-weight: 850;
   letter-spacing: -0.01em;
@@ -2971,21 +2971,59 @@ body[data-page="producten"] main > :not(.build-screen) {
   transform: translate(-50%, -50%);
 }
 
+.plan-timeline-period-label {
+  position: absolute;
+  top: 50%;
+  left: var(--timeline-pos);
+  display: grid;
+  justify-items: center;
+  color: #203a5d;
+  font-size: clamp(0.86rem, 1vw, 1.02rem);
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.plan-timeline-period-label::before {
+  width: 1px;
+  height: clamp(34px, 4vw, 48px);
+  content: "";
+  background: #203a5d;
+}
+
+.plan-timeline-period-label span {
+  position: absolute;
+  width: max-content;
+  max-width: 230px;
+  pointer-events: none;
+}
+
+.plan-timeline-period-label--bottom::before {
+  margin-top: 10px;
+}
+
+.plan-timeline-period-label--bottom span {
+  top: calc(100% + clamp(54px, 5.4vw, 72px));
+}
+
 .plan-timeline-point::before {
   width: 14px;
   height: 14px;
   content: "";
-  background: #162b5b;
-  border: 3px solid rgba(201, 235, 255, 0.58);
+  background: #f6f9fc;
+  border: 3px solid #aeb8c4;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(201, 235, 255, 0.1);
+  box-shadow: none;
 }
 
 .plan-timeline-point::after {
   width: 1px;
   height: clamp(34px, 4vw, 48px);
   content: "";
-  background: rgba(201, 235, 255, 0.22);
+  background: #d5dde7;
 }
 
 .plan-timeline-point span {
@@ -3001,7 +3039,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-point--top span {
-  bottom: calc(100% + clamp(42px, 4.6vw, 56px));
+  bottom: calc(100% + clamp(54px, 5.4vw, 72px));
 }
 
 .plan-timeline-point--bottom::after {
@@ -3009,46 +3047,46 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-point--bottom span {
-  top: calc(100% + clamp(42px, 4.6vw, 56px));
+  top: calc(100% + clamp(54px, 5.4vw, 72px));
 }
 
 .plan-timeline-point--active {
-  color: #ffffff;
+  color: #203a5d;
 }
 
 .plan-timeline-point:hover,
 .plan-timeline-point:focus-visible {
-  color: #ffffff;
+  color: #203a5d;
   outline: none;
 }
 
 .plan-timeline-point:hover::before,
 .plan-timeline-point:focus-visible::before {
-  border-color: rgba(255, 255, 255, 0.82);
+  border-color: #385193;
   box-shadow:
-    0 0 0 5px rgba(201, 235, 255, 0.14),
-    0 8px 20px rgba(201, 235, 255, 0.22);
+    0 0 0 5px rgba(56, 81, 147, 0.08),
+    0 8px 20px rgba(17, 25, 48, 0.12);
 }
 
 .plan-timeline-point--active::before {
   width: 18px;
   height: 18px;
-  background: #c9ebff;
-  border: 5px solid #ffffff;
+  background: #203a5d;
+  border: 4px solid #ffffff;
   box-shadow:
-    0 0 0 6px rgba(201, 235, 255, 0.2),
-    0 10px 28px rgba(201, 235, 255, 0.28);
+    0 0 0 3px #203a5d,
+    0 8px 22px rgba(17, 25, 48, 0.16);
 }
 
 .plan-timeline-years {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   padding-top: 22px;
-  border-top: 1px solid rgba(201, 235, 255, 0.18);
+  border-top: 1px solid #e1e7ee;
 }
 
 .plan-timeline-years span {
-  color: rgba(239, 246, 255, 0.6);
+  color: #a2adba;
   font-size: clamp(0.95rem, 1.1vw, 1.12rem);
   font-weight: 850;
 }
@@ -3067,10 +3105,10 @@ body[data-page="producten"] main > :not(.build-screen) {
   gap: clamp(38px, 6vw, 82px);
   padding: clamp(34px, 4.5vw, 58px);
   color: #111930;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(201, 235, 255, 0.3);
+  background: #ffffff;
+  border: 1px solid #e1e7ee;
   border-radius: 8px;
-  box-shadow: 0 28px 58px rgba(7, 14, 36, 0.24);
+  box-shadow: 0 20px 46px rgba(17, 25, 48, 0.08);
 }
 
 .plan-timeline-feature strong,
@@ -16207,7 +16245,7 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   color: #ffffff;
   margin-top: clamp(6px, 1vw, 14px);
   font-size: clamp(1.02rem, 1.22vw, 1.32rem);
-  font-style: italic;
+  font-style: normal;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -16229,11 +16267,11 @@ body[data-page="service-detail"] .service-hero-accent.wave-underline::after {
 }
 
 body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-accent {
-  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.045em;
-  line-height: 0.92;
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 @media (max-width: 760px) {

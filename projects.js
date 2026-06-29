@@ -109,7 +109,7 @@ const projectBoardSections = [
     match: ["samenwerking", "partner", "consortium", "provincie", "gemeente", "tbi", "deltares", "tu delft"],
     placeholders: [
       { title: "Beton uit Bagger / TBI", mark: "TBI", slug: "beton-uit-bagger-tbi" },
-      { title: "Bakstenen uit Bagger / DC-bricks", mark: "DC", slug: "bakstenen-uit-bagger-dc-bricks" },
+      { title: "DC Bricks", mark: "DC", slug: "bakstenen-uit-bagger-dc-bricks" },
       { title: "Circulaire Bagger Consortium", mark: "CBC", slug: "circulaire-bagger-consortium" },
     ],
   },
@@ -494,7 +494,6 @@ function projectCoverFallback(project) {
 
 function renderProjectBoardCard(project) {
   const image = normalizeAssetUrl(project.coverImage || projectCoverFallback(project));
-  const date = formatDate(project.date);
   const category = projectCategoryLabel(project);
 
   return `
@@ -505,7 +504,6 @@ function renderProjectBoardCard(project) {
       <div class="project-board-card__body">
         <div class="project-board-card__meta">
           <span>${escapeHtml(category)}</span>
-          ${date ? `<span>${escapeHtml(date)}</span>` : ""}
         </div>
         <h3>${escapeHtml(project.title)}</h3>
         <span class="project-board-card__cta">
@@ -844,7 +842,6 @@ function renderHomeProjects(projects) {
           ${coverMarkup(project, "home-project-card__media")}
           <div class="home-project-card__meta">
             <span class="home-project-chip">${escapeHtml(projectCategoryLabel(project))}</span>
-            <span class="home-project-chip">${escapeHtml(formatDate(project.date))}</span>
           </div>
           <h3>${escapeHtml(project.title)}</h3>
           <span class="home-project-card__cta">

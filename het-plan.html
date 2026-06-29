@@ -100,7 +100,7 @@
           <h2 id="blueprint-title" class="plan-timeline-title"><em>BluePrint</em> tijdlijn</h2>
 
           <div class="plan-timeline-map reveal" aria-label="BluePrint tijdlijn overzicht">
-            <div class="plan-timeline-axis" style="--timeline-progress: 12%;">
+            <div class="plan-timeline-axis plan-timeline-axis--period-visible" style="--timeline-progress: 12%; --timeline-period-start: 12%; --timeline-period-end: 32%;">
               <span class="plan-timeline-line"></span>
               <span class="plan-timeline-progress" aria-hidden="true"></span>
               <button
@@ -111,25 +111,20 @@
                 data-plan-progress="12%"
                 data-plan-year="2022"
                 data-plan-period="2022"
+                data-plan-show-period="true"
                 data-plan-title="Oprichting Blauwe Bagger"
                 data-plan-copy="Blauwe Bagger is in 2022 opgericht, ontstaan vanuit een opdracht om een reststroom circulair te maken. Onderzoek wees uit dat bagger een groot afvalprobleem vormt voor Nederland, en daarmee tegelijk een unieke kans."
                 aria-current="true"
               >
                 <span>Oprichting</span>
               </button>
-              <button
-                class="plan-timeline-point plan-timeline-point--bottom"
-                type="button"
+              <span
+                class="plan-timeline-period-label plan-timeline-period-label--bottom"
                 style="--timeline-pos: 22%;"
-                data-plan-timeline-step
-                data-plan-progress="22%"
-                data-plan-year="2024"
-                data-plan-period="2023 - 2026"
-                data-plan-title="Ontwikkeling BlueBox v1"
-                data-plan-copy="De eerste tweeenhalf jaar stonden in het teken van marktonderzoek, de keten leren kennen en een netwerk opbouwen. Bovenal ontwikkelden we een proof-of-concept installatie die bagger scheidt tot herbruikbare grondstoffen. Begin 2026 is de bouw afgerond, waarmee de volgende fase kon beginnen: het testen en valideren in de praktijk."
+                aria-hidden="true"
               >
-                <span>BlueBox v1</span>
-              </button>
+                <span>bouw eerste scheidingsinstallatie</span>
+              </span>
               <button
                 class="plan-timeline-point plan-timeline-point--top"
                 type="button"

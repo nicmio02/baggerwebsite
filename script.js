@@ -913,6 +913,7 @@ function selectPlanTimelineStep(step) {
 
   if (planTimelineAxis) {
     planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "12%");
+    planTimelineAxis.classList.toggle("plan-timeline-axis--period-visible", step.dataset.planShowPeriod === "true");
   }
 
   if (planActiveYear) {
@@ -984,6 +985,10 @@ function resizeBaggerWidget(event) {
   const allowedOrigins = new Set(["https://bbtool.nl", "https://www.bbtool.nl"]);
 
   if (!baggerWidget || !allowedOrigins.has(event.origin) || event.data?.type !== "bagger-widget:resize") {
+    return;
+  }
+
+  if (baggerWidget.closest(".service-widget-frame")) {
     return;
   }
 
