@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   color-scheme: light;
@@ -2747,20 +2747,20 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-intro-head p {
   margin: 0;
-  color: #385193;
-  font-size: 0.84rem;
+  color: #111930;
+  font-size: 0.78rem;
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .plan-intro-head h1 {
   margin: 0;
   color: #111930;
-  font-size: clamp(3.2rem, 6.3vw, 7.4rem);
+  font-size: clamp(2.35rem, 4vw, 4.45rem);
   font-weight: 750;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
+  letter-spacing: -0.035em;
+  line-height: 1;
 }
 
 .plan-intro-head h1 span {
@@ -2785,7 +2785,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-intro-copy p {
   margin: 0;
-  color: rgba(17, 25, 48, 0.78);
+  color: #111930;
   font-size: clamp(1.12rem, 1.42vw, 1.42rem);
   font-weight: 500;
   letter-spacing: -0.012em;
@@ -2794,8 +2794,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .plan-intro-copy .plan-intro-lead {
   max-width: 1120px;
-  color: rgba(17, 25, 48, 0.82);
-  font-size: clamp(1.2rem, 1.55vw, 1.52rem);
+  color: #111930;
+  font-size: clamp(1.16rem, 1.42vw, 1.38rem);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.55;
@@ -2807,7 +2807,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-intro-copy em {
-  color: #16476b;
+  color: #111930;
   font-style: italic;
 }
 
@@ -3132,7 +3132,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 @media (max-width: 680px) {
   .plan-intro-head h1 {
-    font-size: clamp(2.8rem, 16vw, 4.8rem);
+    font-size: clamp(2.1rem, 10.5vw, 3.15rem);
   }
 
   .plan-principles article {
@@ -16037,6 +16037,79 @@ body[data-page="over-ons"] .about-team-link:focus-visible {
   border-color: #c9ebff;
 }
 
+body[data-page="het-plan"] .plan-intro-section {
+  display: grid;
+  min-height: 100svh;
+  padding: clamp(64px, 8vh, 94px) 0 clamp(64px, 8vh, 92px) !important;
+  align-items: center;
+}
+
+body[data-page="het-plan"] .plan-intro-frame,
+body[data-page="het-plan"] .plan-intro-layout {
+  gap: clamp(18px, 2.5vw, 32px);
+}
+
+body[data-page="het-plan"] .plan-intro-copy {
+  gap: clamp(20px, 2.35vw, 34px);
+  max-width: min(1460px, 100%);
+}
+
+body[data-page="het-plan"] .plan-intro-head {
+  gap: clamp(8px, 1vw, 12px);
+}
+
+body[data-page="het-plan"] .plan-intro-head p {
+  font-size: clamp(0.82rem, 1vw, 1rem);
+  letter-spacing: 0.04em;
+}
+
+body[data-page="het-plan"] .plan-intro-head h1 {
+  font-size: clamp(2.25rem, 3.4vw, 3.9rem);
+  letter-spacing: -0.032em;
+  line-height: 0.98;
+}
+
+body[data-page="het-plan"] .plan-intro-copy p {
+  max-width: 1320px;
+  color: #111930;
+  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  line-height: 1.48;
+}
+
+body[data-page="het-plan"] .plan-intro-copy .plan-intro-lead {
+  max-width: 1320px;
+  font-size: clamp(1.05rem, 1.18vw, 1.22rem);
+  line-height: 1.42;
+}
+
+@media (max-width: 1080px) {
+  body[data-page="het-plan"] .plan-intro-section {
+    min-height: 100svh;
+    padding: clamp(172px, 19vw, 220px) 0 clamp(50px, 7vh, 78px) !important;
+    align-items: start;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-page="het-plan"] .plan-intro-section {
+    padding: 150px 0 48px !important;
+  }
+
+  body[data-page="het-plan"] .plan-intro-copy {
+    gap: 22px;
+  }
+
+  body[data-page="het-plan"] .plan-intro-head h1 {
+    font-size: clamp(2.15rem, 11vw, 3.15rem);
+  }
+
+  body[data-page="het-plan"] .plan-intro-copy p,
+  body[data-page="het-plan"] .plan-intro-copy .plan-intro-lead {
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+}
+
 body[data-page="service-detail"] .service-detail-hero--bricks {
   background:
     linear-gradient(180deg, rgba(8, 14, 32, 0.18) 0%, rgba(8, 14, 32, 0.32) 100%),
@@ -16051,6 +16124,24 @@ body[data-page="service-detail"] .service-detail-hero--excavating {
     url("/assets/media/waterexcavate.webp") center / cover no-repeat !important;
 }
 
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-frame {
+  width: min(1500px, calc(100% - clamp(42px, 10vw, 176px)));
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
+  min-height: calc(100svh - var(--header-height) - clamp(96px, 15vh, 154px));
+  align-items: end;
+  justify-items: start;
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
+  max-width: min(980px, 100%);
+  gap: clamp(10px, 1.1vw, 16px);
+  padding-bottom: clamp(44px, 9vh, 96px);
+  justify-items: start;
+  text-align: left;
+}
+
 body[data-page="service-detail"] .service-detail-hero--bricks::before,
 body[data-page="service-detail"] .service-detail-hero--excavating::before {
   display: none !important;
@@ -16059,6 +16150,28 @@ body[data-page="service-detail"] .service-detail-hero--excavating::before {
 body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-kicker,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker {
   color: #c9ebff;
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 clamp(6px, 1vw, 12px);
+  color: rgba(255, 255, 255, 0.66);
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 0.85vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker::before {
+  width: clamp(26px, 3vw, 42px);
+  height: 1px;
+  content: "";
+  background: rgba(255, 255, 255, 0.46);
 }
 
 body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
@@ -16076,35 +16189,85 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   max-width: 1080px;
 }
 
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
+  max-width: 980px;
+  font-family: var(--font-sans);
+  font-size: clamp(3.4rem, 6vw, 6.35rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-accent {
+  display: block;
+  margin-top: clamp(2px, 0.5vw, 8px);
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy) {
+  color: #ffffff;
+  margin-top: clamp(6px, 1vw, 14px);
+  font-size: clamp(1.02rem, 1.22vw, 1.32rem);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
 body[data-page="service-detail"] .service-hero-accent {
-  color: #6f89e8 !important;
-  padding-bottom: 0.16em;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.22),
-    0 0 20px rgba(6, 12, 28, 0.24),
-    0 18px 44px rgba(6, 12, 28, 0.74);
+  color: inherit !important;
+  padding-bottom: 0;
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-shadow: inherit;
 }
 
 body[data-page="service-detail"] .service-hero-accent.wave-underline::after {
-  bottom: -0.03em;
-  height: 18px;
-  background-color: currentColor;
-  background-image: none;
-  -webkit-mask-image: var(--hero-wave-pattern);
-  mask-image: var(--hero-wave-pattern);
-  -webkit-mask-position: 0 center;
-  mask-position: 0 center;
-  -webkit-mask-repeat: repeat-x;
-  mask-repeat: repeat-x;
-  -webkit-mask-size: 72px 18px;
-  mask-size: 72px 18px;
-  animation: wave-current 3.45s linear infinite;
-  filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.16));
+  display: none;
+  content: none;
+}
+
+body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-accent {
+  font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
 }
 
 @media (max-width: 760px) {
   body[data-page="service-detail"] .service-detail-hero {
     min-height: auto;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating {
+    display: grid;
+    min-height: 78svh;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-frame {
+    width: min(100% - 28px, 1420px);
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
+    min-height: calc(78svh - 132px);
+    align-items: end;
+    justify-items: start;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
+    padding-bottom: clamp(26px, 8vh, 58px);
+    text-align: left;
+    justify-items: start;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
+    font-size: clamp(2.9rem, 13.4vw, 4.5rem);
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy) {
+    font-size: clamp(1.05rem, 5vw, 1.42rem);
   }
 
   body:not([data-homepage-variant="bluebox-lab"]) .home-section {

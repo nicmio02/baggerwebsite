@@ -155,7 +155,7 @@ const i18n = {
       "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
         "One route for dredging projects and one route for secondary raw materials.",
       "Voor bagger industrie": "For dredging industry",
-      "Voor baggerindustrie": "For dredging industry",
+      "Voor de baggerindustrie": "For dredging industry",
       "Werken met de BlueBox": "Work with the BlueBox",
       "Mobiele baggerverwerking": "Mobile dredged sediment processing",
       "Minder stortkosten, minder transport en sterker in aanbestedingen.":
