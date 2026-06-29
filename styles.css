@@ -4030,11 +4030,12 @@ body:not([data-page="home"]) .page-hero-aside strong {
 .project-board-row__grid {
   position: relative;
   --project-board-gap: clamp(14px, 1.7vw, 22px);
+  --project-board-pad-x: clamp(8px, 0.9vw, 12px);
   display: flex;
   align-items: flex-start;
   gap: var(--project-board-gap);
   min-width: 0;
-  padding: clamp(10px, 1.3vw, 16px);
+  padding: clamp(10px, 1.3vw, 16px) var(--project-board-pad-x);
   overflow-x: auto;
   overflow-y: hidden;
   background: rgba(255, 255, 255, 0.42);
@@ -4065,7 +4066,7 @@ body:not([data-page="home"]) .page-hero-aside strong {
 .project-board-card {
   position: relative;
   display: grid;
-  flex: 0 0 calc((100% - var(--project-board-gap) - var(--project-board-gap)) / 3);
+  flex: 0 0 calc((100% - (var(--project-board-pad-x) * 2) - (var(--project-board-gap) * 2)) / 3);
   grid-template-rows: 1fr;
   min-width: 0;
   min-height: clamp(198px, 16vw, 260px);
@@ -16236,7 +16237,7 @@ body[data-page="over-ons"] .about-photo-placeholder span {
 
 body[data-page="over-ons"] .about-story-section h1 {
   max-width: 11ch;
-  margin-top: clamp(28px, 4vw, 42px);
+  margin-top: 0;
   color: #111930;
   font-family: var(--font-display);
   font-size: clamp(4.1rem, 7.8vw, 7.8rem);
@@ -16387,8 +16388,139 @@ body[data-page="over-ons"] .about-board-section--openings {
   margin-top: 0;
 }
 
+body[data-page="over-ons"] .about-partners-section {
+  padding: clamp(24px, 4vh, 42px) 0 clamp(74px, 10vh, 118px);
+  background: #ffffff;
+}
+
+body[data-page="over-ons"] .about-partners-title {
+  margin: 0 0 clamp(28px, 4vw, 42px);
+  color: rgba(17, 25, 48, 0.44);
+  font-size: 0.72rem;
+  font-weight: 820;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+body[data-page="over-ons"] .about-partners-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 22px;
+}
+
+body[data-page="over-ons"] .about-partners-grid span {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  color: rgba(17, 25, 48, 0.54);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  border: 1px solid rgba(17, 25, 48, 0.08);
+  border-radius: 4px;
+}
+
+body[data-page="over-ons"] .about-work-section {
+  padding: clamp(44px, 7vh, 80px) 0 clamp(72px, 10vh, 118px);
+  background: #ffffff;
+}
+
+body[data-page="over-ons"] .about-work-card {
+  display: grid;
+  justify-items: center;
+  min-height: clamp(340px, 34vw, 470px);
+  align-content: center;
+  padding: clamp(52px, 7vw, 86px) clamp(28px, 5vw, 72px);
+  color: #ffffff;
+  text-align: center;
+  background: #2e4385;
+  border-radius: 4px;
+}
+
+body[data-page="over-ons"] .about-work-card h2 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  font-weight: 760;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+body[data-page="over-ons"] .about-work-card p {
+  max-width: 560px;
+  margin: clamp(24px, 3vw, 34px) 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(1rem, 1.15vw, 1.18rem);
+  font-weight: 560;
+  line-height: 1.55;
+}
+
+body[data-page="over-ons"] .about-work-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 124px;
+  min-height: 48px;
+  margin-top: clamp(28px, 4vw, 42px);
+  padding: 0 24px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 3px;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+body[data-page="over-ons"] .about-work-card a:hover,
+body[data-page="over-ons"] .about-work-card a:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.48);
+  outline: none;
+}
+
+body[data-page="vacatures"] .about-page,
+body[data-page="vacatures"] .vacancy-hero-section,
+body[data-page="vacatures"] .about-board-section {
+  background: #ffffff;
+}
+
+body[data-page="vacatures"] .vacancy-hero-section {
+  padding: clamp(132px, 16vh, 182px) 0 clamp(54px, 8vh, 88px);
+}
+
+body[data-page="vacatures"] .vacancy-hero-section h1 {
+  max-width: 9ch;
+  margin: clamp(26px, 4vw, 42px) 0 0;
+  color: #111930;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 8vw, 8rem);
+  font-weight: 840;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+}
+
+body[data-page="vacatures"] .vacancy-hero-copy {
+  max-width: 720px;
+  margin: clamp(34px, 5vw, 56px) 0 0;
+  color: rgba(17, 25, 48, 0.66);
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  font-weight: 520;
+  line-height: 1.55;
+}
+
+body[data-page="vacatures"] .about-board-section--openings {
+  padding-top: clamp(46px, 7vh, 78px);
+}
+
 @media (max-width: 980px) {
   body[data-page="over-ons"] .about-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="over-ons"] .about-partners-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -16404,6 +16536,10 @@ body[data-page="over-ons"] .about-board-section--openings {
 
 @media (max-width: 620px) {
   body[data-page="over-ons"] .about-team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="over-ons"] .about-partners-grid {
     grid-template-columns: 1fr;
   }
 }

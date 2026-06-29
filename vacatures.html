@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Projectdetail van Blauwe Bagger."
+      content="Bekijk vacatures en open posities bij Blauwe Bagger."
     />
-    <title>Blauwe Bagger | Project</title>
-    <link rel="icon" href="/assets/brand/blauwe-bagger-icon.png" />
-    <link rel="preload" href="/assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="/styles.css?v=design-clean-1" />
+    <title>Blauwe Bagger | Vacatures</title>
+    <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
+    <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
+    <link rel="stylesheet" href="styles.css?v=vacatures-page-1" />
   </head>
-  <body data-page="projecten">
+  <body data-page="vacatures">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
     <header class="site-header" data-header>
       <div class="nav-shell">
         <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
-          <img class="brand-link__icon" src="/assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
@@ -25,11 +25,11 @@
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
-              <a href="/services/baggeraars">Voor baggerindustrie</a>
+              <a href="/services/baggeraars">Voor de baggerindustrie</a>
               <a href="/services/grondstoffen">Voor de bouw</a>
             </div>
           </div>
-          <a class="is-current" href="/projecten">Projecten</a>
+          <a href="/projecten">Projecten</a>
           <a href="/over-ons">Over ons</a>
         </nav>
 
@@ -52,18 +52,47 @@
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
         <a href="/het-plan">Het Plan</a>
-        <a href="/services/baggeraars">Voor baggerindustrie</a>
+        <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
-        <a class="is-current" href="/projecten">Projecten</a>
+        <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
 
-    <main id="main" data-project-detail>
-      <section class="detail-section">
-        <div class="section-inner">
-          <div class="detail-loading">Project wordt geladen...</div>
+    <main id="main" class="about-page vacancy-page">
+      <section class="vacancy-hero-section" aria-labelledby="vacancy-title">
+        <div class="about-frame">
+          <p class="about-kicker reveal">Werken bij</p>
+          <h1 id="vacancy-title" class="reveal">Vacatures</h1>
+          <p class="vacancy-hero-copy reveal">
+            Bouw mee aan een circulaire baggerketen. Bekijk de actuele vacatures of stuur ons een open sollicitatie.
+          </p>
+        </div>
+      </section>
+
+      <section class="about-board-section about-board-section--openings" id="open-posities" aria-labelledby="open-positions-title">
+        <div class="about-frame">
+          <div class="about-vacancy-head reveal">
+            <h2 id="open-positions-title">Vacatures</h2>
+            <p data-vacancy-summary>Open sollicitaties welkom</p>
+          </div>
+
+          <div class="about-vacancy-list reveal" data-public-content="jobs">
+            <article class="about-vacancy-row">
+              <div class="about-vacancy-row__main">
+                <h3>Open sollicitatie</h3>
+                <p>Zie jij een rol in circulaire baggerketens? Stuur ons je achtergrond en waar je aan wilt bouwen.</p>
+              </div>
+              <span>Algemeen</span>
+              <span>Open</span>
+              <a href="/contact">Bekijk <span aria-hidden="true">-&gt;</span></a>
+            </article>
+          </div>
+
+          <p class="about-vacancy-note reveal">
+            Niets passends gevonden? Stuur gerust een open sollicitatie naar <a href="mailto:info@blauwebagger.nl">info@blauwebagger.nl</a>
+          </p>
         </div>
       </section>
     </main>
@@ -80,7 +109,7 @@
             <p class="home-footer-heading">Navigatie</p>
             <a href="/het-plan">Het Plan</a>
             <a href="/services">Services</a>
-            <a href="/services/baggeraars">Voor baggerindustrie</a>
+            <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
             <a href="/producten">Producten</a>
             <a href="/projecten">Projecten</a>
@@ -126,7 +155,6 @@
       </div>
     </footer>
 
-    <script src="/script.js?v=lang-switch"></script>
-    <script src="/projects.js"></script>
+    <script src="script.js?v=public-content-1"></script>
   </body>
 </html>
