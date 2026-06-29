@@ -5209,7 +5209,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-image-text h2 {
-  font-size: calc(clamp(2rem, 3.1vw, 3.6rem) * var(--block-font-scale));
+  font-size: calc(clamp(1.8rem, 2.75vw, 3.15rem) * var(--block-font-scale));
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-image-text__body {
@@ -5498,33 +5498,43 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 
 .project-builder-columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0;
-  padding: 0;
-  overflow: hidden;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(64px, 10vw, 180px);
+  padding: clamp(62px, 8vw, 110px) clamp(34px, 7vw, 100px);
   background: #ffffff;
 }
 
 .project-builder-column {
   display: grid;
   align-content: start;
-  gap: clamp(28px, 4vw, 58px);
-  min-height: clamp(520px, 68vh, 740px);
-  padding: clamp(38px, 5.2vw, 78px) clamp(34px, 6vw, 96px);
+  gap: clamp(34px, 4vw, 58px);
+  min-height: 0;
+  padding: 0;
 }
 
 .project-builder-column + .project-builder-column {
-  border-left: 1px solid rgba(17, 25, 48, 0.12);
+  border-left: 0;
 }
 
-.project-builder-column-copy {
+.project-builder-columns .project-builder-column-copy {
   display: grid;
-  gap: clamp(32px, 5vw, 70px);
-  color: rgba(17, 25, 48, 0.78);
-  font-size: clamp(1.22rem, 1.6vw, 1.72rem);
+  gap: clamp(28px, 4vw, 58px);
+  color: rgba(17, 25, 48, 0.72);
+  font-size: clamp(1.25rem, 1.62vw, 1.78rem);
   font-weight: 440;
   letter-spacing: 0.04em;
-  line-height: 1.65;
+  line-height: 1.62;
+}
+
+.project-builder-columns .project-builder-column:first-child .project-builder-column-copy {
+  max-width: 36ch;
+  color: rgba(17, 25, 48, 0.9);
+  font-size: clamp(1.35rem, 1.9vw, 2.12rem);
+  line-height: 1.5;
+}
+
+.project-builder-columns .project-builder-column + .project-builder-column .project-builder-column-copy {
+  max-width: 58ch;
 }
 
 .project-builder-column-copy p,
@@ -5568,6 +5578,9 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   gap: clamp(44px, 7vw, 120px);
   align-items: stretch;
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
   padding: 0;
   background: #f4f5f7;
   border: 0;
@@ -5598,7 +5611,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 
 .project-builder-image-text__copy {
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: clamp(24px, 3.5vw, 42px);
   padding: clamp(46px, 7vw, 92px) clamp(36px, 7vw, 108px) clamp(46px, 7vw, 92px) 0;
 }
@@ -5614,18 +5627,16 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   margin: 0;
   color: #111930;
   font-family: var(--font-body);
-  font-size: clamp(2rem, 3.1vw, 3.6rem);
+  font-size: clamp(1.8rem, 2.75vw, 3.15rem);
   font-weight: 450;
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
 
-.project-builder-image-text h2 em {
-  font-family: var(--font-display);
-  font-size: 0.92em;
-  font-style: italic;
-  font-weight: 850;
-  letter-spacing: -0.035em;
+.project-builder-image-text h2 span {
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .project-builder-image-text__body {
@@ -6280,6 +6291,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   }
 
   .project-builder-column + .project-builder-column {
+    padding-top: 38px;
     border-top: 1px solid rgba(17, 25, 48, 0.12);
     border-left: 0;
   }
@@ -16171,6 +16183,212 @@ body[data-page="over-ons"] .about-team-link:focus-visible {
   color: #111930;
   background: #c9ebff;
   border-color: #c9ebff;
+}
+
+body[data-page="over-ons"] .about-page,
+body[data-page="over-ons"] .about-story-section,
+body[data-page="over-ons"] .about-statement-section,
+body[data-page="over-ons"] .about-team-section,
+body[data-page="over-ons"] .about-gallery-section {
+  background: #f4f1ec !important;
+  background-image: none !important;
+}
+
+body[data-page="over-ons"] .about-story-section {
+  padding: clamp(128px, 16vh, 178px) 0 clamp(54px, 8vh, 88px);
+}
+
+body[data-page="over-ons"] .about-story-section .about-frame {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(58px, 8vw, 96px);
+  align-items: start;
+}
+
+body[data-page="over-ons"] .about-kicker,
+body[data-page="over-ons"] .about-team-card p,
+body[data-page="over-ons"] .about-photo-placeholder span {
+  margin: 0;
+  color: rgba(56, 81, 147, 0.72);
+  font-size: 0.72rem;
+  font-weight: 820;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+body[data-page="over-ons"] .about-story-section h1 {
+  max-width: 11ch;
+  margin-top: clamp(28px, 4vw, 42px);
+  color: #1e1b18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4.4rem, 7.8vw, 8rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+}
+
+body[data-page="over-ons"] .about-story-text {
+  max-width: 1180px;
+  margin-top: clamp(42px, 6vw, 66px);
+  color: rgba(30, 27, 24, 0.74);
+  font-size: clamp(1.08rem, 1.35vw, 1.42rem);
+  font-weight: 440;
+  letter-spacing: 0;
+  line-height: 1.72;
+}
+
+body[data-page="over-ons"] .about-photo-placeholder {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(230px, 23vw, 340px);
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(30, 27, 24, 0.035) 0,
+      rgba(30, 27, 24, 0.035) 10px,
+      rgba(255, 255, 255, 0.34) 10px,
+      rgba(255, 255, 255, 0.34) 22px
+    ),
+    rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(30, 27, 24, 0.04);
+}
+
+body[data-page="over-ons"] .about-photo-placeholder--wide {
+  min-height: clamp(330px, 35vw, 520px);
+}
+
+body[data-page="over-ons"] .about-statement-section {
+  padding: clamp(64px, 9vh, 96px) 0 clamp(70px, 10vh, 112px);
+  border-bottom: 1px solid rgba(30, 27, 24, 0.08);
+}
+
+body[data-page="over-ons"] .about-statement {
+  max-width: 610px;
+  margin: 0;
+  color: #1e1b18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.45rem, 3.8vw, 4.3rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+body[data-page="over-ons"] .about-statement em {
+  font-style: italic;
+}
+
+body[data-page="over-ons"] .about-statement strong {
+  font-weight: 700;
+}
+
+body[data-page="over-ons"] .about-team-section {
+  padding: clamp(82px, 11vh, 124px) 0 clamp(64px, 9vh, 104px);
+}
+
+body[data-page="over-ons"] .about-team-section h2 {
+  max-width: 1180px;
+  margin: 0 auto;
+  color: #1e1b18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.7rem, 4.2vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-align: left;
+}
+
+body[data-page="over-ons"] .about-team-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(24px, 2vw, 34px);
+  max-width: 1180px;
+  margin: clamp(48px, 7vh, 72px) auto 0;
+}
+
+body[data-page="over-ons"] .about-team-card {
+  justify-items: start;
+  padding: 0;
+  background: transparent !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+}
+
+body[data-page="over-ons"] .about-team-card img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: none;
+  background: rgba(255, 255, 255, 0.34);
+  border-radius: 2px;
+}
+
+body[data-page="over-ons"] .about-team-card h3 {
+  margin: 16px 0 4px;
+  color: #1e1b18;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  font-weight: 760;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+body[data-page="over-ons"] .about-team-card p {
+  color: rgba(30, 27, 24, 0.58);
+  font-size: clamp(0.86rem, 0.96vw, 0.98rem);
+  font-weight: 520;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+body[data-page="over-ons"] .about-gallery-section {
+  padding: 0 0 clamp(76px, 10vh, 116px);
+}
+
+body[data-page="over-ons"] .about-photo-collage {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  grid-template-rows: repeat(2, minmax(190px, 1fr));
+  gap: clamp(22px, 2vw, 30px);
+}
+
+body[data-page="over-ons"] .about-photo-collage .about-photo-placeholder {
+  min-height: clamp(220px, 22vw, 300px);
+}
+
+body[data-page="over-ons"] .about-photo-placeholder--large {
+  grid-row: 1 / span 2;
+  min-height: clamp(420px, 44vw, 590px);
+}
+
+body[data-page="over-ons"] .about-board-section--openings {
+  margin-top: 0;
+}
+
+@media (max-width: 980px) {
+  body[data-page="over-ons"] .about-team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="over-ons"] .about-photo-collage {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  body[data-page="over-ons"] .about-photo-placeholder--large {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  body[data-page="over-ons"] .about-team-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 body[data-page="het-plan"] .plan-intro-section {

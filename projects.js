@@ -1054,8 +1054,6 @@ const projectBlockTypes = {
       ["leftBody", "Linker tekst", "textarea"],
       ["rightEyebrow", "Rechter label", "input"],
       ["rightBody", "Rechter tekst", "textarea"],
-      ["noteTitle", "Kleine titel rechts", "input"],
-      ["noteBody", "Kleine tekst rechts", "textarea"],
     ],
   },
   imageText: {
@@ -1195,12 +1193,11 @@ function createProjectBlock(type, project = {}) {
       leftBody:
         body ||
         "Beschrijf hier de achtergrond van het project. Gebruik een lege regel om een nieuwe alinea te beginnen.\n\nVoeg daarna de context, partijen en belangrijkste aanleiding toe.",
-      rightEyebrow: "Missie",
+      rightEyebrow: "De samenwerking",
       rightBody:
         "Beschrijf hier de ambitie, doelstelling of gezamenlijke missie van het project. Houd deze tekst ruim en redactioneel.",
-      noteTitle: "Rol van Blauwe Bagger",
-      noteBody:
-        "Blauwe Bagger brengt praktijkkennis, data en mobiele verwerking samen om de circulaire route van bagger naar grondstof concreet te maken.",
+      noteTitle: "",
+      noteBody: "",
     },
     imageText: {
       image: project.coverImage || "assets/media/installatie.jpeg",
@@ -2286,15 +2283,9 @@ function renderColumnRichText(value, fieldName, className = "project-builder-col
 
 function renderProjectBlockColumns(block) {
   const fields = block.fields || {};
-  const note = String(fields.noteTitle || fields.noteBody || "").trim()
-    ? `
-      <div class="project-builder-column-note">
-        ${previewEditable(fields.noteTitle || "Rol van Blauwe Bagger", "noteTitle", "h3")}
-        ${renderColumnRichText(fields.noteBody || "", "noteBody", "project-builder-column-note__body")}
-      </div>
-    `
-    : "";
-
+  const rightEyebrow = String(fields.rightEyebrow || "").trim();
+  const rightEyebrowLabel =
+    !rightEyebrow || rightEyebrow.toLowerCase() === "missie" ? "De samenwerking" : fields.rightEyebrow;
   const markup = `
     <section class="project-builder-section project-builder-columns">
       <div class="project-builder-column">
@@ -2302,9 +2293,8 @@ function renderProjectBlockColumns(block) {
         ${renderColumnRichText(fields.leftBody || "", "leftBody")}
       </div>
       <div class="project-builder-column">
-        ${previewEditable(fields.rightEyebrow || "Missie", "rightEyebrow", "p", "project-builder-kicker")}
+        ${previewEditable(rightEyebrowLabel, "rightEyebrow", "p", "project-builder-kicker")}
         ${renderColumnRichText(fields.rightBody || "", "rightBody")}
-        ${note}
       </div>
     </section>
   `;
@@ -2326,10 +2316,9 @@ function renderProjectBlockImageText(block) {
     <section class="project-builder-section project-builder-image-text${reversed}">
       ${imageMarkup}
       <div class="project-builder-image-text__copy">
-        ${previewEditable(fields.eyebrow || "Stadsontwikkeling Amsterdam", "eyebrow", "p", "project-builder-kicker")}
         <h2>
           ${previewEditable(fields.title || "Buiteneiland als onderdeel van", "title", "span")}
-          ${previewEditable(fields.emphasis || "duurzame gebiedsontwikkeling", "emphasis", "em")}
+          ${previewEditable(fields.emphasis || "duurzame gebiedsontwikkeling", "emphasis", "span")}
         </h2>
         ${renderColumnRichText(fields.body || "", "body", "project-builder-image-text__body")}
       </div>
