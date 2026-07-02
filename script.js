@@ -104,7 +104,7 @@ const i18n = {
         "Blauwe Bagger works toward a world where raw materials are never lost. We turn dredged sediment into usable raw materials that contribute to a circular future.",
       "Het Probleem": "The Problem",
       "Baggerindustrie": "Dredging industry",
-      "Betonindustrie": "Concrete industry",
+      Bouwindustrie: "Construction industry",
       "xxx miljoen m3": "xxx million m3",
       Procesaanpak: "Process approach",
       "Onze Oplossing": "Our Solution",

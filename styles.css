@@ -16240,20 +16240,21 @@ body[data-page="over-ons"] .about-story-section h1 {
   margin-top: 0;
   color: #111930;
   font-family: var(--font-display);
-  font-size: clamp(4.1rem, 7.8vw, 7.8rem);
+  font-size: clamp(3rem, 5.2vw, 5.7rem);
   font-weight: 840;
-  letter-spacing: -0.055em;
-  line-height: 0.88;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
 }
 
 body[data-page="over-ons"] .about-story-text {
   max-width: 1180px;
   margin-top: clamp(42px, 6vw, 66px);
-  color: rgba(30, 27, 24, 0.74);
-  font-size: clamp(1.08rem, 1.35vw, 1.42rem);
-  font-weight: 440;
-  letter-spacing: 0;
-  line-height: 1.72;
+  color: rgba(17, 25, 48, 0.74);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.18vw, 1.24rem);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  line-height: 1.55;
 }
 
 body[data-page="over-ons"] .about-photo-placeholder {
@@ -16279,19 +16280,19 @@ body[data-page="over-ons"] .about-photo-placeholder--wide {
 }
 
 body[data-page="over-ons"] .about-statement-section {
-  padding: clamp(64px, 9vh, 96px) 0 clamp(70px, 10vh, 112px);
+  padding: clamp(52px, 7vh, 82px) 0 clamp(58px, 8vh, 92px);
   border-bottom: 1px solid rgba(30, 27, 24, 0.08);
 }
 
 body[data-page="over-ons"] .about-statement {
-  max-width: 610px;
+  max-width: 980px;
   margin: 0;
   color: #111930;
   font-family: var(--font-display);
-  font-size: clamp(2.35rem, 3.7vw, 4.15rem);
+  font-size: clamp(2.1rem, 3vw, 3.35rem);
   font-weight: 760;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
+  letter-spacing: -0.038em;
+  line-height: 1.08;
 }
 
 body[data-page="over-ons"] .about-statement em {
