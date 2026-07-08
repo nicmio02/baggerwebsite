@@ -448,6 +448,52 @@ const staticProjectPages = {
   },
 };
 
+function plainStaticProjectText(value) {
+  return String(value || "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function staticProjectToEditableProject(slug, project) {
+  const title = plainStaticProjectText((project.titleLines || []).join(" ")) || project.crumb || slug;
+  const body = Array.isArray(project.body) ? project.body : [];
+  const highlights = Array.isArray(project.highlights)
+    ? project.highlights.map((item) => (Array.isArray(item) ? item[0] : item)).filter(Boolean)
+    : [];
+
+  return {
+    id: `static_${slug}`,
+    slug,
+    title,
+    excerpt: project.subtitle || body[0] || "",
+    date: "2026-05-01",
+    category: projectCategoryLabel(project.tag || defaultProjectCategory),
+    location: "Nederland",
+    status: "Actief",
+    coverImage: projectCoverFallback({ category: project.tag, title }),
+    featured: false,
+    body,
+    highlights,
+    blocks: defaultProjectBlocks({
+      title,
+      excerpt: project.subtitle || body[0] || "",
+      category: project.tag || defaultProjectCategory,
+      coverImage: projectCoverFallback({ category: project.tag, title }),
+      body,
+      highlights,
+    }),
+  };
+}
+
+function staticEditableProject(slug) {
+  const project = staticProjectPages[slug];
+  return project ? staticProjectToEditableProject(slug, project) : null;
+}
+
 function projectBoardSectionFor(project) {
   const category = String(project.category || "").toLowerCase();
 
@@ -2807,8 +2853,9 @@ async function submitAdminForm(event) {
 
   const formData = new FormData(adminForm);
   const editingSlug = adminForm.dataset.editingSlug;
-  const method = editingSlug ? "PUT" : "POST";
-  const url = editingSlug ? `/api/projects/${encodeURIComponent(editingSlug)}` : "/api/projects";
+  const editingProjectExists = Boolean(editingSlug && adminProjectsCache.some((project) => project.slug === editingSlug));
+  const method = editingProjectExists ? "PUT" : "POST";
+  const url = editingProjectExists ? `/api/projects/${encodeURIComponent(editingSlug)}` : "/api/projects";
 
   const payload = {
     title: formData.get("title"),
@@ -2988,7 +3035,7 @@ async function initProjectAdmin() {
   if (params.has("new")) {
     resetAdminForm(true, false);
   } else if (editSlug) {
-    const project = initialProjects.find((item) => item.slug === editSlug);
+    const project = initialProjects.find((item) => item.slug === editSlug) || staticEditableProject(editSlug);
 
     if (project) {
       fillAdminForm(project, false);
@@ -3036,7 +3083,7 @@ async function initProjectAdmin() {
 
     if (nextEditSlug) {
       const projects = adminProjectsCache.length ? adminProjectsCache : await refreshAdmin();
-      const project = projects.find((item) => item.slug === nextEditSlug);
+      const project = projects.find((item) => item.slug === nextEditSlug) || staticEditableProject(nextEditSlug);
 
       if (project) {
         fillAdminForm(project, false);
