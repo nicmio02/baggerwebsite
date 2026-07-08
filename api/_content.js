@@ -191,6 +191,7 @@ const allowedProjectBlocks = new Set([
   "meta",
   "facts",
   "metrics",
+  "statQuote",
   "resultCards",
   "metalScience",
   "text",
