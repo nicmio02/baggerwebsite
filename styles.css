@@ -5559,6 +5559,32 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
   max-width: 62ch;
 }
 
+.project-builder-page > .project-builder-hero + .project-builder-columns,
+.builder-preview-block:has(.project-builder-hero) + .builder-preview-block .project-builder-columns {
+  gap: clamp(58px, 8vw, 140px);
+  align-items: center;
+  min-height: clamp(390px, 35vw, 520px);
+  padding: clamp(76px, 10vw, 128px) clamp(44px, 7vw, 116px);
+}
+
+.project-builder-page > .project-builder-hero + .project-builder-columns .project-builder-column,
+.builder-preview-block:has(.project-builder-hero) + .builder-preview-block .project-builder-columns .project-builder-column {
+  gap: clamp(36px, 4.8vw, 68px);
+}
+
+.project-builder-page > .project-builder-hero + .project-builder-columns .project-builder-kicker,
+.builder-preview-block:has(.project-builder-hero) + .builder-preview-block .project-builder-columns .project-builder-kicker {
+  font-size: clamp(0.82rem, 0.95vw, 1rem);
+}
+
+.project-builder-page > .project-builder-hero + .project-builder-columns .project-builder-column-copy,
+.builder-preview-block:has(.project-builder-hero) + .builder-preview-block .project-builder-columns .project-builder-column-copy {
+  max-width: 54ch;
+  font-size: clamp(1.22rem, 1.62vw, 1.72rem);
+  font-weight: 680;
+  line-height: 1.5;
+}
+
 .project-builder-column-copy p,
 .project-builder-column-note__body p {
   margin: 0;
