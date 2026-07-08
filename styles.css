@@ -5235,15 +5235,15 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-feature-grid h2 {
-  font-size: calc(clamp(2rem, 3.2vw, 3.2rem) * var(--block-font-scale));
+  font-size: calc(clamp(2rem, 3vw, 3.45rem) * var(--block-font-scale));
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-feature-cell h3 {
-  font-size: calc(clamp(1.35rem, 1.75vw, 1.9rem) * var(--block-font-scale));
+  font-size: calc(clamp(1.18rem, 1.46vw, 1.56rem) * var(--block-font-scale));
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-feature-cell__body {
-  font-size: calc(clamp(1rem, 1.28vw, 1.34rem) * var(--block-font-scale));
+  font-size: calc(clamp(1.02rem, 1.2vw, 1.22rem) * var(--block-font-scale));
 }
 
 :is(.builder-preview-block, .project-builder-font-scale) .project-builder-metric strong {
@@ -5675,54 +5675,64 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 
 .project-builder-feature-grid {
   display: grid;
-  gap: clamp(34px, 5vw, 60px);
-  background: #f3f5f8;
-  box-shadow: none;
+  gap: clamp(30px, 4.5vw, 52px);
+  background: #ffffff;
 }
 
 .project-builder-feature-grid h2 {
   margin: 0;
   color: #111930;
   font-family: var(--font-body);
-  font-size: clamp(2rem, 3.2vw, 3.2rem);
-  font-weight: 560;
-  letter-spacing: 0;
-  line-height: 1.08;
+  font-size: clamp(2rem, 3vw, 3.45rem);
+  font-weight: 760;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
 }
 
 .project-builder-feature-grid__cells {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid rgba(17, 25, 48, 0.12);
-  border-left: 1px solid rgba(17, 25, 48, 0.12);
+  overflow: hidden;
+  border: 1px solid rgba(56, 81, 147, 0.12);
 }
 
 .project-builder-feature-cell {
   display: grid;
   align-content: start;
-  gap: clamp(20px, 2.6vw, 34px);
-  min-height: clamp(300px, 34vw, 430px);
-  padding: clamp(34px, 5vw, 72px);
-  border-right: 1px solid rgba(17, 25, 48, 0.12);
-  border-bottom: 1px solid rgba(17, 25, 48, 0.12);
+  gap: clamp(18px, 2.4vw, 30px);
+  min-height: clamp(250px, 24vw, 330px);
+  padding: clamp(32px, 4.5vw, 58px);
+  background: #ffffff;
+  border-right: 1px solid rgba(56, 81, 147, 0.12);
+  border-bottom: 1px solid rgba(56, 81, 147, 0.12);
+}
+
+.project-builder-feature-cell:nth-child(2n) {
+  border-right: 0;
+}
+
+.project-builder-feature-cell:nth-last-child(-n + 2) {
+  border-bottom: 0;
 }
 
 .project-builder-feature-cell h3 {
   margin: 0;
   color: #111930;
   font-family: var(--font-body);
-  font-size: clamp(1.35rem, 1.75vw, 1.9rem);
-  font-weight: 650;
-  line-height: 1.16;
+  font-size: clamp(1.18rem, 1.46vw, 1.56rem);
+  font-weight: 780;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
 }
 
 .project-builder-feature-cell__body {
-  max-width: 560px;
+  max-width: 48ch;
   margin: 0;
-  color: rgba(17, 25, 48, 0.72);
-  font-size: clamp(1rem, 1.28vw, 1.34rem);
-  font-weight: 440;
-  line-height: 1.62;
+  color: rgba(17, 25, 48, 0.68);
+  font-size: clamp(1.02rem, 1.2vw, 1.22rem);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  line-height: 1.56;
 }
 
 .project-builder-facts dl {
