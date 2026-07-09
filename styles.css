@@ -16684,12 +16684,18 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   width: min(1500px, calc(100% - clamp(42px, 10vw, 176px)));
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-frame {
+  width: min(1500px, calc(100% - clamp(42px, 10vw, 176px)));
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__layout,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
   min-height: calc(100svh - var(--header-height) - clamp(96px, 15vh, 154px));
   align-items: end;
   justify-items: start;
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
   max-width: min(980px, 100%);
   gap: clamp(10px, 1.1vw, 16px);
@@ -16708,6 +16714,7 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   color: #c9ebff;
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-kicker,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker {
   display: inline-flex;
   align-items: center;
@@ -16723,6 +16730,7 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   text-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-kicker::before,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-kicker::before {
   width: clamp(26px, 3vw, 42px);
   height: 1px;
@@ -16754,11 +16762,22 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   line-height: 0.98;
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1 {
+  max-width: 980px;
+  font-family: var(--font-sans);
+  font-size: clamp(3.4rem, 6vw, 6.35rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-accent,
 body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-accent {
   display: block;
   margin-top: clamp(2px, 0.5vw, 8px);
 }
 
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy),
 body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy) {
   color: #ffffff;
   margin-top: clamp(6px, 1vw, 14px);
@@ -16767,6 +16786,17 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__copy {
+  max-width: 780px;
+  margin: clamp(18px, 3vh, 30px) 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1rem, 1.12vw, 1.16rem);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.45;
 }
 
 body[data-page="service-detail"] .service-hero-accent {
@@ -16797,31 +16827,37 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-
     min-height: auto;
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks,
   body[data-page="service-detail"] .service-detail-hero--excavating {
     display: grid;
     min-height: 78svh;
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-frame,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-frame {
     width: min(100% - 28px, 1420px);
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__layout,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
     min-height: calc(78svh - 132px);
     align-items: end;
     justify-items: start;
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
     padding-bottom: clamp(26px, 8vh, 58px);
     text-align: left;
     justify-items: start;
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
     font-size: clamp(2.9rem, 13.4vw, 4.5rem);
   }
 
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy),
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy) {
     font-size: clamp(1.05rem, 5vw, 1.42rem);
   }
