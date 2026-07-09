@@ -16248,7 +16248,7 @@ body[data-page="over-ons"] .about-gallery-section {
 }
 
 body[data-page="over-ons"] .about-story-section {
-  padding: clamp(132px, 16vh, 182px) 0 clamp(54px, 8vh, 88px);
+  padding: clamp(128px, 16vh, 178px) 0 clamp(54px, 8vh, 88px);
 }
 
 body[data-page="over-ons"] .about-story-section .about-frame {
@@ -16271,25 +16271,25 @@ body[data-page="over-ons"] .about-photo-placeholder span {
 }
 
 body[data-page="over-ons"] .about-story-section h1 {
-  max-width: 980px;
+  max-width: 11ch;
   margin-top: 0;
   color: #111930;
-  font-family: var(--font-sans);
-  font-size: clamp(3.4rem, 6vw, 6.35rem);
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.2vw, 5.7rem);
+  font-weight: 840;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
 }
 
 body[data-page="over-ons"] .about-story-text {
-  max-width: 980px;
-  margin-top: clamp(18px, 3vh, 30px);
+  max-width: 1180px;
+  margin-top: clamp(42px, 6vw, 66px);
   color: rgba(17, 25, 48, 0.74);
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.12vw, 1.16rem);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.45;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.18vw, 1.24rem);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  line-height: 1.55;
 }
 
 body[data-page="over-ons"] .about-photo-placeholder {
@@ -16528,25 +16528,23 @@ body[data-page="vacatures"] .vacancy-hero-section {
 }
 
 body[data-page="vacatures"] .vacancy-hero-section h1 {
-  max-width: 980px;
+  max-width: 11ch;
   margin: 0;
   color: #111930;
-  font-family: var(--font-sans);
-  font-size: clamp(3.4rem, 6vw, 6.35rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 8vw, 8rem);
+  font-weight: 840;
   letter-spacing: -0.055em;
-  line-height: 0.98;
+  line-height: 0.88;
 }
 
 body[data-page="vacatures"] .vacancy-hero-copy {
-  max-width: 780px;
-  margin: clamp(18px, 3vh, 30px) 0 0;
-  color: rgba(17, 25, 48, 0.74);
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.12vw, 1.16rem);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.45;
+  max-width: 720px;
+  margin: clamp(34px, 5vw, 56px) 0 0;
+  color: rgba(17, 25, 48, 0.66);
+  font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+  font-weight: 520;
+  line-height: 1.55;
 }
 
 body[data-page="vacatures"] .about-board-section--openings {
@@ -16597,9 +16595,9 @@ body[data-page="vacatures"] .about-vacancy-head p {
 
 body[data-page="het-plan"] .plan-intro-section {
   display: grid;
-  min-height: auto;
-  padding: clamp(132px, 16vh, 182px) 0 clamp(54px, 8vh, 88px) !important;
-  align-items: start;
+  min-height: 100svh;
+  padding: clamp(64px, 8vh, 94px) 0 clamp(64px, 8vh, 92px) !important;
+  align-items: center;
 }
 
 body[data-page="het-plan"] .plan-intro-frame,
@@ -16608,8 +16606,8 @@ body[data-page="het-plan"] .plan-intro-layout {
 }
 
 body[data-page="het-plan"] .plan-intro-copy {
-  gap: clamp(18px, 3vh, 30px);
-  max-width: 980px;
+  gap: clamp(20px, 2.35vw, 34px);
+  max-width: min(1460px, 100%);
 }
 
 body[data-page="het-plan"] .plan-intro-head {
@@ -16622,35 +16620,28 @@ body[data-page="het-plan"] .plan-intro-head p {
 }
 
 body[data-page="het-plan"] .plan-intro-head h1 {
-  max-width: 980px;
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: clamp(3.4rem, 6vw, 6.35rem);
-  font-weight: 400;
-  letter-spacing: -0.055em;
+  font-size: clamp(2.25rem, 3.4vw, 3.9rem);
+  letter-spacing: -0.032em;
   line-height: 0.98;
 }
 
 body[data-page="het-plan"] .plan-intro-copy p {
-  max-width: 980px;
-  color: rgba(17, 25, 48, 0.74);
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.12vw, 1.16rem);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.45;
+  max-width: 1320px;
+  color: #111930;
+  font-size: clamp(1rem, 1.12vw, 1.14rem);
+  line-height: 1.48;
 }
 
 body[data-page="het-plan"] .plan-intro-copy .plan-intro-lead {
-  max-width: 980px;
-  font-size: clamp(1rem, 1.12vw, 1.16rem);
-  line-height: 1.45;
+  max-width: 1320px;
+  font-size: clamp(1.05rem, 1.18vw, 1.22rem);
+  line-height: 1.42;
 }
 
 @media (max-width: 1080px) {
   body[data-page="het-plan"] .plan-intro-section {
-    min-height: auto;
-    padding: clamp(132px, 18vw, 174px) 0 clamp(50px, 7vh, 78px) !important;
+    min-height: 100svh;
+    padding: clamp(172px, 19vw, 220px) 0 clamp(50px, 7vh, 78px) !important;
     align-items: start;
   }
 }
@@ -16665,7 +16656,7 @@ body[data-page="het-plan"] .plan-intro-copy .plan-intro-lead {
   }
 
   body[data-page="het-plan"] .plan-intro-head h1 {
-    font-size: clamp(2.9rem, 13.4vw, 4.5rem);
+    font-size: clamp(2.15rem, 11vw, 3.15rem);
   }
 
   body[data-page="het-plan"] .plan-intro-copy p,
