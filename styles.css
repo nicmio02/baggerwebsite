@@ -5562,7 +5562,7 @@ body:not(.project-builder-admin) .project-builder-breadcrumb {
 .project-builder-page > .project-builder-hero + .project-builder-columns,
 .builder-preview-block:has(.project-builder-hero) + .builder-preview-block .project-builder-columns {
   gap: clamp(58px, 8vw, 140px);
-  align-items: center;
+  align-items: start;
   min-height: clamp(390px, 35vw, 520px);
   padding: clamp(76px, 10vw, 128px) clamp(44px, 7vw, 116px);
 }
@@ -15922,9 +15922,65 @@ body[data-page="contact"] .contact-details-section {
 }
 
 body[data-page="contact"] .contact-form-section {
-  background: linear-gradient(135deg, #101936 0%, #24376f 100%) !important;
-  background-image: linear-gradient(135deg, #101936 0%, #24376f 100%) !important;
+  padding: clamp(132px, 16vh, 178px) 0 clamp(92px, 12vw, 168px);
+  color: #111930;
+  background: #ffffff !important;
+  background-image: none !important;
   background-size: auto !important;
+}
+
+body[data-page="contact"] .contact-form-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  align-items: start;
+}
+
+body[data-page="contact"] .contact-form-copy .contact-kicker,
+body[data-page="contact"] .contact-form-section .contact-kicker {
+  color: #43579c;
+}
+
+body[data-page="contact"] .contact-form-copy h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #111930;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6.7vw, 7.8rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.94;
+}
+
+body[data-page="contact"] .contact-form-copy > p {
+  color: rgba(17, 25, 48, 0.7);
+}
+
+body[data-page="contact"] .contact-person-list {
+  border-color: rgba(17, 25, 48, 0.14);
+}
+
+body[data-page="contact"] .contact-person-list a {
+  color: rgba(17, 25, 48, 0.72);
+  border-color: rgba(17, 25, 48, 0.14);
+}
+
+body[data-page="contact"] .contact-person-list span {
+  color: #111930;
+}
+
+body[data-page="contact"] .contact-form--page {
+  width: 100%;
+  max-width: 520px;
+  justify-self: end;
+}
+
+@media (max-width: 1060px) {
+  body[data-page="contact"] .contact-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="contact"] .contact-form--page {
+    justify-self: start;
+  }
 }
 
 body[data-page="het-plan"] .plan-blueprint-page {
@@ -16549,6 +16605,10 @@ body[data-page="vacatures"] .vacancy-hero-copy {
 
 body[data-page="vacatures"] .about-board-section--openings {
   padding-top: clamp(20px, 4vh, 44px);
+}
+
+body[data-page="vacatures"] .about-board-section--openings::before {
+  display: none;
 }
 
 body[data-page="vacatures"] .about-vacancy-head {
