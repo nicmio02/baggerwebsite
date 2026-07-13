@@ -16,8 +16,14 @@ const productDetail = document.querySelector("[data-product-detail]");
 const contactForm = document.querySelector("[data-contact-form]");
 const formNote = document.querySelector("[data-form-note]");
 const heroVideos = Array.from(document.querySelectorAll(".home-hero-video"));
+const missionStory = document.querySelector(".home-mission-story");
+const missionCopy = missionStory?.querySelector(".home-mission-copy");
+const missionText = missionCopy?.querySelector("[data-i18n-html='mission-copy']");
+const problemStory = document.querySelector(".home-problem-story");
+const problemPanels = Array.from(document.querySelectorAll(".home-problem-panel"));
 const solutionSequence = document.querySelector("[data-solution-sequence]");
 const solutionSteps = solutionSequence?.querySelectorAll("[data-solution-step]") || [];
+const solutionCards = Array.from(document.querySelectorAll("[data-solution-card]"));
 const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
 const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]");
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
@@ -69,8 +75,11 @@ let activeHeroClip = 0;
 let heroClipTimer = null;
 let activeSolutionStep = 0;
 let solutionStepTimer = null;
+let activeSolutionCard = null;
+let solutionDialogIsClosing = false;
 let lastScrollY = window.scrollY;
 let headerIdleTimer = null;
+let missionWords = [];
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
@@ -90,6 +99,10 @@ const i18n = {
       "Neem contact op": "Contact",
       Contact: "Contact",
       Menu: "Menu",
+      Sluiten: "Close",
+      "Toon details: Analyse": "Show details: Analysis",
+      "Toon details: BlueBox verwerking": "Show details: BlueBox processing",
+      "Toon details: Hergebruik": "Show details: Reuse",
       "Bagger als": "Sediment as",
       als: "as",
       Grondstof: "Raw Material",
@@ -117,6 +130,7 @@ const i18n = {
       "Data & verwerking": "Data & processing",
       "Nieuwe toepassing": "New application",
       Analyse: "Analysis",
+      "Data Analyse": "Data Analysis",
       Verwerking: "Processing",
       "BlueBox verwerking": "BlueBox processing",
       Hergebruik: "Reuse",
@@ -126,6 +140,34 @@ const i18n = {
         "The BlueBox dewaters, separates and cleans dredged sediment on site.",
       "Materialen worden toegepast in bouw- en betonproducten.":
         "Materials are used in construction and concrete products.",
+      "De oplossing van het probleem begint in het erkennen van de variabiliteit van bagger. Bagger is extreem variabel, terwijl afnemers juist een constante, voorspelbare kwaliteit eisen.":
+        "Solving the problem starts with recognizing the variability of dredged sediment. Dredged sediment is extremely variable, while buyers require consistent, predictable quality.",
+      "Door middel van data-analyse overbruggen we dit gat. We zetten software in om omvangrijke bestanden met complexe data uit waterbodemonderzoeken om te zetten naar een concreet plan van aanpak.":
+        "We bridge this gap through data analysis. Our software turns extensive, complex sediment survey data into a concrete plan of action.",
+      "Hoe het werkt": "How it works",
+      "De tool draait de traditionele keten om en neemt de klanteis als vertrekpunt. Vervolgens berekent het systeem of de specie uit een specifieke waterbodem de potentie heeft om aan die markteisen te voldoen.":
+        "The tool reverses the traditional chain and starts with the customer's requirements. It then calculates whether sediment from a specific waterbed has the potential to meet those market requirements.",
+      "Met een efficiënte poorttoets bepaalt de tool direct de exacte stappen voor scheiding via onze BlueBox en nabewerking, zoals verhitting of calcinatie. Bij een positieve match rolt er direct een recept uit om de bagger optimaal op te waarderen. Is de kwaliteit onvoldoende en niet te corrigeren? Dan filtert de tool de plot direct uit.":
+        "Using an efficient gate test, the tool immediately determines the exact separation steps via our BlueBox and the required post-processing, such as heating or calcination. A positive match produces a recipe for optimally upgrading the sediment. If the quality is insufficient and cannot be corrected, the tool filters out the plot immediately.",
+      "Zo transformeren we onbenutte data in een gegarandeerde, hoogwaardige circulaire grondstof.":
+        "This is how we transform unused data into a guaranteed, high-quality circular raw material.",
+      Ontwatering: "Dewatering",
+      "Onze mobiele unit maakt het mogelijk om baggerspecie direct op locatie in te dikken. Vooral op afgelegen of moeilijk bereikbare plekken voorkomt dit onnodig transport van grote volumes waterige bagger. Dat betekent: lagere kosten, minder CO₂-uitstoot en een veel efficiënter proces.":
+        "Our mobile unit makes it possible to dewater dredged sediment directly on site. Especially in remote or difficult-to-reach locations, this prevents unnecessary transport of large volumes of watery sediment. The result: lower costs, fewer CO₂ emissions and a much more efficient process.",
+      Scheiding: "Separation",
+      "Baggerspecie zit vaak vol met herbruikbare materialen zoals zand, klei, leem en organisch materiaal. Met onze installatie scheiden we deze stromen ter plekke, klaar voor circulair hergebruik. Zo voegen we directe waarde toe aan wat eerst als afval werd gezien, én creëren we kansen voor opbrengsten binnen het project.":
+        "Dredged sediment often contains reusable materials such as sand, clay, loam and organic matter. Our installation separates these streams on site, ready for circular reuse. This adds immediate value to what was previously seen as waste and creates revenue opportunities within the project.",
+      Opschoning: "Cleaning",
+      "Ook vervuilde bagger verdient een tweede leven. Onze technologie verwijdert schadelijke stoffen uit de specie, waardoor materialen geschikt worden voor veilig en verantwoord hergebruik. Daarmee herstellen we niet alleen schade uit het verleden, maar bouwen we actief aan een schonere toekomst.":
+        "Contaminated dredged sediment also deserves a second life. Our technology removes harmful substances, making the materials suitable for safe and responsible reuse. This allows us to repair damage from the past while actively building a cleaner future.",
+      "Nabewerking op maat": "Custom post-processing",
+      "Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken—zoals verhitting, vermaling of calcinatie—brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend.":
+        "Before the separated materials enter the market, they can be upgraded. Targeted post-processing techniques—such as heating, grinding or calcination—align the material's physical and chemical properties with the strict requirements of the construction and concrete industries. Market demand always leads this process.",
+      "Circulaire toepassingen": "Circular applications",
+      "De opgeschoonde en bewerkte grondstoffen krijgen een hoogwaardig tweede leven. In plaats van te eindigen in een depot, worden ze direct ingezet als betrouwbare secundaire bouwstoffen. Denk hierbij aan aggregaten voor de betonindustrie, of hoogwaardige klei voor de keramische industrie.":
+        "The cleaned and processed raw materials receive a high-quality second life. Instead of ending up in a depot, they are used directly as reliable secondary construction materials, such as aggregates for the concrete industry or high-quality clay for the ceramics industry.",
+      "Door onze circulaire aanpak verminderen we de behoefte aan de winning van primaire grondstoffen, zoals nieuw zand en grind, aanzienlijk. Zo verlagen we de milieu-impact en bouwen we letterlijk aan een duurzamere toekomst.":
+        "Our circular approach significantly reduces the need to extract primary raw materials such as new sand and gravel. This lowers environmental impact and quite literally builds a more sustainable future.",
       "Met data uit waterbodemonderzoek bepalen we welke fracties in bagger geschikt zijn voor hoogwaardige hergebruikroutes.":
         "Using data from sediment surveys, we determine which fractions in dredged material are suitable for high-value reuse routes.",
       "Vervolgens wordt de BlueBox op locatie ingezet om bagger te ontwateren, te scheiden en op te schonen tot inzetbare materialen.":
@@ -332,6 +374,52 @@ function normalizeTranslationKey(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function translateSubtree(root) {
+  if (pageLanguage !== "en" || !root) {
+    return;
+  }
+
+  const dictionary = i18n.en;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!normalizeTranslationKey(node.nodeValue)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      const parent = node.parentElement;
+      if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
+
+  const textNodes = [];
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode);
+  }
+
+  textNodes.forEach((node) => {
+    const key = normalizeTranslationKey(node.nodeValue);
+    const translation = dictionary.text[key];
+    if (!translation) {
+      return;
+    }
+
+    const leading = node.nodeValue.match(/^\s*/)?.[0] || "";
+    const trailing = node.nodeValue.match(/\s*$/)?.[0] || "";
+    node.nodeValue = `${leading}${translation}${trailing}`;
+  });
+
+  root.querySelectorAll?.("[aria-label]").forEach((element) => {
+    const key = normalizeTranslationKey(element.getAttribute("aria-label"));
+    if (dictionary.text[key]) {
+      element.setAttribute("aria-label", dictionary.text[key]);
+    }
+  });
+}
+
 function applyPageLanguage() {
   document.documentElement.lang = pageLanguage;
 
@@ -368,44 +456,7 @@ function applyPageLanguage() {
     }
   });
 
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      if (!normalizeTranslationKey(node.nodeValue)) {
-        return NodeFilter.FILTER_REJECT;
-      }
-
-      const parent = node.parentElement;
-      if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) {
-        return NodeFilter.FILTER_REJECT;
-      }
-
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-
-  const textNodes = [];
-  while (walker.nextNode()) {
-    textNodes.push(walker.currentNode);
-  }
-
-  textNodes.forEach((node) => {
-    const key = normalizeTranslationKey(node.nodeValue);
-    const translation = dictionary.text[key];
-    if (!translation) {
-      return;
-    }
-
-    const leading = node.nodeValue.match(/^\s*/)?.[0] || "";
-    const trailing = node.nodeValue.match(/\s*$/)?.[0] || "";
-    node.nodeValue = `${leading}${translation}${trailing}`;
-  });
-
-  document.querySelectorAll("[aria-label]").forEach((element) => {
-    const key = normalizeTranslationKey(element.getAttribute("aria-label"));
-    if (dictionary.text[key]) {
-      element.setAttribute("aria-label", dictionary.text[key]);
-    }
-  });
+  translateSubtree(document.body);
 
   blueprintSteps.forEach((step) => {
     ["blueprintTitle", "blueprintCopy"].forEach((key) => {
@@ -456,12 +507,200 @@ function updateHeroState() {
   document.body.classList.toggle("is-past-hero", window.scrollY > hero.offsetHeight - 120);
 }
 
+function prepareMissionScrollText() {
+  if (!missionText || missionText.dataset.scrollPrepared === "true") {
+    return;
+  }
+
+  const walker = document.createTreeWalker(missionText, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    if (walker.currentNode.nodeValue.trim()) {
+      textNodes.push(walker.currentNode);
+    }
+  }
+
+  textNodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    const parts = node.nodeValue.split(/(\s+)/);
+
+    parts.forEach((part) => {
+      if (!part) {
+        return;
+      }
+
+      if (/^\s+$/.test(part)) {
+        fragment.append(document.createTextNode(part));
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "home-mission-word";
+      word.textContent = part;
+      fragment.append(word);
+    });
+
+    node.replaceWith(fragment);
+  });
+
+  missionWords = Array.from(missionText.querySelectorAll(".home-mission-word"));
+  missionText.dataset.scrollPrepared = "true";
+}
+
+function updateMissionScrollSequence() {
+  if (!missionStory || !missionCopy || !missionText || !missionWords.length) {
+    return;
+  }
+
+  const missionAccent = missionText.querySelector(".home-mission-accent");
+  const sequenceEnabled =
+    window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!sequenceEnabled) {
+    ["--mission-kicker-opacity", "--mission-kicker-y"].forEach((property) =>
+      missionCopy.style.removeProperty(property),
+    );
+    ["--mission-copy-y", "--mission-copy-scale"].forEach((property) =>
+      missionText.style.removeProperty(property),
+    );
+    missionWords.forEach((word) => {
+      ["--mission-word-opacity", "--mission-word-y", "--mission-word-blur"].forEach((property) =>
+        word.style.removeProperty(property),
+      );
+    });
+    missionAccent?.style.removeProperty("--mission-accent-progress");
+    missionAccent?.style.removeProperty("--mission-accent-opacity");
+    return;
+  }
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const storyRect = missionStory.getBoundingClientRect();
+  const scrollRange = Math.max(missionStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+  const kickerProgress = smoothstep(storyProgress / 0.13);
+  const copyProgress = smoothstep(storyProgress / 0.2);
+
+  missionCopy.style.setProperty("--mission-kicker-opacity", (0.25 + 0.75 * kickerProgress).toFixed(4));
+  missionCopy.style.setProperty("--mission-kicker-y", `${(10 * (1 - kickerProgress)).toFixed(2)}px`);
+  missionText.style.setProperty("--mission-copy-y", `${(18 * (1 - copyProgress)).toFixed(2)}px`);
+  missionText.style.setProperty("--mission-copy-scale", (0.985 + 0.015 * copyProgress).toFixed(4));
+
+  missionWords.forEach((word, index) => {
+    const wordPosition = missionWords.length > 1 ? index / (missionWords.length - 1) : 0;
+    const wordStart = 0.04 + wordPosition * 0.62;
+    const wordProgress = smoothstep((storyProgress - wordStart) / 0.16);
+
+    word.style.setProperty("--mission-word-opacity", (0.18 + 0.82 * wordProgress).toFixed(4));
+    word.style.setProperty("--mission-word-y", `${(10 * (1 - wordProgress)).toFixed(2)}px`);
+    word.style.setProperty("--mission-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
+  });
+
+  const accentProgress = smoothstep((storyProgress - 0.72) / 0.15);
+  missionAccent?.style.setProperty("--mission-accent-progress", accentProgress.toFixed(4));
+  missionAccent?.style.setProperty("--mission-accent-opacity", accentProgress.toFixed(4));
+}
+
+function updateProblemScrollSequence() {
+  if (!problemPanels.length) {
+    return;
+  }
+
+  const sequenceEnabled =
+    problemStory &&
+    window.innerWidth > 1000 &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const animatedProperties = [
+    "--problem-scene-opacity",
+    "--problem-scene-y",
+    "--problem-scene-scale",
+    "--problem-image-x",
+    "--problem-image-scale",
+    "--problem-image-saturation",
+    "--problem-copy-x",
+    "--problem-copy-y",
+    "--problem-copy-scale",
+    "--problem-copy-opacity",
+    "--problem-copy-clip",
+  ];
+
+  if (!sequenceEnabled) {
+    problemPanels.forEach((panel) => {
+      animatedProperties.forEach((property) => panel.style.removeProperty(property));
+      panel.classList.remove("is-scroll-active", "is-scroll-complete");
+    });
+    return;
+  }
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const storyRect = problemStory.getBoundingClientRect();
+  const scrollRange = Math.max(problemStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+
+  problemPanels.forEach((panel, index) => {
+    let revealProgress;
+    let sceneOpacity;
+    let sceneY;
+    let sceneScale;
+    let copyX;
+    let copyY;
+    let copyScale;
+    let imageX;
+
+    if (index === 0) {
+      revealProgress = smoothstep(storyProgress / 0.25);
+      const exitProgress = smoothstep((storyProgress - 0.38) / 0.16);
+      sceneOpacity = 1 - exitProgress;
+      sceneY = -90 * exitProgress;
+      sceneScale = 1 - 0.045 * exitProgress;
+      copyX = 24 * (1 - revealProgress);
+      copyY = 56 * (1 - revealProgress);
+      copyScale = 0.965 + 0.035 * revealProgress;
+      imageX = 20 * (1 - revealProgress);
+    } else {
+      revealProgress = smoothstep((storyProgress - 0.46) / 0.36);
+      sceneOpacity = revealProgress;
+      sceneY = 90 * (1 - revealProgress);
+      sceneScale = 0.96 + 0.04 * revealProgress;
+      copyX = -24 * (1 - revealProgress);
+      copyY = 56 * (1 - revealProgress);
+      copyScale = 0.965 + 0.035 * revealProgress;
+      imageX = -20 * (1 - revealProgress);
+    }
+
+    panel.style.setProperty("--problem-scene-opacity", sceneOpacity.toFixed(4));
+    panel.style.setProperty("--problem-scene-y", `${sceneY.toFixed(2)}px`);
+    panel.style.setProperty("--problem-scene-scale", sceneScale.toFixed(4));
+    panel.style.setProperty("--problem-image-x", `${imageX.toFixed(3)}%`);
+    panel.style.setProperty("--problem-image-scale", "1");
+    panel.style.setProperty("--problem-image-saturation", (0.9 + 0.1 * revealProgress).toFixed(4));
+    panel.style.setProperty("--problem-copy-x", `${copyX.toFixed(2)}px`);
+    panel.style.setProperty("--problem-copy-y", `${copyY.toFixed(2)}px`);
+    panel.style.setProperty("--problem-copy-scale", copyScale.toFixed(4));
+    panel.style.setProperty("--problem-copy-opacity", revealProgress.toFixed(4));
+    panel.style.removeProperty("--problem-copy-clip");
+    panel.classList.toggle("is-scroll-active", sceneOpacity > 0.001 && revealProgress < 0.999);
+    panel.classList.toggle("is-scroll-complete", index === 1 && revealProgress >= 0.999);
+  });
+}
+
 function updateScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
   document.body.style.setProperty("--scroll", progress.toFixed(4));
   updateHeaderState();
   updateHeroState();
+  updateMissionScrollSequence();
+  updateProblemScrollSequence();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
@@ -862,6 +1101,166 @@ function stopSolutionSequence() {
   solutionStepTimer = null;
 }
 
+function getSolutionMorphTransform(originRect, targetRect) {
+  const scaleX = originRect.width / targetRect.width;
+  const scaleY = originRect.height / targetRect.height;
+  const translateX = originRect.left - targetRect.left;
+  const translateY = originRect.top - targetRect.top;
+
+  return `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+}
+
+function populateSolutionDialog(card) {
+  const detail = card.querySelector("[data-solution-inline-detail]");
+  const detailTemplate = card.querySelector("template[data-solution-detail]");
+
+  if (!detail || !detailTemplate) {
+    return detail;
+  }
+
+  if (!detail.childElementCount) {
+    detail.append(detailTemplate.content.cloneNode(true));
+    translateSubtree(detail);
+  }
+
+  return detail;
+}
+
+function animateSolutionCardMorph(card, originRect, duration = 560) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion || typeof card.animate !== "function") {
+    return;
+  }
+
+  const targetRect = card.getBoundingClientRect();
+  const startTransform = getSolutionMorphTransform(originRect, targetRect);
+  const animation = card.animate(
+    [
+      { transform: startTransform, transformOrigin: "top left", borderRadius: "16px" },
+      { transform: "translate(0, 0) scale(1, 1)", transformOrigin: "top left", borderRadius: "20px" },
+    ],
+    {
+      duration,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      fill: "both",
+    },
+  );
+
+  animation.finished.then(() => animation.cancel()).catch(() => {});
+}
+
+function openSolutionDialog(card) {
+  if (!card || !solutionSequence || solutionDialogIsClosing || activeSolutionCard === card) {
+    return;
+  }
+
+  const originRect = card.getBoundingClientRect();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const detail = populateSolutionDialog(card);
+  const closeButton = card.querySelector("[data-solution-card-close]");
+  const cardTitle = card.querySelector(":scope > h3");
+
+  if (cardTitle && card.dataset.solutionExpandedTitle) {
+    card.dataset.solutionCollapsedTitle = cardTitle.textContent.trim();
+    const expandedTitle = card.dataset.solutionExpandedTitle;
+    cardTitle.textContent =
+      pageLanguage === "en" ? i18n.en.text[normalizeTranslationKey(expandedTitle)] || expandedTitle : expandedTitle;
+  }
+
+  stopSolutionSequence();
+  activeSolutionCard = card;
+  solutionSequence.classList.add("has-expanded-card");
+
+  solutionCards.forEach((item) => {
+    const isSelected = item === card;
+    item.classList.toggle("is-selected", isSelected);
+    item.classList.toggle("is-expanded", isSelected);
+    item.setAttribute("aria-expanded", isSelected ? "true" : "false");
+    item.toggleAttribute("aria-hidden", !isSelected);
+  });
+
+  card.dataset.collapsedLabel ||= card.getAttribute("aria-label") || "";
+  card.setAttribute("role", "region");
+  card.setAttribute("tabindex", "-1");
+
+  if (detail) {
+    detail.hidden = false;
+  }
+
+  if (closeButton) {
+    closeButton.hidden = false;
+  }
+
+  animateSolutionCardMorph(card, originRect);
+
+  if (!reduceMotion && detail && typeof detail.animate === "function") {
+    detail.animate(
+      [
+        { opacity: 0, transform: "translateY(22px)" },
+        { opacity: 1, transform: "translateY(0)" },
+      ],
+      { duration: 420, delay: 160, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
+    );
+  }
+}
+
+async function closeSolutionDialog() {
+  if (!activeSolutionCard || !solutionSequence || solutionDialogIsClosing) {
+    return;
+  }
+
+  solutionDialogIsClosing = true;
+  const card = activeSolutionCard;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const detail = card.querySelector("[data-solution-inline-detail]");
+  const closeButton = card.querySelector("[data-solution-card-close]");
+  const cardTitle = card.querySelector(":scope > h3");
+  const originRect = card.getBoundingClientRect();
+
+  if (!reduceMotion && detail && typeof detail.animate === "function") {
+    const detailAnimation = detail.animate(
+      [
+        { opacity: 1, transform: "translateY(0)" },
+        { opacity: 0, transform: "translateY(14px)" },
+      ],
+      { duration: 170, easing: "ease-in", fill: "both" },
+    );
+    await detailAnimation.finished.catch(() => {});
+    detailAnimation.cancel();
+  }
+
+  if (detail) {
+    detail.hidden = true;
+  }
+
+  if (closeButton) {
+    closeButton.hidden = true;
+  }
+
+  if (cardTitle && card.dataset.solutionCollapsedTitle) {
+    cardTitle.textContent = card.dataset.solutionCollapsedTitle;
+  }
+
+  solutionSequence.classList.remove("has-expanded-card");
+  solutionCards.forEach((item) => {
+    item.classList.remove("is-selected", "is-expanded");
+    item.setAttribute("aria-expanded", "false");
+    item.removeAttribute("aria-hidden");
+  });
+
+  card.setAttribute("role", "button");
+  card.setAttribute("tabindex", "0");
+  if (card.dataset.collapsedLabel) {
+    card.setAttribute("aria-label", card.dataset.collapsedLabel);
+  }
+
+  animateSolutionCardMorph(card, originRect, 460);
+  solutionDialogIsClosing = false;
+  activeSolutionCard = null;
+  card?.focus({ preventScroll: true });
+}
+
 function selectBlueprintStep(step) {
   if (!step || !blueprintSteps.length) {
     return;
@@ -1005,6 +1404,7 @@ function resizeBaggerWidget(event) {
 }
 
 applyPageLanguage();
+prepareMissionScrollText();
 
 playHeroClip();
 
@@ -1168,6 +1568,41 @@ if (solutionSequence && solutionSteps.length) {
     step.classList.remove("is-active");
   });
 }
+
+solutionCards.forEach((card) => {
+  const closeButton = card.querySelector("[data-solution-card-close]");
+
+  card.addEventListener("click", (event) => {
+    if (event.target.closest("[data-solution-card-close]") || card.classList.contains("is-expanded")) {
+      return;
+    }
+
+    openSolutionDialog(card);
+  });
+  card.addEventListener("keydown", (event) => {
+    if (event.target.closest("[data-solution-card-close]") || card.classList.contains("is-expanded")) {
+      return;
+    }
+
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    openSolutionDialog(card);
+  });
+
+  closeButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    closeSolutionDialog();
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && activeSolutionCard) {
+    closeSolutionDialog();
+  }
+});
 
 blueprintSteps.forEach((step) => {
   const button = step.querySelector(".home-blueprint-dot");
