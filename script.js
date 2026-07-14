@@ -28,8 +28,10 @@ const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
 const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]");
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
+const planTimelineStory = document.querySelector("[data-plan-timeline-story]");
 const planTimelineAxis = document.querySelector(".plan-timeline-axis");
 const planTimelineSteps = document.querySelectorAll("[data-plan-timeline-step]");
+const planTimelineFeature = document.querySelector("[data-plan-timeline-feature]");
 const planActiveYear = document.querySelector("[data-plan-active-year]");
 const planActivePeriod = document.querySelector("[data-plan-active-period]");
 const planActiveTitle = document.querySelector("[data-plan-active-title]");
@@ -80,6 +82,7 @@ let solutionDialogIsClosing = false;
 let lastScrollY = window.scrollY;
 let headerIdleTimer = null;
 let missionWords = [];
+let planTimelineFeatureAnimation = null;
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
@@ -693,6 +696,57 @@ function updateProblemScrollSequence() {
   });
 }
 
+function planTimelineScrollIsEnabled() {
+  return Boolean(
+    planTimelineStory &&
+      planTimelineAxis &&
+      planTimelineSteps.length > 1 &&
+      window.innerWidth > 1000 &&
+      window.innerHeight >= 680 &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+}
+
+function updatePlanTimelineScrollSequence() {
+  if (!planTimelineStory || !planTimelineAxis || !planTimelineSteps.length) {
+    return;
+  }
+
+  const steps = Array.from(planTimelineSteps);
+
+  if (!planTimelineScrollIsEnabled()) {
+    planTimelineStory.classList.remove("is-scroll-enabled");
+    const activeStep = steps.find((step) => step.classList.contains("plan-timeline-point--active")) || steps[0];
+    planTimelineAxis.style.setProperty(
+      "--timeline-scroll-position",
+      activeStep?.dataset.planProgress || "12%",
+    );
+    return;
+  }
+
+  planTimelineStory.classList.add("is-scroll-enabled");
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const storyRect = planTimelineStory.getBoundingClientRect();
+  const scrollRange = Math.max(planTimelineStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+  const segmentProgress = storyProgress * (steps.length - 1);
+  const segmentIndex = Math.min(Math.floor(segmentProgress), steps.length - 2);
+  const segmentFraction = clamp(segmentProgress - segmentIndex);
+  const startPosition = Number.parseFloat(steps[segmentIndex].dataset.planProgress || "12");
+  const endPosition = Number.parseFloat(steps[segmentIndex + 1].dataset.planProgress || "95");
+  const timelinePosition = startPosition + (endPosition - startPosition) * segmentFraction;
+  const activeIndex = Math.min(Math.round(segmentProgress), steps.length - 1);
+
+  planTimelineAxis.style.setProperty("--timeline-scroll-position", `${timelinePosition.toFixed(3)}%`);
+  planTimelineStory.style.setProperty("--plan-timeline-progress", storyProgress.toFixed(4));
+
+  const activeStep = steps[activeIndex];
+  if (activeStep && !activeStep.classList.contains("plan-timeline-point--active")) {
+    selectPlanTimelineStep(activeStep);
+  }
+}
+
 function updateScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
@@ -701,6 +755,7 @@ function updateScrollProgress() {
   updateHeroState();
   updateMissionScrollSequence();
   updateProblemScrollSequence();
+  updatePlanTimelineScrollSequence();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
@@ -1299,6 +1354,8 @@ function selectPlanTimelineStep(step) {
     return;
   }
 
+  const selectionChanged = !step.classList.contains("plan-timeline-point--active");
+
   planTimelineSteps.forEach((item) => {
     const isActive = item === step;
     item.classList.toggle("plan-timeline-point--active", isActive);
@@ -1312,6 +1369,9 @@ function selectPlanTimelineStep(step) {
 
   if (planTimelineAxis) {
     planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "12%");
+    if (!planTimelineStory?.classList.contains("is-scroll-enabled")) {
+      planTimelineAxis.style.setProperty("--timeline-scroll-position", step.dataset.planProgress || "12%");
+    }
     planTimelineAxis.classList.toggle("plan-timeline-axis--period-visible", step.dataset.planShowPeriod === "true");
   }
 
@@ -1320,7 +1380,10 @@ function selectPlanTimelineStep(step) {
   }
 
   if (planActivePeriod) {
-    planActivePeriod.textContent = step.dataset.planPeriod || "";
+    const activeYear = step.dataset.planYear || "";
+    const activePeriod = step.dataset.planPeriod || "";
+    planActivePeriod.textContent = activePeriod;
+    planActivePeriod.hidden = !activePeriod || activePeriod === activeYear;
   }
 
   if (planActiveTitle) {
@@ -1330,6 +1393,41 @@ function selectPlanTimelineStep(step) {
   if (planActiveCopy) {
     planActiveCopy.textContent = step.dataset.planCopy || "";
   }
+
+  if (selectionChanged && planTimelineFeature?.animate) {
+    planTimelineFeatureAnimation?.cancel();
+    planTimelineFeatureAnimation = planTimelineFeature.animate(
+      [
+        { opacity: 0.3, transform: "translate3d(0, 18px, 0) scale(0.985)" },
+        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+      ],
+      {
+        duration: 420,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
+    );
+  }
+}
+
+function navigateToPlanTimelineStep(step) {
+  if (!step || !planTimelineSteps.length) {
+    return;
+  }
+
+  if (!planTimelineScrollIsEnabled()) {
+    selectPlanTimelineStep(step);
+    return;
+  }
+
+  const steps = Array.from(planTimelineSteps);
+  const stepIndex = steps.indexOf(step);
+  const scrollRange = Math.max(planTimelineStory.offsetHeight - window.innerHeight, 1);
+  const stepProgress = stepIndex / Math.max(steps.length - 1, 1);
+
+  window.scrollTo({
+    top: planTimelineStory.offsetTop + scrollRange * stepProgress,
+    behavior: "smooth",
+  });
 }
 
 function getCarouselStep(track) {
@@ -1615,7 +1713,7 @@ blueprintSteps.forEach((step) => {
 });
 
 planTimelineSteps.forEach((step) => {
-  step.addEventListener("click", () => selectPlanTimelineStep(step));
+  step.addEventListener("click", () => navigateToPlanTimelineStep(step));
 });
 
 if (header) {
