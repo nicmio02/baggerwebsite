@@ -660,24 +660,24 @@ function updateProblemScrollSequence() {
     let imageX;
 
     if (index === 0) {
-      revealProgress = smoothstep(storyProgress / 0.25);
-      const exitProgress = smoothstep((storyProgress - 0.38) / 0.16);
+      revealProgress = smoothstep((storyProgress + 0.1) / 0.16);
+      const exitProgress = smoothstep((storyProgress - 0.38) / 0.24);
       sceneOpacity = 1 - exitProgress;
-      sceneY = -90 * exitProgress;
-      sceneScale = 1 - 0.045 * exitProgress;
-      copyX = 24 * (1 - revealProgress);
-      copyY = 56 * (1 - revealProgress);
-      copyScale = 0.965 + 0.035 * revealProgress;
-      imageX = 20 * (1 - revealProgress);
+      sceneY = 0;
+      sceneScale = 1;
+      copyX = 54 * (1 - revealProgress) - 28 * exitProgress;
+      copyY = 0;
+      copyScale = 1;
+      imageX = -4 * (1 - revealProgress) - 2 * exitProgress;
     } else {
-      revealProgress = smoothstep((storyProgress - 0.46) / 0.36);
+      revealProgress = smoothstep((storyProgress - 0.38) / 0.24);
       sceneOpacity = revealProgress;
-      sceneY = 90 * (1 - revealProgress);
-      sceneScale = 0.96 + 0.04 * revealProgress;
-      copyX = -24 * (1 - revealProgress);
-      copyY = 56 * (1 - revealProgress);
-      copyScale = 0.965 + 0.035 * revealProgress;
-      imageX = -20 * (1 - revealProgress);
+      sceneY = 0;
+      sceneScale = 1;
+      copyX = 54 * (1 - revealProgress);
+      copyY = 0;
+      copyScale = 1;
+      imageX = -4 * (1 - revealProgress);
     }
 
     panel.style.setProperty("--problem-scene-opacity", sceneOpacity.toFixed(4));
