@@ -25,7 +25,7 @@
   --font-h1-weight: 300;
   --font-body: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-sans: var(--font-body);
-  --font-display: var(--font-body);
+  --font-display: var(--font-h1);
   --wave-pattern: url("assets/brand/wave-blue.svg?v=2");
   --hero-wave-pattern: url("assets/brand/wave-hero-blue.svg?v=2");
 }
@@ -50,15 +50,20 @@ body {
 
 h1 {
   font-family: var(--font-h1) !important;
+  font-weight: var(--font-h1-weight) !important;
 }
 
 h1 :is(span, em, strong) {
   font-family: inherit !important;
+  font-weight: inherit !important;
 }
 
 h2,
 h3,
-h4,
+h4 {
+  font-family: var(--font-display);
+}
+
 .main-nav a,
 .mobile-menu a,
 .icon-button,
@@ -68,7 +73,7 @@ h4,
 .home-project-card__cta,
 .home-product-card strong,
 .home-team-card h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
 }
 
 body::before {
@@ -11705,7 +11710,9 @@ body[data-homepage-variant="bluebox-lab"] .site-header:not(.is-condensed) .menu-
   height: 0.22em;
   background-image: var(--wave-pattern);
   background-size: 0.78em 0.22em;
+  animation: none;
   filter: none;
+  will-change: auto;
 }
 
 .home-flow-graphic {
@@ -19310,11 +19317,10 @@ body[data-page="home"] .home-problem-columns > .home-problem-heading::after {
   }
 
   body[data-page="home"] .home-mission-story .home-mission-accent.wave-underline::after {
-    opacity: var(--mission-accent-opacity, 0);
-    transform: scaleX(var(--mission-accent-progress, 0));
-    transform-origin: left center;
+    opacity: 1;
+    transform: none;
     animation: none;
-    will-change: transform, opacity;
+    will-change: auto;
   }
 }
 
@@ -19643,9 +19649,12 @@ body[data-page="home"] .home-approach-card.is-expanded .home-approach-card__deta
 /* Het Plan uses the same warm editorial surface as the redesigned homepage. */
 body[data-page="het-plan"],
 body[data-page="het-plan"] main,
-body[data-page="het-plan"] .plan-intro-section,
-body[data-page="het-plan"] .plan-timeline-section {
+body[data-page="het-plan"] .plan-intro-section {
   background: #f3f0e7;
+}
+
+body[data-page="het-plan"] .plan-timeline-section {
+  background: #ffffff;
 }
 
 body[data-page="het-plan"] .plan-intro-section {
@@ -20208,14 +20217,38 @@ body[data-page="service-detail"] .service-widget-section {
   background-image: none !important;
 }
 
-/* Problem scrollytelling: keep image and copy in one legible split-screen composition. */
+/* Problem scrollytelling: reveal both equally sized cases together in one viewport. */
 @media (min-width: 1001px) {
+  body[data-page="home"] .home-problem-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 2.8vw, 44px);
+    align-items: start;
+  }
+
+  body[data-page="home"] .home-problem-columns > .home-problem-heading {
+    grid-column: 1 / -1;
+  }
+
+  body[data-page="home"] .home-problem-panel,
+  body[data-page="home"] .home-problem-panel:nth-of-type(even) {
+    position: relative;
+    inset: auto;
+    min-width: 0;
+  }
+
   body[data-page="home"] .home-problem-panel__stage,
   body[data-page="home"] .home-problem-panel:nth-of-type(even) .home-problem-panel__stage {
     display: grid;
-    grid-template-columns: minmax(0, 1.28fr) minmax(340px, 0.72fr);
-    gap: clamp(28px, 3.4vw, 56px);
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(280px, 1fr) minmax(250px, auto);
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #fbfaf6;
+    border: 1px solid rgba(56, 81, 147, 0.14);
+    border-radius: 18px;
+    box-shadow: 0 24px 64px rgba(17, 25, 48, 0.1);
   }
 
   body[data-page="home"] .home-problem-panel .home-problem-copy-image,
@@ -20223,37 +20256,78 @@ body[data-page="service-detail"] .service-widget-section {
     grid-row: 1;
     grid-column: 1;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    height: 100%;
+    aspect-ratio: auto;
     object-fit: cover;
     object-position: center;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   body[data-page="home"] .home-problem-panel .home-problem-panel__copy,
   body[data-page="home"] .home-problem-panel:nth-of-type(even) .home-problem-panel__copy {
-    grid-row: 1;
-    grid-column: 2;
+    grid-row: 2;
+    grid-column: 1;
     width: 100%;
+    height: 100%;
     min-width: 0;
     align-content: center;
-    align-self: stretch;
-    padding: clamp(34px, 3.7vw, 58px);
+    padding: clamp(26px, 2.7vw, 42px);
     background: #fbfaf6;
-    border: 1px solid rgba(56, 81, 147, 0.14);
-    border-radius: 18px;
-    box-shadow: 0 24px 64px rgba(17, 25, 48, 0.1);
+    border: 0;
+    border-top: 1px solid rgba(56, 81, 147, 0.12);
+    border-radius: 0;
+    box-shadow: none;
     backdrop-filter: none;
+  }
+
+  body[data-page="home"] .home-problem-panel__copy p {
+    max-width: 54ch;
+    font-size: clamp(0.9rem, 0.92vw, 1rem);
+    line-height: 1.58;
   }
 }
 
 @media (min-width: 1001px) and (prefers-reduced-motion: no-preference) {
+  body[data-page="home"] .home-problem-story {
+    min-height: 175vh;
+    min-height: 175svh;
+  }
+
   body[data-page="home"] .home-problem-story .home-problem-columns {
-    height: min(72vh, 650px);
-    height: min(72svh, 650px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(20px, 2.4vw, 38px);
+    width: min(1560px, calc(100% - clamp(72px, 8vw, 152px)));
+    height: min(82vh, 780px);
+    height: min(82svh, 780px);
+  }
+
+  body[data-page="home"] .home-problem-story .home-problem-columns > .home-problem-heading {
+    position: relative;
+    top: auto;
+    left: auto;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
   }
 
   body[data-page="home"] .home-problem-story .home-problem-panel {
-    inset: clamp(48px, 6vh, 64px) 0 0;
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    grid-row: 2;
+    height: 100%;
+    opacity: var(--problem-scene-opacity, 1);
+    transform: translate3d(var(--problem-scene-x, 0), var(--problem-scene-y, 0), 0)
+      scale(var(--problem-scene-scale, 1));
     transform-origin: center;
+  }
+
+  body[data-page="home"] .home-problem-story .home-problem-panel:nth-of-type(even) {
+    z-index: 1;
   }
 
   body[data-page="home"] .home-problem-story .home-problem-panel__stage {
@@ -20266,12 +20340,47 @@ body[data-page="service-detail"] .service-widget-section {
     aspect-ratio: auto;
   }
 
-body[data-page="home"] .home-problem-story .home-problem-panel .home-problem-panel__copy,
+  body[data-page="home"] .home-problem-story .home-problem-panel .home-problem-panel__copy,
   body[data-page="home"] .home-problem-story .home-problem-panel:nth-of-type(even) .home-problem-panel__copy {
     height: 100%;
     opacity: var(--problem-copy-opacity, 0);
-    transform-origin: center right;
+    transform-origin: center;
   }
+}
+
+/* Typography trial: use the former lightweight hero face for major editorial titles. */
+body[data-page="home"] .home-mission-copy p,
+body[data-page="home"] .home-approach-lede,
+body[data-page="home"] .home-prefooter-cta h2,
+body[data-page="service-detail"] .service-route-copy h2,
+body[data-page="service-detail"] .service-widget-head h2,
+body[data-page="het-plan"] .plan-timeline-title,
+.contact-section-head h2,
+.contact-form-copy h2 {
+  font-family: var(--font-h1);
+  font-weight: var(--font-h1-weight);
+}
+
+/* Small labels and interface copy intentionally retain Poppins. */
+body[data-page="home"] :is(
+    .home-mission-copy h2,
+    .home-problem-heading,
+    .home-approach-heading,
+    .home-service-head h2
+  ),
+.service-detail-kicker,
+.home-prefooter-cta__eyebrow {
+  font-family: var(--font-body);
+}
+
+/* Keep the navigation calm and readable without bold typography. */
+.site-header .main-nav > a,
+.site-header .main-nav > .nav-dropdown > a,
+.site-header .main-nav .nav-dropdown__menu a,
+.site-header .mobile-menu a,
+.site-header .language-toggle a,
+.site-header .icon-button--desktop {
+  font-weight: 500 !important;
 }
 
 /* Privacy policy */

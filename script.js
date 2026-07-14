@@ -105,6 +105,7 @@ const i18n = {
       Sluiten: "Close",
       "Toon details: Analyse": "Show details: Analysis",
       "Toon details: BlueBox verwerking": "Show details: BlueBox processing",
+      "Toon details: Verwerking": "Show details: Processing",
       "Toon details: Hergebruik": "Show details: Reuse",
       "Bagger als": "Sediment as",
       als: "as",
@@ -556,7 +557,6 @@ function updateMissionScrollSequence() {
     return;
   }
 
-  const missionAccent = missionText.querySelector(".home-mission-accent");
   const sequenceEnabled =
     window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -572,8 +572,6 @@ function updateMissionScrollSequence() {
         word.style.removeProperty(property),
       );
     });
-    missionAccent?.style.removeProperty("--mission-accent-progress");
-    missionAccent?.style.removeProperty("--mission-accent-opacity");
     return;
   }
 
@@ -603,9 +601,6 @@ function updateMissionScrollSequence() {
     word.style.setProperty("--mission-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
   });
 
-  const accentProgress = smoothstep((storyProgress - 0.72) / 0.15);
-  missionAccent?.style.setProperty("--mission-accent-progress", accentProgress.toFixed(4));
-  missionAccent?.style.setProperty("--mission-accent-opacity", accentProgress.toFixed(4));
 }
 
 function updateProblemScrollSequence() {
@@ -620,6 +615,7 @@ function updateProblemScrollSequence() {
 
   const animatedProperties = [
     "--problem-scene-opacity",
+    "--problem-scene-x",
     "--problem-scene-y",
     "--problem-scene-scale",
     "--problem-image-x",
@@ -650,37 +646,20 @@ function updateProblemScrollSequence() {
   const storyProgress = clamp(-storyRect.top / scrollRange);
 
   problemPanels.forEach((panel, index) => {
-    let revealProgress;
-    let sceneOpacity;
-    let sceneY;
-    let sceneScale;
-    let copyX;
-    let copyY;
-    let copyScale;
-    let imageX;
-
-    if (index === 0) {
-      revealProgress = smoothstep((storyProgress + 0.1) / 0.16);
-      const exitProgress = smoothstep((storyProgress - 0.38) / 0.24);
-      sceneOpacity = 1 - exitProgress;
-      sceneY = 0;
-      sceneScale = 1;
-      copyX = 54 * (1 - revealProgress) - 28 * exitProgress;
-      copyY = 0;
-      copyScale = 1;
-      imageX = -4 * (1 - revealProgress) - 2 * exitProgress;
-    } else {
-      revealProgress = smoothstep((storyProgress - 0.38) / 0.24);
-      sceneOpacity = revealProgress;
-      sceneY = 0;
-      sceneScale = 1;
-      copyX = 54 * (1 - revealProgress);
-      copyY = 0;
-      copyScale = 1;
-      imageX = -4 * (1 - revealProgress);
-    }
+    const revealProgress = smoothstep((storyProgress + 0.04) / 0.84);
+    const copyProgress = smoothstep((storyProgress + 0.02) / 0.7);
+    const direction = index === 0 ? 1 : -1;
+    const sceneOpacity = 0.64 + 0.36 * revealProgress;
+    const sceneX = direction * 8 * (1 - revealProgress);
+    const sceneY = 18 * (1 - revealProgress);
+    const sceneScale = 0.985 + 0.015 * revealProgress;
+    const copyX = direction * 14 * (1 - copyProgress);
+    const copyY = 16 * (1 - copyProgress);
+    const copyScale = 1;
+    const imageX = direction * 1.5 * (1 - revealProgress);
 
     panel.style.setProperty("--problem-scene-opacity", sceneOpacity.toFixed(4));
+    panel.style.setProperty("--problem-scene-x", `${sceneX.toFixed(3)}%`);
     panel.style.setProperty("--problem-scene-y", `${sceneY.toFixed(2)}px`);
     panel.style.setProperty("--problem-scene-scale", sceneScale.toFixed(4));
     panel.style.setProperty("--problem-image-x", `${imageX.toFixed(3)}%`);
@@ -689,10 +668,10 @@ function updateProblemScrollSequence() {
     panel.style.setProperty("--problem-copy-x", `${copyX.toFixed(2)}px`);
     panel.style.setProperty("--problem-copy-y", `${copyY.toFixed(2)}px`);
     panel.style.setProperty("--problem-copy-scale", copyScale.toFixed(4));
-    panel.style.setProperty("--problem-copy-opacity", revealProgress.toFixed(4));
+    panel.style.setProperty("--problem-copy-opacity", (0.64 + 0.36 * copyProgress).toFixed(4));
     panel.style.removeProperty("--problem-copy-clip");
     panel.classList.toggle("is-scroll-active", sceneOpacity > 0.001 && revealProgress < 0.999);
-    panel.classList.toggle("is-scroll-complete", index === 1 && revealProgress >= 0.999);
+    panel.classList.toggle("is-scroll-complete", revealProgress >= 0.999);
   });
 }
 
