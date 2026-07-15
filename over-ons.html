@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Lees over het verhaal en team achter Blauwe Bagger."
+      content="Lees over het team, werken bij Blauwe Bagger en onze BluePrint voor circulaire baggerverwerking."
     />
     <title>Blauwe Bagger | Over ons</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=nav-regular-20260714-1" />
+    <link rel="stylesheet" href="styles.css?v=about-title-revert-20260715-1" />
   </head>
   <body data-page="over-ons">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -21,7 +21,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -30,7 +29,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a class="is-current" href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a class="is-current" href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -51,11 +57,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
         <a class="is-current" href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -82,43 +90,38 @@
 
       <section class="about-statement-section" aria-label="Missie">
         <div class="about-frame">
-          <p class="about-statement reveal">
-            Wij bouwen mee aan een wereld waar grondstoffen <em>nooit verloren</em> gaan. Onze
+          <p class="about-statement" data-about-statement-text>
+            Wij bouwen mee aan een wereld waar grondstoffen <em class="about-statement-accent wave-underline">nooit verloren</em> gaan. Onze
             passie ligt in het zichtbaar maken van de <strong>waarde</strong> die in bagger
             verborgen zit.
           </p>
         </div>
       </section>
 
-      <section class="about-team-section" aria-labelledby="team-title">
+      <section class="about-team-section" id="het-team" aria-labelledby="team-title" data-team-story>
         <div class="about-frame">
-          <h2 id="team-title" class="reveal">Ons Team</h2>
+          <h2 id="team-title">Ons Team</h2>
 
           <div class="about-team-grid">
-            <article class="about-team-card reveal">
+            <article class="about-team-card" data-team-card>
               <img src="assets/media/team-abbe.jpg" alt="Abbe Hekkert" />
               <h3>Abbe Hekkert</h3>
               <p>Co-Founder</p>
             </article>
-            <article class="about-team-card reveal">
+            <article class="about-team-card" data-team-card>
               <img src="assets/media/team-sil.jpg" alt="Sil van de Bovenkamp" />
               <h3>Sil van de Bovenkamp</h3>
               <p>Co-Founder</p>
             </article>
-            <article class="about-team-card reveal">
+            <article class="about-team-card" data-team-card>
               <img src="assets/media/team-yannick.jpg" alt="Yannick Laret" />
               <h3>Yannick Laret</h3>
               <p>Electrical Engineer</p>
             </article>
-            <article class="about-team-card reveal">
+            <article class="about-team-card" data-team-card>
               <img src="assets/media/team-sil.jpg" alt="Gijs Breebaart" />
               <h3>Gijs Breebaart</h3>
               <p>Business Developer</p>
-            </article>
-            <article class="about-team-card reveal">
-              <img src="assets/media/team-abbe.jpg" alt="Jelle Cuijpers" />
-              <h3>Jelle Cuijpers</h3>
-              <p>Mechanical Engineer</p>
             </article>
           </div>
         </div>
@@ -164,7 +167,7 @@
         </div>
       </section>
 
-      <section class="about-work-section" aria-labelledby="work-title">
+      <section class="about-work-section" id="werken-bij" aria-labelledby="work-title">
         <div class="about-frame">
           <div class="about-work-card reveal">
             <h2 id="work-title">Werken bij</h2>
@@ -173,6 +176,171 @@
               Bekijk dan onze vacatures
             </p>
             <a href="/vacatures">Vacatures</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-plan-section" id="het-plan" aria-labelledby="about-plan-title">
+        <div class="about-frame">
+          <div class="about-plan-heading reveal">
+            <p>Het Plan</p>
+            <h2 id="about-plan-title">De <em>BluePrint</em></h2>
+          </div>
+
+          <div class="about-plan-copy">
+            <p class="reveal">
+              Afvalstromen vormen een groeiend probleem in een wereld die duurzamer moet opereren.
+              Toch heeft afval een <strong>hardnekkig negatieve reputatie</strong>: iets dat afgevoerd
+              moet worden, niet benut. <em>Terwijl er enorm veel potentieel in schuilt.</em>
+            </p>
+            <p class="reveal">
+              Het benutten van afval als grondstof is complex. Variabiliteit, verontreiniging en
+              sociale perceptie vormen barrieres, en geen enkele stroom is hetzelfde. Wie variatie
+              systematisch in kaart brengt en koppelt aan de juiste bewerkingsstappen,
+              <em>slaat de brug tussen afval en grondstof.</em>
+            </p>
+            <p class="reveal">
+              We starten in de baggerindustrie, waar de noodzaak tot verduurzaming groot is. Door
+              slim gebruik te maken van <strong>data uit waterbodemonderzoeken</strong> maken wij
+              inzichtelijk waar bagger waardevol kan worden ingezet en creeren we nieuwe ketens.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="plan-timeline-section plan-timeline-story about-plan-timeline" aria-labelledby="blueprint-title" data-plan-timeline-story>
+        <div class="home-frame plan-timeline-frame">
+          <h2 id="blueprint-title" class="plan-timeline-title"><em>BluePrint</em> tijdlijn</h2>
+
+          <div class="plan-timeline-map reveal" aria-label="BluePrint tijdlijn overzicht">
+            <div class="plan-timeline-axis plan-timeline-axis--period-visible" style="--timeline-progress: 12%; --timeline-period-start: 12%; --timeline-period-end: 32%;">
+              <span class="plan-timeline-line"></span>
+              <span class="plan-timeline-travel" aria-hidden="true"></span>
+              <span class="plan-timeline-progress" aria-hidden="true"></span>
+              <button
+                class="plan-timeline-point plan-timeline-point--active plan-timeline-point--top"
+                type="button"
+                style="--timeline-pos: 12%;"
+                data-plan-timeline-step
+                data-plan-progress="12%"
+                data-plan-year="2022"
+                data-plan-period="2022"
+                data-plan-show-period="true"
+                data-plan-title="Oprichting Blauwe Bagger"
+                data-plan-copy="Blauwe Bagger is in 2022 opgericht, ontstaan vanuit een opdracht om een reststroom circulair te maken. Onderzoek wees uit dat bagger een groot afvalprobleem vormt voor Nederland, en daarmee tegelijk een unieke kans."
+                aria-current="true"
+              >
+                <span>Oprichting</span>
+              </button>
+              <span
+                class="plan-timeline-period-label plan-timeline-period-label--bottom"
+                style="--timeline-pos: 22%;"
+                aria-hidden="true"
+              >
+                <span>bouw eerste scheidingsinstallatie</span>
+              </span>
+              <button
+                class="plan-timeline-point plan-timeline-point--top plan-timeline-point--label-left"
+                type="button"
+                style="--timeline-pos: 32%;"
+                data-plan-timeline-step
+                data-plan-progress="32%"
+                data-plan-year="2026"
+                data-plan-period="Voorjaar 2026"
+                data-plan-title="Start praktijktesten"
+                data-plan-copy="Het afronden van BlueBox v1 markeert de start van praktijktesten op verschillende locaties. Zo testen en valideren we onze baggerscheidingstechniek onder operationeel realistische omstandigheden en verbeteren we de installatie na iedere test."
+              >
+                <span>Praktijktesten</span>
+              </button>
+              <button
+                class="plan-timeline-point plan-timeline-point--bottom"
+                type="button"
+                style="--timeline-pos: 36%;"
+                data-plan-timeline-step
+                data-plan-progress="36%"
+                data-plan-year="2027"
+                data-plan-period="Voorjaar 2027"
+                data-plan-title="Demonstratieproject"
+                data-plan-copy="Het demonstratieproject is de laatste stap voor marktbetreding. We tonen niet alleen aan dat bagger kan worden gescheiden tot herbruikbare grondstoffen, maar geven die grondstoffen binnen een realistisch project ook daadwerkelijk een nieuwe bestemming."
+              >
+                <span>Demonstratie</span>
+              </button>
+              <button
+                class="plan-timeline-point plan-timeline-point--top plan-timeline-point--label-right"
+                type="button"
+                style="--timeline-pos: 41%;"
+                data-plan-timeline-step
+                data-plan-progress="41%"
+                data-plan-year="2028"
+                data-plan-period="2027 / 2028"
+                data-plan-title="Marktbetreding"
+                data-plan-copy="Na validatie onder operationele omstandigheden koppelen we stapsgewijs steeds meer baggerprojecten aan klanten die geinteresseerd zijn in de vrijgekomen grondstoffen."
+              >
+                <span>Marktbetreding</span>
+              </button>
+              <button
+                class="plan-timeline-point plan-timeline-point--bottom"
+                type="button"
+                style="--timeline-pos: 50%;"
+                data-plan-timeline-step
+                data-plan-progress="50%"
+                data-plan-year="2030"
+                data-plan-period="vanaf 2030"
+                data-plan-title="Opschaling"
+                data-plan-copy="Van losse projecten groeien we naar structurele capaciteit, meer locaties en grotere volumes, zodat circulair verwerkte bagger de norm wordt in plaats van de uitzondering."
+              >
+                <span>Opschaling</span>
+              </button>
+              <button
+                class="plan-timeline-point plan-timeline-point--top"
+                type="button"
+                style="--timeline-pos: 72%;"
+                data-plan-timeline-step
+                data-plan-progress="72%"
+                data-plan-year="2035"
+                data-plan-period="2035"
+                data-plan-title="Verbreding buiten bagger"
+                data-plan-copy="Op de lange termijn reikt onze impact verder dan de baggerindustrie. Dezelfde problematiek speelt in andere industriele sectoren, waar afvalstromen eveneens waardevolle grondstoffen kunnen worden."
+              >
+                <span>Verbreding</span>
+              </button>
+              <button
+                class="plan-timeline-point plan-timeline-point--bottom"
+                type="button"
+                style="--timeline-pos: 95%;"
+                data-plan-timeline-step
+                data-plan-progress="95%"
+                data-plan-year="2040"
+                data-plan-period="2040"
+                data-plan-title="Circulariteit in de Nederlandse industrie"
+                data-plan-copy="Onze stip op de horizon: een industrie waarin afval niet langer bestaat, maar wordt gezien als grondstof die nog een bestemming zoekt. Wat in de baggersector begint, groeit uit tot een blauwdruk voor de gehele Nederlandse industrie."
+              >
+                <span>Circulariteit</span>
+              </button>
+            </div>
+
+            <div class="plan-timeline-years" aria-hidden="true">
+              <span>2020</span>
+              <span>2025</span>
+              <span>2030</span>
+              <span>2035</span>
+              <span>2040</span>
+            </div>
+
+            <article class="plan-timeline-feature" data-plan-timeline-feature aria-live="polite">
+              <div>
+                <strong data-plan-active-year>2022</strong>
+                <span data-plan-active-period hidden>2022</span>
+              </div>
+              <div>
+                <h3 data-plan-active-title>Oprichting Blauwe Bagger</h3>
+                <p data-plan-active-copy>
+                  Blauwe Bagger is in 2022 opgericht, ontstaan vanuit een opdracht om een reststroom
+                  circulair te maken. Onderzoek wees uit dat bagger een groot afvalprobleem vormt voor
+                  Nederland, en daarmee tegelijk een unieke kans.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -188,7 +356,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
@@ -236,6 +404,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=public-content-1"></script>
+    <script src="script.js?v=about-team-lock-20260715-1"></script>
   </body>
 </html>

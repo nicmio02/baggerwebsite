@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projecten</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=nav-regular-20260714-1" />
+    <link rel="stylesheet" href="styles.css?v=projects-cream-20260715-1" />
   </head>
   <body data-page="projecten">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -21,7 +21,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -30,7 +29,14 @@
             </div>
           </div>
           <a class="is-current" href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -51,11 +57,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a class="is-current" href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -82,7 +90,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>

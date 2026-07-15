@@ -19,8 +19,10 @@ const heroVideos = Array.from(document.querySelectorAll(".home-hero-video"));
 const missionStory = document.querySelector(".home-mission-story");
 const missionCopy = missionStory?.querySelector(".home-mission-copy");
 const missionText = missionCopy?.querySelector("[data-i18n-html='mission-copy']");
-const problemStory = document.querySelector(".home-problem-story");
-const problemPanels = Array.from(document.querySelectorAll(".home-problem-panel"));
+const aboutStatementSection = document.querySelector(".about-statement-section");
+const aboutStatementText = aboutStatementSection?.querySelector("[data-about-statement-text]");
+const teamStory = document.querySelector("[data-team-story]");
+const teamCards = Array.from(teamStory?.querySelectorAll("[data-team-card]") || []);
 const solutionSequence = document.querySelector("[data-solution-sequence]");
 const solutionSteps = solutionSequence?.querySelectorAll("[data-solution-step]") || [];
 const solutionCards = Array.from(document.querySelectorAll("[data-solution-card]"));
@@ -63,13 +65,13 @@ const heroVideoClips = [
   },
   {
     videoIndex: 2,
-    start: 0,
-    end: 4.5,
+    start: 41,
+    end: 44,
   },
   {
-    videoIndex: 3,
-    start: 0,
-    end: 4.5,
+    videoIndex: 2,
+    start: 20,
+    end: 23,
   },
 ];
 
@@ -78,14 +80,23 @@ let heroClipTimer = null;
 let activeSolutionStep = 0;
 let solutionStepTimer = null;
 let activeSolutionCard = null;
+let solutionDialogIsOpening = false;
 let solutionDialogIsClosing = false;
 let lastScrollY = window.scrollY;
 let headerIdleTimer = null;
+let missionAccent = null;
 let missionWords = [];
+let missionAccentWords = [];
+let aboutStatementAccent = null;
+let aboutStatementWords = [];
+let aboutStatementAccentWords = [];
 let planTimelineFeatureAnimation = null;
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
+const solutionCardMorphDuration = 460;
+const solutionDetailFadeDuration = 170;
+const solutionCardMorphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 const i18n = {
   en: {
@@ -95,6 +106,8 @@ const i18n = {
     text: {
       "Ga naar inhoud": "Skip to content",
       "Het Plan": "The Plan",
+      "Het team": "The team",
+      "Werken bij": "Careers",
       Services: "Services",
       Projecten: "Projects",
       "Over ons": "About us",
@@ -548,7 +561,9 @@ function prepareMissionScrollText() {
     node.replaceWith(fragment);
   });
 
+  missionAccent = missionText.querySelector(".home-mission-accent");
   missionWords = Array.from(missionText.querySelectorAll(".home-mission-word"));
+  missionAccentWords = Array.from(missionAccent?.querySelectorAll(".home-mission-word") || []);
   missionText.dataset.scrollPrepared = "true";
 }
 
@@ -572,6 +587,7 @@ function updateMissionScrollSequence() {
         word.style.removeProperty(property),
       );
     });
+    missionAccent?.style.removeProperty("--mission-wave-progress");
     return;
   }
 
@@ -601,38 +617,84 @@ function updateMissionScrollSequence() {
     word.style.setProperty("--mission-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
   });
 
+  if (missionAccent && missionAccentWords.length) {
+    const firstAccentWordIndex = missionWords.indexOf(missionAccentWords[0]);
+    const lastAccentWordIndex = missionWords.indexOf(missionAccentWords[missionAccentWords.length - 1]);
+
+    if (firstAccentWordIndex >= 0 && lastAccentWordIndex >= 0) {
+      const wordDivisor = Math.max(missionWords.length - 1, 1);
+      const waveStart = 0.04 + (firstAccentWordIndex / wordDivisor) * 0.62;
+      const waveEnd = 0.04 + (lastAccentWordIndex / wordDivisor) * 0.62 + 0.16;
+      const waveProgress = smoothstep((storyProgress - waveStart) / Math.max(waveEnd - waveStart, 0.16));
+
+      missionAccent.style.setProperty("--mission-wave-progress", waveProgress.toFixed(4));
+    }
+  }
+
 }
 
-function updateProblemScrollSequence() {
-  if (!problemPanels.length) {
+function prepareAboutStatementScrollText() {
+  if (!aboutStatementText || aboutStatementText.dataset.scrollPrepared === "true") {
+    return;
+  }
+
+  const walker = document.createTreeWalker(aboutStatementText, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    if (walker.currentNode.nodeValue.trim()) {
+      textNodes.push(walker.currentNode);
+    }
+  }
+
+  textNodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    const parts = node.nodeValue.split(/(\s+)/);
+
+    parts.forEach((part) => {
+      if (!part) {
+        return;
+      }
+
+      if (/^\s+$/.test(part)) {
+        fragment.append(document.createTextNode(part));
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "about-statement-word";
+      word.textContent = part;
+      fragment.append(word);
+    });
+
+    node.replaceWith(fragment);
+  });
+
+  aboutStatementAccent = aboutStatementText.querySelector(".about-statement-accent");
+  aboutStatementWords = Array.from(aboutStatementText.querySelectorAll(".about-statement-word"));
+  aboutStatementAccentWords = Array.from(
+    aboutStatementAccent?.querySelectorAll(".about-statement-word") || [],
+  );
+  aboutStatementText.dataset.scrollPrepared = "true";
+}
+
+function updateAboutStatementScrollSequence() {
+  if (!aboutStatementSection || !aboutStatementText || !aboutStatementWords.length) {
     return;
   }
 
   const sequenceEnabled =
-    problemStory &&
-    window.innerWidth > 1000 &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const animatedProperties = [
-    "--problem-scene-opacity",
-    "--problem-scene-x",
-    "--problem-scene-y",
-    "--problem-scene-scale",
-    "--problem-image-x",
-    "--problem-image-scale",
-    "--problem-image-saturation",
-    "--problem-copy-x",
-    "--problem-copy-y",
-    "--problem-copy-scale",
-    "--problem-copy-opacity",
-    "--problem-copy-clip",
-  ];
+    window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!sequenceEnabled) {
-    problemPanels.forEach((panel) => {
-      animatedProperties.forEach((property) => panel.style.removeProperty(property));
-      panel.classList.remove("is-scroll-active", "is-scroll-complete");
+    aboutStatementText.style.removeProperty("--about-statement-y");
+    aboutStatementText.style.removeProperty("--about-statement-scale");
+    aboutStatementWords.forEach((word) => {
+      ["--about-word-opacity", "--about-word-y", "--about-word-blur"].forEach((property) =>
+        word.style.removeProperty(property),
+      );
     });
+    aboutStatementAccent?.style.removeProperty("--about-wave-progress");
     return;
   }
 
@@ -641,43 +703,98 @@ function updateProblemScrollSequence() {
     const normalized = clamp(value);
     return normalized * normalized * (3 - 2 * normalized);
   };
-  const storyRect = problemStory.getBoundingClientRect();
-  const scrollRange = Math.max(problemStory.offsetHeight - window.innerHeight, 1);
+  const sectionRect = aboutStatementSection.getBoundingClientRect();
+  const scrollRange = Math.max(aboutStatementSection.offsetHeight - window.innerHeight, 1);
+  const sectionProgress = clamp(-sectionRect.top / scrollRange);
+  const copyProgress = smoothstep(sectionProgress / 0.2);
+
+  aboutStatementText.style.setProperty(
+    "--about-statement-y",
+    `${(18 * (1 - copyProgress)).toFixed(2)}px`,
+  );
+  aboutStatementText.style.setProperty(
+    "--about-statement-scale",
+    (0.985 + 0.015 * copyProgress).toFixed(4),
+  );
+
+  aboutStatementWords.forEach((word, index) => {
+    const wordPosition = aboutStatementWords.length > 1 ? index / (aboutStatementWords.length - 1) : 0;
+    const wordStart = 0.04 + wordPosition * 0.62;
+    const wordProgress = smoothstep((sectionProgress - wordStart) / 0.16);
+
+    word.style.setProperty("--about-word-opacity", (0.18 + 0.82 * wordProgress).toFixed(4));
+    word.style.setProperty("--about-word-y", `${(10 * (1 - wordProgress)).toFixed(2)}px`);
+    word.style.setProperty("--about-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
+  });
+
+  if (aboutStatementAccent && aboutStatementAccentWords.length) {
+    const firstAccentWordIndex = aboutStatementWords.indexOf(aboutStatementAccentWords[0]);
+    const lastAccentWordIndex = aboutStatementWords.indexOf(
+      aboutStatementAccentWords[aboutStatementAccentWords.length - 1],
+    );
+
+    if (firstAccentWordIndex >= 0 && lastAccentWordIndex >= 0) {
+      const wordDivisor = Math.max(aboutStatementWords.length - 1, 1);
+      const waveStart = 0.04 + (firstAccentWordIndex / wordDivisor) * 0.62;
+      const waveEnd = 0.04 + (lastAccentWordIndex / wordDivisor) * 0.62 + 0.16;
+      const waveProgress = smoothstep(
+        (sectionProgress - waveStart) / Math.max(waveEnd - waveStart, 0.16),
+      );
+
+      aboutStatementAccent.style.setProperty("--about-wave-progress", waveProgress.toFixed(4));
+    }
+  }
+}
+
+function updateTeamScrollSequence() {
+  if (!teamStory || !teamCards.length) {
+    return;
+  }
+
+  const sequenceEnabled =
+    window.innerWidth > 1000 &&
+    window.innerHeight >= 680 &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!sequenceEnabled) {
+    teamStory.classList.remove("is-scroll-enabled");
+    teamCards.forEach((card) => {
+      [
+        "--team-card-opacity",
+        "--team-card-y",
+        "--team-card-scale",
+        "--team-card-blur",
+      ].forEach((property) => card.style.removeProperty(property));
+    });
+    return;
+  }
+
+  teamStory.classList.add("is-scroll-enabled");
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const storyRect = teamStory.getBoundingClientRect();
+  const scrollRange = Math.max(teamStory.offsetHeight - window.innerHeight, 1);
   const storyProgress = clamp(-storyRect.top / scrollRange);
 
-  problemPanels.forEach((panel, index) => {
-    const revealProgress = smoothstep((storyProgress + 0.04) / 0.84);
-    const copyProgress = smoothstep((storyProgress + 0.02) / 0.7);
-    const direction = index === 0 ? 1 : -1;
-    const sceneOpacity = 0.64 + 0.36 * revealProgress;
-    const sceneX = direction * 8 * (1 - revealProgress);
-    const sceneY = 18 * (1 - revealProgress);
-    const sceneScale = 0.985 + 0.015 * revealProgress;
-    const copyX = direction * 14 * (1 - copyProgress);
-    const copyY = 16 * (1 - copyProgress);
-    const copyScale = 1;
-    const imageX = direction * 1.5 * (1 - revealProgress);
+  teamCards.forEach((card, index) => {
+    const cardStart = 0.04 + index * 0.22;
+    const cardProgress = smoothstep((storyProgress - cardStart) / 0.16);
 
-    panel.style.setProperty("--problem-scene-opacity", sceneOpacity.toFixed(4));
-    panel.style.setProperty("--problem-scene-x", `${sceneX.toFixed(3)}%`);
-    panel.style.setProperty("--problem-scene-y", `${sceneY.toFixed(2)}px`);
-    panel.style.setProperty("--problem-scene-scale", sceneScale.toFixed(4));
-    panel.style.setProperty("--problem-image-x", `${imageX.toFixed(3)}%`);
-    panel.style.setProperty("--problem-image-scale", "1");
-    panel.style.setProperty("--problem-image-saturation", (0.9 + 0.1 * revealProgress).toFixed(4));
-    panel.style.setProperty("--problem-copy-x", `${copyX.toFixed(2)}px`);
-    panel.style.setProperty("--problem-copy-y", `${copyY.toFixed(2)}px`);
-    panel.style.setProperty("--problem-copy-scale", copyScale.toFixed(4));
-    panel.style.setProperty("--problem-copy-opacity", (0.64 + 0.36 * copyProgress).toFixed(4));
-    panel.style.removeProperty("--problem-copy-clip");
-    panel.classList.toggle("is-scroll-active", sceneOpacity > 0.001 && revealProgress < 0.999);
-    panel.classList.toggle("is-scroll-complete", revealProgress >= 0.999);
+    card.style.setProperty("--team-card-opacity", cardProgress.toFixed(4));
+    card.style.setProperty("--team-card-y", `${(32 * (1 - cardProgress)).toFixed(2)}px`);
+    card.style.setProperty("--team-card-scale", (0.965 + 0.035 * cardProgress).toFixed(4));
+    card.style.setProperty("--team-card-blur", `${(5 * (1 - cardProgress)).toFixed(2)}px`);
   });
 }
 
 function planTimelineScrollIsEnabled() {
   return Boolean(
     planTimelineStory &&
+      !planTimelineStory.hasAttribute("data-plan-timeline-static") &&
       planTimelineAxis &&
       planTimelineSteps.length > 1 &&
       window.innerWidth > 1000 &&
@@ -733,7 +850,8 @@ function updateScrollProgress() {
   updateHeaderState();
   updateHeroState();
   updateMissionScrollSequence();
-  updateProblemScrollSequence();
+  updateAboutStatementScrollSequence();
+  updateTeamScrollSequence();
   updatePlanTimelineScrollSequence();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -977,6 +1095,7 @@ async function playHeroClip(index = 0) {
   await waitForHeroVideo(video);
   await seekHeroVideo(video, clip.start);
 
+  video.playbackRate = 1;
   await video.play().catch(() => {});
   video.classList.add("is-active");
 
@@ -1160,11 +1279,11 @@ function populateSolutionDialog(card) {
   return detail;
 }
 
-function animateSolutionCardMorph(card, originRect, duration = 560) {
+function animateSolutionCardMorph(card, originRect, duration = solutionCardMorphDuration) {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduceMotion || typeof card.animate !== "function") {
-    return;
+    return Promise.resolve();
   }
 
   const targetRect = card.getBoundingClientRect();
@@ -1176,24 +1295,35 @@ function animateSolutionCardMorph(card, originRect, duration = 560) {
     ],
     {
       duration,
-      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      easing: solutionCardMorphEasing,
       fill: "both",
     },
   );
 
-  animation.finished.then(() => animation.cancel()).catch(() => {});
+  return animation.finished
+    .catch(() => {})
+    .then(() => animation.cancel());
 }
 
-function openSolutionDialog(card) {
-  if (!card || !solutionSequence || solutionDialogIsClosing || activeSolutionCard === card) {
+async function openSolutionDialog(card) {
+  if (
+    !card ||
+    !solutionSequence ||
+    solutionDialogIsOpening ||
+    solutionDialogIsClosing ||
+    activeSolutionCard === card
+  ) {
     return;
   }
 
+  solutionDialogIsOpening = true;
   const originRect = card.getBoundingClientRect();
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const detail = populateSolutionDialog(card);
   const closeButton = card.querySelector("[data-solution-card-close]");
   const cardTitle = card.querySelector(":scope > h3");
+
+  solutionSequence.style.minHeight = `${solutionSequence.getBoundingClientRect().height}px`;
 
   if (cardTitle && card.dataset.solutionExpandedTitle) {
     card.dataset.solutionCollapsedTitle = cardTitle.textContent.trim();
@@ -1204,6 +1334,7 @@ function openSolutionDialog(card) {
 
   stopSolutionSequence();
   activeSolutionCard = card;
+  document.body.classList.add("has-solution-dialog");
   solutionSequence.classList.add("has-expanded-card");
 
   solutionCards.forEach((item) => {
@@ -1215,32 +1346,41 @@ function openSolutionDialog(card) {
   });
 
   card.dataset.collapsedLabel ||= card.getAttribute("aria-label") || "";
-  card.setAttribute("role", "region");
+  card.setAttribute("role", "dialog");
+  card.setAttribute("aria-modal", "true");
+  card.setAttribute("aria-label", card.dataset.solutionTitle || card.dataset.collapsedLabel);
   card.setAttribute("tabindex", "-1");
 
   if (detail) {
     detail.hidden = false;
+    detail.style.visibility = reduceMotion ? "" : "hidden";
   }
 
   if (closeButton) {
     closeButton.hidden = false;
   }
 
-  animateSolutionCardMorph(card, originRect);
+  await animateSolutionCardMorph(card, originRect);
 
   if (!reduceMotion && detail && typeof detail.animate === "function") {
-    detail.animate(
+    detail.style.visibility = "";
+    const detailAnimation = detail.animate(
       [
-        { opacity: 0, transform: "translateY(22px)" },
+        { opacity: 0, transform: "translateY(14px)" },
         { opacity: 1, transform: "translateY(0)" },
       ],
-      { duration: 420, delay: 160, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" },
+      { duration: solutionDetailFadeDuration, easing: "ease-out", fill: "both" },
     );
+    await detailAnimation.finished.catch(() => {});
+    detailAnimation.cancel();
   }
+
+  solutionDialogIsOpening = false;
+  closeButton?.focus({ preventScroll: true });
 }
 
 async function closeSolutionDialog() {
-  if (!activeSolutionCard || !solutionSequence || solutionDialogIsClosing) {
+  if (!activeSolutionCard || !solutionSequence || solutionDialogIsOpening || solutionDialogIsClosing) {
     return;
   }
 
@@ -1258,7 +1398,7 @@ async function closeSolutionDialog() {
         { opacity: 1, transform: "translateY(0)" },
         { opacity: 0, transform: "translateY(14px)" },
       ],
-      { duration: 170, easing: "ease-in", fill: "both" },
+      { duration: solutionDetailFadeDuration, easing: "ease-in", fill: "both" },
     );
     await detailAnimation.finished.catch(() => {});
     detailAnimation.cancel();
@@ -1284,12 +1424,15 @@ async function closeSolutionDialog() {
   });
 
   card.setAttribute("role", "button");
+  card.removeAttribute("aria-modal");
   card.setAttribute("tabindex", "0");
   if (card.dataset.collapsedLabel) {
     card.setAttribute("aria-label", card.dataset.collapsedLabel);
   }
 
-  animateSolutionCardMorph(card, originRect, 460);
+  await animateSolutionCardMorph(card, originRect);
+  solutionSequence.style.minHeight = "";
+  document.body.classList.remove("has-solution-dialog");
   solutionDialogIsClosing = false;
   activeSolutionCard = null;
   card?.focus({ preventScroll: true });
@@ -1482,6 +1625,7 @@ function resizeBaggerWidget(event) {
 
 applyPageLanguage();
 prepareMissionScrollText();
+prepareAboutStatementScrollText();
 
 playHeroClip();
 

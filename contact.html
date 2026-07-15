@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Contact</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=nav-regular-20260714-1" />
+    <link rel="stylesheet" href="styles.css?v=contact-compact-form-20260715-1" />
   </head>
   <body data-page="contact">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -21,7 +21,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -30,7 +29,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -51,54 +57,23 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a class="is-current" href="/contact">Neem contact op</a>
       </nav>
     </header>
 
     <main id="main" class="contact-page">
-      <section class="contact-hero-section" aria-labelledby="contact-title">
-        <div class="contact-page-frame contact-hero-grid">
-          <div class="contact-hero-copy reveal">
-            <p class="contact-kicker">Contact</p>
-            <h1 id="contact-title">Vertel ons waar je aan werkt.</h1>
-            <p>
-              Bespreek een locatie, projectvraag, materiaalstroom of mogelijke samenwerking met
-              Blauwe Bagger. We denken mee over verwerking op locatie en de route naar hergebruik.
-            </p>
-            <div class="contact-hero-actions" aria-label="Contact acties">
-              <a class="contact-hero-link" href="#contact-form-title">
-                <span>Start je aanvraag</span>
-                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-              </a>
-              <a class="contact-hero-link contact-hero-link--ghost" href="mailto:info@blauwebagger.nl">
-                <span>info@blauwebagger.nl</span>
-              </a>
-            </div>
-          </div>
-
-          <aside class="contact-hero-card reveal" aria-label="Direct contact">
-            <img src="assets/brand/blauwe-bagger-icon.png" alt="" />
-            <p>Direct contact</p>
-            <a href="mailto:info@blauwebagger.nl">info@blauwebagger.nl</a>
-            <div class="contact-hero-card__meta">
-              <span>Monumentenwerf</span>
-              <span>Santoriniweg 27</span>
-              <span>1045 AV Amsterdam</span>
-            </div>
-          </aside>
-        </div>
-      </section>
-
       <section class="contact-form-section" aria-labelledby="contact-form-title">
         <div class="contact-page-frame contact-form-layout">
           <div class="contact-form-copy reveal">
             <p class="contact-kicker">Aanvraag</p>
-            <h2 id="contact-form-title">Vertel waar je aan werkt.</h2>
+            <h1 id="contact-form-title">Vertel waar je aan werkt.</h1>
             <p>
               Een korte omschrijving van locatie, materiaalstroom en doel is genoeg om de eerste
               richting te bepalen.
@@ -139,20 +114,21 @@
               </label>
             </div>
 
-            <label>
-              Bedrijfsnaam
-              <input name="company" autocomplete="organization" />
-            </label>
-
-            <label>
-              Type vraag
-              <select name="topic">
-                <option value="Project of pilot">Project of pilot</option>
-                <option value="Grondstoffen">Grondstoffen</option>
-                <option value="Samenwerking">Samenwerking</option>
-                <option value="Anders">Anders</option>
-              </select>
-            </label>
+            <div class="contact-form__grid">
+              <label>
+                Bedrijfsnaam
+                <input name="company" autocomplete="organization" />
+              </label>
+              <label>
+                Type vraag
+                <select name="topic">
+                  <option value="Project of pilot">Project of pilot</option>
+                  <option value="Grondstoffen">Grondstoffen</option>
+                  <option value="Samenwerking">Samenwerking</option>
+                  <option value="Anders">Anders</option>
+                </select>
+              </label>
+            </div>
 
             <label>
               Waar kunnen we bij helpen? *
@@ -179,7 +155,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>

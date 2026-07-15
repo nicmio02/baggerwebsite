@@ -3,6 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/het-plan",
+      "destination": "/over-ons#het-plan",
+      "permanent": true
+    },
+    {
       "source": "/projecten/:slug",
       "destination": "/project-detail?slug=:slug",
       "permanent": false

@@ -11,7 +11,7 @@
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
     <link rel="preload" href="assets/media/home-hero-aerial.jpg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=nav-regular-20260714-1" />
+    <link rel="stylesheet" href="styles.css?v=mission-wave-width-reveal-20260715-1" />
   </head>
   <body data-page="home">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -22,7 +22,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -31,7 +30,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -52,11 +58,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -71,10 +79,7 @@
             <source src="assets/media/zandwinning.mp4" type="video/mp4" />
           </video>
           <video class="home-hero-video" data-hero-video="2" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-download.mp4" type="video/mp4" />
-          </video>
-          <video class="home-hero-video" data-hero-video="3" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-concrete.mp4" type="video/mp4" />
+            <source src="assets/media/waterweg-bagger-consortium.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-frame">
@@ -408,7 +413,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
@@ -459,7 +464,7 @@
       </div>
     </footer>
 
-    <script src="script.js?v=home-interactions-20260714-16"></script>
+    <script src="script.js?v=hero-video-clips-20260715-1"></script>
     <script src="projects.js?v=project-cards-no-dates"></script>
   </body>
 </html>
