@@ -65,6 +65,11 @@ const heroVideoClips = [
     start: 41.5,
     end: 44,
   },
+  {
+    videoIndex: 3,
+    start: 13,
+    end: 17,
+  },
 ];
 
 let activeHeroClip = 0;

@@ -18482,6 +18482,7 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card 
   background: #111930 !important;
   background-image: none !important;
   border-color: rgba(56, 81, 147, 0.16);
+  border-radius: 0;
 }
 
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-row__grid {
@@ -22915,7 +22916,8 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
 body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
   .project-builder-page
   > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta) {
-  width: min(1420px, calc(100% - clamp(36px, 10vw, 172px)));
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
   border-radius: 0;
   box-shadow: none;
@@ -22985,7 +22987,8 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
   body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
     .project-builder-page
     > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta) {
-    width: min(100% - 32px, 1420px);
+    width: 100%;
+    max-width: none;
   }
 }
 
@@ -23028,8 +23031,9 @@ body[data-page="over-ons"].is-about-jump-navigation .about-statement-accent.wave
 
 /* Shared rhythm and type scale for the public project block system. */
 body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page) .project-builder-page {
-  --project-section-y: clamp(58px, 7vw, 94px);
+  --project-section-y: clamp(52px, 5.5vw, 82px);
   --project-section-x: clamp(30px, 5.4vw, 78px);
+  --project-copy-max: min(1080px, 100%);
   --project-heading: var(--font-display);
   --project-copy-font: var(--font-body);
   --project-line: rgba(56, 81, 147, 0.14);
@@ -23116,10 +23120,56 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
   border-color: var(--project-line);
 }
 
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  + :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta) {
+  border-top: 1px solid var(--project-line);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-text
+  :is(h2, .project-builder-richtext) {
+  max-width: var(--project-copy-max);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-text
+  .project-builder-richtext {
+  gap: clamp(16px, 2vw, 26px);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-facts .project-builder-richtext {
+  max-width: min(760px, 100%);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-result-card {
+  min-height: clamp(180px, 12vw, 220px);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-feature-cell {
+  min-height: clamp(220px, 18vw, 290px);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-metal-card {
+  min-height: clamp(240px, 20vw, 320px);
+}
+
 @media (max-width: 760px) {
   body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
     .project-builder-page {
     --project-section-y: 44px;
     --project-section-x: 22px;
+    --project-copy-max: 100%;
   }
 }
