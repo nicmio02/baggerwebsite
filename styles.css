@@ -22889,6 +22889,106 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   }
 }
 
+/* Public project pages use one continuous editorial canvas. The builder/editor
+   keeps its own preview treatment; these rules only shape published projects. */
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page) {
+  --project-page-bg: #f3f0e7;
+  --project-surface: #ffffff;
+  --project-ink: #111930;
+  --project-blue: #385193;
+  --project-copy: rgba(17, 25, 48, 0.72);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page) .project-builder-page {
+  padding-bottom: clamp(72px, 9vh, 112px);
+  color: var(--project-ink);
+  background: var(--project-page-bg);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-hero {
+  width: 100%;
+  margin: 0;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta) {
+  width: min(1420px, calc(100% - clamp(36px, 10vw, 172px)));
+  margin: 0 auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-section:not(.project-builder-section--dark),
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-meta,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-metrics {
+  background: var(--project-surface);
+  border: 0;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-section
+  + .project-builder-section,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-section
+  + .project-builder-meta,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-meta
+  + .project-builder-section,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-meta
+  + .project-builder-metrics,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-metrics
+  + .project-builder-section {
+  border-top: 1px solid rgba(56, 81, 147, 0.12);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  h1,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  h2,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  h3 {
+  font-family: var(--font-display);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  p,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  dt,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  dd {
+  font-family: var(--font-body);
+}
+
+@media (max-width: 760px) {
+  body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+    .project-builder-page
+    > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta) {
+    width: min(100% - 32px, 1420px);
+  }
+}
+
 /* Hash navigation on Over ons should land on fully visible, static sections. */
 body[data-page="over-ons"].is-about-jump-navigation .reveal {
   opacity: 1;
@@ -22924,4 +23024,102 @@ body[data-page="over-ons"].is-about-jump-navigation .about-statement-accent.wave
   width: 100%;
   transform: none;
   transition: none;
+}
+
+/* Shared rhythm and type scale for the public project block system. */
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page) .project-builder-page {
+  --project-section-y: clamp(58px, 7vw, 94px);
+  --project-section-x: clamp(30px, 5.4vw, 78px);
+  --project-heading: var(--font-display);
+  --project-copy-font: var(--font-body);
+  --project-line: rgba(56, 81, 147, 0.14);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-section:not(.project-builder-image-text):not(.project-builder-photo-collage),
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-cta {
+  padding: var(--project-section-y) var(--project-section-x);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  h2,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  h3 {
+  font-family: var(--project-heading);
+  letter-spacing: -0.035em;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-facts .project-builder-richtext,
+    .project-builder-column-copy,
+    .project-builder-column-note__body,
+    .project-builder-image-text__body,
+    .project-builder-simple-text__body,
+    .project-builder-stat-quote__text,
+    .project-builder-metal-science__body,
+    .project-builder-feature-cell__body,
+    .project-builder-result-card p,
+    .project-builder-metal-card__body,
+    .project-builder-facts dd,
+    .project-builder-test-list p) {
+  color: var(--project-copy);
+  font-family: var(--project-copy-font);
+  font-size: clamp(1rem, 1.12vw, 1.18rem);
+  font-weight: 520;
+  letter-spacing: -0.005em;
+  line-height: 1.56;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-kicker {
+  margin-bottom: clamp(14px, 1.8vw, 22px);
+  color: var(--project-blue);
+  font-family: var(--project-copy-font);
+  font-size: clamp(0.68rem, 0.72vw, 0.8rem);
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-result-card, .project-builder-metal-card, .project-builder-feature-cell) {
+  background: transparent;
+  border-color: var(--project-line);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-feature-grid__cells, .project-builder-result-cards__grid, .project-builder-metal-science__grid) {
+  border-color: var(--project-line);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  :is(.project-builder-process li, .project-builder-test-list li, .project-builder-facts dl div) {
+  border-color: var(--project-line);
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-meta > div {
+  border-color: var(--project-line);
+}
+
+@media (max-width: 760px) {
+  body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+    .project-builder-page {
+    --project-section-y: 44px;
+    --project-section-x: 22px;
+  }
 }
