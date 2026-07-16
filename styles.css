@@ -22834,3 +22834,57 @@ body[data-page="vacature-detail"] .job-detail-empty a {
       blur(var(--team-card-blur, 12px));
   }
 }
+
+/* Anchor both service hero titles in the lower-left of their image. */
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__layout,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
+  align-items: end;
+  justify-items: start;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
+  align-self: end;
+  justify-self: start;
+  justify-items: start;
+  padding-bottom: clamp(30px, 6vh, 72px);
+  text-align: left;
+  transform: none;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
+  justify-items: start;
+  margin-inline: 0;
+  text-align: left;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1 > span,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 > span {
+  justify-self: start;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__copy,
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__copy,
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy),
+body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head > p:not(.service-detail-kicker):not(.service-detail-hero__copy) {
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
+@media (max-width: 760px) {
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__layout,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
+    align-items: end;
+    justify-items: start;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
+    padding-bottom: clamp(22px, 5vh, 44px);
+    justify-items: start;
+    text-align: left;
+    transform: none;
+  }
+}
