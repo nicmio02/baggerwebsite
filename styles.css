@@ -22625,3 +22625,54 @@ body[data-page="vacatures"] .vacancy-hero-copy {
 body.has-solution-dialog {
   overflow: visible;
 }
+
+/* Start the services reveal just before the section enters the viewport so it
+   feels ready when the visitor reaches it, rather than arriving late. */
+body[data-page="home"] .home-section--service-routes .reveal {
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+body[data-page="service-detail"] .service-widget-impact__arrow {
+  font-size: 0 !important;
+  line-height: 0;
+}
+
+/* Keep the contact heading prominent without letting it overpower the form. */
+@media (min-width: 1061px) {
+  body[data-page="contact"] .contact-form-copy h1 {
+    max-width: 680px;
+    font-size: clamp(3.2rem, 4.5vw, 4.8rem);
+    line-height: 0.98;
+  }
+}
+
+@media (max-width: 1060px) {
+  body[data-page="contact"] .contact-form-copy h1 {
+    font-size: clamp(3rem, 8vw, 4.6rem);
+  }
+}
+
+@media (max-width: 720px) {
+  body[data-page="contact"] .contact-form-copy h1 {
+    font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+}
+
+/* Team portraits stay present while the scroll sequence brings them into
+   focus one by one, instead of making each card fade into the layout. */
+@media (min-width: 1001px) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
+  body[data-page="over-ons"] .about-team-section.is-scroll-enabled .about-team-card {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  body[data-page="over-ons"] .about-team-section.is-scroll-enabled .about-team-card img {
+    filter: grayscale(1) sepia(0.12) saturate(0.7) hue-rotate(185deg)
+      blur(var(--team-card-blur, 12px));
+  }
+}

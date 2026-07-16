@@ -95,6 +95,24 @@ const solutionCardMorphDuration = 460;
 const solutionDetailFadeDuration = 170;
 const solutionCardMorphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
+function alignAboutHashTarget() {
+  const targetId = window.location.hash.slice(1);
+  if (!["het-plan", "het-team", "werken-bij"].includes(targetId)) {
+    return;
+  }
+
+  const target = document.getElementById(targetId);
+  if (!target) {
+    return;
+  }
+
+  const headerHeight = document.querySelector("[data-header]")?.getBoundingClientRect().height || 0;
+  const offset = Math.max(headerHeight, 112);
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - offset;
+
+  window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+}
+
 function applyAboutPageOrder() {
   const aboutMain = document.querySelector("main");
   const planSection = aboutMain?.querySelector("#het-plan");
@@ -115,9 +133,20 @@ function applyAboutPageOrder() {
       links[0].before(...links);
     }
   });
+
+  if (["het-plan", "het-team", "werken-bij"].includes(window.location.hash.slice(1))) {
+    window.requestAnimationFrame(alignAboutHashTarget);
+    window.setTimeout(alignAboutHashTarget, 0);
+    window.setTimeout(alignAboutHashTarget, 250);
+    window.addEventListener("load", alignAboutHashTarget, { once: true });
+  }
 }
 
 applyAboutPageOrder();
+window.addEventListener("hashchange", () => {
+  window.setTimeout(alignAboutHashTarget, 0);
+  window.setTimeout(alignAboutHashTarget, 120);
+});
 
 const i18n = {
   en: {
@@ -808,7 +837,7 @@ function updateTeamScrollSequence() {
     card.style.setProperty("--team-card-opacity", cardProgress.toFixed(4));
     card.style.setProperty("--team-card-y", `${(32 * (1 - cardProgress)).toFixed(2)}px`);
     card.style.setProperty("--team-card-scale", (0.965 + 0.035 * cardProgress).toFixed(4));
-    card.style.setProperty("--team-card-blur", `${(5 * (1 - cardProgress)).toFixed(2)}px`);
+    card.style.setProperty("--team-card-blur", `${(12 * (1 - cardProgress)).toFixed(2)}px`);
   });
 }
 
@@ -1688,25 +1717,34 @@ if (menuToggle && mobileMenu) {
 }
 
 if (revealItems.length || counters.length) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
+  const revealEntry = (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      }
 
-        entry.target.classList.add("is-visible");
-        entry.target.querySelectorAll("[data-count]").forEach(animateCounter);
+      entry.target.classList.add("is-visible");
+      entry.target.querySelectorAll("[data-count]").forEach(animateCounter);
 
-        if (entry.target.matches("[data-count]")) {
-          animateCounter(entry.target);
-        }
-      });
-    },
-    { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
-  );
+      if (entry.target.matches("[data-count]")) {
+        animateCounter(entry.target);
+      }
+    });
+  };
 
-  revealItems.forEach((item) => observer.observe(item));
+  const observer = new IntersectionObserver(revealEntry, {
+    threshold: 0.18,
+    rootMargin: "0px 0px -8% 0px",
+  });
+  const serviceObserver = new IntersectionObserver(revealEntry, {
+    threshold: 0.06,
+    rootMargin: "0px 0px 14% 0px",
+  });
+
+  revealItems.forEach((item) => {
+    const targetObserver = item.closest(".home-section--service-routes") ? serviceObserver : observer;
+    targetObserver.observe(item);
+  });
   counters.forEach((counter) => observer.observe(counter));
 }
 
