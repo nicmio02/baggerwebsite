@@ -16,14 +16,24 @@ const productDetail = document.querySelector("[data-product-detail]");
 const contactForm = document.querySelector("[data-contact-form]");
 const formNote = document.querySelector("[data-form-note]");
 const heroVideos = Array.from(document.querySelectorAll(".home-hero-video"));
+const missionStory = document.querySelector(".home-mission-story");
+const missionCopy = missionStory?.querySelector(".home-mission-copy");
+const missionText = missionCopy?.querySelector("[data-i18n-html='mission-copy']");
+const aboutStatementSection = document.querySelector(".about-statement-section");
+const aboutStatementText = aboutStatementSection?.querySelector("[data-about-statement-text]");
+const teamStory = document.querySelector("[data-team-story]");
+const teamCards = Array.from(teamStory?.querySelectorAll("[data-team-card]") || []);
 const solutionSequence = document.querySelector("[data-solution-sequence]");
 const solutionSteps = solutionSequence?.querySelectorAll("[data-solution-step]") || [];
+const solutionCards = Array.from(document.querySelectorAll("[data-solution-card]"));
 const blueprintSteps = document.querySelectorAll("[data-blueprint-step]");
 const blueprintActiveYear = document.querySelector("[data-blueprint-active-year]");
 const blueprintActiveTitle = document.querySelector("[data-blueprint-active-title]");
 const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]");
+const planTimelineStory = document.querySelector("[data-plan-timeline-story]");
 const planTimelineAxis = document.querySelector(".plan-timeline-axis");
 const planTimelineSteps = document.querySelectorAll("[data-plan-timeline-step]");
+const planTimelineFeature = document.querySelector("[data-plan-timeline-feature]");
 const planActiveYear = document.querySelector("[data-plan-active-year]");
 const planActivePeriod = document.querySelector("[data-plan-active-period]");
 const planActiveTitle = document.querySelector("[data-plan-active-title]");
@@ -55,13 +65,13 @@ const heroVideoClips = [
   },
   {
     videoIndex: 2,
-    start: 0,
-    end: 4.5,
+    start: 41,
+    end: 44,
   },
   {
-    videoIndex: 3,
-    start: 0,
-    end: 4.5,
+    videoIndex: 2,
+    start: 20,
+    end: 23,
   },
 ];
 
@@ -69,11 +79,24 @@ let activeHeroClip = 0;
 let heroClipTimer = null;
 let activeSolutionStep = 0;
 let solutionStepTimer = null;
+let activeSolutionCard = null;
+let solutionDialogIsOpening = false;
+let solutionDialogIsClosing = false;
 let lastScrollY = window.scrollY;
 let headerIdleTimer = null;
+let missionAccent = null;
+let missionWords = [];
+let missionAccentWords = [];
+let aboutStatementAccent = null;
+let aboutStatementWords = [];
+let aboutStatementAccentWords = [];
+let planTimelineFeatureAnimation = null;
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
+const solutionCardMorphDuration = 460;
+const solutionDetailFadeDuration = 170;
+const solutionCardMorphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 const i18n = {
   en: {
@@ -83,6 +106,8 @@ const i18n = {
     text: {
       "Ga naar inhoud": "Skip to content",
       "Het Plan": "The Plan",
+      "Het team": "The team",
+      "Werken bij": "Careers",
       Services: "Services",
       Projecten: "Projects",
       "Over ons": "About us",
@@ -90,6 +115,11 @@ const i18n = {
       "Neem contact op": "Contact",
       Contact: "Contact",
       Menu: "Menu",
+      Sluiten: "Close",
+      "Toon details: Analyse": "Show details: Analysis",
+      "Toon details: BlueBox verwerking": "Show details: BlueBox processing",
+      "Toon details: Verwerking": "Show details: Processing",
+      "Toon details: Hergebruik": "Show details: Reuse",
       "Bagger als": "Sediment as",
       als: "as",
       Grondstof: "Raw Material",
@@ -117,6 +147,7 @@ const i18n = {
       "Data & verwerking": "Data & processing",
       "Nieuwe toepassing": "New application",
       Analyse: "Analysis",
+      "Data Analyse": "Data Analysis",
       Verwerking: "Processing",
       "BlueBox verwerking": "BlueBox processing",
       Hergebruik: "Reuse",
@@ -126,6 +157,34 @@ const i18n = {
         "The BlueBox dewaters, separates and cleans dredged sediment on site.",
       "Materialen worden toegepast in bouw- en betonproducten.":
         "Materials are used in construction and concrete products.",
+      "De oplossing van het probleem begint in het erkennen van de variabiliteit van bagger. Bagger is extreem variabel, terwijl afnemers juist een constante, voorspelbare kwaliteit eisen.":
+        "Solving the problem starts with recognizing the variability of dredged sediment. Dredged sediment is extremely variable, while buyers require consistent, predictable quality.",
+      "Door middel van data-analyse overbruggen we dit gat. We zetten software in om omvangrijke bestanden met complexe data uit waterbodemonderzoeken om te zetten naar een concreet plan van aanpak.":
+        "We bridge this gap through data analysis. Our software turns extensive, complex sediment survey data into a concrete plan of action.",
+      "Hoe het werkt": "How it works",
+      "De tool draait de traditionele keten om en neemt de klanteis als vertrekpunt. Vervolgens berekent het systeem of de specie uit een specifieke waterbodem de potentie heeft om aan die markteisen te voldoen.":
+        "The tool reverses the traditional chain and starts with the customer's requirements. It then calculates whether sediment from a specific waterbed has the potential to meet those market requirements.",
+      "Met een efficiënte poorttoets bepaalt de tool direct de exacte stappen voor scheiding via onze BlueBox en nabewerking, zoals verhitting of calcinatie. Bij een positieve match rolt er direct een recept uit om de bagger optimaal op te waarderen. Is de kwaliteit onvoldoende en niet te corrigeren? Dan filtert de tool de plot direct uit.":
+        "Using an efficient gate test, the tool immediately determines the exact separation steps via our BlueBox and the required post-processing, such as heating or calcination. A positive match produces a recipe for optimally upgrading the sediment. If the quality is insufficient and cannot be corrected, the tool filters out the plot immediately.",
+      "Zo transformeren we onbenutte data in een gegarandeerde, hoogwaardige circulaire grondstof.":
+        "This is how we transform unused data into a guaranteed, high-quality circular raw material.",
+      Ontwatering: "Dewatering",
+      "Onze mobiele unit maakt het mogelijk om baggerspecie direct op locatie in te dikken. Vooral op afgelegen of moeilijk bereikbare plekken voorkomt dit onnodig transport van grote volumes waterige bagger. Dat betekent: lagere kosten, minder CO₂-uitstoot en een veel efficiënter proces.":
+        "Our mobile unit makes it possible to dewater dredged sediment directly on site. Especially in remote or difficult-to-reach locations, this prevents unnecessary transport of large volumes of watery sediment. The result: lower costs, fewer CO₂ emissions and a much more efficient process.",
+      Scheiding: "Separation",
+      "Baggerspecie zit vaak vol met herbruikbare materialen zoals zand, klei, leem en organisch materiaal. Met onze installatie scheiden we deze stromen ter plekke, klaar voor circulair hergebruik. Zo voegen we directe waarde toe aan wat eerst als afval werd gezien, én creëren we kansen voor opbrengsten binnen het project.":
+        "Dredged sediment often contains reusable materials such as sand, clay, loam and organic matter. Our installation separates these streams on site, ready for circular reuse. This adds immediate value to what was previously seen as waste and creates revenue opportunities within the project.",
+      Opschoning: "Cleaning",
+      "Ook vervuilde bagger verdient een tweede leven. Onze technologie verwijdert schadelijke stoffen uit de specie, waardoor materialen geschikt worden voor veilig en verantwoord hergebruik. Daarmee herstellen we niet alleen schade uit het verleden, maar bouwen we actief aan een schonere toekomst.":
+        "Contaminated dredged sediment also deserves a second life. Our technology removes harmful substances, making the materials suitable for safe and responsible reuse. This allows us to repair damage from the past while actively building a cleaner future.",
+      "Nabewerking op maat": "Custom post-processing",
+      "Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken—zoals verhitting, vermaling of calcinatie—brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend.":
+        "Before the separated materials enter the market, they can be upgraded. Targeted post-processing techniques—such as heating, grinding or calcination—align the material's physical and chemical properties with the strict requirements of the construction and concrete industries. Market demand always leads this process.",
+      "Circulaire toepassingen": "Circular applications",
+      "De opgeschoonde en bewerkte grondstoffen krijgen een hoogwaardig tweede leven. In plaats van te eindigen in een depot, worden ze direct ingezet als betrouwbare secundaire bouwstoffen. Denk hierbij aan aggregaten voor de betonindustrie, of hoogwaardige klei voor de keramische industrie.":
+        "The cleaned and processed raw materials receive a high-quality second life. Instead of ending up in a depot, they are used directly as reliable secondary construction materials, such as aggregates for the concrete industry or high-quality clay for the ceramics industry.",
+      "Door onze circulaire aanpak verminderen we de behoefte aan de winning van primaire grondstoffen, zoals nieuw zand en grind, aanzienlijk. Zo verlagen we de milieu-impact en bouwen we letterlijk aan een duurzamere toekomst.":
+        "Our circular approach significantly reduces the need to extract primary raw materials such as new sand and gravel. This lowers environmental impact and quite literally builds a more sustainable future.",
       "Met data uit waterbodemonderzoek bepalen we welke fracties in bagger geschikt zijn voor hoogwaardige hergebruikroutes.":
         "Using data from sediment surveys, we determine which fractions in dredged material are suitable for high-value reuse routes.",
       "Vervolgens wordt de BlueBox op locatie ingezet om bagger te ontwateren, te scheiden en op te schonen tot inzetbare materialen.":
@@ -332,6 +391,52 @@ function normalizeTranslationKey(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function translateSubtree(root) {
+  if (pageLanguage !== "en" || !root) {
+    return;
+  }
+
+  const dictionary = i18n.en;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!normalizeTranslationKey(node.nodeValue)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      const parent = node.parentElement;
+      if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
+
+  const textNodes = [];
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode);
+  }
+
+  textNodes.forEach((node) => {
+    const key = normalizeTranslationKey(node.nodeValue);
+    const translation = dictionary.text[key];
+    if (!translation) {
+      return;
+    }
+
+    const leading = node.nodeValue.match(/^\s*/)?.[0] || "";
+    const trailing = node.nodeValue.match(/\s*$/)?.[0] || "";
+    node.nodeValue = `${leading}${translation}${trailing}`;
+  });
+
+  root.querySelectorAll?.("[aria-label]").forEach((element) => {
+    const key = normalizeTranslationKey(element.getAttribute("aria-label"));
+    if (dictionary.text[key]) {
+      element.setAttribute("aria-label", dictionary.text[key]);
+    }
+  });
+}
+
 function applyPageLanguage() {
   document.documentElement.lang = pageLanguage;
 
@@ -368,44 +473,7 @@ function applyPageLanguage() {
     }
   });
 
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      if (!normalizeTranslationKey(node.nodeValue)) {
-        return NodeFilter.FILTER_REJECT;
-      }
-
-      const parent = node.parentElement;
-      if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) {
-        return NodeFilter.FILTER_REJECT;
-      }
-
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-
-  const textNodes = [];
-  while (walker.nextNode()) {
-    textNodes.push(walker.currentNode);
-  }
-
-  textNodes.forEach((node) => {
-    const key = normalizeTranslationKey(node.nodeValue);
-    const translation = dictionary.text[key];
-    if (!translation) {
-      return;
-    }
-
-    const leading = node.nodeValue.match(/^\s*/)?.[0] || "";
-    const trailing = node.nodeValue.match(/\s*$/)?.[0] || "";
-    node.nodeValue = `${leading}${translation}${trailing}`;
-  });
-
-  document.querySelectorAll("[aria-label]").forEach((element) => {
-    const key = normalizeTranslationKey(element.getAttribute("aria-label"));
-    if (dictionary.text[key]) {
-      element.setAttribute("aria-label", dictionary.text[key]);
-    }
-  });
+  translateSubtree(document.body);
 
   blueprintSteps.forEach((step) => {
     ["blueprintTitle", "blueprintCopy"].forEach((key) => {
@@ -456,12 +524,335 @@ function updateHeroState() {
   document.body.classList.toggle("is-past-hero", window.scrollY > hero.offsetHeight - 120);
 }
 
+function prepareMissionScrollText() {
+  if (!missionText || missionText.dataset.scrollPrepared === "true") {
+    return;
+  }
+
+  const walker = document.createTreeWalker(missionText, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    if (walker.currentNode.nodeValue.trim()) {
+      textNodes.push(walker.currentNode);
+    }
+  }
+
+  textNodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    const parts = node.nodeValue.split(/(\s+)/);
+
+    parts.forEach((part) => {
+      if (!part) {
+        return;
+      }
+
+      if (/^\s+$/.test(part)) {
+        fragment.append(document.createTextNode(part));
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "home-mission-word";
+      word.textContent = part;
+      fragment.append(word);
+    });
+
+    node.replaceWith(fragment);
+  });
+
+  missionAccent = missionText.querySelector(".home-mission-accent");
+  missionWords = Array.from(missionText.querySelectorAll(".home-mission-word"));
+  missionAccentWords = Array.from(missionAccent?.querySelectorAll(".home-mission-word") || []);
+  missionText.dataset.scrollPrepared = "true";
+}
+
+function updateMissionScrollSequence() {
+  if (!missionStory || !missionCopy || !missionText || !missionWords.length) {
+    return;
+  }
+
+  const sequenceEnabled =
+    window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!sequenceEnabled) {
+    ["--mission-kicker-opacity", "--mission-kicker-y"].forEach((property) =>
+      missionCopy.style.removeProperty(property),
+    );
+    ["--mission-copy-y", "--mission-copy-scale"].forEach((property) =>
+      missionText.style.removeProperty(property),
+    );
+    missionWords.forEach((word) => {
+      ["--mission-word-opacity", "--mission-word-y", "--mission-word-blur"].forEach((property) =>
+        word.style.removeProperty(property),
+      );
+    });
+    missionAccent?.style.removeProperty("--mission-wave-progress");
+    return;
+  }
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const storyRect = missionStory.getBoundingClientRect();
+  const scrollRange = Math.max(missionStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+  const kickerProgress = smoothstep(storyProgress / 0.13);
+  const copyProgress = smoothstep(storyProgress / 0.2);
+
+  missionCopy.style.setProperty("--mission-kicker-opacity", (0.25 + 0.75 * kickerProgress).toFixed(4));
+  missionCopy.style.setProperty("--mission-kicker-y", `${(10 * (1 - kickerProgress)).toFixed(2)}px`);
+  missionText.style.setProperty("--mission-copy-y", `${(18 * (1 - copyProgress)).toFixed(2)}px`);
+  missionText.style.setProperty("--mission-copy-scale", (0.985 + 0.015 * copyProgress).toFixed(4));
+
+  missionWords.forEach((word, index) => {
+    const wordPosition = missionWords.length > 1 ? index / (missionWords.length - 1) : 0;
+    const wordStart = 0.04 + wordPosition * 0.62;
+    const wordProgress = smoothstep((storyProgress - wordStart) / 0.16);
+
+    word.style.setProperty("--mission-word-opacity", (0.18 + 0.82 * wordProgress).toFixed(4));
+    word.style.setProperty("--mission-word-y", `${(10 * (1 - wordProgress)).toFixed(2)}px`);
+    word.style.setProperty("--mission-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
+  });
+
+  if (missionAccent && missionAccentWords.length) {
+    const firstAccentWordIndex = missionWords.indexOf(missionAccentWords[0]);
+    const lastAccentWordIndex = missionWords.indexOf(missionAccentWords[missionAccentWords.length - 1]);
+
+    if (firstAccentWordIndex >= 0 && lastAccentWordIndex >= 0) {
+      const wordDivisor = Math.max(missionWords.length - 1, 1);
+      const waveStart = 0.04 + (firstAccentWordIndex / wordDivisor) * 0.62;
+      const waveEnd = 0.04 + (lastAccentWordIndex / wordDivisor) * 0.62 + 0.16;
+      const waveProgress = smoothstep((storyProgress - waveStart) / Math.max(waveEnd - waveStart, 0.16));
+
+      missionAccent.style.setProperty("--mission-wave-progress", waveProgress.toFixed(4));
+    }
+  }
+
+}
+
+function prepareAboutStatementScrollText() {
+  if (!aboutStatementText || aboutStatementText.dataset.scrollPrepared === "true") {
+    return;
+  }
+
+  const walker = document.createTreeWalker(aboutStatementText, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    if (walker.currentNode.nodeValue.trim()) {
+      textNodes.push(walker.currentNode);
+    }
+  }
+
+  textNodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    const parts = node.nodeValue.split(/(\s+)/);
+
+    parts.forEach((part) => {
+      if (!part) {
+        return;
+      }
+
+      if (/^\s+$/.test(part)) {
+        fragment.append(document.createTextNode(part));
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "about-statement-word";
+      word.textContent = part;
+      fragment.append(word);
+    });
+
+    node.replaceWith(fragment);
+  });
+
+  aboutStatementAccent = aboutStatementText.querySelector(".about-statement-accent");
+  aboutStatementWords = Array.from(aboutStatementText.querySelectorAll(".about-statement-word"));
+  aboutStatementAccentWords = Array.from(
+    aboutStatementAccent?.querySelectorAll(".about-statement-word") || [],
+  );
+  aboutStatementText.dataset.scrollPrepared = "true";
+}
+
+function updateAboutStatementScrollSequence() {
+  if (!aboutStatementSection || !aboutStatementText || !aboutStatementWords.length) {
+    return;
+  }
+
+  const sequenceEnabled =
+    window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!sequenceEnabled) {
+    aboutStatementText.style.removeProperty("--about-statement-y");
+    aboutStatementText.style.removeProperty("--about-statement-scale");
+    aboutStatementWords.forEach((word) => {
+      ["--about-word-opacity", "--about-word-y", "--about-word-blur"].forEach((property) =>
+        word.style.removeProperty(property),
+      );
+    });
+    aboutStatementAccent?.style.removeProperty("--about-wave-progress");
+    return;
+  }
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const sectionRect = aboutStatementSection.getBoundingClientRect();
+  const scrollRange = Math.max(aboutStatementSection.offsetHeight - window.innerHeight, 1);
+  const sectionProgress = clamp(-sectionRect.top / scrollRange);
+  const copyProgress = smoothstep(sectionProgress / 0.2);
+
+  aboutStatementText.style.setProperty(
+    "--about-statement-y",
+    `${(18 * (1 - copyProgress)).toFixed(2)}px`,
+  );
+  aboutStatementText.style.setProperty(
+    "--about-statement-scale",
+    (0.985 + 0.015 * copyProgress).toFixed(4),
+  );
+
+  aboutStatementWords.forEach((word, index) => {
+    const wordPosition = aboutStatementWords.length > 1 ? index / (aboutStatementWords.length - 1) : 0;
+    const wordStart = 0.04 + wordPosition * 0.62;
+    const wordProgress = smoothstep((sectionProgress - wordStart) / 0.16);
+
+    word.style.setProperty("--about-word-opacity", (0.18 + 0.82 * wordProgress).toFixed(4));
+    word.style.setProperty("--about-word-y", `${(10 * (1 - wordProgress)).toFixed(2)}px`);
+    word.style.setProperty("--about-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
+  });
+
+  if (aboutStatementAccent && aboutStatementAccentWords.length) {
+    const firstAccentWordIndex = aboutStatementWords.indexOf(aboutStatementAccentWords[0]);
+    const lastAccentWordIndex = aboutStatementWords.indexOf(
+      aboutStatementAccentWords[aboutStatementAccentWords.length - 1],
+    );
+
+    if (firstAccentWordIndex >= 0 && lastAccentWordIndex >= 0) {
+      const wordDivisor = Math.max(aboutStatementWords.length - 1, 1);
+      const waveStart = 0.04 + (firstAccentWordIndex / wordDivisor) * 0.62;
+      const waveEnd = 0.04 + (lastAccentWordIndex / wordDivisor) * 0.62 + 0.16;
+      const waveProgress = smoothstep(
+        (sectionProgress - waveStart) / Math.max(waveEnd - waveStart, 0.16),
+      );
+
+      aboutStatementAccent.style.setProperty("--about-wave-progress", waveProgress.toFixed(4));
+    }
+  }
+}
+
+function updateTeamScrollSequence() {
+  if (!teamStory || !teamCards.length) {
+    return;
+  }
+
+  const sequenceEnabled =
+    window.innerWidth > 1000 &&
+    window.innerHeight >= 680 &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!sequenceEnabled) {
+    teamStory.classList.remove("is-scroll-enabled");
+    teamCards.forEach((card) => {
+      [
+        "--team-card-opacity",
+        "--team-card-y",
+        "--team-card-scale",
+        "--team-card-blur",
+      ].forEach((property) => card.style.removeProperty(property));
+    });
+    return;
+  }
+
+  teamStory.classList.add("is-scroll-enabled");
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const smoothstep = (value) => {
+    const normalized = clamp(value);
+    return normalized * normalized * (3 - 2 * normalized);
+  };
+  const storyRect = teamStory.getBoundingClientRect();
+  const scrollRange = Math.max(teamStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+
+  teamCards.forEach((card, index) => {
+    const cardStart = 0.04 + index * 0.22;
+    const cardProgress = smoothstep((storyProgress - cardStart) / 0.16);
+
+    card.style.setProperty("--team-card-opacity", cardProgress.toFixed(4));
+    card.style.setProperty("--team-card-y", `${(32 * (1 - cardProgress)).toFixed(2)}px`);
+    card.style.setProperty("--team-card-scale", (0.965 + 0.035 * cardProgress).toFixed(4));
+    card.style.setProperty("--team-card-blur", `${(5 * (1 - cardProgress)).toFixed(2)}px`);
+  });
+}
+
+function planTimelineScrollIsEnabled() {
+  return Boolean(
+    planTimelineStory &&
+      !planTimelineStory.hasAttribute("data-plan-timeline-static") &&
+      planTimelineAxis &&
+      planTimelineSteps.length > 1 &&
+      window.innerWidth > 1000 &&
+      window.innerHeight >= 680 &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+}
+
+function updatePlanTimelineScrollSequence() {
+  if (!planTimelineStory || !planTimelineAxis || !planTimelineSteps.length) {
+    return;
+  }
+
+  const steps = Array.from(planTimelineSteps);
+
+  if (!planTimelineScrollIsEnabled()) {
+    planTimelineStory.classList.remove("is-scroll-enabled");
+    const activeStep = steps.find((step) => step.classList.contains("plan-timeline-point--active")) || steps[0];
+    planTimelineAxis.style.setProperty(
+      "--timeline-scroll-position",
+      activeStep?.dataset.planProgress || "12%",
+    );
+    return;
+  }
+
+  planTimelineStory.classList.add("is-scroll-enabled");
+
+  const clamp = (value) => Math.min(Math.max(value, 0), 1);
+  const storyRect = planTimelineStory.getBoundingClientRect();
+  const scrollRange = Math.max(planTimelineStory.offsetHeight - window.innerHeight, 1);
+  const storyProgress = clamp(-storyRect.top / scrollRange);
+  const segmentProgress = storyProgress * (steps.length - 1);
+  const segmentIndex = Math.min(Math.floor(segmentProgress), steps.length - 2);
+  const segmentFraction = clamp(segmentProgress - segmentIndex);
+  const startPosition = Number.parseFloat(steps[segmentIndex].dataset.planProgress || "12");
+  const endPosition = Number.parseFloat(steps[segmentIndex + 1].dataset.planProgress || "95");
+  const timelinePosition = startPosition + (endPosition - startPosition) * segmentFraction;
+  const activeIndex = Math.min(Math.round(segmentProgress), steps.length - 1);
+
+  planTimelineAxis.style.setProperty("--timeline-scroll-position", `${timelinePosition.toFixed(3)}%`);
+  planTimelineStory.style.setProperty("--plan-timeline-progress", storyProgress.toFixed(4));
+
+  const activeStep = steps[activeIndex];
+  if (activeStep && !activeStep.classList.contains("plan-timeline-point--active")) {
+    selectPlanTimelineStep(activeStep);
+  }
+}
+
 function updateScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
   document.body.style.setProperty("--scroll", progress.toFixed(4));
   updateHeaderState();
   updateHeroState();
+  updateMissionScrollSequence();
+  updateAboutStatementScrollSequence();
+  updateTeamScrollSequence();
+  updatePlanTimelineScrollSequence();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
@@ -704,6 +1095,7 @@ async function playHeroClip(index = 0) {
   await waitForHeroVideo(video);
   await seekHeroVideo(video, clip.start);
 
+  video.playbackRate = 1;
   await video.play().catch(() => {});
   video.classList.add("is-active");
 
@@ -862,6 +1254,190 @@ function stopSolutionSequence() {
   solutionStepTimer = null;
 }
 
+function getSolutionMorphTransform(originRect, targetRect) {
+  const scaleX = originRect.width / targetRect.width;
+  const scaleY = originRect.height / targetRect.height;
+  const translateX = originRect.left - targetRect.left;
+  const translateY = originRect.top - targetRect.top;
+
+  return `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+}
+
+function populateSolutionDialog(card) {
+  const detail = card.querySelector("[data-solution-inline-detail]");
+  const detailTemplate = card.querySelector("template[data-solution-detail]");
+
+  if (!detail || !detailTemplate) {
+    return detail;
+  }
+
+  if (!detail.childElementCount) {
+    detail.append(detailTemplate.content.cloneNode(true));
+    translateSubtree(detail);
+  }
+
+  return detail;
+}
+
+function animateSolutionCardMorph(card, originRect, duration = solutionCardMorphDuration) {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion || typeof card.animate !== "function") {
+    return Promise.resolve();
+  }
+
+  const targetRect = card.getBoundingClientRect();
+  const startTransform = getSolutionMorphTransform(originRect, targetRect);
+  const animation = card.animate(
+    [
+      { transform: startTransform, transformOrigin: "top left", borderRadius: "16px" },
+      { transform: "translate(0, 0) scale(1, 1)", transformOrigin: "top left", borderRadius: "20px" },
+    ],
+    {
+      duration,
+      easing: solutionCardMorphEasing,
+      fill: "both",
+    },
+  );
+
+  return animation.finished
+    .catch(() => {})
+    .then(() => animation.cancel());
+}
+
+async function openSolutionDialog(card) {
+  if (
+    !card ||
+    !solutionSequence ||
+    solutionDialogIsOpening ||
+    solutionDialogIsClosing ||
+    activeSolutionCard === card
+  ) {
+    return;
+  }
+
+  solutionDialogIsOpening = true;
+  const originRect = card.getBoundingClientRect();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const detail = populateSolutionDialog(card);
+  const closeButton = card.querySelector("[data-solution-card-close]");
+  const cardTitle = card.querySelector(":scope > h3");
+
+  solutionSequence.style.minHeight = `${solutionSequence.getBoundingClientRect().height}px`;
+
+  if (cardTitle && card.dataset.solutionExpandedTitle) {
+    card.dataset.solutionCollapsedTitle = cardTitle.textContent.trim();
+    const expandedTitle = card.dataset.solutionExpandedTitle;
+    cardTitle.textContent =
+      pageLanguage === "en" ? i18n.en.text[normalizeTranslationKey(expandedTitle)] || expandedTitle : expandedTitle;
+  }
+
+  stopSolutionSequence();
+  activeSolutionCard = card;
+  document.body.classList.add("has-solution-dialog");
+  solutionSequence.classList.add("has-expanded-card");
+
+  solutionCards.forEach((item) => {
+    const isSelected = item === card;
+    item.classList.toggle("is-selected", isSelected);
+    item.classList.toggle("is-expanded", isSelected);
+    item.setAttribute("aria-expanded", isSelected ? "true" : "false");
+    item.toggleAttribute("aria-hidden", !isSelected);
+  });
+
+  card.dataset.collapsedLabel ||= card.getAttribute("aria-label") || "";
+  card.setAttribute("role", "dialog");
+  card.setAttribute("aria-modal", "true");
+  card.setAttribute("aria-label", card.dataset.solutionTitle || card.dataset.collapsedLabel);
+  card.setAttribute("tabindex", "-1");
+
+  if (detail) {
+    detail.hidden = false;
+    detail.style.visibility = reduceMotion ? "" : "hidden";
+  }
+
+  if (closeButton) {
+    closeButton.hidden = false;
+  }
+
+  await animateSolutionCardMorph(card, originRect);
+
+  if (!reduceMotion && detail && typeof detail.animate === "function") {
+    detail.style.visibility = "";
+    const detailAnimation = detail.animate(
+      [
+        { opacity: 0, transform: "translateY(14px)" },
+        { opacity: 1, transform: "translateY(0)" },
+      ],
+      { duration: solutionDetailFadeDuration, easing: "ease-out", fill: "both" },
+    );
+    await detailAnimation.finished.catch(() => {});
+    detailAnimation.cancel();
+  }
+
+  solutionDialogIsOpening = false;
+  closeButton?.focus({ preventScroll: true });
+}
+
+async function closeSolutionDialog() {
+  if (!activeSolutionCard || !solutionSequence || solutionDialogIsOpening || solutionDialogIsClosing) {
+    return;
+  }
+
+  solutionDialogIsClosing = true;
+  const card = activeSolutionCard;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const detail = card.querySelector("[data-solution-inline-detail]");
+  const closeButton = card.querySelector("[data-solution-card-close]");
+  const cardTitle = card.querySelector(":scope > h3");
+  const originRect = card.getBoundingClientRect();
+
+  if (!reduceMotion && detail && typeof detail.animate === "function") {
+    const detailAnimation = detail.animate(
+      [
+        { opacity: 1, transform: "translateY(0)" },
+        { opacity: 0, transform: "translateY(14px)" },
+      ],
+      { duration: solutionDetailFadeDuration, easing: "ease-in", fill: "both" },
+    );
+    await detailAnimation.finished.catch(() => {});
+    detailAnimation.cancel();
+  }
+
+  if (detail) {
+    detail.hidden = true;
+  }
+
+  if (closeButton) {
+    closeButton.hidden = true;
+  }
+
+  if (cardTitle && card.dataset.solutionCollapsedTitle) {
+    cardTitle.textContent = card.dataset.solutionCollapsedTitle;
+  }
+
+  solutionSequence.classList.remove("has-expanded-card");
+  solutionCards.forEach((item) => {
+    item.classList.remove("is-selected", "is-expanded");
+    item.setAttribute("aria-expanded", "false");
+    item.removeAttribute("aria-hidden");
+  });
+
+  card.setAttribute("role", "button");
+  card.removeAttribute("aria-modal");
+  card.setAttribute("tabindex", "0");
+  if (card.dataset.collapsedLabel) {
+    card.setAttribute("aria-label", card.dataset.collapsedLabel);
+  }
+
+  await animateSolutionCardMorph(card, originRect);
+  solutionSequence.style.minHeight = "";
+  document.body.classList.remove("has-solution-dialog");
+  solutionDialogIsClosing = false;
+  activeSolutionCard = null;
+  card?.focus({ preventScroll: true });
+}
+
 function selectBlueprintStep(step) {
   if (!step || !blueprintSteps.length) {
     return;
@@ -900,6 +1476,8 @@ function selectPlanTimelineStep(step) {
     return;
   }
 
+  const selectionChanged = !step.classList.contains("plan-timeline-point--active");
+
   planTimelineSteps.forEach((item) => {
     const isActive = item === step;
     item.classList.toggle("plan-timeline-point--active", isActive);
@@ -913,6 +1491,9 @@ function selectPlanTimelineStep(step) {
 
   if (planTimelineAxis) {
     planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "12%");
+    if (!planTimelineStory?.classList.contains("is-scroll-enabled")) {
+      planTimelineAxis.style.setProperty("--timeline-scroll-position", step.dataset.planProgress || "12%");
+    }
     planTimelineAxis.classList.toggle("plan-timeline-axis--period-visible", step.dataset.planShowPeriod === "true");
   }
 
@@ -921,7 +1502,10 @@ function selectPlanTimelineStep(step) {
   }
 
   if (planActivePeriod) {
-    planActivePeriod.textContent = step.dataset.planPeriod || "";
+    const activeYear = step.dataset.planYear || "";
+    const activePeriod = step.dataset.planPeriod || "";
+    planActivePeriod.textContent = activePeriod;
+    planActivePeriod.hidden = !activePeriod || activePeriod === activeYear;
   }
 
   if (planActiveTitle) {
@@ -931,6 +1515,41 @@ function selectPlanTimelineStep(step) {
   if (planActiveCopy) {
     planActiveCopy.textContent = step.dataset.planCopy || "";
   }
+
+  if (selectionChanged && planTimelineFeature?.animate) {
+    planTimelineFeatureAnimation?.cancel();
+    planTimelineFeatureAnimation = planTimelineFeature.animate(
+      [
+        { opacity: 0.3, transform: "translate3d(0, 18px, 0) scale(0.985)" },
+        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+      ],
+      {
+        duration: 420,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
+    );
+  }
+}
+
+function navigateToPlanTimelineStep(step) {
+  if (!step || !planTimelineSteps.length) {
+    return;
+  }
+
+  if (!planTimelineScrollIsEnabled()) {
+    selectPlanTimelineStep(step);
+    return;
+  }
+
+  const steps = Array.from(planTimelineSteps);
+  const stepIndex = steps.indexOf(step);
+  const scrollRange = Math.max(planTimelineStory.offsetHeight - window.innerHeight, 1);
+  const stepProgress = stepIndex / Math.max(steps.length - 1, 1);
+
+  window.scrollTo({
+    top: planTimelineStory.offsetTop + scrollRange * stepProgress,
+    behavior: "smooth",
+  });
 }
 
 function getCarouselStep(track) {
@@ -1005,6 +1624,8 @@ function resizeBaggerWidget(event) {
 }
 
 applyPageLanguage();
+prepareMissionScrollText();
+prepareAboutStatementScrollText();
 
 playHeroClip();
 
@@ -1169,6 +1790,41 @@ if (solutionSequence && solutionSteps.length) {
   });
 }
 
+solutionCards.forEach((card) => {
+  const closeButton = card.querySelector("[data-solution-card-close]");
+
+  card.addEventListener("click", (event) => {
+    if (event.target.closest("[data-solution-card-close]") || card.classList.contains("is-expanded")) {
+      return;
+    }
+
+    openSolutionDialog(card);
+  });
+  card.addEventListener("keydown", (event) => {
+    if (event.target.closest("[data-solution-card-close]") || card.classList.contains("is-expanded")) {
+      return;
+    }
+
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    openSolutionDialog(card);
+  });
+
+  closeButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    closeSolutionDialog();
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && activeSolutionCard) {
+    closeSolutionDialog();
+  }
+});
+
 blueprintSteps.forEach((step) => {
   const button = step.querySelector(".home-blueprint-dot");
 
@@ -1180,7 +1836,7 @@ blueprintSteps.forEach((step) => {
 });
 
 planTimelineSteps.forEach((step) => {
-  step.addEventListener("click", () => selectPlanTimelineStep(step));
+  step.addEventListener("click", () => navigateToPlanTimelineStep(step));
 });
 
 if (header) {

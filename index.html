@@ -11,7 +11,7 @@
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
     <link rel="preload" href="assets/media/home-hero-aerial.jpg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=services-dark-1" />
+    <link rel="stylesheet" href="styles.css?v=mission-wave-width-reveal-20260715-1" />
   </head>
   <body data-page="home">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -22,7 +22,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -31,7 +30,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -52,11 +58,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -71,18 +79,17 @@
             <source src="assets/media/zandwinning.mp4" type="video/mp4" />
           </video>
           <video class="home-hero-video" data-hero-video="2" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-download.mp4" type="video/mp4" />
-          </video>
-          <video class="home-hero-video" data-hero-video="3" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-concrete.mp4" type="video/mp4" />
+            <source src="assets/media/waterweg-bagger-consortium.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-frame">
           <article class="home-hero-card reveal">
             <div class="home-hero-copy">
               <h1 id="hero-title">
-                <span>Bagger</span>
-                <span class="home-hero-connector">als</span>
+                <span class="home-hero-topline">
+                  <span>Bagger</span>
+                  <span class="home-hero-connector">als</span>
+                </span>
                 <span class="home-hero-accent">Grondstof</span>
               </h1>
             </div>
@@ -90,9 +97,39 @@
         </div>
       </section>
 
-      <section class="home-section home-section--mission" id="home-missie" aria-labelledby="mission-title">
+      <section class="home-partner-strip" aria-labelledby="home-partners-title">
+        <div class="home-frame home-partner-strip__inner">
+          <p id="home-partners-title" class="home-partner-strip__title">Partners</p>
+          <div class="home-partner-strip__marquee" role="region" aria-label="Partners">
+            <div class="home-partner-strip__track">
+              <ul class="home-partner-strip__list">
+                <li><img src="/assets/partners/tu-delft.png" alt="TU Delft" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/deltares.png" alt="Deltares" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/port-of-rotterdam.png" alt="Port of Rotterdam" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/provincie-zuid-holland.png" alt="Provincie Zuid-Holland" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/wageningen-university-research.png" alt="Wageningen University &amp; Research" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/tijhuis-ingenieurs.png" alt="Tijhuis Ingenieurs" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/aquon.png" alt="Aquon" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/gemeente-amsterdam.png" alt="Gemeente Amsterdam" loading="eager" decoding="async" /></li>
+              </ul>
+              <ul class="home-partner-strip__list" aria-hidden="true">
+                <li><img src="/assets/partners/tu-delft.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/deltares.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/port-of-rotterdam.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/provincie-zuid-holland.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/wageningen-university-research.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/tijhuis-ingenieurs.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/aquon.png" alt="" loading="eager" decoding="async" /></li>
+                <li><img src="/assets/partners/gemeente-amsterdam.png" alt="" loading="eager" decoding="async" /></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section home-section--mission home-mission-story" id="home-missie" aria-labelledby="mission-title">
         <div class="home-frame home-mission-grid">
-          <div class="home-mission-copy reveal">
+          <div class="home-mission-copy">
             <h2 id="mission-title">Onze Missie</h2>
             <p data-i18n-html="mission-copy">
               Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij
@@ -141,46 +178,43 @@
         </div>
       </section>
 
-      <section class="home-section home-section--blue" aria-labelledby="problem-title">
+      <section class="home-section home-section--blue home-problem-story" aria-labelledby="problem-title">
         <div class="home-frame home-problem-frame">
-          <h2 id="problem-title" class="home-problem-heading reveal">Het Probleem</h2>
-
           <div class="home-problem-columns">
-            <article class="home-problem-panel reveal">
-              <img class="home-problem-copy-image" src="assets/media/baggeren.jpeg" alt="Baggerwerkzaamheden in water">
-              <h3>Baggerindustrie</h3>
-              <p data-i18n-html="problem-dredging">
-                Met een totaalvolume van tientallen miljoenen m<sup>3</sup> per jaar is bagger
-                <strong>de grootste afvalstroom</strong> die Nederland kent. Door verontreiniging
-                en wisselende samenstelling zijn er maar weinig oplossingen die de waarde van bagger
-                benutten. Mede daarom wordt bagger veelal gestort op depots,
-                <em>een dure en niet-duurzame oplossing.</em>
-              </p>
+            <h2 id="problem-title" class="home-problem-heading">Het Probleem</h2>
+            <article class="home-problem-panel">
+              <div class="home-problem-panel__stage">
+                <img class="home-problem-copy-image" src="assets/media/baggeren.jpeg" alt="Baggerwerkzaamheden in water">
+                <div class="home-problem-panel__copy">
+                  <h3>Baggerindustrie</h3>
+                  <p data-i18n-html="problem-dredging">
+                    Met een totaalvolume van tientallen miljoenen m<sup>3</sup> per jaar is bagger
+                    <strong>de grootste afvalstroom</strong> die Nederland kent. Door verontreiniging
+                    en wisselende samenstelling zijn er maar weinig oplossingen die de waarde van bagger
+                    benutten. Mede daarom wordt bagger veelal gestort op depots,
+                    <em>een dure en niet-duurzame oplossing.</em>
+                  </p>
+                </div>
+              </div>
             </article>
 
-            <article class="home-problem-panel reveal">
-              <img class="home-problem-copy-image" src="assets/media/installatie.jpeg" alt="Zand- en grondstoffeninstallatie aan het water">
-              <h3>Bouwindustrie</h3>
-              <p data-i18n-html="problem-concrete">
-                Tegelijkertijd wint de bouwsector jaarlijks honderden miljoenen tonnen
-                <strong>primaire grondstoffen</strong> om beton te produceren. Dat maakt het een
-                van de <em>meest vervuilende industrieen ter wereld</em>, wereldwijd is
-                <strong>8% van de CO<sub>2</sub>-uitstoot</strong> afkomstig van bouw en beton. De
-                druk om te verduurzamen groeit snel.
-              </p>
+            <article class="home-problem-panel">
+              <div class="home-problem-panel__stage">
+                <img class="home-problem-copy-image" src="assets/media/installatie.jpeg" alt="Zand- en grondstoffeninstallatie aan het water">
+                <div class="home-problem-panel__copy">
+                  <h3>Bouwindustrie</h3>
+                  <p data-i18n-html="problem-concrete">
+                    Tegelijkertijd wint de bouwsector jaarlijks honderden miljoenen tonnen
+                    <strong>primaire grondstoffen</strong> om beton te produceren. Dat maakt het een
+                    van de <em>meest vervuilende industrieen ter wereld</em>, wereldwijd is
+                    <strong>8% van de CO<sub>2</sub>-uitstoot</strong> afkomstig van bouw en beton. De
+                    druk om te verduurzamen groeit snel.
+                  </p>
+                </div>
+              </div>
             </article>
           </div>
 
-          <div class="home-problem-meter reveal" style="--meter-left: 40fr; --meter-right: 30fr" aria-label="Vergelijking grondstofstromen">
-            <div data-i18n-html="problem-meter-dredging">
-              <span class="home-problem-meter__label"><span data-count="40">0</span> miljoen m<sup>3</sup></span>
-              <span class="home-problem-meter__context">bagger per jaar</span>
-            </div>
-            <div data-i18n-html="problem-meter-concrete">
-              <span class="home-problem-meter__label"><span data-count="30">0</span> miljard ton</span>
-              <span class="home-problem-meter__context">primaire grondstoffen</span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -197,40 +231,120 @@
               <span class="home-approach-flow__pulse"></span>
             </div>
 
-            <article class="home-approach-card reveal" data-solution-step>
-              <div class="home-approach-card__top">
-                <span class="home-approach-step">01</span>
-              </div>
+            <article class="home-approach-card home-approach-card--analysis reveal" data-solution-step data-solution-card data-solution-title="Data Analyse" data-solution-expanded-title="Data Analyse" tabindex="0" role="button" aria-controls="solution-detail-analyse" aria-expanded="false" aria-label="Toon details: Analyse">
               <h3>Analyse</h3>
               <p>Waterbodemdata bepaalt welke fracties geschikt zijn voor hergebruik.</p>
               <div class="home-approach-visual" aria-hidden="true">
                 <img src="assets/media/solution-analyse-radar.png" alt="" loading="lazy" />
               </div>
+              <span class="home-approach-open" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
+              <button class="home-approach-card__close" type="button" data-solution-card-close aria-label="Sluiten" hidden>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+              </button>
+              <div class="home-approach-card__detail" id="solution-detail-analyse" data-solution-inline-detail hidden></div>
+              <template data-solution-detail>
+                <div class="home-solution-detail home-solution-detail--analysis">
+                  <div class="home-solution-detail__analysis-chart" aria-hidden="true">
+                    <svg viewBox="0 0 380 250" fill="none">
+                      <path class="analysis-chart__axis" d="M34 18v202h324" />
+                      <g class="analysis-chart__ticks">
+                        <path d="M30 56h8M30 96h8M30 136h8M30 176h8" />
+                        <path d="M54 220v5M74 220v5M94 220v5M114 220v5M134 220v5M154 220v5M174 220v5M194 220v5M214 220v5M234 220v5M254 220v5M274 220v5M294 220v5M314 220v5M334 220v5" />
+                      </g>
+                      <g class="analysis-chart__bars">
+                        <path d="M48 220v-162h12v162M68 220v-36h12v36M88 220v-16h12v16M108 220v-21h12v21M128 220v-9h12v9M148 220v-13h12v13M168 220v-8h12v8M188 220v-11h12v11M208 220v-8h12v8M228 220v-7h12v7M248 220V42h12v178M268 220V78h12v142M288 220V70h12v150M308 220V82h12v138M328 220V38h12v182" />
+                      </g>
+                      <polyline class="analysis-chart__line analysis-chart__line--blue" points="54,60 74,188 94,184 114,174 134,181 154,204 174,208 194,211 214,213 234,214 254,205 274,92 294,102 314,112 334,70" />
+                      <polyline class="analysis-chart__line analysis-chart__line--green" points="54,94 74,206 94,120 114,188 134,118 154,202 174,210 194,212 214,213 234,216 254,215 274,209 294,211 314,210 334,214" />
+                      <polyline class="analysis-chart__line analysis-chart__line--sand" points="54,154 74,190 94,174 114,166 134,184 154,200 174,204 194,208 214,209 234,210 254,206 274,132 294,128 314,178 334,92" />
+                    </svg>
+                  </div>
+                  <div class="home-solution-detail__lead">
+                    <p>De oplossing van het probleem begint in het erkennen van de variabiliteit van bagger. Bagger is extreem variabel, terwijl afnemers juist een constante, voorspelbare kwaliteit eisen.</p>
+                    <p>Door middel van data-analyse overbruggen we dit gat. We zetten software in om omvangrijke bestanden met complexe data uit waterbodemonderzoeken om te zetten naar een concreet plan van aanpak.</p>
+                  </div>
+                  <div class="home-solution-detail__how">
+                    <h3>Hoe het werkt</h3>
+                    <ul>
+                      <li>De tool draait de traditionele keten om en neemt de klanteis als vertrekpunt. Vervolgens berekent het systeem of de specie uit een specifieke waterbodem de potentie heeft om aan die markteisen te voldoen.</li>
+                      <li>Met een efficiënte poorttoets bepaalt de tool direct de exacte stappen voor scheiding via onze BlueBox en nabewerking, zoals verhitting of calcinatie. Bij een positieve match rolt er direct een recept uit om de bagger optimaal op te waarderen. Is de kwaliteit onvoldoende en niet te corrigeren? Dan filtert de tool de plot direct uit.</li>
+                    </ul>
+                    <p>Zo transformeren we onbenutte data in een gegarandeerde, hoogwaardige circulaire grondstof.</p>
+                  </div>
+                </div>
+              </template>
             </article>
 
-            <article class="home-approach-card reveal" data-solution-step>
-              <div class="home-approach-card__top">
-                <span class="home-approach-step">02</span>
-              </div>
-              <h3>BlueBox verwerking</h3>
+            <article class="home-approach-card reveal" data-solution-step data-solution-card data-solution-title="Verwerking" tabindex="0" role="button" aria-controls="solution-detail-verwerking" aria-expanded="false" aria-label="Toon details: Verwerking">
+              <h3>Verwerking</h3>
               <p>De BlueBox ontwatert, scheidt en schoont bagger op locatie.</p>
               <div class="home-approach-visual home-approach-visual--bluebox" aria-hidden="true">
                 <img src="assets/media/solution-bluebox.png" alt="" loading="lazy" />
               </div>
+              <span class="home-approach-open" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
+              <button class="home-approach-card__close" type="button" data-solution-card-close aria-label="Sluiten" hidden>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+              </button>
+              <div class="home-approach-card__detail" id="solution-detail-verwerking" data-solution-inline-detail hidden></div>
+              <template data-solution-detail>
+                <div class="home-solution-detail home-solution-detail--processing">
+                  <div class="home-solution-detail__columns">
+                    <article class="home-solution-detail__column">
+                      <h3>Ontwatering</h3>
+                      <p>Onze mobiele unit maakt het mogelijk om baggerspecie direct op locatie in te dikken. Vooral op afgelegen of moeilijk bereikbare plekken voorkomt dit onnodig transport van grote volumes waterige bagger. Dat betekent: lagere kosten, minder CO₂-uitstoot en een veel efficiënter proces.</p>
+                      <svg class="home-solution-detail__icon" aria-hidden="true" viewBox="0 0 80 80" fill="none"><path d="M40 10S22 31 22 45a18 18 0 0 0 36 0C58 31 40 10 40 10Z"/><path d="M48 43c0 7-4 12-10 14"/></svg>
+                    </article>
+                    <article class="home-solution-detail__column">
+                      <h3>Scheiding</h3>
+                      <p>Baggerspecie zit vaak vol met herbruikbare materialen zoals zand, klei, leem en organisch materiaal. Met onze installatie scheiden we deze stromen ter plekke, klaar voor circulair hergebruik. Zo voegen we directe waarde toe aan wat eerst als afval werd gezien, én creëren we kansen voor opbrengsten binnen het project.</p>
+                      <svg class="home-solution-detail__icon" aria-hidden="true" viewBox="0 0 80 80" fill="none"><path d="M33 14h14a6 6 0 0 1 6 6v11h9a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6h-9v11H27V55h-9a6 6 0 0 1-6-6V37a6 6 0 0 1 6-6h9V20a6 6 0 0 1 6-6Z"/></svg>
+                    </article>
+                    <article class="home-solution-detail__column">
+                      <h3>Opschoning</h3>
+                      <p>Ook vervuilde bagger verdient een tweede leven. Onze technologie verwijdert schadelijke stoffen uit de specie, waardoor materialen geschikt worden voor veilig en verantwoord hergebruik. Daarmee herstellen we niet alleen schade uit het verleden, maar bouwen we actief aan een schonere toekomst.</p>
+                      <svg class="home-solution-detail__icon" aria-hidden="true" viewBox="0 0 80 80" fill="none"><path d="M62 18C40 18 23 28 23 47c0 8 5 14 13 14 18 0 28-19 26-43Z"/><path d="M18 65c10-18 22-29 39-38"/></svg>
+                    </article>
+                  </div>
+                </div>
+              </template>
             </article>
 
-            <article class="home-approach-card reveal" data-solution-step>
-              <div class="home-approach-card__top">
-                <span class="home-approach-step">03</span>
-              </div>
+            <article class="home-approach-card reveal" data-solution-step data-solution-card data-solution-title="Hergebruik" tabindex="0" role="button" aria-controls="solution-detail-hergebruik" aria-expanded="false" aria-label="Toon details: Hergebruik">
               <h3>Hergebruik</h3>
               <p>Materialen worden toegepast in bouw- en betonproducten.</p>
               <div class="home-approach-visual" aria-hidden="true">
                 <img src="assets/media/solution-hergebruik.png" alt="" loading="lazy" />
               </div>
+              <span class="home-approach-open" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
+              <button class="home-approach-card__close" type="button" data-solution-card-close aria-label="Sluiten" hidden>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+              </button>
+              <div class="home-approach-card__detail" id="solution-detail-hergebruik" data-solution-inline-detail hidden></div>
+              <template data-solution-detail>
+                <div class="home-solution-detail home-solution-detail--reuse">
+                  <div class="home-solution-detail__reuse-copy">
+                    <section>
+                      <h3>Nabewerking op maat</h3>
+                      <p>Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken—zoals verhitting, vermaling of calcinatie—brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend.</p>
+                    </section>
+                    <section>
+                      <h3>Circulaire toepassingen</h3>
+                      <p>De opgeschoonde en bewerkte grondstoffen krijgen een hoogwaardig tweede leven. In plaats van te eindigen in een depot, worden ze direct ingezet als betrouwbare secundaire bouwstoffen. Denk hierbij aan aggregaten voor de betonindustrie, of hoogwaardige klei voor de keramische industrie.</p>
+                      <p>Door onze circulaire aanpak verminderen we de behoefte aan de winning van primaire grondstoffen, zoals nieuw zand en grind, aanzienlijk. Zo verlagen we de milieu-impact en bouwen we letterlijk aan een duurzamere toekomst.</p>
+                    </section>
+                  </div>
+                  <svg class="home-solution-detail__reuse-art" aria-hidden="true" viewBox="0 0 360 280" fill="none">
+                    <path d="M74 54h78v162H74zM74 54l24-14h78l-24 14M152 54l24-14v162l-24 14"/>
+                    <path d="m98 216 22-12 18 7-22 12-18-7Zm48-2 22-12 21 8-22 12-21-8Z"/>
+                    <path d="M224 116h86v58h-86zM224 116l12-10h86l-12 10M310 116l12-10v58l-12 10"/>
+                    <path d="M224 135h86M224 154h86M245 116v58M267 116v58M289 116v58" opacity=".55"/>
+                  </svg>
+                </div>
+              </template>
             </article>
           </div>
         </div>
+
       </section>
 
       <section class="home-section home-section--service-routes" aria-labelledby="service-routes-title">
@@ -245,7 +359,6 @@
                 <img src="assets/media/service-bagger-industrie-saturated.webp" alt="" loading="lazy" />
               </span>
               <span class="home-service-card__meta">
-                <span class="home-service-card__number">01</span>
                 <span class="home-service-card__label">Voor de baggerindustrie</span>
               </span>
               <div class="home-service-card__copy">
@@ -263,7 +376,6 @@
                 <img src="assets/media/service-bouw-sandbags-saturated.webp" alt="" loading="lazy" />
               </span>
               <span class="home-service-card__meta">
-                <span class="home-service-card__number">02</span>
                 <span class="home-service-card__label">Voor de bouw</span>
               </span>
               <div class="home-service-card__copy">
@@ -281,6 +393,16 @@
 
     </main>
 
+    <section class="home-prefooter-cta" aria-labelledby="home-prefooter-title">
+      <div class="home-frame home-prefooter-cta__inner">
+        <p class="home-prefooter-cta__eyebrow">Samenwerken</p>
+        <div class="home-prefooter-cta__content">
+          <h2 id="home-prefooter-title">Van baggerstroom naar herbruikbare grondstof.</h2>
+          <a href="/contact">Word een partner <span aria-hidden="true">-&gt;</span></a>
+        </div>
+      </div>
+    </section>
+
     <footer class="site-footer site-footer--brand">
       <div class="home-frame">
         <div class="home-footer-meta">
@@ -291,7 +413,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
@@ -305,7 +427,7 @@
             <a href="/vacatures">Vacatures</a>
             <a href="/contact">Contact</a>
             <a href="/login">Eigenaar login</a>
-            <a href="/contact">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
           </nav>
 
           <div class="home-footer-links">
@@ -336,13 +458,13 @@
           <span>&copy; 2026 Blauwe Bagger. All rights reserved.</span>
           <span class="home-footer-bottom__links">
             <a href="/login">Eigenaar login</a>
-            <a href="/contact">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
           </span>
         </div>
       </div>
     </footer>
 
-    <script src="script.js?v=lang-switch"></script>
+    <script src="script.js?v=hero-video-clips-20260715-1"></script>
     <script src="projects.js?v=project-cards-no-dates"></script>
   </body>
 </html>

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content="0; url=/over-ons#het-plan" />
     <meta
       name="description"
       content="Het plan van Blauwe Bagger: de BluePrint tijdlijn richting circulaire baggerverwerking en herbruikbare grondstoffen."
@@ -10,7 +11,7 @@
     <title>Blauwe Bagger | Het Plan</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=timeline-labels-1" />
+    <link rel="stylesheet" href="styles.css?v=nav-regular-20260714-1" />
   </head>
   <body data-page="het-plan">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -21,7 +22,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a class="is-current" href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -30,7 +30,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a class="is-current" href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a class="is-current" href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -51,11 +58,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a class="is-current" href="/het-plan">Het Plan</a>
         <a href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
-        <a href="/over-ons">Over ons</a>
+        <a class="is-current" href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link is-current" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -64,9 +73,22 @@
       <section class="plan-intro-section" aria-labelledby="plan-intro-title">
         <div class="home-frame plan-intro-frame">
           <div class="plan-intro-layout">
+            <svg class="plan-intro-schematic" aria-hidden="true" viewBox="0 0 720 300" fill="none">
+              <path d="M24 231c40-8 62-43 101-43 42 0 63 40 106 40 35 0 55-22 83-32" />
+              <path d="m276 174 38 22-33 29" />
+              <path d="M347 113h174v119H347zM362 128h144M378 113v119m95-119v119" />
+              <path d="m404 81 15 32h30l15-32h-60ZM434 113v28" />
+              <path d="M398 154c0-8 11-14 24-14s24 6 24 14v40c0 8-11 14-24 14s-24-6-24-14v-40Z" />
+              <path d="M398 154c0 8 11 14 24 14s24-6 24-14m24 17h27v-26h17" />
+              <path d="m548 174 40 22-36 28" />
+              <path d="m607 190 39-15 39 15-39 16-39-16Zm0 0v31l39 17 39-17v-31" />
+              <path d="m627 160 28-11 28 11-28 12-28-12Zm0 0v18l28 12 28-12v-18" opacity=".7" />
+              <circle cx="24" cy="231" r="5" />
+              <circle cx="685" cy="221" r="5" />
+            </svg>
             <div class="plan-intro-copy reveal">
               <div class="plan-intro-head">
-                <h1 id="plan-intro-title">De <span>BluePrint</span></h1>
+                <h1 id="plan-intro-title"><span class="plan-intro-title-prefix">De</span><span class="plan-intro-title-mark">BluePrint</span></h1>
               </div>
 
               <p class="plan-intro-lead">
@@ -95,13 +117,14 @@
         </div>
       </section>
 
-      <section class="plan-timeline-section" aria-labelledby="blueprint-title">
+      <section class="plan-timeline-section plan-timeline-story" aria-labelledby="blueprint-title" data-plan-timeline-story>
         <div class="home-frame plan-timeline-frame">
           <h2 id="blueprint-title" class="plan-timeline-title"><em>BluePrint</em> tijdlijn</h2>
 
           <div class="plan-timeline-map reveal" aria-label="BluePrint tijdlijn overzicht">
             <div class="plan-timeline-axis plan-timeline-axis--period-visible" style="--timeline-progress: 12%; --timeline-period-start: 12%; --timeline-period-end: 32%;">
               <span class="plan-timeline-line"></span>
+              <span class="plan-timeline-travel" aria-hidden="true"></span>
               <span class="plan-timeline-progress" aria-hidden="true"></span>
               <button
                 class="plan-timeline-point plan-timeline-point--active plan-timeline-point--top"
@@ -213,10 +236,10 @@
               <span>2040</span>
             </div>
 
-            <article class="plan-timeline-feature">
+            <article class="plan-timeline-feature" data-plan-timeline-feature aria-live="polite">
               <div>
                 <strong data-plan-active-year>2022</strong>
-                <span data-plan-active-period>2022</span>
+                <span data-plan-active-period hidden>2022</span>
               </div>
               <div>
                 <h3 data-plan-active-title>Oprichting Blauwe Bagger</h3>
@@ -242,7 +265,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
@@ -256,7 +279,7 @@
             <a href="/vacatures">Vacatures</a>
             <a href="/contact">Contact</a>
             <a href="/login">Eigenaar login</a>
-            <a href="/contact">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
           </nav>
 
           <div class="home-footer-links">
@@ -285,11 +308,11 @@
 
         <div class="home-footer-bottom">
           <span>&copy; 2026 Blauwe Bagger. All rights reserved.</span>
-          <a href="/contact">Privacy Policy</a>
+          <a href="/privacy-policy">Privacy Policy</a>
         </div>
       </div>
     </footer>
 
-    <script src="script.js?v=lang-switch"></script>
+    <script src="script.js?v=plan-scroll-20260713-7"></script>
   </body>
 </html>

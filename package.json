@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "start": "node local-server.js"
+  },
   "dependencies": {
     "@vercel/blob": "latest"
   }

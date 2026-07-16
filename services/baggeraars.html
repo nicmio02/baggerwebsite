@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Voor de baggerindustrie</title>
     <link rel="icon" href="/assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="/assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="/styles.css?v=widget-spacing-1" />
+    <link rel="stylesheet" href="/styles.css?v=impact-tool-balanced-20260715-1" />
   </head>
   <body data-page="service-detail">
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -21,7 +21,6 @@
         </a>
 
         <nav class="main-nav" aria-label="Hoofdnavigatie">
-          <a href="/het-plan">Het Plan</a>
           <div class="nav-dropdown">
             <a class="is-current" aria-haspopup="true">Services</a>
             <div class="nav-dropdown__menu" aria-label="Service routes">
@@ -30,7 +29,14 @@
             </div>
           </div>
           <a href="/projecten">Projecten</a>
-          <a href="/over-ons">Over ons</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het Plan</a>
+            </div>
+          </div>
         </nav>
 
         <div class="nav-actions">
@@ -51,11 +57,13 @@
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
-        <a href="/het-plan">Het Plan</a>
         <a class="is-current" href="/services/baggeraars">Voor de baggerindustrie</a>
         <a href="/services/grondstoffen">Voor de bouw</a>
         <a href="/projecten">Projecten</a>
         <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het Plan</a>
         <a href="/contact">Neem contact op</a>
       </nav>
     </header>
@@ -65,8 +73,11 @@
         <div class="service-detail-frame">
           <div class="service-detail-hero__layout">
             <div class="service-detail-hero__head reveal">
-              <p class="service-detail-kicker">Voor baggeraars</p>
-              <h1 id="service-title">Services voor de <span class="service-hero-accent">Baggerindustrie</span></h1>
+              <h1 id="service-title">
+                <span class="service-hero-topline">Services</span>
+                <span class="service-hero-connector">voor de</span>
+                <span class="service-hero-accent">Baggerindustrie</span>
+              </h1>
               <p>Slimmer baggeren begint met beter inzicht</p>
             </div>
 
@@ -175,7 +186,7 @@
 
           <nav class="home-footer-column" aria-label="Footer navigatie">
             <p class="home-footer-heading">Navigatie</p>
-            <a href="/het-plan">Het Plan</a>
+            <a href="/over-ons#het-plan">Het Plan</a>
             <a href="/services">Services</a>
             <a href="/services/baggeraars">Voor de baggerindustrie</a>
             <a href="/services/grondstoffen">Voor de bouw</a>
@@ -189,7 +200,7 @@
             <a href="/vacatures">Vacatures</a>
             <a href="/contact">Contact</a>
             <a href="/login">Eigenaar login</a>
-            <a href="/contact">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
           </nav>
 
           <div class="home-footer-links">
@@ -218,7 +229,7 @@
 
         <div class="home-footer-bottom">
           <span>&copy; 2026 Blauwe Bagger. All rights reserved.</span>
-          <a href="/contact">Privacy Policy</a>
+          <a href="/privacy-policy">Privacy Policy</a>
         </div>
       </div>
     </footer>
