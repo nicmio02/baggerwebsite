@@ -16,9 +16,6 @@ const productDetail = document.querySelector("[data-product-detail]");
 const contactForm = document.querySelector("[data-contact-form]");
 const formNote = document.querySelector("[data-form-note]");
 const heroVideos = Array.from(document.querySelectorAll(".home-hero-video"));
-const missionStory = document.querySelector(".home-mission-story");
-const missionCopy = missionStory?.querySelector(".home-mission-copy");
-const missionText = missionCopy?.querySelector("[data-i18n-html='mission-copy']");
 const aboutStatementSection = document.querySelector(".about-statement-section");
 const aboutStatementText = aboutStatementSection?.querySelector("[data-about-statement-text]");
 const teamStory = document.querySelector("[data-team-story]");
@@ -79,9 +76,6 @@ let solutionDialogIsOpening = false;
 let solutionDialogIsClosing = false;
 let lastScrollY = window.scrollY;
 let headerIdleTimer = null;
-let missionAccent = null;
-let missionWords = [];
-let missionAccentWords = [];
 let aboutStatementAccent = null;
 let aboutStatementWords = [];
 let aboutStatementAccentWords = [];
@@ -155,7 +149,7 @@ const i18n = {
       "Blauwe Bagger processes dredged sediment into new raw materials. Discover our circular approach, projects, products, team and contact options.",
     text: {
       "Ga naar inhoud": "Skip to content",
-      "Het Plan": "The Plan",
+      "Het plan": "The Plan",
       "Het team": "The team",
       "Werken bij": "Careers",
       Services: "Services",
@@ -574,115 +568,6 @@ function updateHeroState() {
   document.body.classList.toggle("is-past-hero", window.scrollY > hero.offsetHeight - 120);
 }
 
-function prepareMissionScrollText() {
-  if (!missionText || missionText.dataset.scrollPrepared === "true") {
-    return;
-  }
-
-  const walker = document.createTreeWalker(missionText, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-
-  while (walker.nextNode()) {
-    if (walker.currentNode.nodeValue.trim()) {
-      textNodes.push(walker.currentNode);
-    }
-  }
-
-  textNodes.forEach((node) => {
-    const fragment = document.createDocumentFragment();
-    const parts = node.nodeValue.split(/(\s+)/);
-
-    parts.forEach((part) => {
-      if (!part) {
-        return;
-      }
-
-      if (/^\s+$/.test(part)) {
-        fragment.append(document.createTextNode(part));
-        return;
-      }
-
-      const word = document.createElement("span");
-      word.className = "home-mission-word";
-      word.textContent = part;
-      fragment.append(word);
-    });
-
-    node.replaceWith(fragment);
-  });
-
-  missionAccent = missionText.querySelector(".home-mission-accent");
-  missionWords = Array.from(missionText.querySelectorAll(".home-mission-word"));
-  missionAccentWords = Array.from(missionAccent?.querySelectorAll(".home-mission-word") || []);
-  missionText.dataset.scrollPrepared = "true";
-}
-
-function updateMissionScrollSequence() {
-  if (!missionStory || !missionCopy || !missionText || !missionWords.length) {
-    return;
-  }
-
-  const sequenceEnabled =
-    window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!sequenceEnabled) {
-    ["--mission-kicker-opacity", "--mission-kicker-y"].forEach((property) =>
-      missionCopy.style.removeProperty(property),
-    );
-    ["--mission-copy-y", "--mission-copy-scale"].forEach((property) =>
-      missionText.style.removeProperty(property),
-    );
-    missionWords.forEach((word) => {
-      ["--mission-word-opacity", "--mission-word-y", "--mission-word-blur"].forEach((property) =>
-        word.style.removeProperty(property),
-      );
-    });
-    missionAccent?.style.removeProperty("--mission-wave-progress");
-    return;
-  }
-
-  const clamp = (value) => Math.min(Math.max(value, 0), 1);
-  const smoothstep = (value) => {
-    const normalized = clamp(value);
-    return normalized * normalized * (3 - 2 * normalized);
-  };
-  const storyRect = missionStory.getBoundingClientRect();
-  const scrollRange = Math.max(missionStory.offsetHeight - window.innerHeight, 1);
-  const storyProgress = clamp(-storyRect.top / scrollRange);
-  const kickerProgress = smoothstep(storyProgress / 0.13);
-  const copyProgress = smoothstep(storyProgress / 0.2);
-
-  missionCopy.style.setProperty("--mission-kicker-opacity", (0.25 + 0.75 * kickerProgress).toFixed(4));
-  missionCopy.style.setProperty("--mission-kicker-y", `${(10 * (1 - kickerProgress)).toFixed(2)}px`);
-  missionText.style.setProperty("--mission-copy-y", `${(18 * (1 - copyProgress)).toFixed(2)}px`);
-  missionText.style.setProperty("--mission-copy-scale", (0.985 + 0.015 * copyProgress).toFixed(4));
-
-  missionWords.forEach((word, index) => {
-    const wordPosition = missionWords.length > 1 ? index / (missionWords.length - 1) : 0;
-    const wordStart = 0.04 + wordPosition * 0.62;
-    const wordProgress = smoothstep((storyProgress - wordStart) / 0.16);
-
-    word.style.setProperty("--mission-word-opacity", (0.18 + 0.82 * wordProgress).toFixed(4));
-    word.style.setProperty("--mission-word-y", `${(10 * (1 - wordProgress)).toFixed(2)}px`);
-    word.style.setProperty("--mission-word-blur", `${(2.5 * (1 - wordProgress)).toFixed(2)}px`);
-  });
-
-  if (missionAccent && missionAccentWords.length) {
-    const firstAccentWordIndex = missionWords.indexOf(missionAccentWords[0]);
-    const lastAccentWordIndex = missionWords.indexOf(missionAccentWords[missionAccentWords.length - 1]);
-
-    if (firstAccentWordIndex >= 0 && lastAccentWordIndex >= 0) {
-      const wordDivisor = Math.max(missionWords.length - 1, 1);
-      const waveStart = 0.04 + (firstAccentWordIndex / wordDivisor) * 0.62;
-      const waveEnd = 0.04 + (lastAccentWordIndex / wordDivisor) * 0.62 + 0.16;
-      const waveProgress = smoothstep((storyProgress - waveStart) / Math.max(waveEnd - waveStart, 0.16));
-
-      missionAccent.style.setProperty("--mission-wave-progress", waveProgress.toFixed(4));
-    }
-  }
-
-}
-
 function prepareAboutStatementScrollText() {
   if (!aboutStatementText || aboutStatementText.dataset.scrollPrepared === "true") {
     return;
@@ -899,7 +784,6 @@ function updateScrollProgress() {
   document.body.style.setProperty("--scroll", progress.toFixed(4));
   updateHeaderState();
   updateHeroState();
-  updateMissionScrollSequence();
   updateAboutStatementScrollSequence();
   updateTeamScrollSequence();
   updatePlanTimelineScrollSequence();
@@ -1696,7 +1580,6 @@ function resizeBaggerWidget(event) {
 }
 
 applyPageLanguage();
-prepareMissionScrollText();
 prepareAboutStatementScrollText();
 
 playHeroClip();
@@ -1938,6 +1821,10 @@ function escapePublicContent(value) {
   });
 }
 
+function jobDetailUrl(slug) {
+  return `/vacature-detail?slug=${encodeURIComponent(slug || "open-sollicitatie")}`;
+}
+
 async function hydratePublicContentBoard(board) {
   const type = board.getAttribute("data-public-content");
 
@@ -2008,7 +1895,7 @@ function renderPublicVacancies(board, items) {
           </div>
           <span>${escapePublicContent(item.category || "Vacature")}</span>
           <span>${escapePublicContent(item.workload || item.status || "In overleg")}</span>
-          <a href="/contact">Bekijk <span class="link-arrow__icon" aria-hidden="true"></span></a>
+          <a href="${jobDetailUrl(item.slug)}">Bekijk <span class="link-arrow__icon" aria-hidden="true"></span></a>
         </article>
       `,
     )

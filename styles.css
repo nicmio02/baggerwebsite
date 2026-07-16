@@ -19331,78 +19331,6 @@ body[data-page="home"] .home-problem-columns > .home-problem-heading::after {
   }
 }
 
-/* The mission becomes a restrained, scroll-scrubbed typography sequence on desktop. */
-.home-mission-word {
-  display: inline;
-}
-
-@media (min-width: 1001px) and (prefers-reduced-motion: no-preference) {
-  body[data-page="home"] .home-mission-story {
-    min-height: 220vh;
-    min-height: 220svh;
-    padding: 0 !important;
-    overflow: visible;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-grid {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    display: grid;
-    align-items: center;
-    width: 100%;
-    max-width: none;
-    height: 100vh;
-    height: 100svh;
-    min-height: 0;
-    padding: clamp(90px, 12vh, 132px) clamp(48px, 8vw, 148px) clamp(54px, 8vh, 86px) !important;
-    overflow: hidden;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-copy {
-    width: min(1160px, 100%);
-    opacity: 1;
-    transform: none;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-copy h2 {
-    opacity: var(--mission-kicker-opacity, 0.25);
-    transform: translate3d(0, var(--mission-kicker-y, 10px), 0);
-    will-change: transform, opacity;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-copy p {
-    transform: translate3d(0, var(--mission-copy-y, 18px), 0)
-      scale(var(--mission-copy-scale, 0.985));
-    transform-origin: center;
-    will-change: transform;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-word {
-    display: inline-block;
-    color: #111930;
-    opacity: var(--mission-word-opacity, 0.18);
-    transform: translate3d(0, var(--mission-word-y, 10px), 0);
-    filter: blur(var(--mission-word-blur, 2.5px));
-    will-change: transform, opacity, filter;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-accent .home-mission-word {
-    color: #405aa2;
-  }
-
-  body[data-page="home"] .home-mission-story .home-mission-accent.wave-underline::after {
-    right: auto;
-    width: calc(var(--mission-wave-progress, 0) * 100%);
-    opacity: 1;
-    transform: none;
-    background-position: left center;
-    animation: none !important;
-    transition: none;
-    will-change: width;
-  }
-}
-
 /* Expanded solution cards share one blue, high-contrast detail state. */
 body[data-page="home"] .home-approach-card.is-expanded,
 body[data-page="home"] .home-approach-card--analysis.is-expanded {
@@ -22641,6 +22569,63 @@ body[data-page="service-detail"] .service-widget-impact__arrow {
   line-height: 0;
 }
 
+/* Restore the bold hero treatment without changing the site's lighter global H1 style. */
+body[data-page="home"] .home-hero-copy h1,
+body[data-page="home"] .home-hero-copy h1 > span,
+body[data-page="home"] .home-hero-copy h1 .home-hero-accent {
+  font-weight: 800 !important;
+}
+
+body[data-page="home"] .home-hero-copy h1 .home-hero-connector {
+  font-weight: 400 !important;
+}
+
+/* Use the lighter editorial title face for the service cards. */
+body[data-page="home"] .home-service-card h3 {
+  font-family: var(--font-h1);
+  font-weight: var(--font-h1-weight);
+  letter-spacing: -0.035em;
+}
+
+/* Give the mission statement enough vertical breathing room to fill the view. */
+@media (min-width: 761px) {
+  body[data-page="home"] .home-mission-grid {
+    min-height: clamp(720px, 90svh, 960px);
+  }
+}
+
+/* Keep the homepage hero copy centered over the video. */
+body[data-page="home"] .home-hero-card {
+  align-items: center;
+  justify-items: center;
+  padding-bottom: 0;
+}
+
+body[data-page="home"] .home-hero-copy {
+  align-self: center;
+  justify-self: center;
+  max-width: min(860px, 100%);
+  padding: 0;
+  text-align: center;
+  transform: none;
+}
+
+body[data-page="home"] .home-hero-copy h1 {
+  justify-content: center;
+  margin-inline: auto;
+  text-align: left;
+}
+
+@media (max-width: 760px) {
+  body[data-page="home"] .home-hero-card {
+    padding-bottom: 0;
+  }
+
+  body[data-page="home"] .home-hero-copy {
+    max-width: 100%;
+  }
+}
+
 /* Keep the contact heading prominent without letting it overpower the form. */
 @media (min-width: 1061px) {
   body[data-page="contact"] .contact-form-copy h1 {
@@ -22659,6 +22644,179 @@ body[data-page="service-detail"] .service-widget-impact__arrow {
 @media (max-width: 720px) {
   body[data-page="contact"] .contact-form-copy h1 {
     font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+}
+
+/* Keep the contact heading clear of the navigation at the top of the page. */
+body[data-page="contact"] .contact-form-copy {
+  padding-top: clamp(22px, 2.5vh, 32px);
+}
+
+/* Vacancy detail pages use the same calm editorial rhythm as the vacancy index. */
+body[data-page="vacature-detail"] {
+  color: #111930;
+  background: #f3f0e7;
+}
+
+body[data-page="vacature-detail"] .job-detail-frame {
+  width: min(1320px, calc(100% - clamp(36px, 8vw, 148px)));
+  margin: 0 auto;
+}
+
+body[data-page="vacature-detail"] .job-detail-hero {
+  padding: clamp(142px, 15vh, 196px) 0 clamp(70px, 9vw, 118px);
+  background: #f3f0e7;
+  border-bottom: 1px solid rgba(56, 81, 147, 0.14);
+}
+
+body[data-page="vacature-detail"] .job-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(42px, 6vw, 76px);
+  color: #385193;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+body[data-page="vacature-detail"] .job-detail-back span:first-child {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+body[data-page="vacature-detail"] .job-detail-kicker,
+body[data-page="vacature-detail"] .job-detail-cta__kicker {
+  margin: 0 0 18px;
+  color: #385193;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body[data-page="vacature-detail"] .job-detail-hero h1 {
+  max-width: 900px;
+  margin: 0;
+  color: #111930;
+  font-family: var(--font-h1);
+  font-size: clamp(3.2rem, 7vw, 7.4rem);
+  font-weight: var(--font-h1-weight);
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+body[data-page="vacature-detail"] .job-detail-excerpt {
+  max-width: 720px;
+  margin: clamp(26px, 3vw, 38px) 0 0;
+  color: rgba(17, 25, 48, 0.7);
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+body[data-page="vacature-detail"] .job-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: clamp(28px, 4vw, 46px);
+}
+
+body[data-page="vacature-detail"] .job-detail-meta span {
+  padding: 10px 16px;
+  color: #385193;
+  font-size: 0.84rem;
+  font-weight: 750;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(56, 81, 147, 0.18);
+  border-radius: 999px;
+}
+
+body[data-page="vacature-detail"] .job-detail-content {
+  padding: clamp(70px, 9vw, 124px) 0 clamp(88px, 11vw, 150px);
+  background: #f3f0e7;
+}
+
+body[data-page="vacature-detail"] .job-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+  gap: clamp(42px, 8vw, 132px);
+  align-items: start;
+}
+
+body[data-page="vacature-detail"] .job-detail-copy {
+  max-width: 760px;
+}
+
+body[data-page="vacature-detail"] .job-detail-copy p {
+  margin: 0 0 24px;
+  color: rgba(17, 25, 48, 0.78);
+  font-size: clamp(1.08rem, 1.45vw, 1.28rem);
+  line-height: 1.75;
+}
+
+body[data-page="vacature-detail"] .job-detail-cta {
+  padding: clamp(26px, 3vw, 42px);
+  background: #385193;
+  border-radius: 20px;
+  box-shadow: 0 24px 54px rgba(17, 25, 48, 0.13);
+}
+
+body[data-page="vacature-detail"] .job-detail-cta__kicker {
+  color: #c9ebff;
+}
+
+body[data-page="vacature-detail"] .job-detail-cta h2 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-h1);
+  font-size: clamp(2rem, 3.4vw, 3.5rem);
+  font-weight: var(--font-h1-weight);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+body[data-page="vacature-detail"] .job-detail-cta > p:not(.job-detail-cta__kicker) {
+  margin: 22px 0 28px;
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.55;
+}
+
+body[data-page="vacature-detail"] .job-detail-cta .primary-link {
+  color: #111930;
+  background: #c9ebff;
+  box-shadow: none;
+}
+
+body[data-page="vacature-detail"] .job-detail-cta .primary-link:hover,
+body[data-page="vacature-detail"] .job-detail-cta .primary-link:focus-visible {
+  color: #111930;
+  background: #ffffff;
+}
+
+body[data-page="vacature-detail"] .job-detail-empty {
+  width: min(900px, calc(100% - 40px));
+  padding: 180px 0 140px;
+  margin: 0 auto;
+  color: #111930;
+  font-size: 1.15rem;
+}
+
+body[data-page="vacature-detail"] .job-detail-empty a {
+  color: #385193;
+  font-weight: 750;
+}
+
+@media (max-width: 760px) {
+  body[data-page="vacature-detail"] .job-detail-frame {
+    width: min(100% - 28px, 1320px);
+  }
+
+  body[data-page="vacature-detail"] .job-detail-hero {
+    padding-top: 132px;
+  }
+
+  body[data-page="vacature-detail"] .job-detail-layout {
+    grid-template-columns: 1fr;
   }
 }
 
