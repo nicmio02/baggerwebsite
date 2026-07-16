@@ -266,7 +266,12 @@ const i18n = {
       "Oprichting Blauwe Bagger": "Founding of Blauwe Bagger",
       "Research & Development": "Research & Development",
       "Pilot BlueBox op locatie": "On-site BlueBox pilot",
-      Marktbetreding: "Market entry",
+      "Eerste installatie": "First installation",
+      "Eerste scheidingsinstallatie ontwikkeld": "First separation installation developed",
+      "Commerciële schaal": "Commercial scale",
+      "Commerciële projecten": "Commercial projects",
+      "Eerste project op commerciële schaal": "First project at commercial scale",
+      "Commerciële projecten op operationele schaal": "Commercial projects at operational scale",
       Opschaling: "Scaling up",
       "Verbreding buiten bagger": "Expansion beyond dredged sediment",
       "Circulariteit in gehele Nederlandse industrie": "Circularity across Dutch industry",
@@ -825,8 +830,6 @@ function updateScrollProgress() {
   document.body.style.setProperty("--scroll", progress.toFixed(4));
   updateHeaderState();
   updateHeroState();
-  updateAboutStatementScrollSequence();
-  updateTeamScrollSequence();
   updatePlanTimelineScrollSequence();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1621,7 +1624,6 @@ function resizeBaggerWidget(event) {
 }
 
 applyPageLanguage();
-prepareAboutStatementScrollText();
 
 playHeroClip();
 
@@ -1665,11 +1667,18 @@ if (revealItems.length || counters.length) {
     rootMargin: "0px 0px 14% 0px",
   });
 
-  revealItems.forEach((item) => {
-    const targetObserver = item.closest(".home-section--service-routes") ? serviceObserver : observer;
-    targetObserver.observe(item);
-  });
-  counters.forEach((counter) => observer.observe(counter));
+  // The About page is intentionally static outside the BluePrint timeline.
+  // Its timeline has its own scroll controller below, so don't attach the
+  // generic reveal observer to the other About elements.
+  if (document.body.dataset.page !== "over-ons") {
+    revealItems.forEach((item) => {
+      const targetObserver = item.closest(".home-section--service-routes") ? serviceObserver : observer;
+      targetObserver.observe(item);
+    });
+  }
+  if (document.body.dataset.page !== "over-ons") {
+    counters.forEach((counter) => observer.observe(counter));
+  }
 }
 
 stepButtons.forEach((button) => {

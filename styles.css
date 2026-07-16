@@ -18541,6 +18541,13 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card:
   color: #ffffff;
 }
 
+/* Project overview titles follow the site's lightweight Inter display style. */
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-row__label,
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card h3 {
+  font-family: var(--font-h1);
+  font-weight: var(--font-h1-weight);
+}
+
 @media (min-width: 1081px) {
   :is(
     body[data-page="projecten"].has-project-static-detail,
@@ -23027,6 +23034,147 @@ body[data-page="over-ons"].is-about-jump-navigation .about-statement-accent.wave
   width: 100%;
   transform: none;
   transition: none;
+}
+
+/* Keep Over ons static outside the BluePrint timeline. The timeline retains
+   its dedicated scroll controller, while the rest of the page is immediately
+   readable and does not wait for an intersection or scroll sequence. */
+body[data-page="over-ons"] .reveal,
+body[data-page="over-ons"] .about-statement-word,
+body[data-page="over-ons"] .about-team-card {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+
+body[data-page="over-ons"] .about-statement[data-about-statement-text] {
+  transform: none !important;
+}
+
+body[data-page="over-ons"] .about-statement-section {
+  min-height: auto !important;
+  padding: clamp(76px, 9vw, 124px) 0 !important;
+  overflow: visible !important;
+}
+
+body[data-page="over-ons"] .about-statement-section .about-frame {
+  position: relative !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 clamp(18px, 3vw, 42px) !important;
+  overflow: visible !important;
+}
+
+body[data-page="over-ons"] .about-statement-accent.wave-underline::after {
+  width: 100% !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+body[data-page="over-ons"] .about-team-section,
+body[data-page="over-ons"] .about-team-section > .about-frame {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+body[data-page="over-ons"] .about-team-section .about-team-card img {
+  filter: none !important;
+}
+
+body[data-page="over-ons"] .about-team-photo {
+  aspect-ratio: 3 / 2;
+  min-height: 0;
+  background: #e8edf5;
+}
+
+body[data-page="over-ons"] .about-team-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+
+/* Use the same warm sand-yellow canvas for every public footer and the
+   homepage bridge section. */
+body:not(.project-builder-admin) .site-footer.site-footer--brand {
+  color: #111930 !important;
+  background: #f3f0e7 !important;
+  background-image: none !important;
+  border-top-color: rgba(56, 81, 147, 0.14) !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-logo {
+  background-image: url("/assets/brand/blauwe-bagger-logo.svg") !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-meta {
+  border-bottom-color: rgba(56, 81, 147, 0.13) !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-meta p,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-meta a,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-brand p {
+  color: rgba(17, 25, 48, 0.68) !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-heading {
+  color: #385193 !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-address,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-contact {
+  border-top-color: rgba(56, 81, 147, 0.11) !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-partner {
+  color: #385193 !important;
+  background: rgba(56, 81, 147, 0.06) !important;
+  border-color: rgba(56, 81, 147, 0.18) !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-partner:hover,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-partner:focus-visible {
+  color: #ffffff !important;
+  background: #385193 !important;
+  border-color: #385193 !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-meta a:hover,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-meta a:focus-visible,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom a:hover,
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom a:focus-visible {
+  color: #385193 !important;
+}
+
+body[data-page="home"] .home-prefooter-cta {
+  color: #111930 !important;
+  background: #f3f0e7 !important;
+  background-image: none !important;
+  border-top: 1px solid rgba(56, 81, 147, 0.14);
+  border-bottom: 0;
+}
+
+body[data-page="home"] .home-prefooter-cta::before,
+body[data-page="home"] .home-prefooter-cta::after {
+  display: none !important;
+  content: none !important;
+}
+
+body[data-page="home"] .home-prefooter-cta__eyebrow {
+  color: #385193 !important;
+}
+
+body[data-page="home"] .home-prefooter-cta h2 {
+  color: #111930 !important;
+}
+
+body[data-page="home"] .home-prefooter-cta__content > a {
+  color: #ffffff !important;
+  background: #385193 !important;
+  border-color: #385193 !important;
 }
 
 /* Shared rhythm and type scale for the public project block system. */
