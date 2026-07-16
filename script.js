@@ -61,17 +61,12 @@ const heroVideoClips = [
   {
     videoIndex: 1,
     start: 94,
-    end: 98,
+    end: 97.2,
   },
   {
     videoIndex: 2,
-    start: 41,
+    start: 41.5,
     end: 44,
-  },
-  {
-    videoIndex: 2,
-    start: 20,
-    end: 23,
   },
 ];
 
@@ -94,9 +89,35 @@ let planTimelineFeatureAnimation = null;
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
+const heroVideoFadeDuration = 680;
+const heroVideoCrossfadeOverlap = heroVideoFadeDuration / 1000;
 const solutionCardMorphDuration = 460;
 const solutionDetailFadeDuration = 170;
 const solutionCardMorphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+function applyAboutPageOrder() {
+  const aboutMain = document.querySelector("main");
+  const planSection = aboutMain?.querySelector("#het-plan");
+  const planTimelineSection = aboutMain?.querySelector("[data-plan-timeline-story]");
+  const teamSection = aboutMain?.querySelector("#het-team");
+
+  if (planSection && planTimelineSection && teamSection) {
+    teamSection.before(planSection, planTimelineSection);
+  }
+
+  const aboutLinkOrder = ["het-plan", "het-team", "werken-bij"];
+  document.querySelectorAll(".nav-dropdown__menu, .mobile-menu").forEach((menu) => {
+    const links = aboutLinkOrder
+      .map((anchor) => menu.querySelector(`a[href=\"/over-ons#${anchor}\"]`))
+      .filter(Boolean);
+
+    if (links.length === aboutLinkOrder.length) {
+      links[0].before(...links);
+    }
+  });
+}
+
+applyAboutPageOrder();
 
 const i18n = {
   en: {
@@ -177,9 +198,9 @@ const i18n = {
       Opschoning: "Cleaning",
       "Ook vervuilde bagger verdient een tweede leven. Onze technologie verwijdert schadelijke stoffen uit de specie, waardoor materialen geschikt worden voor veilig en verantwoord hergebruik. Daarmee herstellen we niet alleen schade uit het verleden, maar bouwen we actief aan een schonere toekomst.":
         "Contaminated dredged sediment also deserves a second life. Our technology removes harmful substances, making the materials suitable for safe and responsible reuse. This allows us to repair damage from the past while actively building a cleaner future.",
-      "Nabewerking op maat": "Custom post-processing",
-      "Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken—zoals verhitting, vermaling of calcinatie—brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend.":
-        "Before the separated materials enter the market, they can be upgraded. Targeted post-processing techniques—such as heating, grinding or calcination—align the material's physical and chemical properties with the strict requirements of the construction and concrete industries. Market demand always leads this process.",
+      Nabewerking: "Post-processing",
+      "Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken, zoals verhitting, vermaling of calcinatie, brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend.":
+        "Before the separated materials enter the market, they can be upgraded. Targeted post-processing techniques, such as heating, grinding or calcination, align the material's physical and chemical properties with the strict requirements of the construction and concrete industries. Market demand always leads this process.",
       "Circulaire toepassingen": "Circular applications",
       "De opgeschoonde en bewerkte grondstoffen krijgen een hoogwaardig tweede leven. In plaats van te eindigen in een depot, worden ze direct ingezet als betrouwbare secundaire bouwstoffen. Denk hierbij aan aggregaten voor de betonindustrie, of hoogwaardige klei voor de keramische industrie.":
         "The cleaned and processed raw materials receive a high-quality second life. Instead of ending up in a depot, they are used directly as reliable secondary construction materials, such as aggregates for the concrete industry or high-quality clay for the ceramics industry.",
@@ -1106,11 +1127,11 @@ async function playHeroClip(index = 0) {
         candidate.pause();
       }
     });
-  }, 420);
+  }, heroVideoFadeDuration);
 
   heroClipTimer = window.setTimeout(() => {
     playHeroClip(activeHeroClip + 1);
-  }, Math.max(1000, (clip.end - clip.start) * 1000));
+  }, Math.max(1000, (clip.end - clip.start) * 1000 - heroVideoCrossfadeOverlap * 1000));
 }
 
 function setMobileMenu(open) {
@@ -1337,12 +1358,22 @@ async function openSolutionDialog(card) {
   document.body.classList.add("has-solution-dialog");
   solutionSequence.classList.add("has-expanded-card");
 
-  solutionCards.forEach((item) => {
+  const selectedIndex = solutionCards.indexOf(card);
+  solutionCards.forEach((item, itemIndex) => {
     const isSelected = item === card;
     item.classList.toggle("is-selected", isSelected);
     item.classList.toggle("is-expanded", isSelected);
     item.setAttribute("aria-expanded", isSelected ? "true" : "false");
     item.toggleAttribute("aria-hidden", !isSelected);
+
+    if (isSelected) {
+      item.style.removeProperty("--solution-dismiss-x");
+      item.style.removeProperty("--solution-dismiss-y");
+    } else {
+      const direction = itemIndex < selectedIndex ? -1 : 1;
+      item.style.setProperty("--solution-dismiss-x", `${direction * 56}px`);
+      item.style.setProperty("--solution-dismiss-y", "-18px");
+    }
   });
 
   card.dataset.collapsedLabel ||= card.getAttribute("aria-label") || "";
@@ -1421,6 +1452,8 @@ async function closeSolutionDialog() {
     item.classList.remove("is-selected", "is-expanded");
     item.setAttribute("aria-expanded", "false");
     item.removeAttribute("aria-hidden");
+    item.style.removeProperty("--solution-dismiss-x");
+    item.style.removeProperty("--solution-dismiss-y");
   });
 
   card.setAttribute("role", "button");
@@ -1607,10 +1640,6 @@ function resizeBaggerWidget(event) {
     return;
   }
 
-  if (baggerWidget.closest(".service-widget-frame")) {
-    return;
-  }
-
   const height = Number(event.data.height);
 
   if (!Number.isFinite(height) || height <= 0) {
@@ -1618,9 +1647,23 @@ function resizeBaggerWidget(event) {
   }
 
   const nextHeight = `${Math.min(Math.max(Math.ceil(height), 360), 2200)}px`;
+  const frame = baggerWidget.closest(".service-widget-frame");
+
   baggerWidget.style.height = nextHeight;
   baggerWidget.style.minHeight = nextHeight;
-  baggerWidget.parentElement?.style.setProperty("min-height", nextHeight);
+
+  if (frame) {
+    frame.style.height = nextHeight;
+    frame.style.minHeight = nextHeight;
+
+    const ladder = frame.parentElement?.querySelector(".service-widget-ladder");
+    if (ladder && window.matchMedia("(min-width: 1121px)").matches) {
+      ladder.style.height = nextHeight;
+      ladder.style.minHeight = nextHeight;
+    }
+  } else {
+    baggerWidget.parentElement?.style.setProperty("min-height", nextHeight);
+  }
 }
 
 applyPageLanguage();
@@ -1893,7 +1936,7 @@ async function hydratePublicContentBoard(board) {
             <span>${String(index + 1).padStart(2, "0")}</span>
             <h3>${escapePublicContent(item.title)}</h3>
             <p>${escapePublicContent(item.excerpt)}</p>
-            <a href="/contact">${type === "jobs" ? "Neem contact op" : "Lees meer"} -&gt;</a>
+            <a href="/contact">${type === "jobs" ? "Neem contact op" : "Lees meer"} <span class="link-arrow__icon" aria-hidden="true"></span></a>
           </article>
         `,
       )
@@ -1927,7 +1970,7 @@ function renderPublicVacancies(board, items) {
           </div>
           <span>${escapePublicContent(item.category || "Vacature")}</span>
           <span>${escapePublicContent(item.workload || item.status || "In overleg")}</span>
-          <a href="/contact">Bekijk <span aria-hidden="true">-&gt;</span></a>
+          <a href="/contact">Bekijk <span class="link-arrow__icon" aria-hidden="true"></span></a>
         </article>
       `,
     )

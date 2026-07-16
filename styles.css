@@ -26,7 +26,7 @@
   --font-body: "Poppins", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-sans: var(--font-body);
   --font-display: var(--font-h1);
-  --wave-pattern: url("assets/brand/wave-blue.svg?v=2");
+  --wave-pattern: url("assets/brand/wave-blue.svg?v=3");
   --hero-wave-pattern: url("assets/brand/wave-hero-blue.svg?v=2");
 }
 
@@ -10493,7 +10493,7 @@ body[data-page="home"] .site-header:has(.menu-toggle[aria-expanded="true"]) .men
   object-fit: cover;
   object-position: center 44%;
   opacity: 0;
-  transition: opacity 420ms ease;
+  transition: opacity 680ms ease-in-out;
 }
 
 .home-hero-video.is-active.is-loaded {
@@ -17134,8 +17134,9 @@ body[data-page="home"] .home-approach-card[data-solution-card].is-selected .home
 
 .home-solution-detail__column {
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 360px;
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  min-height: 0;
   padding: clamp(24px, 3vw, 38px);
   background: rgba(7, 14, 36, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -19131,7 +19132,7 @@ body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail__co
 }
 
 body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail__column {
-  min-height: clamp(320px, 28vw, 390px);
+  min-height: 0;
   padding: clamp(26px, 3vw, 42px);
   background: rgba(7, 14, 36, 0.1);
 }
@@ -19751,8 +19752,8 @@ body[data-page="home"] .home-approach-card.is-expanded {
   overscroll-behavior: contain;
   border-radius: 18px;
   box-shadow:
-    0 0 0 100vmax rgba(6, 12, 28, 0.48),
-    0 28px 76px rgba(6, 12, 28, 0.28);
+    0 0 0 100vmax var(--home-cohesive-warm),
+    0 28px 76px rgba(6, 12, 28, 0.28) !important;
   scrollbar-color: rgba(201, 235, 255, 0.48) transparent;
   scrollbar-width: thin;
 }
@@ -21943,42 +21944,65 @@ body[data-page="contact"] .contact-form--page .form-note {
   }
 }
 
-/* Balance the impact tool: both desktop panels share one exact outer height. */
+/* Give the impact tool a calm two-card rhythm and let the embedded widget keep its native scale. */
 @media (min-width: 1121px) {
   body[data-page="service-detail"] .service-widget-layout {
-    align-items: stretch;
+    align-items: start;
   }
 
   body[data-page="service-detail"] .service-widget-ladder,
   body[data-page="service-detail"] .service-widget-frame {
-    align-self: stretch;
+    align-self: start;
   }
 
   body[data-page="service-detail"] .service-widget-frame {
-    position: relative;
-    height: auto;
+    display: block;
+    height: 420px;
     min-height: 0;
+    overflow: visible;
+    background: transparent !important;
+    border: 0;
+    border-radius: 18px;
+    box-shadow: none;
+  }
+
+  body[data-page="service-detail"] .service-widget-ladder {
+    grid-template-rows: auto repeat(4, minmax(0, 1fr));
+    align-content: stretch;
+    height: 420px;
+    min-height: 420px;
   }
 
   body[data-page="service-detail"] .service-widget-frame iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 125%;
-    height: 125%;
-    min-height: 125%;
-    transform: scale(0.8);
-    transform-origin: top left;
+    position: static;
+    display: block;
+    width: 100%;
+    height: 420px;
+    min-height: 420px;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    border-radius: 18px;
+    box-shadow: 0 18px 42px rgba(7, 14, 36, 0.08);
+    transform: none;
   }
 }
 
-/* Let every expanded solution card use the available screen instead of collapsing around its content. */
+@media (max-width: 1120px) {
+  body[data-page="service-detail"] .service-widget-ladder {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+/* Keep expanded solution cards compact while still allowing them to scroll when content exceeds the viewport. */
 @media (min-width: 901px) {
   body[data-page="home"] .home-approach-card.is-expanded {
     display: grid;
-    grid-template-rows: auto auto minmax(0, 1fr);
-    height: calc(100svh - clamp(24px, 4vw, 48px));
+    grid-template-rows: auto auto auto;
+    height: auto;
     min-height: 0;
+    align-content: start;
     padding: clamp(28px, 4vh, 42px) clamp(38px, 4vw, 60px);
     overflow: auto;
   }
@@ -21994,7 +22018,9 @@ body[data-page="contact"] .contact-form--page .form-note {
   }
 
   body[data-page="home"] .home-approach-card.is-expanded .home-approach-card__detail:not([hidden]) {
-    display: grid;
+    display: block;
+    align-self: start;
+    height: auto;
     min-height: 0;
     padding-top: clamp(18px, 2.5vh, 28px);
     margin-top: clamp(18px, 2.5vh, 28px);
@@ -22041,18 +22067,18 @@ body[data-page="contact"] .contact-form--page .form-note {
 
   body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail--processing,
   body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail--reuse {
-    height: 100%;
+    height: auto;
     min-height: 0;
   }
 
   body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail__columns {
-    height: 100%;
+    height: auto;
     min-height: 0;
     gap: clamp(18px, 2vw, 30px);
   }
 
   body[data-page="home"] .home-approach-card.is-expanded .home-solution-detail__column {
-    height: 100%;
+    height: auto;
     min-height: 0;
     padding: clamp(22px, 3vh, 34px);
   }
@@ -22116,4 +22142,486 @@ body[data-page="contact"] .contact-form--page .form-note {
   body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-feature {
     align-self: end;
   }
+}
+/* Contact page: cream editorial layout with a replaceable image panel. */
+body[data-page="contact"] {
+  background: #f3f0e7;
+}
+
+body[data-page="contact"] .contact-page,
+body[data-page="contact"] .contact-form-section {
+  background: #f3f0e7 !important;
+  background-image: none !important;
+}
+
+body[data-page="contact"] main.contact-page > .contact-form-section:first-child {
+  min-height: 0;
+  padding: clamp(116px, 13vh, 164px) 0 clamp(72px, 8vw, 112px);
+}
+
+body[data-page="contact"] .contact-page-frame {
+  width: min(1440px, calc(100% - clamp(34px, 7vw, 116px)));
+}
+
+body[data-page="contact"] .contact-form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.62fr);
+  gap: clamp(30px, 4.5vw, 72px);
+  align-items: start;
+}
+
+body[data-page="contact"] .contact-form-column {
+  display: contents;
+  min-width: 0;
+}
+
+body[data-page="contact"] .contact-form-copy {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+body[data-page="contact"] .contact-form--page {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+body[data-page="contact"] .contact-form-copy {
+  position: static;
+}
+
+body[data-page="contact"] .contact-form-copy .contact-kicker {
+  margin-bottom: 18px;
+  color: var(--blue);
+}
+
+body[data-page="contact"] .contact-form-copy h1 {
+  max-width: 760px;
+  color: #111930;
+  font-size: clamp(3.2rem, 5.3vw, 5.8rem);
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+body[data-page="contact"] .contact-form-copy > p {
+  max-width: 610px;
+  margin-top: 22px;
+  color: rgba(17, 25, 48, 0.68);
+  font-size: clamp(1rem, 1.2vw, 1.14rem);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+body[data-page="contact"] .contact-form--page {
+  display: grid;
+  width: 100%;
+  max-width: none;
+  gap: 20px;
+  padding: clamp(24px, 2.6vw, 34px);
+  color: #111930;
+  background: #ffffff !important;
+  border: 1px solid rgba(17, 25, 48, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 22px 55px rgba(17, 25, 48, 0.08);
+}
+
+body[data-page="contact"] .contact-form__grid {
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+body[data-page="contact"] .contact-form--page label {
+  color: #111930;
+  font-size: 0.86rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+body[data-page="contact"] .contact-form--page input,
+body[data-page="contact"] .contact-form--page select,
+body[data-page="contact"] .contact-form--page textarea {
+  margin-top: 8px;
+  color: #111930;
+  background: #f6f6f5;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+
+body[data-page="contact"] .contact-form--page input,
+body[data-page="contact"] .contact-form--page select {
+  height: 52px;
+  padding-inline: 16px;
+}
+
+body[data-page="contact"] .contact-form--page textarea {
+  min-height: 154px;
+  padding: 15px 16px;
+  resize: vertical;
+}
+
+body[data-page="contact"] .contact-form--page input::placeholder,
+body[data-page="contact"] .contact-form--page textarea::placeholder {
+  color: rgba(17, 25, 48, 0.42);
+}
+
+body[data-page="contact"] .contact-form--page select {
+  appearance: none;
+  background-color: #f6f6f5;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--blue) 50%),
+    linear-gradient(135deg, var(--blue) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) center,
+    calc(100% - 14px) center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+body[data-page="contact"] .contact-form--page input:focus,
+body[data-page="contact"] .contact-form--page select:focus,
+body[data-page="contact"] .contact-form--page textarea:focus {
+  background: #ffffff;
+  border-color: rgba(56, 81, 147, 0.42);
+  box-shadow: 0 0 0 4px rgba(56, 81, 147, 0.1);
+}
+
+body[data-page="contact"] .contact-form--page .primary-link {
+  min-height: 54px;
+  margin-top: 2px;
+  color: #ffffff;
+  background: var(--blue);
+  border-radius: 12px;
+}
+
+body[data-page="contact"] .contact-form--page .primary-link:hover,
+body[data-page="contact"] .contact-form--page .primary-link:focus-visible {
+  color: #ffffff;
+  background: var(--blue-deep);
+}
+
+body[data-page="contact"] .contact-form--page .form-note {
+  margin: 0;
+  color: rgba(17, 25, 48, 0.58);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+body[data-page="contact"] .contact-page-media {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  min-height: 650px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--blue-deep);
+  border-radius: 20px;
+  box-shadow: 0 22px 55px rgba(17, 25, 48, 0.14);
+}
+
+body[data-page="contact"] .contact-page-media::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(180deg, rgba(9, 17, 39, 0.04) 38%, rgba(9, 17, 39, 0.78) 100%);
+}
+
+body[data-page="contact"] .contact-page-media > img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body[data-page="contact"] .contact-page-media__details {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  display: grid;
+  gap: 13px;
+  padding: 20px;
+  color: #ffffff;
+  background: rgba(9, 17, 39, 0.78);
+  border: 1px solid rgba(201, 235, 255, 0.22);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+}
+
+body[data-page="contact"] .contact-page-media__label {
+  margin: 0 0 2px;
+  color: #c9ebff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body[data-page="contact"] .contact-page-media__details a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+body[data-page="contact"] .contact-page-media__details a:hover,
+body[data-page="contact"] .contact-page-media__details a:focus-visible {
+  color: #c9ebff;
+}
+
+body[data-page="contact"] .contact-page-media__details svg {
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: #7ea4ff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+body[data-page="contact"] .contact-page-media__address {
+  margin: 2px 0 0 29px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+@media (max-width: 899px) {
+  body[data-page="contact"] .contact-form-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  body[data-page="contact"] .contact-form--page {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  body[data-page="contact"] .contact-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="contact"] .contact-page-media {
+    grid-column: 1;
+    grid-row: 3;
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 720px) {
+  body[data-page="contact"] main.contact-page > .contact-form-section:first-child {
+    padding: 108px 0 62px;
+  }
+
+  body[data-page="contact"] .contact-page-frame {
+    width: min(100% - 28px, 1440px);
+  }
+
+  body[data-page="contact"] .contact-form-layout {
+    gap: 28px;
+  }
+
+  body[data-page="contact"] .contact-form-copy h1 {
+    font-size: clamp(2.8rem, 13vw, 4.4rem);
+  }
+
+  body[data-page="contact"] .contact-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="contact"] .contact-form--page {
+    padding: 20px;
+  }
+
+  body[data-page="contact"] .contact-page-media {
+    min-height: 440px;
+    border-radius: 18px;
+  }
+
+  body[data-page="contact"] .contact-page-media__details {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    padding: 16px;
+  }
+}
+
+/* Keep the vacancies hero in the same typographic scale as the other editorial pages. */
+body[data-page="vacatures"] .vacancy-hero-section {
+  padding: clamp(112px, 13vh, 152px) 0 clamp(48px, 7vh, 76px);
+}
+
+body[data-page="vacatures"] .vacancy-hero-section h1 {
+  max-width: none;
+  font-size: clamp(3.4rem, 5.3vw, 5.8rem);
+  line-height: 0.96;
+}
+
+body[data-page="vacatures"] .vacancy-hero-copy {
+  max-width: 700px;
+  margin-top: clamp(24px, 3.5vw, 42px);
+  font-size: clamp(1rem, 1.2vw, 1.18rem);
+  line-height: 1.55;
+}
+
+/* Use one real vector arrow everywhere the older text arrows were used. */
+.link-arrow__icon,
+.home-prefooter-cta__content > a > span[aria-hidden="true"],
+.home-footer-partner > span[aria-hidden="true"],
+.material-offer-link > span[aria-hidden="true"],
+.product-spec-link > span[aria-hidden="true"],
+.about-vacancy-row > a > span[aria-hidden="true"] {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1.15rem;
+  height: 1.15rem;
+  font-size: 0;
+  line-height: 1;
+  background: currentColor;
+  -webkit-mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+  mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+}
+
+.service-widget-impact__arrow {
+  font-size: 0;
+}
+
+.service-widget-impact__arrow::before {
+  display: block;
+  width: 24px;
+  height: 24px;
+  content: "";
+  background: currentColor;
+  -webkit-mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+  mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+}
+
+.service-detail-path span + span::before {
+  display: block;
+  width: 18px;
+  height: 18px;
+  content: "";
+  background: currentColor;
+  -webkit-mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+  mask: url("/assets/icons/arrow-right.svg") center / contain no-repeat;
+}
+
+@media (max-width: 620px) {
+  body[data-page="vacatures"] .vacancy-hero-section {
+    padding-top: 104px;
+  }
+
+  body[data-page="vacatures"] .vacancy-hero-section h1 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+}
+
+/* Keep solution details inside the full card frame. The selected card expands
+   across the three-card area while its neighbours make a small outward exit. */
+@media (min-width: 981px) {
+  body[data-page="home"] .home-approach-grid.has-expanded-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 1.8vw, 24px);
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-flow {
+    display: none;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card {
+    grid-row: 1;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card:nth-child(2) {
+    grid-column: 1;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card:nth-child(3) {
+    grid-column: 2;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card:nth-child(4) {
+    grid-column: 3;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card:not(.is-expanded) {
+    position: absolute;
+    inset-block-start: 0;
+    z-index: 1;
+    display: flex;
+    width: auto;
+    height: 100%;
+    min-height: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(var(--solution-dismiss-x, 48px), var(--solution-dismiss-y, -18px), 0) scale(0.97);
+    transition: opacity 260ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card.is-expanded {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    align-self: start;
+    overflow: visible;
+    inset: auto;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    box-shadow: 0 26px 60px rgba(17, 25, 48, 0.18) !important;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card.is-expanded:hover {
+    transform: none;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card.is-expanded .home-approach-card__detail:not([hidden]) {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+}
+
+@media (max-width: 980px) {
+  body[data-page="home"] .home-approach-grid.has-expanded-card {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card:not(.is-expanded) {
+    display: none;
+  }
+
+  body[data-page="home"] .home-approach-grid.has-expanded-card .home-approach-card.is-expanded {
+    position: relative;
+    grid-column: 1;
+    width: 100%;
+    min-height: 0;
+    inset: auto;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    box-shadow: 0 26px 60px rgba(17, 25, 48, 0.18) !important;
+  }
+}
+
+body.has-solution-dialog {
+  overflow: visible;
 }
