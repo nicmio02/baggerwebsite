@@ -22888,3 +22888,40 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
     transform: none;
   }
 }
+
+/* Hash navigation on Over ons should land on fully visible, static sections. */
+body[data-page="over-ons"].is-about-jump-navigation .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+body[data-page="over-ons"].is-about-jump-navigation .about-statement-section {
+  min-height: auto;
+  padding: clamp(76px, 9vw, 124px) 0 !important;
+  overflow: visible;
+}
+
+body[data-page="over-ons"].is-about-jump-navigation .about-statement-section .about-frame {
+  position: relative;
+  height: auto;
+  min-height: 0;
+  padding: 0 clamp(18px, 3vw, 42px) !important;
+  overflow: visible;
+}
+
+body[data-page="over-ons"].is-about-jump-navigation .about-statement[data-about-statement-text] {
+  transform: none;
+}
+
+body[data-page="over-ons"].is-about-jump-navigation .about-statement-word {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+body[data-page="over-ons"].is-about-jump-navigation .about-statement-accent.wave-underline::after {
+  width: 100%;
+  transform: none;
+  transition: none;
+}

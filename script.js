@@ -89,6 +89,24 @@ const solutionCardMorphDuration = 460;
 const solutionDetailFadeDuration = 170;
 const solutionCardMorphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
 
+const aboutJumpTargets = new Set(["het-plan", "het-team", "werken-bij"]);
+
+function isAboutJumpNavigationActive() {
+  return Boolean(
+    document.body?.dataset.page === "over-ons" &&
+      document.body.classList.contains("is-about-jump-navigation"),
+  );
+}
+
+function syncAboutJumpNavigationState() {
+  const isJump =
+    document.body?.dataset.page === "over-ons" &&
+    aboutJumpTargets.has(window.location.hash.slice(1));
+
+  document.body?.classList.toggle("is-about-jump-navigation", isJump);
+  return isJump;
+}
+
 function alignAboutHashTarget() {
   const targetId = window.location.hash.slice(1);
   if (!["het-plan", "het-team", "werken-bij"].includes(targetId)) {
@@ -108,6 +126,8 @@ function alignAboutHashTarget() {
 }
 
 function applyAboutPageOrder() {
+  syncAboutJumpNavigationState();
+
   const aboutMain = document.querySelector("main");
   const planSection = aboutMain?.querySelector("#het-plan");
   const planTimelineSection = aboutMain?.querySelector("[data-plan-timeline-story]");
@@ -138,6 +158,8 @@ function applyAboutPageOrder() {
 
 applyAboutPageOrder();
 window.addEventListener("hashchange", () => {
+  syncAboutJumpNavigationState();
+  updateScrollProgress();
   window.setTimeout(alignAboutHashTarget, 0);
   window.setTimeout(alignAboutHashTarget, 120);
 });
@@ -621,6 +643,18 @@ function updateAboutStatementScrollSequence() {
   const sequenceEnabled =
     window.innerWidth > 1000 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  if (isAboutJumpNavigationActive()) {
+    aboutStatementText.style.removeProperty("--about-statement-y");
+    aboutStatementText.style.removeProperty("--about-statement-scale");
+    aboutStatementWords.forEach((word) => {
+      ["--about-word-opacity", "--about-word-y", "--about-word-blur"].forEach((property) =>
+        word.style.removeProperty(property),
+      );
+    });
+    aboutStatementAccent?.style.removeProperty("--about-wave-progress");
+    return;
+  }
+
   if (!sequenceEnabled) {
     aboutStatementText.style.removeProperty("--about-statement-y");
     aboutStatementText.style.removeProperty("--about-statement-scale");
@@ -689,6 +723,7 @@ function updateTeamScrollSequence() {
   const sequenceEnabled =
     window.innerWidth > 1000 &&
     window.innerHeight >= 680 &&
+    !isAboutJumpNavigationActive() &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!sequenceEnabled) {
@@ -734,6 +769,7 @@ function planTimelineScrollIsEnabled() {
       planTimelineSteps.length > 1 &&
       window.innerWidth > 1000 &&
       window.innerHeight >= 680 &&
+      !isAboutJumpNavigationActive() &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
 }
