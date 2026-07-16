@@ -22612,32 +22612,8 @@ body[data-page="home"] .home-hero-copy {
 
 body[data-page="home"] .home-hero-copy h1 {
   justify-content: center;
-  grid-template-areas:
-    "topline"
-    "connector"
-    "accent";
   margin-inline: auto;
   text-align: left;
-}
-
-body[data-page="home"] .home-hero-copy h1 .home-hero-topline {
-  grid-area: topline;
-  justify-self: center;
-  text-align: center;
-}
-
-body[data-page="home"] .home-hero-copy h1 .home-hero-connector {
-  grid-area: connector;
-  justify-self: center;
-  margin: 0.08em 0 0.1em;
-  text-align: center;
-  transform: translateY(clamp(0.2rem, 0.45vw, 0.45rem));
-}
-
-body[data-page="home"] .home-hero-copy h1 .home-hero-accent {
-  grid-area: accent;
-  justify-self: center;
-  text-align: center;
 }
 
 @media (max-width: 760px) {
