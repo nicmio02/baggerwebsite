@@ -171,24 +171,6 @@ function setContentEditorValue(form, value) {
   );
 }
 
-function formatVacancyPreviewDate(value) {
-  if (!value) {
-    return "Vandaag";
-  }
-
-  const date = new Date(`${value}T12:00:00`);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat("nl-NL", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(date);
-}
-
 function renderVacancyPreview(form) {
   const preview = form?.closest(".vacancy-editor-layout")?.querySelector("[data-vacancy-preview]");
 
@@ -204,7 +186,6 @@ function renderVacancyPreview(form) {
   const excerpt = readField("excerpt", "De korte omschrijving verschijnt hier.");
   const workload = readField("workload", "Fulltime");
   const status = readField("status", "Open");
-  const date = formatVacancyPreviewDate(readField("date"));
   const body = String(form.elements.namedItem("body")?.value || "")
     .split(/\n\s*\n/g)
     .map((paragraph) => paragraph.trim())
@@ -215,7 +196,6 @@ function renderVacancyPreview(form) {
   preview.querySelector("[data-vacancy-preview-excerpt]").textContent = excerpt;
   preview.querySelector("[data-vacancy-preview-workload]").textContent = workload;
   preview.querySelector("[data-vacancy-preview-status]").textContent = status;
-  preview.querySelector("[data-vacancy-preview-date]").textContent = date;
 
   const bodyElement = preview.querySelector("[data-vacancy-preview-body]");
   bodyElement.replaceChildren(

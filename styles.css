@@ -23548,24 +23548,6 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card_
   border-radius: 16px;
 }
 
-/* On the construction service hero, keep “voor de” with “bouw” on the
-   second line so the long “Grondstoffen” heading has more breathing room. */
-body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1 .service-hero-subline {
-  display: inline-flex;
-  align-items: baseline;
-  justify-self: start;
-  width: fit-content;
-  gap: clamp(0.14em, 0.45vw, 0.28em);
-}
-
-body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subline .service-hero-connector {
-  margin: 0;
-}
-
-body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subline .service-hero-accent {
-  margin-top: 0;
-}
-
 /* Team management in the private dashboard. */
 .team-admin-list .team-admin-item {
   grid-template-columns: 64px minmax(0, 1fr);
@@ -23712,87 +23694,154 @@ body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subl
 .vacancy-editor-preview {
   overflow: hidden;
   color: var(--blue-ink);
-  background: #ffffff;
+  background: #f3f0e7;
   border: 1px solid var(--line);
   border-radius: 18px;
   box-shadow: 0 22px 48px rgba(17, 25, 48, 0.1);
 }
 
-.vacancy-preview-hero {
-  padding: clamp(24px, 3vw, 38px);
-  color: #ffffff;
-  background: linear-gradient(135deg, #111930 0%, #304b8f 100%);
+.vacancy-editor-preview .job-detail-frame {
+  width: min(100% - 42px, 860px);
+  margin: 0 auto;
 }
 
-.vacancy-preview-kicker {
-  margin: 0 0 16px;
-  color: #b9d6ff;
-  font-size: 0.72rem;
-  font-weight: 900;
+.vacancy-editor-preview .job-detail-hero {
+  padding: clamp(46px, 7vw, 82px) 0 clamp(30px, 5vw, 56px);
+  background: #f3f0e7;
+  border-bottom: 1px solid rgba(56, 81, 147, 0.14);
+}
+
+.vacancy-editor-preview .job-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: clamp(24px, 4vw, 42px);
+  color: #385193;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.vacancy-editor-preview .job-detail-back span:first-child {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.vacancy-editor-preview .job-detail-kicker,
+.vacancy-editor-preview .job-detail-cta__kicker {
+  margin: 0 0 14px;
+  color: #385193;
+  font-size: 0.68rem;
+  font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.vacancy-preview-hero h3 {
+.vacancy-editor-preview .job-detail-hero h1 {
+  max-width: 100%;
+  margin: 0;
+  color: #111930;
+  font-family: var(--font-h1);
+  font-size: clamp(2.55rem, 5.2vw, 5.2rem);
+  font-weight: var(--font-h1-weight);
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+  overflow-wrap: anywhere;
+}
+
+.vacancy-editor-preview .job-detail-excerpt {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: rgba(17, 25, 48, 0.7);
+  font-size: clamp(0.92rem, 1.25vw, 1.14rem);
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.vacancy-editor-preview .job-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.vacancy-editor-preview .job-detail-meta span {
+  padding: 8px 12px;
+  color: #385193;
+  font-size: 0.72rem;
+  font-weight: 750;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(56, 81, 147, 0.18);
+  border-radius: 999px;
+}
+
+.vacancy-editor-preview .job-detail-content {
+  padding: clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 82px);
+  background: #f3f0e7;
+}
+
+.vacancy-editor-preview .job-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.42fr);
+  gap: clamp(26px, 5vw, 60px);
+  align-items: start;
+}
+
+.vacancy-editor-preview .job-detail-copy {
+  max-width: 760px;
+}
+
+.vacancy-editor-preview .job-detail-copy p {
+  margin: 0 0 18px;
+  color: rgba(17, 25, 48, 0.78);
+  font-size: clamp(0.9rem, 1.15vw, 1.08rem);
+  line-height: 1.7;
+}
+
+.vacancy-editor-preview .job-detail-cta {
+  padding: clamp(20px, 2.6vw, 32px);
+  background: #385193;
+  border-radius: 16px;
+  box-shadow: 0 18px 36px rgba(17, 25, 48, 0.13);
+}
+
+.vacancy-editor-preview .job-detail-cta__kicker {
+  color: #c9ebff;
+}
+
+.vacancy-editor-preview .job-detail-cta h2 {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(1.75rem, 3vw, 2.8rem);
-  line-height: 1.04;
-  overflow-wrap: anywhere;
+  font-family: var(--font-h1);
+  font-size: clamp(1.45rem, 2.4vw, 2.3rem);
+  font-weight: var(--font-h1-weight);
+  letter-spacing: -0.035em;
+  line-height: 1;
 }
 
-.vacancy-preview-hero [data-vacancy-preview-excerpt] {
-  margin: 22px 0 0;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.98rem;
-  font-weight: 600;
-  line-height: 1.55;
-}
-
-.vacancy-preview-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-bottom: 1px solid var(--line);
-}
-
-.vacancy-preview-meta span {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-  padding: 18px 16px;
-  border-right: 1px solid var(--line);
-}
-
-.vacancy-preview-meta span:last-child {
-  border-right: 0;
-}
-
-.vacancy-preview-meta strong {
-  color: rgba(80, 87, 102, 0.72);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.vacancy-preview-meta em {
-  color: var(--blue-ink);
+.vacancy-editor-preview .job-detail-cta > p:not(.job-detail-cta__kicker) {
+  margin: 16px 0 22px;
+  color: rgba(255, 255, 255, 0.76);
   font-size: 0.82rem;
-  font-style: normal;
-  font-weight: 850;
-  overflow-wrap: anywhere;
+  line-height: 1.5;
 }
 
-.vacancy-preview-body {
-  display: grid;
-  gap: 14px;
-  padding: clamp(22px, 3vw, 36px);
+.vacancy-editor-preview .job-detail-cta .primary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  color: #111930;
+  font-size: 0.78rem;
+  background: #c9ebff;
+  border-radius: 999px;
 }
 
-.vacancy-preview-body p {
-  margin: 0;
-  color: #505766;
-  font-size: 0.94rem;
-  line-height: 1.65;
+@media (max-width: 520px) {
+  .vacancy-editor-preview .job-detail-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 1080px) {
@@ -23813,21 +23862,6 @@ body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subl
 
   .vacancy-editor-preview {
     max-width: 720px;
-  }
-}
-
-@media (max-width: 520px) {
-  .vacancy-preview-meta {
-    grid-template-columns: 1fr;
-  }
-
-  .vacancy-preview-meta span {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .vacancy-preview-meta span:last-child {
-    border-bottom: 0;
   }
 }
 

@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-1" />
+    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-2" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -188,19 +188,35 @@
                   <span class="vacancy-editor-preview-live"><span aria-hidden="true"></span> Live</span>
                 </div>
                 <article class="vacancy-editor-preview" data-vacancy-preview aria-label="Voorbeeld van vacaturepagina">
-                  <div class="vacancy-preview-hero">
-                    <p class="vacancy-preview-kicker" data-vacancy-preview-category>Open sollicitatie</p>
-                    <h3 data-vacancy-preview-title>Nieuwe vacature</h3>
-                    <p data-vacancy-preview-excerpt>De korte omschrijving verschijnt hier.</p>
-                  </div>
-                  <div class="vacancy-preview-meta">
-                    <span><strong>Type</strong><em data-vacancy-preview-workload>Fulltime</em></span>
-                    <span><strong>Status</strong><em data-vacancy-preview-status>Open</em></span>
-                    <span><strong>Datum</strong><em data-vacancy-preview-date>Vandaag</em></span>
-                  </div>
-                  <div class="vacancy-preview-body" data-vacancy-preview-body>
-                    <p>De volledige vacaturetekst verschijnt hier zodra je begint te typen.</p>
-                  </div>
+                  <section class="job-detail-hero">
+                    <div class="job-detail-frame">
+                      <div class="job-detail-back" aria-hidden="true">
+                        <span aria-hidden="true">←</span>
+                        <span>Terug naar vacatures</span>
+                      </div>
+                      <p class="job-detail-kicker">Vacature</p>
+                      <h1 data-vacancy-preview-title>Nieuwe vacature</h1>
+                      <p class="job-detail-excerpt" data-vacancy-preview-excerpt>De korte omschrijving verschijnt hier.</p>
+                      <div class="job-detail-meta">
+                        <span data-vacancy-preview-category>Open sollicitatie</span>
+                        <span data-vacancy-preview-workload>Fulltime</span>
+                        <span data-vacancy-preview-status>Open</span>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="job-detail-content">
+                    <div class="job-detail-frame job-detail-layout">
+                      <article class="job-detail-copy" data-vacancy-preview-body>
+                        <p>De volledige vacaturetekst verschijnt hier zodra je begint te typen.</p>
+                      </article>
+                      <aside class="job-detail-cta">
+                        <p class="job-detail-cta__kicker">Interesse?</p>
+                        <h2>Bouw mee aan de circulaire baggerketen.</h2>
+                        <p>Neem contact op en vertel ons waar jij waarde kunt toevoegen.</p>
+                        <span class="primary-link"><span>Neem contact op</span><span aria-hidden="true">→</span></span>
+                      </aside>
+                    </div>
+                  </section>
                 </article>
               </div>
             </div>
@@ -606,7 +622,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
-    <script src="admin.js?v=backend-module-3"></script>
+    <script src="admin.js?v=backend-module-4"></script>
     <script src="projects.js?v=static-edit-save-1"></script>
   </body>
 </html>
