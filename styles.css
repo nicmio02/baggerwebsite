@@ -17992,6 +17992,12 @@ body[data-page="over-ons"] .about-partners-track {
   animation: about-partners-scroll 34s linear infinite;
 }
 
+/* Let visitors inspect a logo before opening its partner site. */
+body[data-page="over-ons"] .about-partners-marquee:hover .about-partners-track,
+body[data-page="over-ons"] .about-partners-marquee:focus-within .about-partners-track {
+  animation-play-state: paused;
+}
+
 body[data-page="over-ons"] .about-partners-list {
   display: flex;
   flex: none;
@@ -18012,6 +18018,21 @@ body[data-page="over-ons"] .about-partners-list li {
   border: 1px solid rgba(17, 25, 48, 0.08);
   border-radius: 8px;
   background: #ffffff;
+}
+
+body[data-page="over-ons"] .about-partners-list li > a {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+body[data-page="over-ons"] .about-partners-list li > a:focus-visible {
+  border-radius: 6px;
+  outline: 3px solid rgba(56, 81, 147, 0.42);
+  outline-offset: 4px;
 }
 
 body[data-page="over-ons"] .about-partners-list img {
@@ -23354,6 +23375,70 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
   min-height: clamp(240px, 20vw, 320px);
 }
 
+/* A block with a custom text scale is wrapped in .project-builder-font-scale
+   on the public page. Treat that wrapper as transparent so scaled blocks keep
+   the same full-width rhythm as their neighbours instead of falling back to
+   the old card width, margin and shadow treatment. */
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  > :is(
+    .project-builder-hero,
+    .project-builder-section,
+    .project-builder-meta,
+    .project-builder-metrics,
+    .project-builder-cta
+  ) {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  > .project-builder-section:not(.project-builder-section--dark),
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  > .project-builder-meta,
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  > .project-builder-metrics {
+  background: var(--project-surface);
+  border: 0;
+}
+
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  + :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta),
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  + .project-builder-font-scale
+  > :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta),
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  > .project-builder-font-scale
+  + :is(.project-builder-section, .project-builder-meta, .project-builder-metrics, .project-builder-cta)
+  {
+  border-top: 1px solid var(--project-line);
+}
+
 @media (max-width: 760px) {
   body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
     .project-builder-page {
@@ -23433,4 +23518,29 @@ body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point--top span {
 
 body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point--bottom, .plan-timeline-period-label--bottom) span {
   top: calc(100% + clamp(36px, 3.8vw, 46px));
+}
+
+/* Restore the rounded project cards on the public projects overview. */
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card,
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card__media,
+body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card__media--placeholder {
+  border-radius: 16px;
+}
+
+/* On the construction service hero, keep “voor de” with “bouw” on the
+   second line so the long “Grondstoffen” heading has more breathing room. */
+body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1 .service-hero-subline {
+  display: inline-flex;
+  align-items: baseline;
+  justify-self: start;
+  width: fit-content;
+  gap: clamp(0.14em, 0.45vw, 0.28em);
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subline .service-hero-connector {
+  margin: 0;
+}
+
+body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subline .service-hero-accent {
+  margin-top: 0;
 }
