@@ -22999,6 +22999,33 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
   }
 }
 
+/* Keep the service connector with the first title line instead of placing it
+   on its own row above the accent title. */
+body[data-page="service-detail"] .service-detail-hero__head h1 .service-hero-topline {
+  display: inline-flex;
+  align-items: baseline;
+  justify-self: start;
+  width: fit-content;
+  gap: clamp(0.18em, 0.7vw, 0.38em);
+}
+
+body[data-page="service-detail"] .service-detail-hero__head h1 .service-hero-topline .service-hero-connector {
+  margin: 0;
+}
+
+/* Keep the longer impact label intact on the desktop comparison rows. */
+@media (min-width: 721px) {
+  body[data-page="service-detail"] .service-widget-ladder__head,
+  body[data-page="service-detail"] .service-widget-impact {
+    grid-template-columns: minmax(max-content, 1.16fr) minmax(0, 0.9fr) 42px minmax(0, 1.08fr);
+  }
+
+  body[data-page="service-detail"] .service-widget-impact__label {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+}
+
 /* Hash navigation on Over ons should land on fully visible, static sections. */
 body[data-page="over-ons"].is-about-jump-navigation .reveal {
   opacity: 1;
@@ -23094,6 +23121,20 @@ body[data-page="over-ons"] .about-team-photo img {
   height: 100%;
   object-fit: cover;
   object-position: center 42%;
+}
+
+/* Give the portrait team photo a roomier frame so the crop follows the
+   source image instead of forcing it into a shallow landscape card. */
+body[data-page="over-ons"] .about-story-section .about-frame {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 1fr);
+}
+
+body[data-page="over-ons"] .about-team-photo {
+  aspect-ratio: 4 / 3;
+}
+
+body[data-page="over-ons"] .about-team-photo img {
+  object-position: center 46%;
 }
 
 /* Use the same warm sand-yellow canvas for every public footer and the
@@ -23320,4 +23361,76 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
     --project-section-x: 22px;
     --project-copy-max: 100%;
   }
+}
+
+/* Restore the original BluePrint timeline rhythm and long scroll sequence.
+   The page jump may skip the other About reveals, but the timeline itself
+   remains the dedicated scroll-driven section. */
+@media (min-width: 1001px) and (min-height: 680px) {
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled {
+    height: calc(100svh + 3300px);
+    min-height: 0;
+    padding: 0 !important;
+    overflow: visible;
+  }
+
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-frame {
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(18px, 2.2vh, 26px);
+    height: 100svh;
+    padding-top: clamp(112px, 13vh, 142px);
+    padding-bottom: clamp(24px, 4vh, 42px);
+  }
+
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-map {
+    grid-template-rows: minmax(210px, 1fr) auto clamp(180px, 20vh, 228px);
+    gap: clamp(12px, 1.8vh, 20px);
+    min-height: 0;
+    align-content: start;
+    height: auto;
+  }
+
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-axis {
+    height: 100%;
+    min-height: 0;
+  }
+
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-years {
+    padding-top: clamp(10px, 1.5vh, 18px);
+  }
+
+  body[data-page="over-ons"] .about-plan-timeline.is-scroll-enabled .plan-timeline-feature {
+    min-height: 0;
+    height: 100%;
+    padding: clamp(24px, 2.6vw, 38px);
+    align-content: center;
+    box-sizing: border-box;
+  }
+}
+
+/* Match the original, more generous label spacing on both timeline views. */
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-map {
+  gap: clamp(14px, 2vw, 24px);
+}
+
+body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point, .plan-timeline-period-label) {
+  font-size: clamp(0.76rem, 0.9vw, 0.96rem);
+  line-height: 1.2;
+}
+
+body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point, .plan-timeline-period-label) span {
+  max-width: 172px;
+}
+
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point::after,
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-period-label::before {
+  height: clamp(24px, 2.8vw, 34px);
+}
+
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point--top span {
+  bottom: calc(100% + clamp(36px, 3.8vw, 46px));
+}
+
+body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point--bottom, .plan-timeline-period-label--bottom) span {
+  top: calc(100% + clamp(36px, 3.8vw, 46px));
 }

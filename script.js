@@ -779,7 +779,6 @@ function planTimelineScrollIsEnabled() {
       planTimelineSteps.length > 1 &&
       window.innerWidth > 1000 &&
       window.innerHeight >= 680 &&
-      !isAboutJumpNavigationActive() &&
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
 }
