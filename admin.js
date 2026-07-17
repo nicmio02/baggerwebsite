@@ -171,6 +171,63 @@ function setContentEditorValue(form, value) {
   );
 }
 
+function formatVacancyPreviewDate(value) {
+  if (!value) {
+    return "Vandaag";
+  }
+
+  const date = new Date(`${value}T12:00:00`);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("nl-NL", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+function renderVacancyPreview(form) {
+  const preview = form?.closest(".vacancy-editor-layout")?.querySelector("[data-vacancy-preview]");
+
+  if (!preview) {
+    return;
+  }
+
+  syncContentEditor(form);
+
+  const readField = (name, fallback = "") => form.elements.namedItem(name)?.value?.trim() || fallback;
+  const title = readField("title", "Nieuwe vacature");
+  const category = readField("category", "Open sollicitatie");
+  const excerpt = readField("excerpt", "De korte omschrijving verschijnt hier.");
+  const workload = readField("workload", "Fulltime");
+  const status = readField("status", "Open");
+  const date = formatVacancyPreviewDate(readField("date"));
+  const body = String(form.elements.namedItem("body")?.value || "")
+    .split(/\n\s*\n/g)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  preview.querySelector("[data-vacancy-preview-title]").textContent = title;
+  preview.querySelector("[data-vacancy-preview-category]").textContent = category;
+  preview.querySelector("[data-vacancy-preview-excerpt]").textContent = excerpt;
+  preview.querySelector("[data-vacancy-preview-workload]").textContent = workload;
+  preview.querySelector("[data-vacancy-preview-status]").textContent = status;
+  preview.querySelector("[data-vacancy-preview-date]").textContent = date;
+
+  const bodyElement = preview.querySelector("[data-vacancy-preview-body]");
+  bodyElement.replaceChildren(
+    ...(body.length ? body : ["De volledige vacaturetekst verschijnt hier zodra je begint te typen."])
+      .map((paragraph) => {
+        const element = document.createElement("p");
+        element.textContent = paragraph;
+        return element;
+      }),
+  );
+}
+
 function itemToForm(form, item) {
   form.dataset.editingSlug = item.slug || "";
   form.dataset.slugManual = "true";
@@ -186,10 +243,11 @@ function itemToForm(form, item) {
   const bodyField = form.elements.namedItem("body");
 
   if (bodyField) {
-    bodyField.value = Array.isArray(item.body) ? item.body.join("\n\n") : "";
+    bodyField.value = Array.isArray(item.body) ? item.body.join("\n\n") : String(item.body || "");
   }
 
   setContentEditorValue(form, item.body || "");
+  renderVacancyPreview(form);
 }
 
 function resetContentForm(form) {
@@ -203,6 +261,8 @@ function resetContentForm(form) {
   if (dateField) {
     dateField.value = new Date().toISOString().slice(0, 10);
   }
+
+  renderVacancyPreview(form);
 }
 
 function renderContentList(type, label, items, form) {
@@ -285,6 +345,12 @@ function initContentForms() {
     refreshContent(type, label, form).catch((error) => setStatus(status, error.message, true));
 
     contentEditor?.addEventListener("input", () => syncContentEditor(form));
+
+    if (form.matches("[data-vacancy-editor-form]")) {
+      const updatePreview = () => renderVacancyPreview(form);
+      form.addEventListener("input", updatePreview);
+      form.addEventListener("change", updatePreview);
+    }
 
     titleField?.addEventListener("input", () => {
       if (form.dataset.slugManual === "true") {

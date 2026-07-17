@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=team-editor-1" />
+    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-1" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -89,7 +89,6 @@
         <div class="admin-tabs builder-dashboard-tabs" role="tablist" aria-label="Backend onderdelen">
           <button class="is-active" type="button" data-admin-tab="projects">Projecten</button>
           <button type="button" data-admin-tab="jobs">Vacatures</button>
-          <button type="button" data-admin-tab="news">Nieuws</button>
           <button type="button" data-admin-tab="team">Team</button>
         </div>
 
@@ -98,9 +97,11 @@
         </div>
 
         <div class="admin-shell builder-dashboard-panel admin-tab-panel" data-admin-panel="jobs" hidden>
-          <section class="admin-panel reveal">
-            <h2>Nieuwe of bestaande vacature</h2>
-            <form class="admin-form" data-content-form data-content-type="jobs" data-content-label="Vacature">
+          <section class="admin-panel reveal vacancy-editor-panel">
+            <div class="vacancy-editor-layout">
+              <div class="vacancy-editor-controls">
+                <h2>Nieuwe of bestaande vacature</h2>
+                <form class="admin-form" data-content-form data-content-type="jobs" data-content-label="Vacature" data-vacancy-editor-form>
               <div class="admin-form-grid">
                 <label>
                   Titel
@@ -178,7 +179,31 @@
               </div>
 
               <p class="admin-status" data-content-status></p>
-            </form>
+                </form>
+              </div>
+
+              <div class="vacancy-editor-preview-shell">
+                <div class="vacancy-editor-preview-toolbar">
+                  <span>Visueel voorbeeld</span>
+                  <span class="vacancy-editor-preview-live"><span aria-hidden="true"></span> Live</span>
+                </div>
+                <article class="vacancy-editor-preview" data-vacancy-preview aria-label="Voorbeeld van vacaturepagina">
+                  <div class="vacancy-preview-hero">
+                    <p class="vacancy-preview-kicker" data-vacancy-preview-category>Open sollicitatie</p>
+                    <h3 data-vacancy-preview-title>Nieuwe vacature</h3>
+                    <p data-vacancy-preview-excerpt>De korte omschrijving verschijnt hier.</p>
+                  </div>
+                  <div class="vacancy-preview-meta">
+                    <span><strong>Type</strong><em data-vacancy-preview-workload>Fulltime</em></span>
+                    <span><strong>Status</strong><em data-vacancy-preview-status>Open</em></span>
+                    <span><strong>Datum</strong><em data-vacancy-preview-date>Vandaag</em></span>
+                  </div>
+                  <div class="vacancy-preview-body" data-vacancy-preview-body>
+                    <p>De volledige vacaturetekst verschijnt hier zodra je begint te typen.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
           </section>
 
           <aside class="admin-list-panel reveal">
@@ -581,7 +606,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
-    <script src="admin.js?v=backend-module-2"></script>
+    <script src="admin.js?v=backend-module-3"></script>
     <script src="projects.js?v=static-edit-save-1"></script>
   </body>
 </html>

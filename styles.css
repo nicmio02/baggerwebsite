@@ -23653,3 +23653,199 @@ body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subl
   font-size: 0.78rem;
   font-weight: 700;
 }
+
+/* Visual vacancy editor: the editable fields and page preview stay side by side. */
+.admin-shell[data-admin-panel="jobs"] {
+  grid-template-columns: 1fr;
+}
+
+.vacancy-editor-panel {
+  min-width: 0;
+}
+
+.vacancy-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+.vacancy-editor-controls {
+  min-width: 0;
+}
+
+.vacancy-editor-preview-shell {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+}
+
+.vacancy-editor-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+  color: var(--blue-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vacancy-editor-preview-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4a8a67;
+  letter-spacing: 0.08em;
+}
+
+.vacancy-editor-preview-live span {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 4px rgba(74, 138, 103, 0.12);
+}
+
+.vacancy-editor-preview {
+  overflow: hidden;
+  color: var(--blue-ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 22px 48px rgba(17, 25, 48, 0.1);
+}
+
+.vacancy-preview-hero {
+  padding: clamp(24px, 3vw, 38px);
+  color: #ffffff;
+  background: linear-gradient(135deg, #111930 0%, #304b8f 100%);
+}
+
+.vacancy-preview-kicker {
+  margin: 0 0 16px;
+  color: #b9d6ff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vacancy-preview-hero h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.75rem, 3vw, 2.8rem);
+  line-height: 1.04;
+  overflow-wrap: anywhere;
+}
+
+.vacancy-preview-hero [data-vacancy-preview-excerpt] {
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.vacancy-preview-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+
+.vacancy-preview-meta span {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 18px 16px;
+  border-right: 1px solid var(--line);
+}
+
+.vacancy-preview-meta span:last-child {
+  border-right: 0;
+}
+
+.vacancy-preview-meta strong {
+  color: rgba(80, 87, 102, 0.72);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vacancy-preview-meta em {
+  color: var(--blue-ink);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.vacancy-preview-body {
+  display: grid;
+  gap: 14px;
+  padding: clamp(22px, 3vw, 36px);
+}
+
+.vacancy-preview-body p {
+  margin: 0;
+  color: #505766;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 1080px) {
+  .vacancy-editor-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .vacancy-editor-preview-shell {
+    position: static;
+  }
+
+  .vacancy-editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-editor-preview {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 520px) {
+  .vacancy-preview-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-preview-meta span {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .vacancy-preview-meta span:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Project block headings follow the slim Inter title treatment used by the
+   rest of the site. Keep this shared override in one place so every block,
+   including the builder preview, stays consistent. */
+body[data-page="projecten"] .project-builder-page :is(h2, h3) {
+  font-family: var(--font-h1) !important;
+  font-weight: var(--font-h1-weight) !important;
+}
+
+body[data-page="projecten"] .project-builder-page
+  :is(.project-builder-process strong, .project-builder-test-list strong) {
+  font-family: var(--font-h1) !important;
+  font-weight: var(--font-h1-weight) !important;
+}
+
+body[data-page="projecten"] .project-builder-page .project-builder-column-note h3 em {
+  font-family: var(--font-h1) !important;
+  font-weight: var(--font-h1-weight) !important;
+}
