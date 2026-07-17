@@ -23541,6 +23541,17 @@ body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point--bottom
   top: calc(100% + clamp(36px, 3.8vw, 46px));
 }
 
+/* Give the closely spaced 2025 label its own vertical lane. */
+body[data-page="het-plan"] .plan-timeline-point--bottom-lowered::after,
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point--bottom-lowered::after {
+  height: clamp(42px, 4vw, 52px);
+}
+
+body[data-page="het-plan"] .plan-timeline-point--bottom-lowered span,
+body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point--bottom-lowered span {
+  top: calc(100% + clamp(56px, 5.4vw, 70px));
+}
+
 /* Restore the rounded project cards on the public projects overview. */
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card,
 body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card__media,
