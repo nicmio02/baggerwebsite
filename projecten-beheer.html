@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-2" />
+    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-3" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -185,7 +185,12 @@
               <div class="vacancy-editor-preview-shell">
                 <div class="vacancy-editor-preview-toolbar">
                   <span>Visueel voorbeeld</span>
-                  <span class="vacancy-editor-preview-live"><span aria-hidden="true"></span> Live</span>
+                  <div class="vacancy-editor-preview-toolbar-actions">
+                    <span class="vacancy-editor-preview-live"><span aria-hidden="true"></span> Live</span>
+                    <button class="button-ghost vacancy-preview-expand" type="button" data-vacancy-preview-toggle aria-expanded="false">
+                      Volledig scherm
+                    </button>
+                  </div>
                 </div>
                 <article class="vacancy-editor-preview" data-vacancy-preview aria-label="Voorbeeld van vacaturepagina">
                   <section class="job-detail-hero">
@@ -195,18 +200,18 @@
                         <span>Terug naar vacatures</span>
                       </div>
                       <p class="job-detail-kicker">Vacature</p>
-                      <h1 data-vacancy-preview-title>Nieuwe vacature</h1>
-                      <p class="job-detail-excerpt" data-vacancy-preview-excerpt>De korte omschrijving verschijnt hier.</p>
+                      <h1 data-vacancy-preview-field="title" data-vacancy-preview-title contenteditable="true" spellcheck="true">Nieuwe vacature</h1>
+                      <p class="job-detail-excerpt" data-vacancy-preview-field="excerpt" data-vacancy-preview-excerpt contenteditable="true" spellcheck="true">De korte omschrijving verschijnt hier.</p>
                       <div class="job-detail-meta">
-                        <span data-vacancy-preview-category>Open sollicitatie</span>
-                        <span data-vacancy-preview-workload>Fulltime</span>
-                        <span data-vacancy-preview-status>Open</span>
+                        <span data-vacancy-preview-field="category" data-vacancy-preview-category contenteditable="true" spellcheck="true">Open sollicitatie</span>
+                        <span data-vacancy-preview-field="workload" data-vacancy-preview-workload contenteditable="true" spellcheck="true">Fulltime</span>
+                        <span data-vacancy-preview-field="status" data-vacancy-preview-status contenteditable="true" spellcheck="true">Open</span>
                       </div>
                     </div>
                   </section>
                   <section class="job-detail-content">
                     <div class="job-detail-frame job-detail-layout">
-                      <article class="job-detail-copy" data-vacancy-preview-body>
+                      <article class="job-detail-copy" data-vacancy-preview-body contenteditable="true" role="textbox" aria-multiline="true" aria-label="Volledige vacaturetekst" spellcheck="true">
                         <p>De volledige vacaturetekst verschijnt hier zodra je begint te typen.</p>
                       </article>
                       <aside class="job-detail-cta">
@@ -622,7 +627,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
-    <script src="admin.js?v=backend-module-4"></script>
+    <script src="admin.js?v=backend-module-5"></script>
     <script src="projects.js?v=static-edit-save-1"></script>
   </body>
 </html>

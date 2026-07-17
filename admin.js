@@ -208,6 +208,134 @@ function renderVacancyPreview(form) {
   );
 }
 
+function vacancyPreviewText(element) {
+  return String(element?.innerText ?? element?.textContent ?? "")
+    .replace(/\u00a0/g, " ")
+    .trim();
+}
+
+function syncVacancyPreviewField(form, element, commitSelect = false) {
+  const fieldName = element?.getAttribute("data-vacancy-preview-field");
+  const field = fieldName ? form.elements.namedItem(fieldName) : null;
+
+  if (!field) {
+    return;
+  }
+
+  const value = vacancyPreviewText(element);
+
+  if (field instanceof HTMLSelectElement) {
+    const option = Array.from(field.options).find(
+      (item) => item.textContent.trim().toLowerCase() === value.toLowerCase(),
+    );
+
+    if (!option) {
+      if (commitSelect) {
+        element.textContent = field.options[field.selectedIndex]?.textContent || "";
+      }
+      return;
+    }
+
+    field.value = option.value;
+  } else {
+    field.value = value;
+  }
+
+  if (fieldName === "title" && form.dataset.slugManual !== "true") {
+    const slugField = form.elements.namedItem("slug");
+
+    if (slugField) {
+      slugField.value = adminSlugify(value);
+    }
+  }
+}
+
+function setVacancyPreviewFullscreen(shell, isFullscreen) {
+  const toggle = shell?.querySelector("[data-vacancy-preview-toggle]");
+
+  if (!shell || !toggle) {
+    return;
+  }
+
+  shell.classList.toggle("is-fullscreen", isFullscreen);
+  document.body.classList.toggle("has-vacancy-preview-fullscreen", isFullscreen);
+  toggle.setAttribute("aria-expanded", String(isFullscreen));
+  toggle.textContent = isFullscreen ? "Sluiten" : "Volledig scherm";
+}
+
+function initVacancyPreview(form) {
+  const layout = form.closest(".vacancy-editor-layout");
+  const shell = layout?.querySelector(".vacancy-editor-preview-shell");
+  const preview = shell?.querySelector("[data-vacancy-preview]");
+  const toggle = shell?.querySelector("[data-vacancy-preview-toggle]");
+
+  if (!shell || !preview || !toggle) {
+    return;
+  }
+
+  toggle.addEventListener("click", () => {
+    setVacancyPreviewFullscreen(shell, !shell.classList.contains("is-fullscreen"));
+  });
+
+  preview.addEventListener("keydown", (event) => {
+    const editableField = event.target.closest("[data-vacancy-preview-field]");
+
+    if (editableField && event.key === "Enter") {
+      event.preventDefault();
+      editableField.blur();
+    }
+  });
+
+  preview.addEventListener("input", (event) => {
+    const editableField = event.target.closest("[data-vacancy-preview-field]");
+
+    if (editableField) {
+      syncVacancyPreviewField(form, editableField);
+      return;
+    }
+
+    const bodyElement = event.target.closest("[data-vacancy-preview-body]");
+
+    if (!bodyElement) {
+      return;
+    }
+
+    const valueField = form.elements.namedItem("body");
+    const value = contentEditorValue(bodyElement);
+
+    if (valueField) {
+      valueField.value = value;
+    }
+
+    setContentEditorValue(form, value);
+  });
+
+  preview.addEventListener(
+    "blur",
+    (event) => {
+      const editableField = event.target.closest("[data-vacancy-preview-field]");
+
+      if (editableField) {
+        syncVacancyPreviewField(form, editableField, true);
+        return;
+      }
+
+      const bodyElement = event.target.closest("[data-vacancy-preview-body]");
+
+      if (bodyElement) {
+        syncContentEditor(form);
+      }
+    },
+    true,
+  );
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && shell.classList.contains("is-fullscreen")) {
+      setVacancyPreviewFullscreen(shell, false);
+    }
+  });
+}
+
 function itemToForm(form, item) {
   form.dataset.editingSlug = item.slug || "";
   form.dataset.slugManual = "true";
@@ -330,6 +458,7 @@ function initContentForms() {
       const updatePreview = () => renderVacancyPreview(form);
       form.addEventListener("input", updatePreview);
       form.addEventListener("change", updatePreview);
+      initVacancyPreview(form);
     }
 
     titleField?.addEventListener("input", () => {
