@@ -24,6 +24,12 @@ const stores = {
     label: "Nieuwsbericht",
     type: "news",
   },
+  team: {
+    file: path.join(root, "data", "team.json"),
+    blobPath: `${blobPrefix}/team.json`,
+    label: "Teamlid",
+    type: "team",
+  },
 };
 
 let blobModulePromise = null;
@@ -253,7 +259,19 @@ function normalizeProjectCategory(value) {
   return "Praktijktesten";
 }
 
-function sortItems(items) {
+function sortItems(items, type = "") {
+  if (type === "team") {
+    return [...items].sort((a, b) => {
+      const orderCompare = (Number(a.order) || 9999) - (Number(b.order) || 9999);
+
+      if (orderCompare !== 0) {
+        return orderCompare;
+      }
+
+      return String(a.createdAt || "").localeCompare(String(b.createdAt || ""));
+    });
+  }
+
   return [...items].sort((a, b) => {
     const dateCompare = String(b.date || "").localeCompare(String(a.date || ""));
 
@@ -324,9 +342,48 @@ function normalizeAdminPostInput(input, items, currentItem = null, fallbackType 
   };
 }
 
+function normalizeTeamInput(input, items, currentItem = null) {
+  const name = String(input.name || "").trim();
+  const role = String(input.role || "").trim();
+  const image = String(input.image || currentItem?.image || "").trim();
+
+  if (!name) {
+    throw new Error("Naam is verplicht.");
+  }
+
+  if (!role) {
+    throw new Error("Functie is verplicht.");
+  }
+
+  if (!image) {
+    throw new Error("Foto is verplicht.");
+  }
+
+  const now = new Date().toISOString();
+  const requestedOrder = Number(input.order);
+
+  return {
+    id: currentItem?.id || `team_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    slug: uniqueSlug(slugify(String(input.slug || currentItem?.slug || name)), items, currentItem?.id),
+    name,
+    role,
+    image,
+    order:
+      Number.isFinite(requestedOrder) && requestedOrder > 0
+        ? requestedOrder
+        : currentItem?.order || items.length + 1,
+    createdAt: currentItem?.createdAt || now,
+    updatedAt: now,
+  };
+}
+
 function normalizeInput(type, input, items, currentItem = null) {
   if (type === "projects") {
     return normalizeProjectInput(input, items, currentItem);
+  }
+
+  if (type === "team") {
+    return normalizeTeamInput(input, items, currentItem);
   }
 
   return normalizeAdminPostInput(input, items, currentItem, stores[type]?.type || type);
@@ -376,7 +433,7 @@ async function handleCollection(request, response, type) {
   }
 
   if (request.method === "GET") {
-    sendJson(response, 200, sortItems(await readStore(type)));
+    sendJson(response, 200, sortItems(await readStore(type), type));
     return;
   }
 
@@ -399,6 +456,7 @@ async function handleCollection(request, response, type) {
           ? { ...item, featured: false, updatedAt: item.updatedAt || new Date().toISOString() }
           : item,
       ),
+      type,
     );
 
     await writeStore(type, nextItems);
@@ -449,6 +507,7 @@ async function handleItem(request, response, type, slug) {
 
           return entry;
         }),
+        type,
       );
 
       await writeStore(type, nextItems);

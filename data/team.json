@@ -1,0 +1,34 @@
+[
+  {
+    "id": "team_abbe",
+    "slug": "abbe-hekkert",
+    "name": "Abbe Hekkert",
+    "role": "Co-Founder",
+    "image": "/assets/media/team-abbe.jpg",
+    "order": 1
+  },
+  {
+    "id": "team_sil",
+    "slug": "sil-van-de-bovenkamp",
+    "name": "Sil van de Bovenkamp",
+    "role": "Co-Founder",
+    "image": "/assets/media/team-sil.jpg",
+    "order": 2
+  },
+  {
+    "id": "team_yannick",
+    "slug": "yannick-laret",
+    "name": "Yannick Laret",
+    "role": "Electrical Engineer",
+    "image": "/assets/media/team-yannick.jpg",
+    "order": 3
+  },
+  {
+    "id": "team_gijs",
+    "slug": "gijs-breebaart",
+    "name": "Gijs Breebaart",
+    "role": "Business Developer",
+    "image": "/assets/media/team-sil.jpg",
+    "order": 4
+  }
+]

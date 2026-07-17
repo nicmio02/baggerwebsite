@@ -23151,11 +23151,32 @@ body[data-page="over-ons"] .about-story-section .about-frame {
 }
 
 body[data-page="over-ons"] .about-team-photo {
-  aspect-ratio: 4 / 3;
+  width: min(100%, 500px);
+  aspect-ratio: 3 / 4;
+  justify-self: end;
 }
 
 body[data-page="over-ons"] .about-team-photo img {
-  object-position: center 46%;
+  object-position: center;
+}
+
+@media (max-width: 1100px) {
+  body[data-page="over-ons"] .about-team-photo {
+    width: min(100%, 500px);
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-page="over-ons"] .about-team-photo {
+    width: 100%;
+    max-width: 500px;
+    justify-self: stretch;
+  }
+
+  body[data-page="over-ons"] .about-team-photo img {
+    object-position: center;
+  }
 }
 
 /* Use the same warm sand-yellow canvas for every public footer and the
@@ -23543,4 +23564,92 @@ body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subl
 
 body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-subline .service-hero-accent {
   margin-top: 0;
+}
+
+/* Team management in the private dashboard. */
+.team-admin-list .team-admin-item {
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+}
+
+.team-admin-item > img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #eef2fa;
+}
+
+.team-admin-item > h3,
+.team-admin-item > p,
+.team-admin-item > .admin-project-actions {
+  grid-column: 2;
+}
+
+.team-admin-item > h3 {
+  margin-top: -2px;
+  margin-bottom: -8px;
+}
+
+.team-admin-item > p {
+  margin-bottom: 0;
+}
+
+.team-admin-photo-preview {
+  display: block;
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  margin-top: -2px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(57, 81, 147, 0.18);
+  background: #eef2fa;
+}
+
+/* Lightweight paragraph editor for vacancy copy. */
+.admin-rich-field {
+  min-width: 0;
+}
+
+.admin-rich-editor {
+  min-height: 240px;
+  padding: 18px 20px;
+  color: var(--blue-ink);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.65;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  outline: none;
+  cursor: text;
+  white-space: pre-wrap;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-rich-editor:empty::before {
+  color: rgba(80, 87, 102, 0.58);
+  font-weight: 600;
+  content: attr(data-placeholder);
+  pointer-events: none;
+}
+
+.admin-rich-editor:focus {
+  border-color: rgba(56, 81, 147, 0.58);
+  box-shadow: 0 0 0 3px rgba(56, 81, 147, 0.12);
+}
+
+.admin-rich-editor p,
+.admin-rich-editor div {
+  margin: 0 0 1em;
+}
+
+.admin-rich-editor :is(p, div):last-child {
+  margin-bottom: 0;
+}
+
+.admin-rich-field > small {
+  color: rgba(80, 87, 102, 0.72);
+  font-size: 0.78rem;
+  font-weight: 700;
 }

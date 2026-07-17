@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=lead-columns-1" />
+    <link rel="stylesheet" href="styles.css?v=team-editor-1" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -90,6 +90,7 @@
           <button class="is-active" type="button" data-admin-tab="projects">Projecten</button>
           <button type="button" data-admin-tab="jobs">Vacatures</button>
           <button type="button" data-admin-tab="news">Nieuws</button>
+          <button type="button" data-admin-tab="team">Team</button>
         </div>
 
         <div class="admin-tab-panel is-active" data-admin-panel="projects">
@@ -153,9 +154,19 @@
                 <textarea name="excerpt" rows="3" required></textarea>
               </label>
 
-              <label>
+              <label class="admin-rich-field">
                 Volledige tekst
-                <textarea name="body" rows="8" placeholder="Gebruik lege regels tussen alinea's."></textarea>
+                <div
+                  class="admin-rich-editor"
+                  contenteditable="true"
+                  role="textbox"
+                  aria-multiline="true"
+                  aria-label="Volledige vacaturetekst"
+                  data-content-editor
+                  data-placeholder="Typ hier de vacaturetekst. Druk op Enter voor een nieuwe alinea."
+                ></div>
+                <textarea name="body" data-content-editor-value hidden></textarea>
+                <small>Druk op Enter om een nieuwe alinea te beginnen.</small>
               </label>
 
               <div class="admin-actions">
@@ -244,6 +255,50 @@
             <h2>Bestaande nieuwsberichten</h2>
             <div class="admin-project-list" data-content-list="news">
               <div class="empty-state">Nieuws wordt geladen...</div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="admin-shell builder-dashboard-panel admin-tab-panel" data-admin-panel="team" hidden>
+          <section class="admin-panel reveal">
+            <h2>Nieuw of bestaand teamlid</h2>
+            <form class="admin-form" data-team-form>
+              <div class="admin-form-grid">
+                <label>
+                  Naam
+                  <input name="name" required />
+                </label>
+                <label>
+                  Functie
+                  <input name="role" required />
+                </label>
+              </div>
+
+              <label class="builder-upload-control">
+                <span>Foto uploaden</span>
+                <small>Kies een foto van het teamlid.</small>
+                <input data-team-photo-upload type="file" accept="image/*" />
+              </label>
+
+              <input name="image" type="hidden" />
+              <img class="team-admin-photo-preview" data-team-photo-preview alt="" hidden />
+
+              <div class="admin-actions">
+                <button class="primary-link" type="submit">
+                  <span>Opslaan</span>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+                </button>
+                <button class="button-ghost" type="button" data-team-reset>Nieuw teamlid</button>
+              </div>
+
+              <p class="admin-status" data-team-status></p>
+            </form>
+          </section>
+
+          <aside class="admin-list-panel reveal">
+            <h2>Bestaande teamleden</h2>
+            <div class="admin-project-list team-admin-list" data-team-list>
+              <div class="empty-state">Teamleden worden geladen...</div>
             </div>
           </aside>
         </div>
@@ -497,8 +552,8 @@
           <div class="home-footer-links">
             <p class="home-footer-heading">Samenwerken</p>
             <a class="home-footer-partner" href="/contact">Word een partner <span aria-hidden="true">-&gt;</span></a>
-            <a href="/over-ons">LinkedIn</a>
-            <a href="/contact">Instagram</a>
+            <a href="https://www.linkedin.com/company/blauwebagger/" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+            <a href="https://www.instagram.com/blauwebagger/?hl=am-et" target="_blank" rel="noreferrer noopener">Instagram</a>
           </div>
 
           <div class="home-footer-address">
@@ -526,7 +581,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
-    <script src="admin.js?v=backend-module-1"></script>
+    <script src="admin.js?v=backend-module-2"></script>
     <script src="projects.js?v=static-edit-save-1"></script>
   </body>
 </html>

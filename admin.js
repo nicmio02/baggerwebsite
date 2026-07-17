@@ -5,6 +5,8 @@ const logoutButtons = document.querySelectorAll("[data-admin-logout]");
 const tabButtons = document.querySelectorAll("[data-admin-tab]");
 const tabPanels = document.querySelectorAll("[data-admin-panel]");
 const contentForms = document.querySelectorAll("[data-content-form]");
+const teamForm = document.querySelector("[data-team-form]");
+const teamList = document.querySelector("[data-team-list]");
 
 function adminSlugify(value) {
   return String(value || "")
@@ -121,6 +123,54 @@ function initTabs() {
   });
 }
 
+function contentEditorValue(editor) {
+  if (!editor) {
+    return "";
+  }
+
+  const blocks = Array.from(editor.childNodes)
+    .map((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent || "";
+      }
+
+      return node.innerText ?? node.textContent ?? "";
+    })
+    .map((value) => value.replace(/\u00a0/g, " ").trim())
+    .filter(Boolean);
+
+  return blocks.join("\n\n");
+}
+
+function syncContentEditor(form) {
+  const editor = form?.querySelector("[data-content-editor]");
+  const valueField = form?.elements.namedItem("body");
+
+  if (editor && valueField) {
+    valueField.value = contentEditorValue(editor);
+  }
+}
+
+function setContentEditorValue(form, value) {
+  const editor = form?.querySelector("[data-content-editor]");
+
+  if (!editor) {
+    return;
+  }
+
+  const paragraphs = (Array.isArray(value) ? value : String(value || "").split(/\n\s*\n/g))
+    .map((paragraph) => String(paragraph).trim())
+    .filter(Boolean);
+
+  editor.replaceChildren(
+    ...paragraphs.map((paragraph) => {
+      const element = document.createElement("p");
+      element.textContent = paragraph;
+      return element;
+    }),
+  );
+}
+
 function itemToForm(form, item) {
   form.dataset.editingSlug = item.slug || "";
   form.dataset.slugManual = "true";
@@ -138,12 +188,15 @@ function itemToForm(form, item) {
   if (bodyField) {
     bodyField.value = Array.isArray(item.body) ? item.body.join("\n\n") : "";
   }
+
+  setContentEditorValue(form, item.body || "");
 }
 
 function resetContentForm(form) {
   form.reset();
   form.dataset.editingSlug = "";
   form.dataset.slugManual = "";
+  setContentEditorValue(form, "");
 
   const dateField = form.elements.namedItem("date");
 
@@ -193,7 +246,10 @@ function renderContentList(type, label, items, form) {
       if (item) {
         itemToForm(form, item);
         setStatus(form.querySelector("[data-content-status]"), `Je bewerkt nu "${item.title}".`);
-        window.scrollTo({ top: form.getBoundingClientRect().top + window.scrollY - 140, behavior: "smooth" });
+        const editor = form.querySelector("[data-content-editor]");
+        const focusTarget = editor || form;
+        window.scrollTo({ top: focusTarget.getBoundingClientRect().top + window.scrollY - 140, behavior: "smooth" });
+        editor?.focus({ preventScroll: true });
       }
     }
 
@@ -223,9 +279,12 @@ function initContentForms() {
     const status = form.querySelector("[data-content-status]");
     const titleField = form.elements.namedItem("title");
     const slugField = form.elements.namedItem("slug");
+    const contentEditor = form.querySelector("[data-content-editor]");
 
     resetContentForm(form);
     refreshContent(type, label, form).catch((error) => setStatus(status, error.message, true));
+
+    contentEditor?.addEventListener("input", () => syncContentEditor(form));
 
     titleField?.addEventListener("input", () => {
       if (form.dataset.slugManual === "true") {
@@ -246,6 +305,7 @@ function initContentForms() {
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      syncContentEditor(form);
       const formData = new FormData(form);
       const editingSlug = form.dataset.editingSlug;
       const method = editingSlug ? "PUT" : "POST";
@@ -278,8 +338,205 @@ function initContentForms() {
   });
 }
 
+function resetTeamForm() {
+  if (!teamForm) {
+    return;
+  }
+
+  teamForm.reset();
+  teamForm.dataset.editingSlug = "";
+
+  const imageField = teamForm.elements.namedItem("image");
+  const preview = teamForm.querySelector("[data-team-photo-preview]");
+
+  if (imageField) {
+    imageField.value = "";
+  }
+
+  if (preview) {
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    preview.alt = "";
+  }
+}
+
+function renderTeamList(items) {
+  if (!teamList) {
+    return;
+  }
+
+  if (!items.length) {
+    teamList.innerHTML = '<div class="empty-state">Nog geen teamleden opgeslagen.</div>';
+    return;
+  }
+
+  teamList.innerHTML = items
+    .map(
+      (item) => `
+        <article class="admin-project-item team-admin-item">
+          <img src="${escapeAdminHtml(item.image)}" alt="" loading="lazy" />
+          <h3>${escapeAdminHtml(item.name)}</h3>
+          <p>${escapeAdminHtml(item.role)}</p>
+          <div class="admin-project-actions">
+            <button class="button-ghost" type="button" data-team-edit="${escapeAdminHtml(item.slug)}">Bewerk</button>
+            <button class="button-ghost button-danger" type="button" data-team-delete="${escapeAdminHtml(item.slug)}">Verwijder</button>
+          </div>
+        </article>
+      `,
+    )
+    .join("");
+}
+
+async function refreshTeamList() {
+  const items = await fetchJson("/api/team");
+  renderTeamList(Array.isArray(items) ? items : []);
+  return Array.isArray(items) ? items : [];
+}
+
+function teamItemToForm(item) {
+  if (!teamForm) {
+    return;
+  }
+
+  teamForm.dataset.editingSlug = item.slug || "";
+  teamForm.elements.namedItem("name").value = item.name || "";
+  teamForm.elements.namedItem("role").value = item.role || "";
+  teamForm.elements.namedItem("image").value = item.image || "";
+
+  const preview = teamForm.querySelector("[data-team-photo-preview]");
+
+  if (preview && item.image) {
+    preview.src = item.image;
+    preview.alt = item.name || "Teamfoto";
+    preview.hidden = false;
+  }
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(reader.result));
+    reader.addEventListener("error", () => reject(new Error("De foto kon niet worden gelezen.")));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadTeamImage(file) {
+  if (typeof uploadImageFile === "function") {
+    return uploadImageFile(file);
+  }
+
+  const data = await readFileAsDataUrl(file);
+  const payload = await fetchJson("/api/uploads", {
+    method: "POST",
+    body: JSON.stringify({ filename: file.name, type: file.type, data }),
+  });
+
+  return payload.url || payload.path;
+}
+
+function initTeamAdmin() {
+  if (!teamForm || !teamList) {
+    return;
+  }
+
+  const status = teamForm.querySelector("[data-team-status]");
+  const photoUpload = teamForm.querySelector("[data-team-photo-upload]");
+  const imageField = teamForm.elements.namedItem("image");
+  const preview = teamForm.querySelector("[data-team-photo-preview]");
+
+  resetTeamForm();
+  refreshTeamList().catch((error) => setStatus(status, error.message, true));
+
+  photoUpload?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    setStatus(status, "Foto uploaden...");
+
+    try {
+      const imageUrl = await uploadTeamImage(file);
+      imageField.value = imageUrl;
+      preview.src = imageUrl;
+      preview.alt = teamForm.elements.namedItem("name").value || "Teamfoto";
+      preview.hidden = false;
+      setStatus(status, "Foto toegevoegd. Je kunt het teamlid nu opslaan.");
+    } catch (error) {
+      setStatus(status, error.message, true);
+    }
+  });
+
+  teamForm.querySelector("[data-team-reset]")?.addEventListener("click", () => {
+    resetTeamForm();
+    setStatus(status, "Klaar voor een nieuw teamlid.");
+  });
+
+  teamForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(teamForm);
+    const editingSlug = teamForm.dataset.editingSlug;
+    const method = editingSlug ? "PUT" : "POST";
+    const url = editingSlug ? `/api/team/${encodeURIComponent(editingSlug)}` : "/api/team";
+
+    setStatus(status, "Bezig met opslaan...");
+
+    try {
+      await fetchJson(url, {
+        method,
+        body: JSON.stringify({
+          name: formData.get("name"),
+          role: formData.get("role"),
+          image: formData.get("image"),
+        }),
+      });
+
+      resetTeamForm();
+      setStatus(status, editingSlug ? "Teamlid bijgewerkt." : "Teamlid toegevoegd.");
+      await refreshTeamList();
+    } catch (error) {
+      setStatus(status, error.message, true);
+    }
+  });
+
+  teamList.addEventListener("click", async (event) => {
+    const editButton = event.target.closest("[data-team-edit]");
+    const deleteButton = event.target.closest("[data-team-delete]");
+
+    if (editButton) {
+      const items = await fetchJson("/api/team");
+      const item = items.find((entry) => entry.slug === editButton.getAttribute("data-team-edit"));
+
+      if (item) {
+        teamItemToForm(item);
+        setStatus(status, `Je bewerkt nu "${item.name}".`);
+        window.scrollTo({ top: teamForm.getBoundingClientRect().top + window.scrollY - 140, behavior: "smooth" });
+      }
+    }
+
+    if (deleteButton) {
+      const slug = deleteButton.getAttribute("data-team-delete");
+
+      if (!window.confirm("Weet je zeker dat je dit teamlid wilt verwijderen?")) {
+        return;
+      }
+
+      try {
+        await fetchJson(`/api/team/${encodeURIComponent(slug)}`, { method: "DELETE" });
+        await refreshTeamList();
+        setStatus(status, "Teamlid verwijderd.");
+      } catch (error) {
+        setStatus(status, error.message, true);
+      }
+    }
+  });
+}
+
 requireAdminSession();
 initLogin();
 initLogout();
 initTabs();
 initContentForms();
+initTeamAdmin();

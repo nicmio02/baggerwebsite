@@ -1951,4 +1951,35 @@ function renderPublicVacancies(board, items) {
     .join("");
 }
 
+async function hydratePublicTeam(grid) {
+  try {
+    const response = await fetch("/api/team", { credentials: "same-origin" });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const items = await response.json();
+
+    if (!Array.isArray(items) || !items.length) {
+      return;
+    }
+
+    grid.innerHTML = items
+      .map(
+        (item) => `
+          <article class="about-team-card" data-team-card>
+            <img src="${escapePublicContent(item.image)}" alt="${escapePublicContent(item.name)}" loading="lazy" decoding="async" />
+            <h3>${escapePublicContent(item.name)}</h3>
+            <p>${escapePublicContent(item.role)}</p>
+          </article>
+        `,
+      )
+      .join("");
+  } catch {
+    // Keep the static fallback team cards when the backend is not available.
+  }
+}
+
 document.querySelectorAll("[data-public-content]").forEach(hydratePublicContentBoard);
+document.querySelectorAll("[data-team-grid]").forEach(hydratePublicTeam);
