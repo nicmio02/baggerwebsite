@@ -23056,7 +23056,7 @@ body[data-page="over-ons"].is-about-jump-navigation .reveal {
 
 body[data-page="over-ons"].is-about-jump-navigation .about-statement-section {
   min-height: auto;
-  padding: clamp(76px, 9vw, 124px) 0 !important;
+  padding: clamp(112px, 12vw, 168px) 0 !important;
   overflow: visible;
 }
 
@@ -23102,7 +23102,7 @@ body[data-page="over-ons"] .about-statement[data-about-statement-text] {
 
 body[data-page="over-ons"] .about-statement-section {
   min-height: auto !important;
-  padding: clamp(76px, 9vw, 124px) 0 !important;
+  padding: clamp(112px, 12vw, 168px) 0 !important;
   overflow: visible !important;
 }
 
