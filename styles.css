@@ -1909,6 +1909,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 
 .service-widget-section {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   padding: clamp(92px, 12vh, 140px) 0 clamp(108px, 14vh, 168px);
   background:
@@ -1927,6 +1928,34 @@ body[data-page="producten"] main > :not(.build-screen) {
   border: 1px dashed rgba(56, 81, 147, 0.16);
   border-radius: 28px;
   pointer-events: none;
+}
+
+.service-widget-development-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 72px);
+  color: #111930;
+  text-align: center;
+  pointer-events: auto;
+  background: rgba(243, 240, 231, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.service-widget-development-overlay span {
+  max-width: 30ch;
+  padding: 16px 24px;
+  color: #385193;
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 1.7vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.25;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(56, 81, 147, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 16px 34px rgba(17, 25, 48, 0.1);
 }
 
 .service-widget-head {
@@ -23326,6 +23355,15 @@ body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder
   text-transform: uppercase;
 }
 
+/* Give the two-column project copy a more readable editorial scale. */
+body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
+  .project-builder-page
+  .project-builder-columns
+  .project-builder-column-copy {
+  font-size: clamp(1.1rem, 1.25vw, 1.35rem);
+  line-height: 1.56;
+}
+
 body[data-page="projecten"]:not(:has([data-project-admin])):has(.project-builder-page)
   .project-builder-page
   :is(.project-builder-result-card, .project-builder-metal-card, .project-builder-feature-cell) {
@@ -23647,7 +23685,7 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card_
   font-weight: 700;
 }
 
-/* Visual vacancy editor: the editable fields and page preview stay side by side. */
+/* Visual vacancy editor: metadata stays in a compact bar above the full preview. */
 .admin-shell[data-admin-panel="jobs"] {
   grid-template-columns: 1fr;
 }
@@ -23658,18 +23696,74 @@ body[data-page="projecten"]:not(:has([data-project-admin])) .project-board-card_
 
 .vacancy-editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
-  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 40px);
   align-items: start;
 }
 
 .vacancy-editor-controls {
   min-width: 0;
+  padding: clamp(20px, 3vw, 32px);
+  background: #eef2fa;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.vacancy-editor-controls__heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.vacancy-editor-controls__eyebrow {
+  margin: 0 0 6px;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vacancy-editor-controls h2 {
+  margin: 0;
+}
+
+.vacancy-editor-controls__hint {
+  max-width: 440px;
+  margin: 0;
+  color: rgba(17, 25, 48, 0.66);
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.vacancy-editor-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.vacancy-editor-meta-grid__excerpt {
+  grid-column: 1 / -1;
+}
+
+.vacancy-editor-meta-grid__excerpt textarea {
+  min-height: 74px;
+}
+
+.vacancy-editor-controls__actions {
+  margin-top: 4px;
+}
+
+.vacancy-editor-controls__actions .admin-status {
+  margin-left: auto;
 }
 
 .vacancy-editor-preview-shell {
-  position: sticky;
-  top: 24px;
+  position: static;
   min-width: 0;
 }
 
@@ -23922,23 +24016,36 @@ body.has-vacancy-preview-fullscreen {
 }
 
 @media (max-width: 1080px) {
-  .vacancy-editor-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
-    gap: 28px;
+  .vacancy-editor-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 900px) {
-  .vacancy-editor-preview-shell {
-    position: static;
+  .vacancy-editor-controls__heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .vacancy-editor-layout {
-    grid-template-columns: 1fr;
+  .vacancy-editor-controls__hint {
+    max-width: 620px;
+    text-align: left;
   }
 
   .vacancy-editor-preview {
     max-width: 720px;
+  }
+}
+
+@media (max-width: 620px) {
+  .vacancy-editor-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-editor-controls__actions .admin-status {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-3" />
+    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-4" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -100,85 +100,72 @@
           <section class="admin-panel reveal vacancy-editor-panel">
             <div class="vacancy-editor-layout">
               <div class="vacancy-editor-controls">
-                <h2>Nieuwe of bestaande vacature</h2>
+                <div class="vacancy-editor-controls__heading">
+                  <div>
+                    <p class="vacancy-editor-controls__eyebrow">Vacaturegegevens</p>
+                    <h2>Nieuwe of bestaande vacature</h2>
+                  </div>
+                  <p class="vacancy-editor-controls__hint">Vul de gegevens hieronder in. De volledige vacaturetekst bewerk je rechtstreeks in het voorbeeld.</p>
+                </div>
                 <form class="admin-form" data-content-form data-content-type="jobs" data-content-label="Vacature" data-vacancy-editor-form>
-              <div class="admin-form-grid">
-                <label>
-                  Titel
-                  <input name="title" required />
-                </label>
-                <label>
-                  Slug
-                  <input name="slug" placeholder="wordt automatisch gevuld" />
-                </label>
-              </div>
+                  <div class="vacancy-editor-meta-grid">
+                    <label>
+                      Titel
+                      <input name="title" required />
+                    </label>
+                    <label>
+                      Slug
+                      <input name="slug" placeholder="wordt automatisch gevuld" />
+                    </label>
+                    <label>
+                      Datum
+                      <input name="date" type="date" required />
+                    </label>
+                    <label>
+                      Type
+                      <select name="category">
+                        <option>Open sollicitatie</option>
+                        <option>Stage</option>
+                        <option>Business development</option>
+                        <option>Techniek & data</option>
+                      </select>
+                    </label>
+                    <label>
+                      Dienstverband
+                      <select name="workload">
+                        <option>Fulltime</option>
+                        <option>Parttime</option>
+                        <option>Stage</option>
+                        <option>Freelance</option>
+                        <option>In overleg</option>
+                      </select>
+                    </label>
+                    <label>
+                      Status
+                      <select name="status">
+                        <option>Open</option>
+                        <option>Concept</option>
+                        <option>Gesloten</option>
+                      </select>
+                    </label>
+                    <label class="vacancy-editor-meta-grid__excerpt">
+                      Korte omschrijving
+                      <textarea name="excerpt" rows="2" required></textarea>
+                    </label>
+                  </div>
 
-              <div class="admin-form-grid">
-                <label>
-                  Datum
-                  <input name="date" type="date" required />
-                </label>
-                <label>
-                  Type
-                  <select name="category">
-                    <option>Open sollicitatie</option>
-                    <option>Stage</option>
-                    <option>Business development</option>
-                    <option>Techniek & data</option>
-                  </select>
-                </label>
-              </div>
+                  <!-- The body is edited in the visual preview below, but remains
+                       part of the form so existing save and API behaviour stays intact. -->
+                  <textarea name="body" data-content-editor-value hidden></textarea>
 
-              <div class="admin-form-grid">
-                <label>
-                  Dienstverband
-                  <select name="workload">
-                    <option>Fulltime</option>
-                    <option>Parttime</option>
-                    <option>Stage</option>
-                    <option>Freelance</option>
-                    <option>In overleg</option>
-                  </select>
-                </label>
-                <label>
-                  Status
-                  <select name="status">
-                    <option>Open</option>
-                    <option>Concept</option>
-                    <option>Gesloten</option>
-                  </select>
-                </label>
-              </div>
-
-              <label>
-                Korte omschrijving
-                <textarea name="excerpt" rows="3" required></textarea>
-              </label>
-
-              <label class="admin-rich-field">
-                Volledige tekst
-                <div
-                  class="admin-rich-editor"
-                  contenteditable="true"
-                  role="textbox"
-                  aria-multiline="true"
-                  aria-label="Volledige vacaturetekst"
-                  data-content-editor
-                  data-placeholder="Typ hier de vacaturetekst. Druk op Enter voor een nieuwe alinea."
-                ></div>
-                <textarea name="body" data-content-editor-value hidden></textarea>
-                <small>Druk op Enter om een nieuwe alinea te beginnen.</small>
-              </label>
-
-              <div class="admin-actions">
-                <button class="primary-link" type="submit">
-                  <span>Opslaan</span>
-                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
-                </button>
-                <button class="button-ghost" type="button" data-content-reset>Nieuwe vacature</button>
-              </div>
-
-              <p class="admin-status" data-content-status></p>
+                  <div class="admin-actions vacancy-editor-controls__actions">
+                    <button class="primary-link" type="submit">
+                      <span>Opslaan</span>
+                      <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+                    </button>
+                    <button class="button-ghost" type="button" data-content-reset>Nieuwe vacature</button>
+                    <p class="admin-status" data-content-status></p>
+                  </div>
                 </form>
               </div>
 
@@ -361,7 +348,7 @@
               <span class="sr-only">Projecten</span>
             </button>
             <button class="button-ghost builder-icon-button" type="button" data-builder-sidebar-toggle aria-label="Menu sluiten" title="Menu sluiten">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h12v14H4zM20 8l-4 4 4 4" /></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
               <span class="sr-only">Menu sluiten</span>
             </button>
             <button class="button-ghost builder-icon-button" type="button" data-builder-fullscreen-toggle aria-label="Volledig scherm" title="Volledig scherm">
@@ -628,6 +615,6 @@
 
     <script src="script.js?v=lang-switch"></script>
     <script src="admin.js?v=backend-module-5"></script>
-    <script src="projects.js?v=static-edit-save-1"></script>
+    <script src="projects.js?v=sidebar-close-icon-2"></script>
   </body>
 </html>

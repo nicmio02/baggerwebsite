@@ -1212,7 +1212,7 @@ function createProjectBlock(type, project = {}) {
     resultCards: {
       eyebrow: "Resultaten praktijktest",
       items:
-        "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht ✓, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
+        "43,5%, Volumereductie behaald, Significant minder volume hoeft te worden afgevoerd naar een depot.\n69 - 15 - 16, Scheidingsverdeling baggerspecie, 69,0% klei 15,1% zand 15,9% grof materiaal\nInzicht \u2713, Verontreinigingen in kaart, Inzicht verkregen in verontreinigingen van de gescheiden grondstoffen per fractie.",
     },
     metalScience: {
       eyebrow: "De wetenschap achter de extractie",
@@ -2207,9 +2207,11 @@ function renderProjectBlockResultCards(block) {
     .filter(Boolean)
     .map((line) => {
       const parts = line.split(/(?:\s*\|\s*|,\s+)/);
+      const value = String(parts.shift() || "").replace(/^inzicht\s+v$/i, "Inzicht \u2713");
+      const title = parts.shift() || "";
       return {
-        value: parts.shift() || "",
-        title: parts.shift() || "",
+        value,
+        title,
         body: parts.join(", "),
       };
     })
@@ -2683,8 +2685,24 @@ function setBuilderViewMode(mode = "editor") {
   projectAdminRoot.classList.toggle("is-preview-fullscreen", mode === "fullscreen");
 
   if (builderSidebarToggle) {
-    builderSidebarToggle.textContent = mode === "collapsed" ? "Menu openen" : "Menu sluiten";
-    builderSidebarToggle.setAttribute("aria-pressed", mode === "collapsed" ? "true" : "false");
+    const isCollapsed = mode === "collapsed";
+    const label = isCollapsed ? "Menu openen" : "Menu sluiten";
+    const icon = builderSidebarToggle.querySelector("svg");
+    const screenReaderLabel = builderSidebarToggle.querySelector(".sr-only");
+
+    builderSidebarToggle.setAttribute("aria-label", label);
+    builderSidebarToggle.setAttribute("title", label);
+    builderSidebarToggle.setAttribute("aria-pressed", isCollapsed ? "true" : "false");
+
+    if (screenReaderLabel) {
+      screenReaderLabel.textContent = label;
+    }
+
+    if (icon) {
+      icon.innerHTML = isCollapsed
+        ? '<path d="M4 6h16M4 12h16M4 18h16" />'
+        : '<path d="M6 6l12 12M18 6 6 18" />';
+    }
   }
 
   if (builderFullscreenToggle) {
