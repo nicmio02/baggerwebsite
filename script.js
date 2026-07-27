@@ -1888,17 +1888,34 @@ async function hydratePublicContentBoard(board) {
       return;
     }
 
+    if (type === "jobs") {
+      const items = await response.json();
+      let settings = { showOpenApplication: false };
+
+      try {
+        const settingsResponse = await fetch("/api/jobs-settings", { credentials: "same-origin" });
+
+        if (settingsResponse.ok) {
+          settings = await settingsResponse.json();
+        }
+      } catch {
+        // Keep the open application hidden when the setting cannot be read.
+      }
+
+      const visibleItems = Array.isArray(items)
+        ? items.filter((item) => !/concept|gesloten|archief/i.test(item.status || ""))
+        : [];
+
+      renderPublicVacancies(board, visibleItems, settings);
+      return;
+    }
+
     const items = await response.json();
     const visibleItems = Array.isArray(items)
       ? items.filter((item) => !/concept|gesloten|archief/i.test(item.status || ""))
       : [];
 
     if (!visibleItems.length) {
-      return;
-    }
-
-    if (type === "jobs") {
-      renderPublicVacancies(board, visibleItems);
       return;
     }
 
@@ -1920,9 +1937,21 @@ async function hydratePublicContentBoard(board) {
   }
 }
 
-function renderPublicVacancies(board, items) {
+function renderPublicVacancies(board, items, settings = {}) {
+  const openApplicationItem = {
+    slug: "open-sollicitatie",
+    title: "Open sollicitatie",
+    excerpt: "Zie jij een rol in circulaire baggerketens? Stuur ons je achtergrond en waar je aan wilt bouwen.",
+    category: "Algemeen",
+    workload: "Open",
+    status: "Open",
+  };
+  const showOpenApplication = Boolean(settings.showOpenApplication);
+  const renderedItems = showOpenApplication && !items.some((item) => item?.slug === openApplicationItem.slug)
+    ? [openApplicationItem, ...items]
+    : items;
   const summary = document.querySelector("[data-vacancy-summary]");
-  const latestDate = items
+  const latestDate = renderedItems
     .map((item) => new Date(item.updatedAt || item.date || ""))
     .filter((date) => Number.isFinite(date.getTime()))
     .sort((a, b) => b - a)[0];
@@ -1931,10 +1960,12 @@ function renderPublicVacancies(board, items) {
     : new Intl.DateTimeFormat("nl-NL", { month: "long", year: "numeric" }).format(new Date());
 
   if (summary) {
-    summary.textContent = `${items.length} ${items.length === 1 ? "vacature" : "vacatures"} · bijgewerkt ${updatedLabel}`;
+    summary.textContent = `${renderedItems.length} ${renderedItems.length === 1 ? "vacature" : "vacatures"} · bijgewerkt ${updatedLabel}`;
   }
 
-  board.innerHTML = items
+  document.querySelector("[data-open-application-note]")?.toggleAttribute("hidden", !showOpenApplication);
+
+  board.innerHTML = renderedItems
     .map(
       (item) => `
         <article class="about-vacancy-row reveal is-visible">

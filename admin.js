@@ -7,6 +7,8 @@ const tabPanels = document.querySelectorAll("[data-admin-panel]");
 const contentForms = document.querySelectorAll("[data-content-form]");
 const teamForm = document.querySelector("[data-team-form]");
 const teamList = document.querySelector("[data-team-list]");
+const openApplicationToggle = document.querySelector("[data-open-application-toggle]");
+const openApplicationStatus = document.querySelector("[data-open-application-status]");
 
 function adminSlugify(value) {
   return String(value || "")
@@ -25,6 +27,42 @@ function setStatus(element, message, isError = false) {
 
   element.textContent = message;
   element.classList.toggle("is-error", isError);
+}
+
+function initOpenApplicationSetting() {
+  if (!openApplicationToggle) {
+    return;
+  }
+
+  fetchJson("/api/jobs-settings")
+    .then((settings) => {
+      openApplicationToggle.checked = Boolean(settings?.showOpenApplication);
+    })
+    .catch((error) => setStatus(openApplicationStatus, error.message, true));
+
+  openApplicationToggle.addEventListener("change", async () => {
+    const previousValue = !openApplicationToggle.checked;
+    openApplicationToggle.disabled = true;
+    setStatus(openApplicationStatus, "Instelling opslaan...");
+
+    try {
+      const settings = await fetchJson("/api/jobs-settings", {
+        method: "PUT",
+        body: JSON.stringify({ showOpenApplication: openApplicationToggle.checked }),
+      });
+
+      openApplicationToggle.checked = Boolean(settings?.showOpenApplication);
+      setStatus(
+        openApplicationStatus,
+        openApplicationToggle.checked ? "Open sollicitatie staat aan." : "Open sollicitatie staat uit.",
+      );
+    } catch (error) {
+      openApplicationToggle.checked = previousValue;
+      setStatus(openApplicationStatus, error.message, true);
+    } finally {
+      openApplicationToggle.disabled = false;
+    }
+  });
 }
 
 function escapeAdminHtml(value) {
@@ -715,3 +753,4 @@ initLogout();
 initTabs();
 initContentForms();
 initTeamAdmin();
+initOpenApplicationSetting();

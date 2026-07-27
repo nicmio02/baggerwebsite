@@ -10,7 +10,7 @@
     <title>Blauwe Bagger | Projectbeheer</title>
     <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
     <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
-    <link rel="stylesheet" href="styles.css?v=vacancy-visual-editor-4" />
+    <link rel="stylesheet" href="styles.css?v=vacancy-open-application-switch-1" />
   </head>
   <body class="project-builder-admin" data-page="projecten" data-admin-private>
     <a class="skip-link" href="#main">Ga naar inhoud</a>
@@ -98,6 +98,14 @@
 
         <div class="admin-shell builder-dashboard-panel admin-tab-panel" data-admin-panel="jobs" hidden>
           <section class="admin-panel reveal vacancy-editor-panel">
+            <div class="vacancy-open-application-setting" data-open-application-setting>
+              <label class="admin-switch">
+                <input type="checkbox" data-open-application-toggle />
+                <span class="admin-switch__track" aria-hidden="true"><span></span></span>
+                <span>Open sollicitatie tonen op de vacaturepagina</span>
+              </label>
+              <p class="admin-status" data-open-application-status></p>
+            </div>
             <div class="vacancy-editor-layout">
               <div class="vacancy-editor-controls">
                 <div class="vacancy-editor-controls__heading">
@@ -614,7 +622,7 @@
     </footer>
 
     <script src="script.js?v=lang-switch"></script>
-    <script src="admin.js?v=backend-module-5"></script>
+    <script src="admin.js?v=vacancy-open-application-switch-1"></script>
     <script src="projects.js?v=sidebar-close-icon-2"></script>
   </body>
 </html>

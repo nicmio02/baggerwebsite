@@ -32,6 +32,15 @@ const stores = {
   },
 };
 
+const jobSettingsConfig = {
+  file: path.join(root, "data", "jobs-settings.json"),
+  blobPath: `${blobPrefix}/jobs-settings.json`,
+};
+
+const defaultJobSettings = {
+  showOpenApplication: false,
+};
+
 let blobModulePromise = null;
 
 async function getBlobModule() {
@@ -78,6 +87,65 @@ async function readBlobStore(config) {
 
     throw error;
   }
+}
+
+function normalizeJobSettings(input) {
+  return {
+    showOpenApplication: Boolean(input?.showOpenApplication),
+  };
+}
+
+function readLocalObjectStore(config, fallback) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(config.file, "utf8"));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+async function readBlobObjectStore(config) {
+  const blob = await getBlobModule();
+
+  if (!blob) {
+    return null;
+  }
+
+  try {
+    const result = await blob.get(config.blobPath, { access: "private" });
+
+    if (result?.statusCode !== 200 || !result.stream) {
+      return null;
+    }
+
+    const parsed = JSON.parse(await readStreamAsText(result.stream));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
+  } catch (error) {
+    if (isBlobNotFoundError(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+async function readJobSettings() {
+  const blobSettings = await readBlobObjectStore(jobSettingsConfig);
+  return normalizeJobSettings(blobSettings || readLocalObjectStore(jobSettingsConfig, defaultJobSettings));
+}
+
+async function writeJobSettings(settings) {
+  const blob = await getBlobModule();
+
+  if (!blob) {
+    throw new Error("Opslaan op Vercel heeft BLOB_READ_WRITE_TOKEN en @vercel/blob nodig.");
+  }
+
+  await blob.put(jobSettingsConfig.blobPath, `${JSON.stringify(normalizeJobSettings(settings), null, 2)}\n`, {
+    access: "private",
+    allowOverwrite: true,
+    contentType: "application/json; charset=utf-8",
+  });
 }
 
 async function readStreamAsText(stream) {
@@ -530,7 +598,33 @@ async function handleItem(request, response, type, slug) {
   }
 }
 
+async function handleJobSettings(request, response) {
+  if (request.method === "GET") {
+    sendJson(response, 200, await readJobSettings());
+    return;
+  }
+
+  if (request.method !== "PUT") {
+    sendJson(response, 405, { error: "Methode niet toegestaan." });
+    return;
+  }
+
+  if (!requireAdmin(request, response)) {
+    return;
+  }
+
+  try {
+    const payload = await parseJsonBody(request);
+    const settings = normalizeJobSettings(payload);
+    await writeJobSettings(settings);
+    sendJson(response, 200, settings);
+  } catch (error) {
+    sendMutationError(response, error);
+  }
+}
+
 module.exports = {
   handleCollection,
   handleItem,
+  handleJobSettings,
 };

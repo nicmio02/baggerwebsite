@@ -40,7 +40,17 @@ function normalizeJobBody(value, fallback) {
 
 async function fetchJobDetail(slug) {
   if (slug === fallbackOpenJob.slug) {
-    return fallbackOpenJob;
+    try {
+      const settingsResponse = await fetch("/api/jobs-settings", { credentials: "same-origin" });
+
+      if (settingsResponse.ok && (await settingsResponse.json()).showOpenApplication) {
+        return fallbackOpenJob;
+      }
+    } catch {
+      // Treat the fallback vacancy as disabled when its setting cannot be read.
+    }
+
+    throw new Error("Vacature niet gevonden.");
   }
 
   try {
