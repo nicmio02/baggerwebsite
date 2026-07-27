@@ -147,7 +147,8 @@ button {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 70;
+  /* Keep the navigation above mobile overlays and open panels. */
+  z-index: 1100;
   padding-top: 12px;
   background: transparent;
   border-bottom: 0;
@@ -1933,7 +1934,7 @@ body[data-page="producten"] main > :not(.build-screen) {
 .service-widget-development-overlay {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 2;
   display: grid;
   place-items: center;
   padding: clamp(24px, 5vw, 72px);
@@ -1942,6 +1943,7 @@ body[data-page="producten"] main > :not(.build-screen) {
   pointer-events: auto;
   background: rgba(243, 240, 231, 0.68);
   backdrop-filter: blur(3px);
+  border-radius: inherit;
 }
 
 .service-widget-development-overlay span {
@@ -2976,8 +2978,8 @@ body[data-page="producten"] main > :not(.build-screen) {
 .plan-timeline-line {
   position: absolute;
   top: 50%;
-  right: 0;
-  left: 0;
+  right: calc(100% - var(--timeline-end, 93%));
+  left: var(--timeline-start, 7%);
   height: 2px;
   background: #d5dde7;
   transform: translateY(-50%);
@@ -2986,9 +2988,9 @@ body[data-page="producten"] main > :not(.build-screen) {
 .plan-timeline-progress {
   position: absolute;
   top: 50%;
-  left: var(--timeline-period-start, 12%);
+  left: var(--timeline-period-start, 7%);
   z-index: 1;
-  width: calc(var(--timeline-period-end, 26%) - var(--timeline-period-start, 12%));
+  width: calc(var(--timeline-period-end, 19.286%) - var(--timeline-period-start, 7%));
   height: 4px;
   background: #aeb8c4;
   border-radius: 999px;
@@ -3157,24 +3159,24 @@ body[data-page="producten"] main > :not(.build-screen) {
 }
 
 .plan-timeline-years {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  min-height: 1.25em;
   padding-top: 22px;
   border-top: 1px solid #e1e7ee;
 }
 
 .plan-timeline-years span {
+  position: absolute;
+  top: 22px;
+  left: var(--timeline-year-pos, 7%);
   color: #a2adba;
   font-size: clamp(0.95rem, 1.1vw, 1.12rem);
   font-weight: 850;
-}
-
-.plan-timeline-years span:not(:first-child) {
+  white-space: nowrap;
   text-align: center;
-}
-
-.plan-timeline-years span:last-child {
-  text-align: right;
+  transform: translateX(-50%);
 }
 
 .plan-timeline-feature {
@@ -4110,6 +4112,14 @@ body:not([data-page="home"]) .page-hero-aside strong {
   scrollbar-width: none;
 }
 
+/* Keep exactly three cards in the first viewport. The track's percentage
+   basis already uses its content width, so subtracting horizontal padding a
+   second time makes a fourth card peek in with an uneven gap. */
+.project-board-row__grid::after {
+  flex: 0 0 var(--project-board-pad-x);
+  content: "";
+}
+
 .project-board-row__grid::-webkit-scrollbar {
   display: none;
 }
@@ -4127,7 +4137,7 @@ body:not([data-page="home"]) .page-hero-aside strong {
 .project-board-card {
   position: relative;
   display: grid;
-  flex: 0 0 calc((100% - (var(--project-board-pad-x) * 2) - (var(--project-board-gap) * 2)) / 3);
+  flex: 0 0 calc((100% - (var(--project-board-gap) * 2)) / 3);
   grid-template-rows: 1fr;
   min-width: 0;
   min-height: clamp(198px, 16vw, 260px);
@@ -17652,6 +17662,20 @@ body[data-page="home"] .site-footer--brand .home-footer-bottom a:focus-visible {
   }
 }
 
+/* Keep the homepage footer readable on tablet-sized mobile layouts too. The
+   desktop four-column grid is wider than these viewports and otherwise lets
+   the right-hand columns run off-screen instead of stacking like other pages. */
+@media (max-width: 1100px) {
+  body[data-page="home"] .site-footer--brand .home-footer-meta {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="home"] .site-footer--brand .home-footer-meta > * {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   body[data-page="home"] .home-partner-strip__marquee {
     overflow-x: auto;
@@ -20117,9 +20141,9 @@ body[data-page="het-plan"] .plan-timeline-line::after {
 body[data-page="het-plan"] .plan-timeline-travel {
   position: absolute;
   top: 50%;
-  left: 12%;
+  left: var(--timeline-start, 7%);
   z-index: 1;
-  width: max(0px, calc(var(--timeline-scroll-position, 12%) - 12%));
+  width: max(0px, calc(var(--timeline-scroll-position, 7%) - var(--timeline-start, 7%)));
   height: 3px;
   background: #385193;
   border-radius: 999px;
@@ -21469,9 +21493,9 @@ body[data-page="over-ons"] .about-plan-timeline :is(.plan-timeline-point--bottom
 body[data-page="over-ons"] .about-plan-timeline .plan-timeline-travel {
   position: absolute;
   top: 50%;
-  left: 12%;
+  left: var(--timeline-start, 7%);
   z-index: 1;
-  width: max(0px, calc(var(--timeline-scroll-position, 12%) - 12%));
+  width: max(0px, calc(var(--timeline-scroll-position, 7%) - var(--timeline-start, 7%)));
   height: 3px;
   background: #385193;
   border-radius: 999px;
@@ -21498,6 +21522,7 @@ body[data-page="over-ons"] .about-plan-timeline .plan-timeline-years {
 }
 
 body[data-page="over-ons"] .about-plan-timeline .plan-timeline-years span {
+  top: clamp(8px, 1.2vw, 14px);
   font-size: clamp(0.8rem, 0.9vw, 0.96rem);
 }
 
@@ -23003,15 +23028,46 @@ body[data-page="service-detail"] .service-detail-hero--excavating .service-detai
   body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__layout,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__layout {
     align-items: end;
-    justify-items: start;
+    justify-items: center;
   }
 
   body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head,
   body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head {
     padding-bottom: clamp(22px, 5vh, 44px);
-    justify-items: start;
-    text-align: left;
+    width: 100%;
+    justify-self: center;
+    justify-items: center;
+    text-align: center;
     transform: none;
+  }
+
+  /* Stack the service title into three readable lines on narrow screens so
+     the connector cannot wrap awkwardly beside the main title. */
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__head h1,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__head h1 {
+    width: 100%;
+    justify-items: center;
+    text-align: center;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-topline,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-topline {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    gap: 0.08em;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-hero-topline .service-hero-connector,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-hero-topline .service-hero-connector {
+    margin: 0;
+  }
+
+  body[data-page="service-detail"] .service-detail-hero--bricks .service-detail-hero__copy,
+  body[data-page="service-detail"] .service-detail-hero--excavating .service-detail-hero__copy {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
   }
 }
 
@@ -23327,6 +23383,52 @@ body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-me
 body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom a:hover,
 body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom a:focus-visible {
   color: #385193 !important;
+}
+
+/* Keep only the company registration numbers below the footer divider. */
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-contact {
+  display: none !important;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.home-footer-company-ids {
+  display: inline-flex;
+  flex-wrap: wrap;
+  grid-column: 2;
+  justify-content: center;
+  gap: 8px 20px;
+  color: rgba(17, 25, 48, 0.58);
+  white-space: nowrap;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom__links {
+  grid-column: 3;
+  justify-self: end;
+}
+
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-links a[href*="instagram.com"] {
+  display: none !important;
+}
+
+@media (max-width: 880px) {
+  body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .home-footer-company-ids {
+    justify-content: flex-start;
+    white-space: normal;
+  }
+
+  body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-bottom__links {
+    justify-self: auto;
+  }
 }
 
 body[data-page="home"] .home-prefooter-cta {

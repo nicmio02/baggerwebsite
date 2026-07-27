@@ -56,7 +56,7 @@ function formatDate(value) {
     return "";
   }
 
-  return new Intl.DateTimeFormat("nl-NL", {
+  return new Intl.DateTimeFormat(window.siteLanguage === "en" ? "en-GB" : "nl-NL", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -448,6 +448,290 @@ const staticProjectPages = {
   },
 };
 
+// The built-in showcase projects are content, rather than UI labels. Keep an
+// English version alongside the Dutch source so the language switch also
+// works on these detail pages (CMS-authored projects remain editable content).
+const staticProjectTranslations = {
+  "beton-uit-bagger-tbi": {
+    crumb: "Concrete from sediment / TBI",
+    tag: "Collaboration",
+    titleLines: ['Concrete from <em>sediment</em>', "in collaboration with TBI"],
+    subtitle: "From waterbed to concrete mix",
+    body: [
+      "Together with TBI, Blauwe Bagger is investigating whether dredged sediment can be used directly as a raw material for concrete. TBI is one of the Netherlands' largest construction and engineering companies and is committed to making its building processes significantly more sustainable.",
+      "This project focuses on BlueSand and BlueFiller, two secondary raw materials recovered from dredged sediment, as replacements for primary sand and filler fractions in concrete mixes.",
+    ],
+    stats: [
+      { number: "BlueSand", label: "Sand fraction from sediment" },
+      { number: "BlueFiller", label: "Clay fraction as filler" },
+      { number: "CO2 &darr;", label: "Lower footprint per m3 of concrete" },
+    ],
+    stepsTitle: "Approach",
+    steps: [
+      { title: "Waterbed survey and data phase", desc: "Blauwe Bagger analyses TBI's waterbed surveys. Grain size, contamination and organic content determine which fractions are suitable for high-value reuse." },
+      { title: "On-site separation with the BlueBox", desc: "The mobile BlueBox is deployed at the dredging location to dewater and separate the sediment into usable fractions on site." },
+      { title: "Lab tests and concrete trials", desc: "The recovered fractions are tested for mechanical properties and compared with primary materials. TBI then integrates them into trial mixes and small-scale applications." },
+      { title: "Scaling to construction projects", desc: "When results are positive, the collaboration scales to concrete TBI projects where secondary materials can replace primary materials." },
+    ],
+    highlightsTitle: "What does this deliver?",
+    highlights: [
+      ["Less primary extraction", "Sand and fillers no longer need to be extracted from the ground"],
+      ["Lower disposal costs", "Sediment is put to use instead of being sent to a depot"],
+      ["Circular construction story", "TBI can build more sustainably and strengthen its tender position"],
+      ["Local chain", "Materials recovered from Dutch waters, without long supply chains"],
+    ],
+    cta: "Interested in collaborating? Get in touch to explore how Blauwe Bagger can turn your dredging project into valuable raw materials for construction.",
+  },
+  "bakstenen-uit-bagger-dc-bricks": {
+    crumb: "Bricks from sediment / DC-bricks",
+    tag: "Collaboration",
+    titleLines: ['Bricks from <em>sediment</em>', "in collaboration with DC-bricks"],
+    subtitle: "Sustainable building materials from the waterbed",
+    body: [
+      "DC-bricks develops sustainable, circular building materials with a minimal CO2 footprint. Together with Blauwe Bagger, they are investigating whether clay fractions recovered from sediment can be used to produce bricks and other ceramic building materials.",
+      "The clay fraction, also known as BlueFiller or BlueCalc, has promising properties for the ceramic industry. This project maps those opportunities.",
+    ],
+    stats: [
+      { number: "Clay", label: "Primary raw material for ceramics" },
+      { number: "BlueCalc", label: "Calcined clay fraction" },
+      { number: "8%", label: "Potential reduction in construction emissions" },
+    ],
+    stepsTitle: "Approach",
+    steps: [
+      { title: "Characterising clay fractions", desc: "Blauwe Bagger analyses mineralogical properties, plasticity limits and contamination levels in the recovered clay fractions." },
+      { title: "Calcination and post-processing", desc: "Promising fractions are calcined, activating their pozzolanic properties. DC-bricks tests the fired products for strength and durability." },
+      { title: "Product integration", desc: "Successful fractions are integrated into the DC-bricks process and tested as replacements for primary clay in sustainable bricks and façade elements." },
+    ],
+    highlightsTitle: "What does this deliver?",
+    highlights: [
+      ["New outlet", "Clay fractions find a high-value application in ceramics"],
+      ["Less primary clay extraction", "Reducing pressure on finite Dutch clay reserves"],
+      ["Circular brick", "A demonstrably sustainable building product that can change the market"],
+    ],
+    cta: "Want to know more? Contact Blauwe Bagger to discover whether your sediment stream contains promising clay fractions for ceramics.",
+  },
+  "circulaire-bagger-consortium": {
+    crumb: "Circular Dredging Consortium",
+    tag: "Collaboration",
+    titleLines: ['<em>Circular</em> Dredging Consortium'],
+    subtitle: "Working across the sector on a circular dredging chain",
+    body: [
+      "The Circular Dredging Consortium brings together parties from the dredging and construction sectors, knowledge institutions and governments to make dredged material flows in the Netherlands more sustainable at scale.",
+      "Blauwe Bagger participates as the technology partner, contributing data infrastructure and separation technology. The consortium develops standards, funds pilots and puts forward the regulations needed for a circular dredging chain.",
+    ],
+    stats: [
+      { number: "Multi", label: "Cross-sector collaboration" },
+      { number: "Standard", label: "Developing sector standards" },
+      { number: "NL-wide", label: "Ambition at national scale" },
+    ],
+    stepsTitle: "Blauwe Bagger's role",
+    steps: [
+      { title: "Data and analysis", desc: "Blauwe Bagger provides the method for unlocking and analysing waterbed surveys and makes sediment flows transparent for all consortium partners." },
+      { title: "Technology contribution", desc: "BlueBox technology is made available to consortium projects as a proven on-site separation solution." },
+      { title: "Regulatory agenda", desc: "Blauwe Bagger works with policymakers to accelerate recognition of secondary materials from sediment and remove legal barriers." },
+    ],
+    cta: "Would you like to join the consortium? We are always looking for new partners from the dredging, construction and raw-material sectors.",
+  },
+  "amsterdam-centraal-station": {
+    crumb: "Amsterdam / Central Station",
+    tag: "Practical test",
+    titleLines: ['Amsterdam <em>Central Station</em>'],
+    subtitle: "Large-scale separation in an urban environment",
+    body: [
+      "The waterways around Amsterdam Central Station are dredged regularly to keep them navigable. This sediment comes from busy harbour areas, has a complex composition and contains a mix of organic matter, sand and clay.",
+      "Blauwe Bagger deployed the BlueBox here to dewater and separate the sediment directly on site. The goal was to show that high-value fractions can also be recovered in complex urban environments.",
+    ],
+    stats: [
+      { number: "Urban", label: "Complex dredging environment" },
+      { number: ">50%", label: "Reduction in transport volume" },
+      { number: "Pilot", label: "First large-scale urban test" },
+    ],
+    stepsTitle: "Challenges and findings",
+    steps: [
+      { title: "Complex sediment composition", desc: "Urban sediment contains more contamination and organic matter than sediment from open waterways. Up-front data analysis made realistic yield expectations possible." },
+      { title: "Space constraints", desc: "The BlueBox operated in a limited work area beside the station. Its compact footprint proved decisive for urban deployment." },
+      { title: "Results", desc: "A significant sand fraction was recovered and supplied as BlueSand after post-processing. The client's disposal costs were reduced considerably." },
+    ],
+    cta: "Have a similar project? We would be happy to carry out a no-obligation analysis of your waterbed survey.",
+  },
+  "provincie-zuid-holland": {
+    crumb: "Province of Zuid-Holland",
+    tag: "Practical test",
+    titleLines: ['Province of <em>Zuid-Holland</em>'],
+    subtitle: "Data-driven dredging management at provincial scale",
+    body: [
+      "Zuid-Holland manages hundreds of kilometres of waterways. The province wants to make dredging management more sustainable while reducing costs. Together with Blauwe Bagger, it started a pilot to explore how its sediment flows can be organised differently over the long term.",
+      "The project is not only about recovering raw materials, but also about building a provincial data system for waterbed surveys, so the most promising reuse locations can be identified each year.",
+    ],
+    stats: [
+      { number: "Provincial", label: "Project scale" },
+      { number: "Data", label: "Central waterbed data management" },
+      { number: "Structural", label: "Long-term collaboration" },
+    ],
+    stepsTitle: "Approach",
+    steps: [
+      { title: "Inventory of existing surveys", desc: "All available provincial waterbed surveys were inventoried and analysed. Blauwe Bagger created a spatial overview of promising dredging locations." },
+      { title: "Selecting pilot locations", desc: "Three locations were selected for a BlueBox practical test based on volume, accessibility and expected sand quality." },
+      { title: "Structural dredging plan", desc: "The pilot results inform a multi-year management plan that makes circular reuse a standard part of provincial planning." },
+    ],
+    cta: "Are you a water authority or municipality? Blauwe Bagger can make your dredging management data-driven and circular too.",
+  },
+  "amsterdam-ijburg": {
+    crumb: "Amsterdam / IJburg",
+    tag: "Practical test",
+    titleLines: ['Amsterdam <em>IJburg</em>'],
+    subtitle: "Sediment as a construction raw material for new districts",
+    body: [
+      "The expansion of IJburg requires large-scale earthworks and dredging in the IJmeer. The City of Amsterdam and its contractors need to process the released sediment as sustainably and cost-effectively as possible.",
+      "This project showed that part of the sediment can be used directly as fill material and as a raw material for local construction after on-site separation. The chain closes: IJburg's sediment becomes the raw material for IJburg's buildings.",
+    ],
+    stats: [
+      { number: "Local", label: "Closed chain at district level" },
+      { number: "Fill", label: "Sand used as fill material" },
+      { number: "Build", label: "Raw materials for new construction" },
+    ],
+    stepsTitle: "Findings",
+    steps: [
+      { title: "Clean sand fraction recovered", desc: "The IJmeer sediment was relatively clean. A large part of the sand fraction met the standards for fill and construction sand." },
+      { title: "Significant cost reduction", desc: "On-site separation reduced the volume transported to a depot, creating substantial savings on transport and disposal." },
+      { title: "Model for urban expansion", desc: "IJburg shows that circular sediment processing can be a fixed part of urban expansion planning when included early in the tender strategy." },
+    ],
+    cta: "Working on area development? Blauwe Bagger is happy to help shape the sediment strategy and reuse of released materials.",
+  },
+  "zware-metalen-extractie-uit-bagger": {
+    crumb: "Heavy-metal extraction from sediment",
+    tag: "R&D",
+    titleLines: ['Heavy-metal <em>extraction</em>', "from sediment"],
+    subtitle: "From contamination to valuable raw material",
+    body: [
+      "Sediment contains more than sand and clay. In some waterways it also contains concentrations of heavy metals such as copper, zinc and nickel. These fractions often make sediment unsuitable for reuse and lead to high processing costs.",
+      "In this R&D project, Blauwe Bagger is investigating whether these metals can be extracted selectively, leaving cleaner fractions and making the metals themselves available as secondary raw materials for manufacturing.",
+    ],
+    stats: [
+      { number: "Cu, Zn", label: "Copper, zinc and other metals" },
+      { number: "R&D", label: "Laboratory and pilot phase" },
+      { number: "2 streams", label: "Clean fraction plus metal concentrate" },
+    ],
+    stepsTitle: "Research questions",
+    steps: [
+      { title: "How metals bind to sediment fractions", desc: "Which grain sizes and mineral phases contain the heavy metals? This determines the most effective separation process." },
+      { title: "Extraction methods", desc: "Blauwe Bagger is testing physical separation as well as chemical extraction methods at laboratory scale." },
+      { title: "Valorising the metal concentrate", desc: "With metal-processing industries, we are mapping quality requirements and whether an outlet is feasible." },
+    ],
+    cta: "Active in metals or waterbed research? We would be glad to work with knowledge partners and potential buyers of the metal concentrate.",
+  },
+  "pfas-extractie-uit-bagger": {
+    crumb: "PFAS extraction from sediment",
+    tag: "R&D",
+    titleLines: ['PFAS <em>extraction</em>', "from sediment"],
+    subtitle: "Tackling the forever-chemicals problem at the source",
+    body: [
+      "PFAS, or per- and polyfluoroalkyl substances, are one of the dredging sector's greatest challenges. Their presence in waterbeds means a growing share of Dutch sediment cannot be freely applied, driving up processing costs and depot capacity pressure.",
+      "Blauwe Bagger is investigating whether targeted separation can concentrate PFAS in a small, manageable fraction, releasing most of the sediment for reuse as a raw material.",
+    ],
+    stats: [
+      { number: "PFAS", label: "Most urgent sediment challenge in NL" },
+      { number: "Separation", label: "Concentrated in a small fraction" },
+      { number: "Release", label: "Clean fraction for reuse" },
+    ],
+    stepsTitle: "Research approach",
+    steps: [
+      { title: "PFAS mapping in waterbeds", desc: "Waterbed surveys show in which fine or coarse, organic or mineral fractions PFAS compounds concentrate most strongly." },
+      { title: "Separation techniques", desc: "Physical and oxidative methods are tested to concentrate PFAS in the smallest possible fraction, keeping the remainder below the standard." },
+      { title: "Final treatment of the PFAS fraction", desc: "With specialist thermal processors, we are investigating how the concentrate can be treated safely and permanently." },
+    ],
+    cta: "Dealing with PFAS in your dredging project? Contact us for an informal conversation about the options.",
+  },
+  "3d-printen-met-bagger": {
+    crumb: "3D printing with sediment",
+    tag: "R&D",
+    titleLines: ['3D printing with <em>sediment</em>'],
+    subtitle: "In collaboration with Urban Reef",
+    body: [
+      "Together with Urban Reef, a pioneer in bioreceptive architecture and 3D-printing technology, Blauwe Bagger is investigating whether sediment can serve as the print medium for large-scale 3D-printed structures.",
+      "Urban Reef designs complex, organic structures printed from concrete-like mixes. Sediment, when it has the right composition and purity, could sustainably replace the primary materials currently used in those mixes.",
+    ],
+    stats: [
+      { number: "3D print", label: "New application for sediment" },
+      { number: "Bioreceptive", label: "Structures for nature and architecture" },
+      { number: "Urban Reef", label: "Technology partner" },
+    ],
+    stepsTitle: "What is being researched?",
+    steps: [
+      { title: "Printability of sediment mixes", desc: "What grain distribution and consistency does a sediment mix need to be printable? Blauwe Bagger and Urban Reef test recipes for flow, stiffness and adhesion." },
+      { title: "Mechanical properties", desc: "Printed test tiles and structural elements are tested for compressive strength, water absorption and durability." },
+      { title: "Bioreceptivity", desc: "Urban Reef's structures form microhabitats for flora and fauna. Organic matter in sediment may strengthen this bioreceptivity." },
+    ],
+    cta: "Active in 3D printing, architecture or materials development? Blauwe Bagger is open to new R&D collaborations at the intersection of sediment and innovative building materials.",
+  },
+};
+
+function localizeStaticProject(project) {
+  if (window.siteLanguage !== "en" || !project) {
+    return project;
+  }
+
+  const entry = Object.values(staticProjectPages).find((candidate) => candidate === project);
+  const slug = entry ? Object.keys(staticProjectPages).find((key) => staticProjectPages[key] === entry) : "";
+  return staticProjectTranslations[slug] ? { ...project, ...staticProjectTranslations[slug] } : project;
+}
+
+const cmsProjectTranslations = {
+  "dry-run-2025-voorbereiding-op-circulaire-baggerprojecten": {
+    title: "Dry Run 2025, preparing for circular dredging projects",
+    excerpt: "A preparatory project phase in which mobile processing, logistics and the outlet for material streams were tested together.",
+    body: [
+      "This dry run tested how a mobile container unit fits into circular dredging projects. The focus was not only on technology, but also on how logistics, processing and application connect.",
+      "By considering dewatering, separation and material routes early, the project approach becomes scalable. The pilot showed where the mobile unit adds speed and where outlets for separate streams must be included from the start.",
+      "The result is not an endpoint but a project framework: the conditions required, the promising streams and the moments when scaling up makes sense.",
+    ],
+    highlights: [
+      "Pilot used as a blueprint for scaling up",
+      "Container unit central to the project logic",
+      "Material routes mapped early",
+    ],
+  },
+  "locatie-logistiek-en-materiaalstroom-in-een-aanpak": {
+    title: "Location, logistics and material flow in one approach",
+    excerpt: "A project exploration in which accessibility and on-site processing determined the setup from day one.",
+    location: "Western Netherlands",
+    status: "Completed",
+    body: [
+      "This exploration focused not only on the sediment stream, but also on how the location influences the technical approach. In hard-to-reach places, every extra transport movement counts twice.",
+      "The project therefore used a compact setup: less back-and-forth, earlier separation and better insight into which streams are genuinely reusable. The mobile unit was treated as a link in the whole project story, not as a standalone machine.",
+      "This way of working gave more control over planning and material value and formed the basis for the next execution phase.",
+    ],
+    highlights: [
+      "Location choice directly linked to processing strategy",
+      "Fewer logistical detours",
+      "More control over usable outgoing streams",
+    ],
+  },
+  "van-projectvraag-naar-toepassingsroute": {
+    title: "From project question to application route",
+    excerpt: "A project in which value came from linking material streams to possible end uses at an early stage.",
+    location: "Central Netherlands",
+    body: [
+      "Some projects succeed or fail not because of technology, but because a material stream receives a credible next step in time. In this trajectory, that question was part of the project structure from the start.",
+      "By determining early which fractions are promising and which quality requirements apply, the project gets a useful decision framework sooner. This prevents processed sediment from remaining in an interim status.",
+      "The case shows that project success is not only about separation, but about linking separation to application.",
+    ],
+    highlights: [
+      "Application route determined early",
+      "Quality and outlet linked sooner",
+      "Project structure guided by reuse",
+    ],
+  },
+};
+
+function localizePublicProject(project) {
+  if (window.siteLanguage !== "en" || !project?.slug || !cmsProjectTranslations[project.slug]) {
+    return project;
+  }
+
+  return { ...project, ...cmsProjectTranslations[project.slug] };
+}
+
 function plainStaticProjectText(value) {
   return String(value || "")
     .replace(/<[^>]+>/g, "")
@@ -653,7 +937,9 @@ function renderProjectBoard(projects = []) {
     return false;
   }
 
-  const cmsProjects = Array.isArray(projects) ? projects.filter((project) => project?.slug && project?.title) : [];
+  const cmsProjects = Array.isArray(projects)
+    ? projects.filter((project) => project?.slug && project?.title).map(localizePublicProject)
+    : [];
   const hasCmsProjects = cmsProjects.length > 0;
 
   projectBoardRoot.innerHTML = projectBoardSections
@@ -697,7 +983,13 @@ function renderProjectBoard(projects = []) {
     .join("");
 
   if (!projectBoardRoot.innerHTML.trim()) {
-    projectBoardRoot.innerHTML = `<div class="empty-state">Er zijn nog geen projecten gepubliceerd. Gebruik <a href="/projecten-beheer">de beheertool</a> om de eerste post toe te voegen.</div>`;
+    projectBoardRoot.innerHTML = window.siteLanguage === "en"
+      ? `<div class="empty-state">No projects have been published yet. Use <a href="/projecten-beheer">the management tool</a> to add the first post.</div>`
+      : `<div class="empty-state">Er zijn nog geen projecten gepubliceerd. Gebruik <a href="/projecten-beheer">de beheertool</a> om de eerste post toe te voegen.</div>`;
+  }
+
+  if (typeof window.translatePublicSubtree === "function") {
+    window.translatePublicSubtree(projectBoardRoot);
   }
 
   window.requestAnimationFrame(updateProjectBoardCarousels);
@@ -737,7 +1029,9 @@ function moveProjectCarousel(button) {
 
   const direction = button.matches("[data-project-carousel-next]") ? 1 : -1;
   const card = track.querySelector(".project-board-card");
-  const cardWidth = card?.getBoundingClientRect().width || track.clientWidth;
+  const trackStyles = window.getComputedStyle(track);
+  const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap || "0") || 0;
+  const cardWidth = (card?.getBoundingClientRect().width || track.clientWidth) + gap;
   const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
   const isAtStart = track.scrollLeft <= 2;
   const isAtEnd = track.scrollLeft >= maxScroll - 2;
@@ -823,9 +1117,16 @@ function renderProjectFeed(projects) {
     return;
   }
 
+  projects = projects.map(localizePublicProject);
+
   if (!projects.length) {
-    projectFeaturedRoot.innerHTML = `<div class="empty-state">Er zijn nog geen projecten gepubliceerd. Gebruik <a href="/projecten-beheer">de beheertool</a> om de eerste post toe te voegen.</div>`;
+    projectFeaturedRoot.innerHTML = window.siteLanguage === "en"
+      ? `<div class="empty-state">No projects have been published yet. Use <a href="/projecten-beheer">the management tool</a> to add the first post.</div>`
+      : `<div class="empty-state">Er zijn nog geen projecten gepubliceerd. Gebruik <a href="/projecten-beheer">de beheertool</a> om de eerste post toe te voegen.</div>`;
     projectGridRoot.innerHTML = "";
+    if (typeof window.translatePublicSubtree === "function") {
+      window.translatePublicSubtree(projectFeedRoot);
+    }
     return;
   }
 
@@ -863,6 +1164,10 @@ function renderProjectFeed(projects) {
       `,
     )
     .join("");
+
+  if (typeof window.translatePublicSubtree === "function") {
+    window.translatePublicSubtree(projectFeedRoot);
+  }
 }
 
 function renderHomeProjects(projects) {
@@ -870,8 +1175,15 @@ function renderHomeProjects(projects) {
     return;
   }
 
+  projects = projects.map(localizePublicProject);
+
   if (!projects.length) {
-    homeProjectsRoot.innerHTML = `<div class="empty-state">Nog geen projecten gevonden. Gebruik <a href="/projecten-beheer">de beheertool</a> om de homepage te vullen.</div>`;
+    homeProjectsRoot.innerHTML = window.siteLanguage === "en"
+      ? `<div class="empty-state">No projects found yet. Use <a href="/projecten-beheer">the management tool</a> to populate the homepage.</div>`
+      : `<div class="empty-state">Nog geen projecten gevonden. Gebruik <a href="/projecten-beheer">de beheertool</a> om de homepage te vullen.</div>`;
+    if (typeof window.translatePublicSubtree === "function") {
+      window.translatePublicSubtree(homeProjectsRoot);
+    }
     return;
   }
 
@@ -915,6 +1227,8 @@ function renderStaticProjectDetail(project) {
   if (!projectDetailRoot) {
     return;
   }
+
+  project = localizeStaticProject(project);
 
   document.body.classList.add("has-project-static-detail");
   document.title = `Blauwe Bagger | ${project.crumb}`;
@@ -1015,6 +1329,10 @@ function renderStaticProjectDetail(project) {
       </div>
     </div>
   `;
+
+  if (typeof window.translatePublicSubtree === "function") {
+    window.translatePublicSubtree(projectDetailRoot);
+  }
 }
 
 const projectBlockTypes = {
@@ -2554,6 +2872,10 @@ function renderProjectBlocks(project) {
       }
     })
     .join("");
+
+  if (typeof window.translatePublicSubtree === "function") {
+    window.translatePublicSubtree(homeProjectsRoot);
+  }
 }
 
 function renderProjectDetail(project) {
@@ -2561,6 +2883,7 @@ function renderProjectDetail(project) {
     return;
   }
 
+  project = localizePublicProject(project);
   document.body.classList.remove("has-project-static-detail");
   const hasBlocks = Array.isArray(project.blocks) && project.blocks.length;
 
@@ -2579,6 +2902,9 @@ function renderProjectDetail(project) {
         ${renderProjectBlocks(project)}
       </div>
     `;
+    if (typeof window.translatePublicSubtree === "function") {
+      window.translatePublicSubtree(projectDetailRoot);
+    }
     return;
   }
 
@@ -2614,6 +2940,10 @@ function renderProjectDetail(project) {
       </div>
     </div>
   `;
+
+  if (typeof window.translatePublicSubtree === "function") {
+    window.translatePublicSubtree(projectDetailRoot);
+  }
 }
 
 function setAdminStatus(message, isError = false) {
@@ -2979,7 +3309,13 @@ async function initProjectFeed() {
     renderProjectFeed(projects);
   } catch (error) {
     if (projectFeaturedRoot) {
-      projectFeaturedRoot.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
+      const message = typeof window.translatePublicText === "function"
+        ? window.translatePublicText(error.message)
+        : error.message;
+      projectFeaturedRoot.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+      if (typeof window.translatePublicSubtree === "function") {
+        window.translatePublicSubtree(projectFeaturedRoot);
+      }
     }
   }
 }
@@ -2993,7 +3329,13 @@ async function initHomeProjects() {
     const projects = await fetchProjects();
     renderHomeProjects(projects);
   } catch (error) {
-    homeProjectsRoot.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
+    const message = typeof window.translatePublicText === "function"
+      ? window.translatePublicText(error.message)
+      : error.message;
+    homeProjectsRoot.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+    if (typeof window.translatePublicSubtree === "function") {
+      window.translatePublicSubtree(homeProjectsRoot);
+    }
   }
 }
 
@@ -3009,7 +3351,10 @@ async function initProjectDetail() {
   ).trim();
 
   if (!slug) {
-    projectDetailRoot.innerHTML = `<div class="section-inner"><div class="empty-state">Geen projectslug gevonden.</div></div>`;
+    const message = typeof window.translatePublicText === "function"
+      ? window.translatePublicText("Geen projectslug gevonden.")
+      : "Geen projectslug gevonden.";
+    projectDetailRoot.innerHTML = `<div class="section-inner"><div class="empty-state">${escapeHtml(message)}</div></div>`;
     return;
   }
 
@@ -3022,10 +3367,13 @@ async function initProjectDetail() {
       return;
     }
 
+    const message = typeof window.translatePublicText === "function"
+      ? window.translatePublicText(error.message)
+      : error.message;
     projectDetailRoot.innerHTML = `
       <div class="section-inner">
         <div class="empty-state">
-          ${escapeHtml(error.message)}<br />
+          ${escapeHtml(message)}<br />
           <a class="link-arrow" href="/projecten">
             <span>Terug naar projecten</span>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
@@ -3033,6 +3381,9 @@ async function initProjectDetail() {
         </div>
       </div>
     `;
+    if (typeof window.translatePublicSubtree === "function") {
+      window.translatePublicSubtree(projectDetailRoot);
+    }
   }
 }
 

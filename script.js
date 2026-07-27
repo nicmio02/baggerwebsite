@@ -30,6 +30,7 @@ const blueprintActiveCopy = document.querySelector("[data-blueprint-active-copy]
 const planTimelineStory = document.querySelector("[data-plan-timeline-story]");
 const planTimelineAxis = document.querySelector(".plan-timeline-axis");
 const planTimelineSteps = document.querySelectorAll("[data-plan-timeline-step]");
+const planTimelineYears = document.querySelector(".plan-timeline-years");
 const planTimelineFeature = document.querySelector("[data-plan-timeline-feature]");
 const planActiveYear = document.querySelector("[data-plan-active-year]");
 const planActivePeriod = document.querySelector("[data-plan-active-period]");
@@ -41,13 +42,29 @@ const blueHeaderSections = document.querySelectorAll(".home-section--blue, .home
 const siteFooters = Array.from(document.querySelectorAll(".site-footer--brand, .site-footer--home"));
 const urlParams = new URLSearchParams(window.location.search);
 const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
+const requestedLanguage = urlParams.get("lang");
+let storedLanguage = "";
+try {
+  storedLanguage = window.localStorage.getItem("siteLanguage") || "";
+} catch {
+  storedLanguage = "";
+}
 const pageLanguage =
-  urlParams.get("lang") === "en" ||
+  requestedLanguage === "en" ||
   normalizedPath === "/en" ||
   normalizedPath === "/en.html" ||
-  normalizedPath.startsWith("/en/")
+  normalizedPath.startsWith("/en/") ||
+  (requestedLanguage !== "nl" && storedLanguage === "en")
     ? "en"
     : "nl";
+
+try {
+  window.localStorage.setItem("siteLanguage", pageLanguage);
+} catch {
+  // Continue without persistence when storage is unavailable.
+}
+
+window.siteLanguage = pageLanguage;
 
 const heroVideoClips = [
   {
@@ -85,6 +102,7 @@ let aboutStatementAccent = null;
 let aboutStatementWords = [];
 let aboutStatementAccentWords = [];
 let planTimelineFeatureAnimation = null;
+const heroVideoPreloads = new WeakSet();
 
 const headerAutoHideDelay = 700;
 const headerAutoHideOffset = 120;
@@ -273,8 +291,33 @@ const i18n = {
       "Eerste project op commerciële schaal": "First project at commercial scale",
       "Commerciële projecten op operationele schaal": "Commercial projects at operational scale",
       Opschaling: "Scaling up",
+      "Commerciële schaal": "Commercial scale",
+      "Commerciële projecten": "Commercial projects",
+      "Eerste project op commerciële schaal": "First project at commercial scale",
+      "Commerciële projecten op operationele schaal": "Commercial projects at operational scale",
+      Internationalisering: "Internationalisation",
       "Verbreding buiten bagger": "Expansion beyond dredged sediment",
       "Circulariteit in gehele Nederlandse industrie": "Circularity across Dutch industry",
+      "Blauwe Bagger is in 2022 opgericht, ontstaan vanuit een opdracht om een reststroom circulair te maken. Onderzoek wees uit dat bagger een groot afvalprobleem vormt voor Nederland, en daarmee tegelijk een unieke kans.":
+        "Blauwe Bagger was founded in 2022 after being asked to make a residual stream circular. Research showed that dredged sediment is a major waste problem for the Netherlands, and at the same time a unique opportunity.",
+      "BlueBox v1 is ontwikkeld als eerste mobiele scheidingsinstallatie. Daarmee leggen we de technische basis om bagger op locatie te ontwateren, te scheiden en klaar te maken voor hergebruik.":
+        "BlueBox v1 was developed as the first mobile separation installation. It creates the technical foundation to dewater and separate sediment on site and prepare it for reuse.",
+      "Het afronden van BlueBox v1 markeert de start van een reeks praktijktesten, die gedurende 2026 op verschillende locaties worden uitgevoerd. Het doel is onze baggerscheidingstechniek te testen en valideren onder operationeel realistische omstandigheden. Na iedere test verbeteren we de installatie iteratief. Samen vormen de tests het fundament voor onze tweede installatie, de BlueBox v2, die de snelheid en volumes aankan waarmee aannemers baggeren.":
+        "Completing BlueBox v1 marks the start of practical tests at different locations throughout 2026. We will test and validate our separation technology in realistic operating conditions and improve the installation after every test. Together, the tests form the foundation for BlueBox v2, designed for the speed and volumes at which contractors dredge.",
+      "Het eerste project op commerciële schaal laat zien hoe bagger in een realistische projectomgeving wordt gescheiden tot potentieel herbruikbare grondstoffen. Het project beslaat zo'n 10.000 m3 bagger. Pas wanneer een afnemer de stromen heeft toegepast in haar producten is de keten rond en hebben we aangetoond dat de aanpak klaar is voor commerciële toepassing.":
+        "The first project at commercial scale shows how sediment is separated into potentially reusable raw materials in a realistic project environment. The project covers around 10,000 m3 of sediment. The chain is complete only when a buyer has used the streams in its products and we have shown that the approach is ready for commercial use.",
+      "Het eerste project op commerciële schaal laat zien hoe bagger in een realistische projectomgeving wordt gescheiden tot herbruikbare grondstoffen. Pas wanneer een afnemer de stromen heeft toegepast in haar producten is de keten rond en is de aanpak klaar voor commerciële toepassing.":
+        "The first project at commercial scale shows how sediment is separated into reusable raw materials in a realistic project environment. The chain is complete only when a buyer has used the streams in its products and the approach is ready for commercial use.",
+      "Van losse projecten naar structurele capaciteit. We breiden uit naar meer locaties en grotere volumes, zodat circulair verwerkte bagger de norm wordt in plaats van de uitzondering.":
+        "From individual projects to structural capacity. We are expanding to more locations and larger volumes so that circularly processed sediment becomes the norm rather than the exception.",
+      "Van losse projecten groeien we naar structurele capaciteit, meer locaties en grotere volumes, zodat circulair verwerkte bagger de norm wordt in plaats van de uitzondering.":
+        "We are growing from individual projects to structural capacity, more locations and larger volumes so that circularly processed sediment becomes the norm rather than the exception.",
+      "Op de lange termijn reikt onze impact verder dan de baggerindustrie. Dezelfde problematiek speelt in tal van andere industriele sectoren. Wij zien een wereld voor ons waarin kritisch wordt gekeken naar elke vorm van afval, om de waarde te erkennen die er nog in zit. Om meer impact te maken richten wij ons vizier daarom ook buiten de baggerindustrie.":
+        "In the long term, our impact reaches beyond dredging. The same challenge exists in many other industries. We imagine a world that looks critically at every form of waste and recognises the value still contained in it. To increase our impact, we are therefore also looking beyond dredging.",
+      "Op de lange termijn reikt onze impact verder dan de baggerindustrie. Dezelfde problematiek speelt in andere industriele sectoren, waar afvalstromen eveneens waardevolle grondstoffen kunnen worden.":
+        "In the long term, our impact reaches beyond dredging. The same challenge exists in other industries, where waste streams can also become valuable raw materials.",
+      "Onze stip op de horizon: een industrie waarin afval niet langer bestaat, maar wordt gezien als grondstof die nog een bestemming zoekt. Wat in de baggersector begint, groeit uit tot een blauwdruk voor de gehele Nederlandse industrie.":
+        "Our horizon: an industry in which waste no longer exists, but is seen as a raw material looking for its next use. What starts in dredging can grow into a blueprint for the entire Dutch industry.",
       "Het startpunt van Blauwe Bagger: bouwen aan een circulaire route voor baggerstromen.":
         "The starting point for Blauwe Bagger: building a circular route for dredged sediment streams.",
       "De BluePrint-aanpak wordt beschikbaar voor de markt.": "The BluePrint approach becomes available to the market.",
@@ -287,6 +330,7 @@ const i18n = {
         "Where others see waste, we see raw material. Our mobile processing unit purifies, separates and processes dredged sediment directly on site, without first driving many kilometres.",
       "Indikken op locatie": "Dewatering on site",
       "Kies je route binnen Blauwe Bagger": "Choose your route within Blauwe Bagger",
+      "Kies je route binnen": "Choose your route within",
       "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
         "One route for dredging projects and one route for secondary raw materials.",
       "Voor bagger industrie": "For dredging industry",
@@ -324,6 +368,350 @@ const i18n = {
       "Privacy Policy": "Privacy Policy",
       "Neem contact op!": "Contact us",
       "Deze pagina wordt gebouwd.": "This page is being built.",
+      "Blue Box": "BlueBox",
+      "Specs": "Specifications",
+      "Consistent van kwaliteit dankzij onze gecontroleerde scheidings- en nabewerkingsprocessen.":
+        "Consistent in quality thanks to our controlled separation and post-processing processes.",
+      "Gewassen en gezeefde zandfractie, afkomstig uit gescheiden bagger. Geschikt als zandvervanger in betonmengsels. Consistent van kwaliteit dankzij onze gecontroleerde scheidings- en nabewerkingsprocessen.":
+        "Washed and screened sand fraction from separated dredged sediment. Suitable as a sand replacement in concrete mixes. Consistent in quality thanks to our controlled separation and post-processing processes.",
+      "Gecalcineerd kleiproduct met puzzolane eigenschappen. BlueCalc kan een deel van het cement vervangen in betonmengsels, wat de CO2-voetafdruk van beton significant verlaagt.":
+        "Calcined clay product with pozzolanic properties. BlueCalc can replace part of the cement in concrete mixes, significantly reducing concrete's CO2 footprint.",
+      "Bekijk toepassing van zand": "View sand application",
+      "Bekijk toepassing van leem": "View loam application",
+      "Bekijk toepassing van klei": "View clay application",
+      "Bekijk toepassing van organisch materiaal": "View organic material application",
+      "Vier materiaalstromen, elk met een eigen toepassing.":
+        "Four material streams, each with its own application.",
+      "Door baggerspecie gericht te verwerken, ontstaan herkenbare uitgaande stromen in plaats van Ã©Ã©n onduidelijke restmassa. Elke fractie krijgt een eigen route naar hergebruik, opslag of verdere verwerking.":
+        "By processing dredged sediment with purpose, we create recognisable outgoing streams instead of one unclear residual mass. Each fraction gets its own route to reuse, storage or further processing.",
+      "Door baggerspecie gericht te verwerken, ontstaan herkenbare uitgaande stromen in plaats van één onduidelijke restmassa. Elke fractie krijgt een eigen route naar hergebruik, opslag of verdere verwerking.":
+        "By processing dredged sediment with purpose, we create recognisable outgoing streams instead of one unclear residual mass. Each fraction gets its own route to reuse, storage or further processing.",
+      "De uitkomst van de verwerkingsketen is geen afvalstroom, maar een set bruikbare materialen.":
+        "The outcome of the processing chain is not a waste stream, but a set of usable materials.",
+      "Door bagger in losse fracties te verwerken, ontstaat materiaal dat opnieuw kan meedraaien in projecten in plaats van te eindigen als afvoerpost.":
+        "Processing dredged sediment into separate fractions creates material that can re-enter projects instead of ending up as waste.",
+      "De productpagina maakt zichtbaar wat elke stroom praktisch kan betekenen.":
+        "The product page shows what each stream can mean in practice.",
+      "herkenbare hoofduitgangen waarop communicatie, opslag en toepassing kunnen worden ingericht.":
+        "recognisable main outputs around which communication, storage and application can be organised.",
+      "mobiele keten waarin scheiding en logistiek niet meer van elkaar losstaan.":
+        "mobile chain in which separation and logistics are no longer disconnected.",
+      "materiaalwaarde wanneer stromen eerder in het proces hun eigen route krijgen.":
+        "material value when streams get their own route earlier in the process.",
+      "Wil je doorpakken op een specifieke materiaalstroom of toepassing?":
+        "Would you like to move forward with a specific material stream or application?",
+      "De productenpagina staat nu los van services en projecten, zodat je gericht kunt communiceren welke stroom belangrijk is zonder te verdwalen in de rest van de site.":
+        "The products page is separate from services and projects, so you can focus on the stream that matters without getting lost in the rest of the site.",
+      "Blauwe Bagger is in 2022 opgericht uit een gedeelde passie voor duurzaamheid en circulariteit. Onze oprichters zagen dat er in de baggersector volop kansen liggen voor circulair grondstofgebruik, maar ook dat de complexiteit van de sector die kansen vaak in de weg staat. Sindsdien werken we aan een integrale oplossing voor het circulair hergebruik van baggerspecie, met betrokkenheid van de hele keten.":
+        "Blauwe Bagger was founded in 2022 from a shared passion for sustainability and circularity. Our founders saw many opportunities for circular use of raw materials in dredging, but also saw how the sector's complexity often gets in the way. Since then, we have been working on an integrated solution for circular reuse of dredged sediment, involving the entire chain.",
+      "Spreekt het je aan om in een jong en energiek team te werken dat ambitieus is en een sector die rijp is voor verandering radicaal te verbeteren? Bekijk dan onze vacatures":
+        "Would you like to work in a young, energetic and ambitious team and radically improve a sector ready for change? Take a look at our vacancies.",
+      "Wij bouwen mee aan een wereld waar grondstoffen nooit verloren gaan. Onze passie ligt in het zichtbaar maken van de waarde die in bagger verborgen zit.":
+        "We are helping build a world where raw materials are never lost. Our passion lies in making the value hidden in dredged sediment visible.",
+      "Afvalstromen vormen een groeiend probleem in een wereld die duurzamer moet opereren. Toch heeft afval een hardnekkig negatieve reputatie: iets dat afgevoerd moet worden, niet benut. Terwijl er enorm veel potentieel in schuilt.":
+        "Waste streams are a growing problem in a world that must operate more sustainably. Yet waste has a stubbornly negative reputation: something to be removed, not used. Even though it contains enormous potential.",
+      "Het benutten van afval als grondstof is complex. Variabiliteit, verontreiniging en sociale perceptie vormen barrieres, en geen enkele stroom is hetzelfde. Wie variatie systematisch in kaart brengt en koppelt aan de juiste bewerkingsstappen, slaat de brug tussen afval en grondstof.":
+        "Using waste as a raw material is complex. Variability, contamination and social perception create barriers, and no stream is the same. Mapping variation systematically and connecting it to the right processing steps bridges the gap between waste and raw material.",
+      "We starten in de baggerindustrie, waar de noodzaak tot verduurzaming groot is. Door slim gebruik te maken van data uit waterbodemonderzoeken maken wij inzichtelijk waar bagger waardevol kan worden ingezet en creeren we nieuwe ketens.":
+        "We start in dredging, where the need for sustainability is great. By making smart use of sediment survey data, we show where dredged material can create value and build new chains.",
+      "Afvalstromen vormen een groeiend probleem in een wereld die duurzamer moet opereren. Toch heeft afval een hardnekkig negatieve reputatie, iets dat afgevoerd moet worden, niet benut. Terwijl er enorm veel potentieel in schuilt.":
+        "Waste streams are a growing problem in a world that must operate more sustainably. Yet waste has a stubbornly negative reputation, something to be removed rather than used. Even though it contains enormous potential.",
+      "Het benutten van afval als grondstof is complex. Variabiliteit, verontreiniging en sociale perceptie vormen barrieres, en geen enkele stroom is hetzelfde. Dat vraagt om een andere manier van kijken en werken. Blauwe Bagger ziet daarin geen obstakel, maar een kans: wie variatie systematisch in kaart brengt en koppelt aan de juiste bewerkingsstappen, slaat de brug tussen afval en grondstof.":
+        "Using waste as a raw material is complex. Variability, contamination and social perception create barriers, and no stream is the same. This calls for a different way of looking and working. Blauwe Bagger sees an opportunity: mapping variation systematically and connecting it to the right processing steps bridges the gap between waste and raw material.",
+      "We starten in de baggerindustrie, een sector die decennialang kampt met structurele uitdagingen en waar de noodzaak tot verduurzaming groot is. Door slim gebruik te maken van data uit waterbodemonderzoeken maken wij inzichtelijk waar bagger wel waardevol kan worden ingezet. Zo creeren we nieuwe ketens die voorheen onzichtbaar bleven.":
+        "We start in dredging, a sector that has faced structural challenges for decades and where the need for sustainability is great. By making smart use of sediment survey data, we show where dredged material can create value. In doing so, we create new chains that were previously invisible.",
+      "Blauwe Bagger, gevestigd aan Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.":
+        "Blauwe Bagger, located at Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is responsible for processing personal data as described in this privacy statement.",
+      "Geen projecten gevonden. Gebruik de beheertool om de homepage te vullen.":
+        "No projects found. Use the management tool to populate the homepage.",
+      "Nog geen projecten gevonden. Gebruik de beheertool om de homepage te vullen.":
+        "No projects found yet. Use the management tool to populate the homepage.",
+      "Projecten konden niet worden geladen.": "Projects could not be loaded.",
+
+      // Shared navigation, footer and accessibility labels
+      "Hoofdnavigatie": "Main navigation",
+      "Service routes": "Service routes",
+      "Mobiele navigatie": "Mobile navigation",
+      "Footer navigatie": "Footer navigation",
+      "Blauwe Bagger home": "Blauwe Bagger home",
+      "Baggerwerkzaamheden op het water": "Dredging work on the water",
+      "Waterbodemonderzoek upload widget": "Sediment survey upload widget",
+      "BluePrint tijdlijn overzicht": "BluePrint timeline overview",
+      Partners: "Partners",
+      Navigatie: "Navigation",
+      Bedrijf: "Company",
+      Samenwerken: "Work with us",
+      Adres: "Address",
+      "Eigenaar login": "Owner login",
+      "Word een partner": "Become a partner",
+      "Van baggerstroom naar herbruikbare grondstof.":
+        "From dredged sediment to reusable raw material.",
+      "Voor baggerindustrie": "For the dredging industry",
+      "Voor bagger industrie": "For the dredging industry",
+      "Voor de baggerindustrie": "For the dredging industry",
+      "Voor de bouw": "For construction",
+      "Neem contact op": "Contact us",
+      "Bekijk website": "View website",
+      Uitloggen: "Log out",
+
+      // Contact
+      "Contactgegevens": "Contact details",
+      "Voornaam *": "First name *",
+      "Achternaam *": "Last name *",
+      "E-mail *": "Email *",
+      Telefoon: "Phone",
+      "Je voornaam": "Your first name",
+      "Je achternaam": "Your last name",
+      "naam@bedrijf.nl": "name@company.com",
+      "Type vraag *": "Question type *",
+      "Kies een onderwerp": "Choose a subject",
+      "Project of pilot": "Project or pilot",
+      Grondstoffen: "Raw materials",
+      Samenwerking: "Collaboration",
+      Sollicitatie: "Job application",
+      Anders: "Other",
+      "Waar kunnen we bij helpen? *": "How can we help? *",
+      "Vertel waar je aan werkt.": "Tell us what you are working on.",
+      "Vertel kort waar je aan werkt...": "Briefly tell us what you are working on...",
+      "Verstuur aanvraag": "Send request",
+      "Je mailprogramma opent met de ingevulde aanvraag.":
+        "Your email app will open with the completed request.",
+      "Een korte omschrijving van locatie, materiaalstroom en doel is genoeg om de eerste richting te bepalen.":
+        "A short description of the location, material stream and goal is enough to set the first direction.",
+      "KVK: 98672088": "Chamber of Commerce: 98672088",
+      "BTW: NL868594660B01": "VAT: NL868594660B01",
+
+      // Services and products
+      "Kies je route binnen Blauwe Bagger": "Choose your route within Blauwe Bagger",
+      "Een route voor baggerprojecten en een route voor secundaire grondstoffen.":
+        "One route for dredging projects and one route for secondary raw materials.",
+      "Services voor de Baggerindustrie": "Services for the dredging industry",
+      "Services voor de baggerindustrie": "Services for the dredging industry",
+      "Slimmer baggeren begint met beter inzicht": "Smarter dredging starts with better insight",
+      "voor de": "for the",
+      bouw: "construction",
+      "Baggerindustrie": "Dredging industry",
+      "BlueBox verwerking": "BlueBox processing",
+      "Hoe wij samenwerken": "How we work together",
+      "Vooraf inzicht": "Insight up front",
+      "Waterbodemdata maakt zichtbaar welke fracties, risico's en kansen in de stroom zitten.":
+        "Sediment data reveals which fractions, risks and opportunities are in the stream.",
+      "BlueBox op locatie": "BlueBox on site",
+      "Ontwateren en scheiden dichtbij de bron, met minder transportbewegingen.":
+        "Dewatering and separating close to the source, with fewer transport movements.",
+      "Sterker project": "Stronger project",
+      "Meer grip op kosten, materiaalwaarde en duurzame onderbouwing richting opdrachtgever.":
+        "More control over costs, material value and a sustainable case for the client.",
+      Tool: "Tool",
+      "Wat levert het op?": "What does it deliver?",
+      "Kernpunten producten": "Product highlights",
+      "Vorige grondstof": "Previous raw material",
+      "Volgende grondstof": "Next raw material",
+      "BlueBox bediening op locatie": "BlueBox operation on site",
+      "Vergelijking traditionele baggeraanpak en Blauwe Bagger":
+        "Comparison of traditional dredging and Blauwe Bagger",
+      Impact: "Impact",
+      Traditioneel: "Traditional",
+      "Met Blauwe Bagger": "With Blauwe Bagger",
+      "Transportkosten": "Transport costs",
+      "Hoog, inclusief water": "High, including water",
+      "Reductie van >50%": "Reduction of >50%",
+      "Reductie van 50%": "Reduction of 50%",
+      Stortkosten: "Disposal costs",
+      "Sterk gereduceerd": "Strongly reduced",
+      "Inzicht vooraf": "Insight up front",
+      Beperkt: "Limited",
+      "Volledig data-gedreven": "Fully data-driven",
+      "Duurzaamheidsscore": "Sustainability score",
+      "In ontwikkeling: data analyse is beschikbaar": "In development: data analysis is available",
+      "Grondstoffen voor de bouw": "Raw materials for construction",
+      "De bouwsector staat onder druk: grondstoffen worden schaarser, duurzaamheidseisen strenger en inkoopketens kwetsbaarder.":
+        "The construction sector is under pressure: raw materials are becoming scarcer, sustainability requirements are stricter and supply chains are more vulnerable.",
+      "De bouwsector staat onder druk: grondstoffen worden schaarser, duurzaamheidseisen strenger en inkoopketens kwetsbaarder. Blauwe Bagger biedt een alternatief: duurzame grondstoffen van hoge kwaliteit, gewonnen uit bagger en klaargemaakt voor directe inzet in productie van onder andere bakstenen en beton.":
+        "The construction sector is under pressure: raw materials are becoming scarcer, sustainability requirements are stricter and supply chains are more vulnerable. Blauwe Bagger offers an alternative: high-quality sustainable raw materials recovered from dredged sediment and prepared for direct use in products such as bricks and concrete.",
+      "Ons aanbod": "Our offer",
+      "Secundaire grondstoffen": "Secondary raw materials",
+      "Blader door grondstoffen": "Browse raw materials",
+      "Grondstoffen aanbod": "Raw material offer",
+      "Geinteresseerd?": "Interested?",
+      "Geïnteresseerd?": "Interested?",
+      "Gewassen en gezeefde zandfractie, afkomstig uit gescheiden bagger. Geschikt als zandvervanger in betonmengsels. Consistente kwaliteit dankzij onze gecontroleerde scheidings- en nabewerkingsprocessen.":
+        "Washed and screened sand fraction from separated dredged sediment. Suitable as a sand replacement in concrete mixes, with consistent quality thanks to our controlled separation and post-processing.",
+      "Fijnkorrelige kleifractie, nabewerkt tot een hoogwaardig vulmiddel. Inzetbaar als filler in betonproducten waar een fijne deeltjesgrootte gewenst is.":
+        "Fine-grained clay fraction, post-processed into a high-quality filler. Suitable for concrete products where a fine particle size is required.",
+      "Gecalcineerd kleiproduct met puzzolane eigenschappen. BlueCalc kan een deel van het cement vervangen in betonmengsels, wat de CO2-voetafdruk van beton verlaagt.":
+        "Calcined clay product with pozzolanic properties. BlueCalc can replace part of the cement in concrete mixes, reducing concrete's CO2 footprint.",
+      "Geactiveerde kleifractie met een uitzonderlijk fijne deeltjesgrootte. Gewonnen uit gescheiden baggerspecie en nabewerkt tot een consistent, hoogwaardig product.":
+        "Activated clay fraction with an exceptionally fine particle size. Recovered from separated dredged sediment and post-processed into a consistent, high-quality product.",
+      "Vraag specificaties aan": "Request specifications",
+      "Terug naar grondstoffen": "Back to raw materials",
+      Productspecificatie: "Product specification",
+      Productomschrijving: "Product description",
+      "Deeltjesgrootte": "Particle size",
+      Korrelgrootte: "Particle size",
+      Fractie: "Fraction",
+      Herkomst: "Origin",
+      Toepassing: "Application",
+      Eigenschap: "Property",
+      Kwaliteit: "Quality",
+      Producttype: "Product type",
+      Nabewerking: "Post-processing",
+      "Vulmiddelkwaliteit": "Filler quality",
+      "Filler in betonproducten": "Filler in concrete products",
+      "Zandvervanger in betonmengsels": "Sand replacement in concrete mixes",
+      "Gecalcineerde kleifractie": "Calcined clay fraction",
+      Puzzolaan: "Pozzolan",
+      "Deels cementvervangend": "Partial cement replacement",
+      "CO2-impact": "CO2 impact",
+      "Op projectbasis": "Project-based",
+      "Uitzonderlijk fijn": "Exceptionally fine",
+      "Gescheiden baggerspecie": "Separated dredged sediment",
+      "Consistent hoogwaardig product": "Consistent high-quality product",
+      "Gewassen zandfractie": "Washed sand fraction",
+      "Gescheiden bagger": "Separated dredged sediment",
+      "Op aanvraag": "On request",
+      "Zand voor circulaire bouwprojecten": "Sand for circular construction projects",
+      "Van product naar vraag": "From product to demand",
+      "Bespreek een productvraag": "Discuss a product request",
+      "De toepassingen": "Applications",
+      Toepassingen: "Applications",
+      Context: "Context",
+      "Uitgaande stromen": "Outgoing streams",
+      "Zand, leem, klei en organisch materiaal": "Sand, loam, clay and organic material",
+      "Elke stroom vraagt om eigen kwaliteitsbewaking en een passende route naar hergebruik, opslag of verdere verwerking.":
+        "Each stream needs its own quality control and a suitable route to reuse, storage or further processing.",
+      "Duidelijke scheiding per fractie": "Clear separation by fraction",
+      "Heldere toepassing per materiaalsoort": "Clear application for each material",
+      "Meer grip op materiaalwaarde": "More control over material value",
+      "Productwaarde ontstaat pas wanneer materiaalstromen helder leesbaar worden.":
+        "Material value emerges when material streams are clearly understood.",
+      "Zand": "Sand",
+      "Geschikt als aanvulling in ophogingen, funderingen en zandige mengsels.":
+        "Suitable for embankments, foundations and sandy mixes.",
+      "Leem": "Loam",
+      "Een fijnere fractie met waarde voor landschappelijke en civiele toepassingen.":
+        "A finer fraction with value for landscape and civil applications.",
+      "Klei": "Clay",
+      "Een stevige stroom die kan bijdragen aan dijkversterking en bodemopbouw.":
+        "A robust stream that can contribute to dike reinforcement and soil construction.",
+      "Organisch materiaal": "Organic material",
+      "Restorganica worden apart gehouden voor verdere verwerking of toepassing.":
+        "Organic residues are kept separate for further processing or application.",
+      "Geselecteerd product": "Selected product",
+      "Ophoging en fundering": "Embankment and foundation",
+      "Voor terreininrichting, aanvulling en civiele lagen waar een zandige stroom gewenst is.":
+        "For site preparation, fill and civil layers where a sandy stream is desired.",
+      Bodemopbouw: "Soil construction",
+      "Wanneer een fijnere fractie helpt om structuur, vochthuishouding of vorm te sturen.":
+        "When a finer fraction helps guide structure, moisture balance or form.",
+      "Sterke afdichting": "Strong sealing",
+      "Geschikt voor projecten waar cohesie, afsluiting en vormvastheid nodig zijn.":
+        "Suitable for projects where cohesion, sealing and dimensional stability are needed.",
+      "Gerichte vervolgroute": "Targeted next route",
+      "Organische delen blijven apart, zodat verdere verwerking niet door de rest heen loopt.":
+        "Organic parts remain separate so further processing does not run through the rest.",
+
+      // About, plan and vacancies
+      "Over Blauwe Bagger": "About Blauwe Bagger",
+      "Ons Team": "Our team",
+      Missie: "Mission",
+      "Het team van Blauwe Bagger aan het werk": "The Blauwe Bagger team at work",
+      "Co-Founder": "Co-founder",
+      "Electrical Engineer": "Electrical engineer",
+      "Business Developer": "Business developer",
+      "Werken bij": "Careers",
+      "Spreekt het je aan om in een jong en energiek team te werken dat ambitieus is en een sector die rijp is voor verandering radicaal te verbeteren?":
+        "Would you like to work in a young, energetic and ambitious team that is ready to radically improve a sector ready for change?",
+      "Bekijk dan onze vacatures": "View our vacancies",
+      "Het plan": "The plan",
+      "BluePrint tijdlijn": "BluePrint timeline",
+      Oprichting: "Founding",
+      "Eerste installatie": "First installation",
+      Praktijktesten: "Practical tests",
+      "Commerciële schaal": "Commercial scale",
+      "Commerciële projecten": "Commercial projects",
+      Opschaling: "Scaling up",
+      "Eerste project op commerciële schaal": "First project at commercial scale",
+      "Commerciële projecten op operationele schaal": "Commercial projects at operational scale",
+      Internationalisering: "Internationalisation",
+      Verbreding: "Expansion",
+      Circulariteit: "Circularity",
+      "Over ons": "About us",
+      Vacatures: "Vacancies",
+      "Bouw mee aan een circulaire baggerketen.": "Help build a circular dredging chain.",
+      "Bekijk de actuele vacatures en ontdek waar jij kunt bijdragen.":
+        "View current vacancies and discover where you can contribute.",
+      "Bouw mee aan een circulaire baggerketen. Bekijk de actuele vacatures en ontdek waar jij kunt bijdragen.":
+        "Help build a circular dredging chain. View current vacancies and discover where you can contribute.",
+      "Niets passends gevonden?": "Nothing suitable?",
+      "Stuur gerust een open sollicitatie naar info@blauwebagger.nl":
+        "Feel free to send an open application to info@blauwebagger.nl",
+      "Niets passends gevonden? Stuur gerust een open sollicitatie naar":
+        "Nothing suitable? Feel free to send an open application to",
+      "Zie jij een rol in circulaire baggerketens? Stuur ons je achtergrond en waar je aan wilt bouwen.":
+        "Do you see a role in circular dredging chains? Tell us about your background and what you want to build.",
+      "Zie jij een rol in circulaire baggerketens? Stuur ons je achtergrond en vertel waar je aan wilt bouwen.":
+        "Do you see a role in circular dredging chains? Tell us about your background and what you want to build.",
+      "We bekijken graag welke ervaring en ambitie passen bij de volgende stap van Blauwe Bagger.":
+        "We would be happy to explore which experience and ambition fit Blauwe Bagger's next step.",
+      "Open sollicitatie": "Open application",
+      Algemeen: "General",
+      Vacature: "Vacancy",
+      "Geen vacature geselecteerd.": "No vacancy selected.",
+      "Vacature niet gevonden.": "Vacancy not found.",
+      "Terug naar vacatures": "Back to vacancies",
+      Bekijk: "View",
+      vacatures: "vacancies",
+      vacature: "vacancy",
+      bijgewerkt: "updated",
+      "Bekijk de vacature voor meer informatie.": "View the vacancy for more information.",
+      "In overleg": "By agreement",
+      Actief: "Active",
+      Nederland: "The Netherlands",
+      Samenwerking: "Collaboration",
+      "Praktijktest": "Practical test",
+      "R&D": "R&D",
+      "Interesse?": "Interested?",
+      "Neem contact op en vertel ons waar jij waarde kunt toevoegen.":
+        "Get in touch and tell us where you can add value.",
+      "Neem contact op voor meer informatie over deze vacature.":
+        "Contact us for more information about this vacancy.",
+
+      // Project and dynamic-content UI
+      Projecten: "Projects",
+      "Project wordt geladen...": "Loading project...",
+      "Projecten worden geladen...": "Loading projects...",
+      "Project niet gevonden.": "Project not found.",
+      "Geen projectslug gevonden.": "No project slug found.",
+      "Terug naar projecten": "Back to projects",
+      "Beheer projecten": "Manage projects",
+      "Belangrijk in dit project": "Important in this project",
+      "Voeg highlights toe via de beheertool om hier kernpunten te tonen.":
+        "Add highlights through the management tool to show key points here.",
+      "Lees project": "Read project",
+      "Lees meer": "Read more",
+      "Ontdek Meer": "Discover more",
+      "Bekijk project": "View project",
+      Samenwerkingen: "Collaborations",
+      Praktijktesten: "Practical tests",
+      "R&D": "R&D",
+      "Er zijn nog geen projecten gepubliceerd.": "No projects have been published yet.",
+      "Gebruik de beheertool om de eerste post toe te voegen.":
+        "Use the management tool to add the first post.",
+
+      // Privacy and legal headings
+      "Persoonsgegevens die wij verwerken": "Personal data we process",
+      "Bijzondere en/of gevoelige persoonsgegevens die wij verwerken":
+        "Special and/or sensitive personal data we process",
+      "Doelen van de verwerking": "Purposes of processing",
+      "Geautomatiseerde besluitvorming": "Automated decision-making",
+      "Hoe lang we persoonsgegevens bewaren": "How long we retain personal data",
+      "Delen van persoonsgegevens met derden": "Sharing personal data with third parties",
+      "Cookies, of vergelijkbare technieken, die wij gebruiken": "Cookies and similar technologies we use",
+      "Gegevens inzien, aanpassen of verwijderen": "Viewing, changing or deleting your data",
+      "Hoe wij persoonsgegevens beveiligen": "How we secure personal data",
+      "Contactgegevens": "Contact details",
+      "All rights reserved.": "All rights reserved.",
     },
     html: {
       "hero-subtitle":
@@ -467,6 +855,11 @@ function normalizeTranslationKey(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function translatePublicText(value) {
+  const key = normalizeTranslationKey(value);
+  return pageLanguage === "en" ? i18n.en.text[key] || value : value;
+}
+
 function translateSubtree(root) {
   if (pageLanguage !== "en" || !root) {
     return;
@@ -511,6 +904,136 @@ function translateSubtree(root) {
       element.setAttribute("aria-label", dictionary.text[key]);
     }
   });
+
+  root.querySelectorAll?.("[title], [placeholder], [alt]").forEach((element) => {
+    ["title", "placeholder", "alt"].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) {
+        return;
+      }
+
+      const key = normalizeTranslationKey(element.getAttribute(attribute));
+      if (dictionary.text[key]) {
+        element.setAttribute(attribute, dictionary.text[key]);
+      }
+    });
+  });
+}
+
+window.translatePublicText = translatePublicText;
+window.translatePublicSubtree = translateSubtree;
+
+function applyPageSpecificEnglishContent() {
+  if (pageLanguage !== "en") {
+    return;
+  }
+
+  const setHtml = (selector, html, root = document) => {
+    const element = root.querySelector(selector);
+    if (element) {
+      element.innerHTML = html;
+    }
+  };
+
+  if (document.body.dataset.page === "over-ons") {
+    setHtml(
+      ".about-story-text",
+      "Blauwe Bagger was founded in 2022 from a shared passion for sustainability and circularity. Our founders saw many opportunities for circular use of raw materials in dredging, but also saw how the sector's complexity often gets in the way. Since then, we have been working on an integrated solution for circular reuse of dredged sediment, involving the entire chain.",
+    );
+    setHtml(
+      ".about-statement",
+      'We are helping build a world where raw materials <em class="about-statement-accent wave-underline">are never lost</em>. Our passion lies in making the <strong>value</strong> hidden in dredged sediment visible.',
+    );
+    setHtml(
+      ".about-work-card p",
+      "Would you like to work in a young, energetic and ambitious team and radically improve a sector ready for change? Take a look at our vacancies.",
+    );
+    const planCopy = document.querySelectorAll(".about-plan-copy p");
+    [
+      "Waste streams are a growing problem in a world that must operate more sustainably. Yet waste has a stubbornly negative reputation: something to be removed rather than used. <em>Even though it contains enormous potential.</em>",
+      "Using waste as a raw material is complex. Variability, contamination and social perception create barriers, and no stream is the same. Mapping variation systematically and connecting it to the right processing steps <em>bridges the gap between waste and raw material.</em>",
+      "We start in dredging, where the need for sustainability is great. By making smart use of <strong>sediment survey data</strong>, we show where dredged material can create value and build new chains.",
+    ].forEach((copy, index) => {
+      if (planCopy[index]) {
+        planCopy[index].innerHTML = copy;
+      }
+    });
+  }
+
+  if (document.body.dataset.page === "het-plan") {
+    setHtml(
+      ".plan-intro-lead",
+      "Waste streams are a growing problem in a world that must operate more sustainably. Yet waste has a <strong>stubbornly negative reputation</strong>, something to be removed rather than used. <em>Even though it contains enormous potential.</em>",
+    );
+    setHtml(
+      ".plan-intro-body",
+      "Using waste as a raw material is complex. Variability, contamination and social perception create barriers, and no stream is the same. This calls for a different way of looking and working. Blauwe Bagger sees an opportunity: mapping variation systematically and connecting it to the right processing steps <em>bridges the gap between waste and raw material.</em>",
+    );
+    setHtml(
+      ".plan-intro-support",
+      "We start in dredging, a sector that has faced <strong>structural challenges</strong> for decades and where the need for sustainability is great. By making smart use of <strong>sediment survey data</strong>, we show where dredged material can create value. <em>In doing so, we create new chains that were previously invisible.</em>",
+    );
+  }
+
+  if (document.body.dataset.page === "producten") {
+    setHtml(
+      ".page-hero-copy > p:not(.eyebrow)",
+      "By processing dredged sediment with purpose, we create recognisable outgoing streams instead of one unclear residual mass. Each fraction gets its own route to reuse, storage or further processing.",
+    );
+    setHtml(
+      ".page-hero-aside > span",
+      "Each stream needs its own quality control and a suitable route to reuse, storage or further processing.",
+    );
+    setHtml(
+      ".product-detail span",
+      "Processing dredged sediment into separate fractions creates material that can re-enter projects instead of ending up as waste.",
+    );
+    setHtml(
+      ".cta-band h2",
+      "Would you like to move forward with a specific material stream or application?",
+    );
+    setHtml(
+      ".cta-band > .section-inner > div:nth-child(2) > p",
+      "The products page is separate from services and projects, so you can focus on the stream that matters without getting lost in the rest of the site.",
+    );
+    const statCopy = document.querySelectorAll(".stat-card p");
+    [
+      "recognisable main outputs around which communication, storage and application can be organised.",
+      "mobile chain in which separation and logistics are no longer disconnected.",
+      "material value when streams get their own route earlier in the process.",
+    ].forEach((copy, index) => {
+      if (statCopy[index]) statCopy[index].textContent = copy;
+    });
+  }
+
+  if (document.body.dataset.page === "privacy") {
+    setHtml(
+      ".privacy-hero .privacy-frame > p:last-child",
+      "Blauwe Bagger, located at Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is responsible for processing personal data as described in this privacy statement.",
+    );
+    setHtml(
+      ".privacy-contact-card p",
+      'Sil van de Bovenkamp is Blauwe Bagger\'s Data Protection Officer. They can be reached at <a href="mailto:sil@blauwebagger.nl">sil@blauwebagger.nl</a>.',
+    );
+    const sections = [...document.querySelectorAll(".privacy-document > section")];
+    const paragraphs = [
+      "Blauwe Bagger processes your personal data because you use our services and/or provide it to us yourself. Below is an overview of the personal data we process:",
+      "Our website and/or service does not intend to collect data from visitors under 16. Unless they have permission from a parent or guardian. We cannot, however, verify a visitor's age. We therefore recommend that parents take part in their children's online activities to prevent data about children being collected without parental consent. If you believe that we have collected personal data about a minor without that consent, please contact us at <a href=\"mailto:sil@blauwebagger.nl\">sil@blauwebagger.nl</a> and we will delete it.",
+      "Blauwe Bagger processes your personal data for the following purposes:",
+      "Blauwe Bagger makes decisions about matters that may have significant consequences for people based on automated processing. These decisions are made by computer programs or systems without a Blauwe Bagger employee being involved. The following computer programs or systems are used: #use_explanation",
+      "Blauwe Bagger does not retain your personal data longer than strictly necessary to achieve the purposes for which it was collected. We use the following retention periods for the following categories of personal data: #retention_period",
+      "Blauwe Bagger only shares personal data with third parties when necessary to perform our agreement with you or to comply with a legal obligation.",
+      "Blauwe Bagger uses functional, analytical and tracking cookies. A cookie is a small text file stored in your computer, tablet or smartphone browser on your first visit. We use cookies with a purely technical function, to make the website work properly and remember preferences. We also use cookies to optimise the website and to track browsing behaviour so we can offer tailored content and advertising. On your first visit, we informed you about these cookies and asked for consent. You can opt out by setting your browser not to store cookies, and remove information already stored through your browser settings. See an explanation at <a href=\"https://veiliginternetten.nl/cookies-wat-zijn-het-en-wat-doe-ik-ermee/\">https://veiliginternetten.nl/cookies-wat-zijn-het-en-wat-doe-ik-ermee/</a>.",
+      "You have the right to view, correct or delete your personal data. You may also withdraw consent or object to processing, and you have the right to data portability. You can request that we send the personal data we hold about you in a computer file to you or another organisation. Send requests to <a href=\"mailto:sil@blauwebagger.nl\">sil@blauwebagger.nl</a>. To make sure the request was made by you, we ask you to include a copy of your identity document. Black out your photo, MRZ, passport number and citizen service number (BSN) on that copy. We respond as soon as possible and within four weeks. You can also submit a complaint to the Dutch Data Protection Authority via <a href=\"https://autoriteitpersoonsgegevens.nl/nl/contact-met-de-autoriteit-persoonsgegevens/tip-ons\">this link</a>.",
+      "Blauwe Bagger takes the protection of your data seriously and takes appropriate measures against misuse, loss, unauthorised access, unwanted disclosure and unauthorised changes. If you believe your data is not properly secured or suspect misuse, contact our customer service or <a href=\"mailto:sil@blauwebagger.nl\">sil@blauwebagger.nl</a>.",
+    ];
+    sections.forEach((section, index) => {
+      const paragraph = section.querySelector("p");
+      if (paragraph && paragraphs[index]) paragraph.innerHTML = paragraphs[index];
+    });
+    const lists = document.querySelectorAll(".privacy-document ul");
+    if (lists[0]) lists[0].innerHTML = "<li>First and last name</li><li>Telephone number</li><li>Email address</li><li>Information about your activities on our website</li>";
+    if (lists[1]) lists[1].innerHTML = "<li>Sending our newsletter and/or advertising leaflet</li><li>Calling or emailing you when necessary to provide our services</li><li>Informing you about changes to our services and products</li>";
+  }
 }
 
 function applyPageLanguage() {
@@ -521,12 +1044,24 @@ function applyPageLanguage() {
     const isCurrent = link.lang === pageLanguage;
     link.setAttribute("aria-current", String(isCurrent));
 
+    link.addEventListener("click", () => {
+      try {
+        window.localStorage.setItem("siteLanguage", link.lang === "en" ? "en" : "nl");
+      } catch {
+        // Continue without persistence when storage is unavailable.
+      }
+    });
+
     if (link.lang === "en") {
-      link.setAttribute("href", "/?lang=en");
+      const target = new URL(window.location.href);
+      target.searchParams.set("lang", "en");
+      link.setAttribute("href", `${target.pathname}${target.search}${target.hash}`);
     }
 
     if (link.lang === "nl") {
-      link.setAttribute("href", "/");
+      const target = new URL(window.location.href);
+      target.searchParams.delete("lang");
+      link.setAttribute("href", `${target.pathname}${target.search}${target.hash}`);
     }
   });
 
@@ -535,7 +1070,38 @@ function applyPageLanguage() {
   }
 
   const dictionary = i18n.en;
-  document.title = dictionary.title;
+  const pageTitles = {
+    "/": "Blauwe Bagger | Home",
+    "/index.html": "Blauwe Bagger | Home",
+    "/homepage2.html": "Blauwe Bagger | Home",
+    "/het-plan.html": "Blauwe Bagger | The Plan",
+    "/het-plan": "Blauwe Bagger | The Plan",
+    "/over-ons.html": "Blauwe Bagger | About us",
+    "/over-ons": "Blauwe Bagger | About us",
+    "/services": "Blauwe Bagger | Services",
+    "/services/baggeraars": "Blauwe Bagger | Dredging industry",
+    "/services/grondstoffen": "Blauwe Bagger | Construction",
+    "/producten.html": "Blauwe Bagger | Products",
+    "/producten": "Blauwe Bagger | Products",
+    "/projecten.html": "Blauwe Bagger | Projects",
+    "/projecten": "Blauwe Bagger | Projects",
+    "/project-detail.html": "Blauwe Bagger | Project",
+    "/project-detail": "Blauwe Bagger | Project",
+    "/vacatures.html": "Blauwe Bagger | Vacancies",
+    "/vacatures": "Blauwe Bagger | Vacancies",
+    "/vacature-detail.html": "Blauwe Bagger | Vacancy",
+    "/vacature-detail": "Blauwe Bagger | Vacancy",
+    "/contact.html": "Blauwe Bagger | Contact",
+    "/contact": "Blauwe Bagger | Contact",
+    "/privacy-policy.html": "Blauwe Bagger | Privacy Policy",
+    "/privacy-policy": "Blauwe Bagger | Privacy Policy",
+  };
+  const contextualTitle = normalizedPath.startsWith("/projecten/")
+    ? "Blauwe Bagger | Project"
+    : normalizedPath.startsWith("/producten/")
+      ? "Blauwe Bagger | Product"
+      : pageTitles[normalizedPath];
+  document.title = contextualTitle || dictionary.title;
 
   const description = document.querySelector('meta[name="description"]');
   if (description) {
@@ -550,6 +1116,7 @@ function applyPageLanguage() {
   });
 
   translateSubtree(document.body);
+  applyPageSpecificEnglishContent();
 
   blueprintSteps.forEach((step) => {
     ["blueprintTitle", "blueprintCopy"].forEach((key) => {
@@ -571,6 +1138,47 @@ function applyPageLanguage() {
   if (contactButton) {
     contactButton.textContent = dictionary.text["Verstuur bericht"];
   }
+}
+
+function moveFooterCompanyIds() {
+  document.querySelectorAll("body:not(.project-builder-admin) .home-footer-contact").forEach((contactBlock) => {
+    const footerFrame = contactBlock.closest(".home-frame");
+    const footerBottom = footerFrame?.querySelector(".home-footer-bottom");
+
+    if (!footerBottom || footerBottom.querySelector(".home-footer-company-ids")) {
+      return;
+    }
+
+    const companyIds = document.createElement("div");
+    companyIds.className = "home-footer-company-ids";
+    const ids = pageLanguage === "en"
+      ? ["Chamber of Commerce: 98672088", "VAT: NL868594660B01"]
+      : ["KVK: 98672088", "BTW: NL868594660B01"];
+
+    ids.forEach((value) => {
+      const item = document.createElement("span");
+      item.textContent = value;
+      companyIds.append(item);
+    });
+
+    footerBottom.insertBefore(companyIds, footerBottom.firstChild);
+    contactBlock.remove();
+  });
+}
+
+function arrangeFooterSocialLinks() {
+  document.querySelectorAll("body:not(.project-builder-admin) .site-footer").forEach((footer) => {
+    footer.querySelectorAll('a[href*="instagram.com"]').forEach((link) => link.remove());
+
+    const linkedin = footer.querySelector('a[href*="linkedin.com"]');
+    const footerColumns = footer.querySelectorAll(".home-footer-column");
+    const companyColumn = footerColumns[1];
+
+    if (linkedin && companyColumn && !companyColumn.contains(linkedin)) {
+      linkedin.classList.add("home-footer-linkedin");
+      companyColumn.append(linkedin);
+    }
+  });
 }
 
 function updateHeaderState() {
@@ -783,6 +1391,38 @@ function planTimelineScrollIsEnabled() {
   );
 }
 
+function syncPlanTimelineScale() {
+  if (!planTimelineAxis || !planTimelineSteps.length) {
+    return;
+  }
+
+  // The timeline represents milestones, not a continuous calendar. Give each
+  // milestone a consistent slot so long quiet periods do not create oversized
+  // gaps, while keeping the displayed years attached to their matching dots.
+  const steps = Array.from(planTimelineSteps);
+  const timelineStart = 7;
+  const timelineEnd = 93;
+  const stepSpacing = (timelineEnd - timelineStart) / Math.max(steps.length - 1, 1);
+
+  planTimelineAxis.style.setProperty("--timeline-start", `${timelineStart}%`);
+  planTimelineAxis.style.setProperty("--timeline-end", `${timelineEnd}%`);
+  planTimelineAxis.style.setProperty("--timeline-period-start", `${timelineStart}%`);
+  planTimelineAxis.style.setProperty("--timeline-period-end", `${(timelineStart + stepSpacing).toFixed(3)}%`);
+
+  steps.forEach((step, index) => {
+    const position = timelineStart + stepSpacing * index;
+    const formattedPosition = `${position.toFixed(3)}%`;
+
+    step.style.setProperty("--timeline-pos", formattedPosition);
+    step.dataset.planProgress = formattedPosition;
+  });
+
+  planTimelineYears?.querySelectorAll("[data-plan-year-label]").forEach((label) => {
+    const matchingStep = steps.find((step) => step.dataset.planYear === label.dataset.planYearLabel);
+    label.style.setProperty("--timeline-year-pos", matchingStep?.dataset.planProgress || `${timelineStart}%`);
+  });
+}
+
 function updatePlanTimelineScrollSequence() {
   if (!planTimelineStory || !planTimelineAxis || !planTimelineSteps.length) {
     return;
@@ -795,7 +1435,7 @@ function updatePlanTimelineScrollSequence() {
     const activeStep = steps.find((step) => step.classList.contains("plan-timeline-point--active")) || steps[0];
     planTimelineAxis.style.setProperty(
       "--timeline-scroll-position",
-      activeStep?.dataset.planProgress || "12%",
+      activeStep?.dataset.planProgress || "7%",
     );
     return;
   }
@@ -809,8 +1449,8 @@ function updatePlanTimelineScrollSequence() {
   const segmentProgress = storyProgress * (steps.length - 1);
   const segmentIndex = Math.min(Math.floor(segmentProgress), steps.length - 2);
   const segmentFraction = clamp(segmentProgress - segmentIndex);
-  const startPosition = Number.parseFloat(steps[segmentIndex].dataset.planProgress || "12");
-  const endPosition = Number.parseFloat(steps[segmentIndex + 1].dataset.planProgress || "95");
+  const startPosition = Number.parseFloat(steps[segmentIndex].dataset.planProgress || "7");
+  const endPosition = Number.parseFloat(steps[segmentIndex + 1].dataset.planProgress || "93");
   const timelinePosition = startPosition + (endPosition - startPosition) * segmentFraction;
   const activeIndex = Math.min(Math.round(segmentProgress), steps.length - 1);
 
@@ -1028,7 +1668,50 @@ function waitForHeroVideo(video) {
   });
 }
 
+function preloadHeroVideo(video) {
+  if (!video || heroVideoPreloads.has(video)) {
+    return;
+  }
+
+  heroVideoPreloads.add(video);
+  video.preload = "auto";
+
+  if (video.readyState < 2) {
+    video.load();
+  }
+}
+
+function warmHeroVideoQueue(activeIndex) {
+  const nextIndex = (activeIndex + 1) % heroVideoClips.length;
+  const nextClip = heroVideoClips[nextIndex];
+  const nextVideo = heroVideos[nextClip?.videoIndex ?? nextIndex % heroVideos.length];
+
+  // The next clip is prepared immediately so the crossfade does not wait on
+  // a new network request. The remaining clips are warmed during idle time,
+  // without competing with the first frame of the hero.
+  preloadHeroVideo(nextVideo);
+
+  const warmRemaining = () => {
+    heroVideos.forEach((candidate) => preloadHeroVideo(candidate));
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(warmRemaining, { timeout: 1800 });
+  } else {
+    window.setTimeout(warmRemaining, 600);
+  }
+}
+
 function seekHeroVideo(video, time) {
+  if (time <= 0.05) {
+    try {
+      video.currentTime = 0;
+    } catch {
+      // Ignore browsers that do not expose a writable currentTime yet.
+    }
+    return Promise.resolve();
+  }
+
   return new Promise((resolve) => {
     let settled = false;
     const finish = () => {
@@ -1069,8 +1752,10 @@ async function playHeroClip(index = 0) {
   activeHeroClip = clipIndex;
   window.clearTimeout(heroClipTimer);
 
+  preloadHeroVideo(video);
   await waitForHeroVideo(video);
   await seekHeroVideo(video, clip.start);
+  warmHeroVideoQueue(clipIndex);
 
   video.playbackRate = 1;
   await video.play().catch(() => {});
@@ -1479,9 +2164,9 @@ function selectPlanTimelineStep(step) {
   });
 
   if (planTimelineAxis) {
-    planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "12%");
+    planTimelineAxis.style.setProperty("--timeline-progress", step.dataset.planProgress || "7%");
     if (!planTimelineStory?.classList.contains("is-scroll-enabled")) {
-      planTimelineAxis.style.setProperty("--timeline-scroll-position", step.dataset.planProgress || "12%");
+      planTimelineAxis.style.setProperty("--timeline-scroll-position", step.dataset.planProgress || "7%");
     }
     planTimelineAxis.classList.toggle("plan-timeline-axis--period-visible", step.dataset.planShowPeriod === "true");
   }
@@ -1492,17 +2177,17 @@ function selectPlanTimelineStep(step) {
 
   if (planActivePeriod) {
     const activeYear = step.dataset.planYear || "";
-    const activePeriod = step.dataset.planPeriod || "";
+    const activePeriod = translatePublicText(step.dataset.planPeriod || "");
     planActivePeriod.textContent = activePeriod;
     planActivePeriod.hidden = !activePeriod || activePeriod === activeYear;
   }
 
   if (planActiveTitle) {
-    planActiveTitle.textContent = step.dataset.planTitle || "";
+    planActiveTitle.textContent = translatePublicText(step.dataset.planTitle || "");
   }
 
   if (planActiveCopy) {
-    planActiveCopy.textContent = step.dataset.planCopy || "";
+    planActiveCopy.textContent = translatePublicText(step.dataset.planCopy || "");
   }
 
   if (selectionChanged && planTimelineFeature?.animate) {
@@ -1623,6 +2308,8 @@ function resizeBaggerWidget(event) {
 }
 
 applyPageLanguage();
+moveFooterCompanyIds();
+arrangeFooterSocialLinks();
 
 playHeroClip();
 
@@ -1769,6 +2456,15 @@ window.addEventListener("resize", () => {
 });
 window.addEventListener("touchstart", handlePageActivity, { passive: true });
 window.addEventListener("keydown", handlePageActivity);
+syncPlanTimelineScale();
+// Populate the feature panel from the active milestone on first load as well
+// as after clicks/scrolling, so its copy follows the selected language.
+if (planTimelineSteps.length) {
+  const initialPlanStep =
+    Array.from(planTimelineSteps).find((step) => step.classList.contains("plan-timeline-point--active")) ||
+    planTimelineSteps[0];
+  selectPlanTimelineStep(initialPlanStep);
+}
 updateScrollProgress();
 syncFooterSurface();
 scheduleHeaderAutoHide();
@@ -1925,13 +2621,14 @@ async function hydratePublicContentBoard(board) {
         (item, index) => `
           <article class="about-board-card reveal is-visible">
             <span>${String(index + 1).padStart(2, "0")}</span>
-            <h3>${escapePublicContent(item.title)}</h3>
-            <p>${escapePublicContent(item.excerpt)}</p>
-            <a href="/contact">${type === "jobs" ? "Neem contact op" : "Lees meer"} <span class="link-arrow__icon" aria-hidden="true"></span></a>
+            <h3>${escapePublicContent(translatePublicText(item.title))}</h3>
+            <p>${escapePublicContent(translatePublicText(item.excerpt))}</p>
+            <a href="/contact">${type === "jobs" ? translatePublicText("Neem contact op") : translatePublicText("Lees meer")} <span class="link-arrow__icon" aria-hidden="true"></span></a>
           </article>
         `,
       )
       .join("");
+    translateSubtree(board);
   } catch {
     // Keep the static fallback cards when the backend is not available.
   }
@@ -1956,11 +2653,12 @@ function renderPublicVacancies(board, items, settings = {}) {
     .filter((date) => Number.isFinite(date.getTime()))
     .sort((a, b) => b - a)[0];
   const updatedLabel = latestDate
-    ? new Intl.DateTimeFormat("nl-NL", { month: "long", year: "numeric" }).format(latestDate)
-    : new Intl.DateTimeFormat("nl-NL", { month: "long", year: "numeric" }).format(new Date());
+    ? new Intl.DateTimeFormat(pageLanguage === "en" ? "en-GB" : "nl-NL", { month: "long", year: "numeric" }).format(latestDate)
+    : new Intl.DateTimeFormat(pageLanguage === "en" ? "en-GB" : "nl-NL", { month: "long", year: "numeric" }).format(new Date());
 
   if (summary) {
-    summary.textContent = `${renderedItems.length} ${renderedItems.length === 1 ? "vacature" : "vacatures"} · bijgewerkt ${updatedLabel}`;
+    const countLabel = renderedItems.length === 1 ? translatePublicText("vacature") : translatePublicText("vacatures");
+    summary.textContent = `${renderedItems.length} ${countLabel} · ${translatePublicText("bijgewerkt")} ${updatedLabel}`;
   }
 
   document.querySelector("[data-open-application-note]")?.toggleAttribute("hidden", !showOpenApplication);
@@ -1970,16 +2668,17 @@ function renderPublicVacancies(board, items, settings = {}) {
       (item) => `
         <article class="about-vacancy-row reveal is-visible">
           <div class="about-vacancy-row__main">
-            <h3>${escapePublicContent(item.title)}</h3>
-            <p>${escapePublicContent(item.excerpt || "Bekijk de vacature voor meer informatie.")}</p>
+            <h3>${escapePublicContent(translatePublicText(item.title))}</h3>
+            <p>${escapePublicContent(translatePublicText(item.excerpt || "Bekijk de vacature voor meer informatie."))}</p>
           </div>
-          <span>${escapePublicContent(item.category || "Vacature")}</span>
-          <span>${escapePublicContent(item.workload || item.status || "In overleg")}</span>
-          <a href="${jobDetailUrl(item.slug)}">Bekijk <span class="link-arrow__icon" aria-hidden="true"></span></a>
+          <span>${escapePublicContent(translatePublicText(item.category || "Vacature"))}</span>
+          <span>${escapePublicContent(translatePublicText(item.workload || item.status || "In overleg"))}</span>
+          <a href="${jobDetailUrl(item.slug)}">${translatePublicText("Bekijk")} <span class="link-arrow__icon" aria-hidden="true"></span></a>
         </article>
       `,
     )
     .join("");
+  translateSubtree(board);
 }
 
 async function hydratePublicTeam(grid) {
@@ -2007,6 +2706,7 @@ async function hydratePublicTeam(grid) {
         `,
       )
       .join("");
+    translateSubtree(grid);
   } catch {
     // Keep the static fallback team cards when the backend is not available.
   }

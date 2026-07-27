@@ -1,4 +1,6 @@
 const jobDetailRoot = document.querySelector("[data-job-detail]");
+const translateJobText = (value) =>
+  typeof window.translatePublicText === "function" ? window.translatePublicText(value) : value;
 
 const fallbackOpenJob = {
   slug: "open-sollicitatie",
@@ -92,7 +94,7 @@ function renderJobDetail(job) {
   const excerpt = String(job.excerpt || "").trim();
   const body = normalizeJobBody(job.body, excerpt || "Neem contact op voor meer informatie over deze vacature.");
   const metadata = [job.category || "Vacature", job.workload || "In overleg", job.status || "Open"]
-    .map((value) => `<span>${escapeJobHtml(value)}</span>`)
+    .map((value) => `<span>${escapeJobHtml(translateJobText(value))}</span>`)
     .join("");
 
   document.title = `Blauwe Bagger | ${title}`;
@@ -101,11 +103,11 @@ function renderJobDetail(job) {
       <div class="job-detail-frame">
         <a class="job-detail-back" href="/vacatures">
           <span aria-hidden="true">&larr;</span>
-          <span>Terug naar vacatures</span>
+          <span>${translateJobText("Terug naar vacatures")}</span>
         </a>
-        <p class="job-detail-kicker">Vacature</p>
-        <h1>${escapeJobHtml(title)}</h1>
-        ${excerpt ? `<p class="job-detail-excerpt">${escapeJobHtml(excerpt)}</p>` : ""}
+        <p class="job-detail-kicker">${translateJobText("Vacature")}</p>
+        <h1>${escapeJobHtml(translateJobText(title))}</h1>
+        ${excerpt ? `<p class="job-detail-excerpt">${escapeJobHtml(translateJobText(excerpt))}</p>` : ""}
         <div class="job-detail-meta">${metadata}</div>
       </div>
     </section>
@@ -113,14 +115,14 @@ function renderJobDetail(job) {
     <section class="job-detail-content">
       <div class="job-detail-frame job-detail-layout">
         <article class="job-detail-copy">
-          ${body.map((paragraph) => `<p>${escapeJobHtml(paragraph)}</p>`).join("")}
+          ${body.map((paragraph) => `<p>${escapeJobHtml(translateJobText(paragraph))}</p>`).join("")}
         </article>
         <aside class="job-detail-cta">
-          <p class="job-detail-cta__kicker">Interesse?</p>
-          <h2>Bouw mee aan de circulaire baggerketen.</h2>
-          <p>Neem contact op en vertel ons waar jij waarde kunt toevoegen.</p>
+          <p class="job-detail-cta__kicker">${translateJobText("Interesse?")}</p>
+          <h2>${translateJobText("Bouw mee aan de circulaire baggerketen.")}</h2>
+          <p>${translateJobText("Neem contact op en vertel ons waar jij waarde kunt toevoegen.")}</p>
           <a class="primary-link" href="/contact">
-            <span>Neem contact op</span>
+            <span>${translateJobText("Neem contact op")}</span>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
           </a>
         </aside>
@@ -137,7 +139,7 @@ async function initJobDetail() {
   const slug = new URLSearchParams(window.location.search).get("slug")?.trim();
 
   if (!slug) {
-    jobDetailRoot.innerHTML = `<div class="job-detail-empty"><p>Geen vacature geselecteerd.</p><a href="/vacatures">Terug naar vacatures</a></div>`;
+    jobDetailRoot.innerHTML = `<div class="job-detail-empty"><p>${translateJobText("Geen vacature geselecteerd.")}</p><a href="/vacatures">${translateJobText("Terug naar vacatures")}</a></div>`;
     return;
   }
 
@@ -147,8 +149,8 @@ async function initJobDetail() {
   } catch (error) {
     jobDetailRoot.innerHTML = `
       <div class="job-detail-empty">
-        <p>${escapeJobHtml(error.message)}</p>
-        <a href="/vacatures">Terug naar vacatures</a>
+        <p>${escapeJobHtml(translateJobText(error.message))}</p>
+        <a href="/vacatures">${translateJobText("Terug naar vacatures")}</a>
       </div>
     `;
   }
