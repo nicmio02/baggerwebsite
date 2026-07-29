@@ -15,6 +15,22 @@
   ],
   "rewrites": [
     {
+      "source": "/api/projects/:slug",
+      "destination": "/api/projects?slug=:slug"
+    },
+    {
+      "source": "/api/jobs/:slug",
+      "destination": "/api/jobs?slug=:slug"
+    },
+    {
+      "source": "/api/news/:slug",
+      "destination": "/api/news?slug=:slug"
+    },
+    {
+      "source": "/api/team/:slug",
+      "destination": "/api/team?slug=:slug"
+    },
+    {
       "source": "/en",
       "destination": "/index.html"
     },
