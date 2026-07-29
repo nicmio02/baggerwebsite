@@ -1169,6 +1169,7 @@ function moveFooterCompanyIds() {
 function arrangeFooterSocialLinks() {
   document.querySelectorAll("body:not(.project-builder-admin) .site-footer").forEach((footer) => {
     footer.querySelectorAll('a[href*="instagram.com"]').forEach((link) => link.remove());
+    footer.querySelectorAll('a[href="/privacy-policy"], a[href="/privacy-policy.html"]').forEach((link) => link.remove());
 
     const linkedin = footer.querySelector('a[href*="linkedin.com"]');
     const footerColumns = footer.querySelectorAll(".home-footer-column");
