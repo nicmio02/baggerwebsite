@@ -1,0 +1,121 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# --- API routes ---
+# Slug-bearing collections need a splat rule (path-based, not query-string —
+# Netlify's redirect engine is unreliable when a wildcard splat is interpolated
+# into a destination query string) plus an exact-path rule for the no-slug case.
+
+[[redirects]]
+  from = "/api/projects/*"
+  to = "/.netlify/functions/projects/:splat"
+  status = 200
+[[redirects]]
+  from = "/api/projects"
+  to = "/.netlify/functions/projects"
+  status = 200
+
+[[redirects]]
+  from = "/api/jobs/*"
+  to = "/.netlify/functions/jobs/:splat"
+  status = 200
+[[redirects]]
+  from = "/api/jobs"
+  to = "/.netlify/functions/jobs"
+  status = 200
+
+[[redirects]]
+  from = "/api/news/*"
+  to = "/.netlify/functions/news/:splat"
+  status = 200
+[[redirects]]
+  from = "/api/news"
+  to = "/.netlify/functions/news"
+  status = 200
+
+[[redirects]]
+  from = "/api/team/*"
+  to = "/.netlify/functions/team/:splat"
+  status = 200
+[[redirects]]
+  from = "/api/team"
+  to = "/.netlify/functions/team"
+  status = 200
+
+[[redirects]]
+  from = "/api/jobs-settings"
+  to = "/.netlify/functions/jobs-settings"
+  status = 200
+
+[[redirects]]
+  from = "/api/uploads"
+  to = "/.netlify/functions/uploads"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/login"
+  to = "/.netlify/functions/auth-login"
+  status = 200
+[[redirects]]
+  from = "/api/auth/session"
+  to = "/.netlify/functions/auth-session"
+  status = 200
+[[redirects]]
+  from = "/api/auth/logout"
+  to = "/.netlify/functions/auth-logout"
+  status = 200
+
+# --- Static redirects/rewrites, ported 1:1 from vercel.json ---
+
+[[redirects]]
+  from = "/het-plan"
+  to = "/over-ons#het-plan"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/projecten/:slug"
+  to = "/project-detail?slug=:slug"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/en"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/baggeraars"
+  to = "/services/baggeraars.html"
+  status = 200
+
+[[redirects]]
+  from = "/services/grondstoffen"
+  to = "/services/grondstoffen.html"
+  status = 200
+
+[[redirects]]
+  from = "/producten/bluesand"
+  to = "/producten/bluesand.html"
+  status = 200
+
+[[redirects]]
+  from = "/producten/bluefiller"
+  to = "/producten/bluefiller.html"
+  status = 200
+
+[[redirects]]
+  from = "/producten/bluecalc"
+  to = "/producten/bluecalc.html"
+  status = 200
+
+[[redirects]]
+  from = "/producten/blueclay"
+  to = "/producten/blueclay.html"
+  status = 200
+
+[[redirects]]
+  from = "/projecten/*"
+  to = "/project-detail.html"
+  status = 200

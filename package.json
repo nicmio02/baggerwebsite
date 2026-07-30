@@ -1,9 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "start": "node local-server.js"
+    "start": "node local-server.js",
+    "dev:netlify": "netlify dev"
   },
   "dependencies": {
-    "@vercel/blob": "latest"
+    "@netlify/blobs": "latest"
+  },
+  "devDependencies": {
+    "netlify-cli": "latest"
   }
 }
