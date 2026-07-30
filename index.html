@@ -13,11 +13,14 @@
     <link rel="preload" href="assets/media/home-hero-aerial.jpg" as="image" />
     <link
       rel="preload"
-      href="assets/media/bagger-process-hero.mp4"
+      href="assets/media/hero-clip-1.mp4"
       as="video"
       type="video/mp4"
       fetchpriority="high"
     />
+    <link rel="preload" href="assets/media/hero-clip-2.mp4" as="video" type="video/mp4" fetchpriority="low" />
+    <link rel="preload" href="assets/media/hero-clip-3.mp4" as="video" type="video/mp4" fetchpriority="low" />
+    <link rel="preload" href="assets/media/hero-clip-4.mp4" as="video" type="video/mp4" fetchpriority="low" />
     <link rel="stylesheet" href="styles.css?v=mission-wave-width-reveal-20260715-1" />
   </head>
   <body data-page="home">
@@ -80,16 +83,16 @@
       <section class="home-hero" id="top" aria-labelledby="hero-title">
         <div class="home-hero-media" aria-hidden="true">
           <video class="home-hero-video is-active" data-hero-video="0" autoplay muted playsinline preload="auto" fetchpriority="high" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/bagger-process-hero.mp4" type="video/mp4" />
+            <source src="assets/media/hero-clip-1.mp4" type="video/mp4" />
           </video>
-          <video class="home-hero-video" data-hero-video="1" muted playsinline preload="metadata" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/zandwinning.mp4" type="video/mp4" />
+          <video class="home-hero-video" data-hero-video="1" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
+            <source src="assets/media/hero-clip-2.mp4" type="video/mp4" />
           </video>
-          <video class="home-hero-video" data-hero-video="2" muted playsinline preload="metadata" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/waterweg-bagger-consortium.mp4" type="video/mp4" />
+          <video class="home-hero-video" data-hero-video="2" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
+            <source src="assets/media/hero-clip-3.mp4" type="video/mp4" />
           </video>
-          <video class="home-hero-video" data-hero-video="3" muted playsinline preload="metadata" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/home-hero-img-3514.mp4" type="video/mp4" />
+          <video class="home-hero-video" data-hero-video="3" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
+            <source src="assets/media/hero-clip-4.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-frame">
@@ -479,7 +482,7 @@
       </div>
     </footer>
 
-    <script src="script.js?v=hero-video-preload-20260727-1"></script>
+    <script src="script.js?v=hero-video-snippets-20260730-1"></script>
     <script src="projects.js?v=project-cards-no-dates"></script>
   </body>
 </html>

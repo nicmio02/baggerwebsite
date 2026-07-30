@@ -23489,6 +23489,13 @@ body:not(.project-builder-admin) .site-footer a[href="/privacy-policy.html"] {
   display: none !important;
 }
 
+/* The collaboration CTA was removed from the public footer. Hide the legacy
+   wrapper as well so it cannot leave an empty grid row or heading behind when
+   a page is rendered before the footer cleanup script runs. */
+body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-links {
+  display: none !important;
+}
+
 @media (max-width: 880px) {
   body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-links,
   body:not(.project-builder-admin) .site-footer.site-footer--brand .home-footer-address {
