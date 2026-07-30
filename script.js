@@ -74,18 +74,18 @@ const heroVideoClips = [
   },
   {
     videoIndex: 1,
-    start: 94,
-    end: 97.2,
+    start: 0,
+    end: 3.2,
   },
   {
     videoIndex: 2,
-    start: 41.5,
-    end: 44,
+    start: 0,
+    end: 2.5,
   },
   {
     videoIndex: 3,
-    start: 13,
-    end: 17,
+    start: 0,
+    end: 4,
   },
 ];
 
@@ -1174,10 +1174,17 @@ function arrangeFooterSocialLinks() {
     const linkedin = footer.querySelector('a[href*="linkedin.com"]');
     const footerColumns = footer.querySelectorAll(".home-footer-column");
     const companyColumn = footerColumns[1];
+    const collaborationBlock = footer.querySelector(".home-footer-links");
 
     if (linkedin && companyColumn && !companyColumn.contains(linkedin)) {
       linkedin.classList.add("home-footer-linkedin");
       companyColumn.append(linkedin);
+    }
+
+    // The footer no longer has a collaboration CTA. Remove the now-empty
+    // legacy wrapper after moving LinkedIn into the company column.
+    if (collaborationBlock && !collaborationBlock.querySelector("a, button")) {
+      collaborationBlock.remove();
     }
   });
 }
