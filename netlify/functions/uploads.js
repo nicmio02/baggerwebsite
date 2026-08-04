@@ -2,6 +2,7 @@ const path = require("path");
 const { getStore } = require("@netlify/blobs");
 const { requireAdmin, sendJson } = require("./_shared/auth");
 const { withLegacyHandler } = require("./_shared/shim");
+const { getBlobsClientOptions } = require("./_shared/blobs-client-options");
 
 // Netlify's synchronous functions cap request payloads at 6MB (same underlying
 // AWS Lambda limit). Base64 adds ~30% overhead, so ~4.5MB is the real ceiling for
@@ -10,7 +11,7 @@ const { withLegacyHandler } = require("./_shared/shim");
 const maxUploadBytes = 4 * 1024 * 1024;
 
 function getUploadsStore() {
-  return getStore({ name: "uploads", consistency: "strong" });
+  return getStore({ name: "uploads", consistency: "strong", ...getBlobsClientOptions() });
 }
 
 function safeUploadName(value) {

@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { getStore } = require("@netlify/blobs");
 const { requireAdmin, sendJson } = require("./auth");
+const { getBlobsClientOptions } = require("./blobs-client-options");
 
 const root = path.resolve(__dirname, "../../..");
 const cmsStoreName = "cms";
@@ -47,7 +48,7 @@ function getCmsStore() {
   // create/update/delete here is a read-full-list -> mutate -> write-full-list-back,
   // so eventual consistency's up-to-60s propagation window could let two admin
   // edits in quick succession clobber each other on a stale read.
-  return getStore({ name: cmsStoreName, consistency: "strong" });
+  return getStore({ name: cmsStoreName, consistency: "strong", ...getBlobsClientOptions() });
 }
 
 function readLocalStore(config) {
