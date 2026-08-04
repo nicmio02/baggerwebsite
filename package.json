@@ -2,12 +2,14 @@
   "private": true,
   "scripts": {
     "start": "node local-server.js",
-    "dev:netlify": "netlify dev"
+    "dev:netlify": "netlify dev",
+    "migrate:blobs": "node scripts/migrate-blobs.js"
   },
   "dependencies": {
     "@netlify/blobs": "latest"
   },
   "devDependencies": {
-    "netlify-cli": "latest"
+    "netlify-cli": "latest",
+    "@vercel/blob": "latest"
   }
 }
