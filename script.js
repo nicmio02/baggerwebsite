@@ -2717,34 +2717,43 @@ document.querySelectorAll("[data-public-content]").forEach(hydratePublicContentB
 document.querySelectorAll("[data-team-grid]").forEach(hydratePublicTeam);
 
 async function applySiteTextOverrides() {
-  if (pageLanguage === "en") {
-    return;
-  }
-
   const editableElements = document.querySelectorAll("[data-edit-key]");
 
   if (!editableElements.length) {
     return;
   }
 
-  try {
-    const response = await fetch("/api/site-text", { credentials: "same-origin" });
-
-    if (!response.ok) {
-      return;
-    }
-
-    const overrides = await response.json();
-
+  const reveal = () => {
     editableElements.forEach((element) => {
-      const value = overrides?.[element.getAttribute("data-edit-key")];
-
-      if (typeof value === "string" && value.trim()) {
-        element.textContent = value;
-      }
+      element.style.visibility = "";
     });
+  };
+
+  // These elements start hidden (see the [data-edit-key] CSS rule) so a
+  // slow/unavailable backend never leaves them stuck invisible.
+  const revealTimeout = setTimeout(reveal, 1200);
+
+  try {
+    if (pageLanguage !== "en") {
+      const response = await fetch("/api/site-text", { credentials: "same-origin" });
+
+      if (response.ok) {
+        const overrides = await response.json();
+
+        editableElements.forEach((element) => {
+          const value = overrides?.[element.getAttribute("data-edit-key")];
+
+          if (typeof value === "string" && value.trim()) {
+            element.textContent = value;
+          }
+        });
+      }
+    }
   } catch {
     // Backend unavailable: keep the static Dutch copy already in the HTML.
+  } finally {
+    clearTimeout(revealTimeout);
+    reveal();
   }
 }
 
