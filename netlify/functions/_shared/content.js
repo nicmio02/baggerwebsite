@@ -43,6 +43,13 @@ const defaultJobSettings = {
   showOpenApplication: false,
 };
 
+const siteTextConfig = {
+  file: path.join(root, "data", "site-text-overrides.json"),
+  key: "site-text.json",
+};
+
+const siteTextRegistryFile = path.join(root, "data", "site-text-registry.json");
+
 function getCmsStore() {
   // Strong consistency trades a little read latency for correctness: every
   // create/update/delete here is a read-full-list -> mutate -> write-full-list-back,
@@ -104,6 +111,69 @@ async function readJobSettings() {
 
 async function writeJobSettings(settings) {
   await getCmsStore().setJSON(jobSettingsConfig.key, normalizeJobSettings(settings));
+}
+
+function loadSiteTextRegistryKeys() {
+  try {
+    const registry = JSON.parse(fs.readFileSync(siteTextRegistryFile, "utf8"));
+    return new Set(registry.map((entry) => entry.key));
+  } catch {
+    return null;
+  }
+}
+
+function normalizeSiteTextOverrides(input) {
+  const allowedKeys = loadSiteTextRegistryKeys();
+  const result = {};
+
+  for (const [key, value] of Object.entries(input && typeof input === "object" ? input : {})) {
+    if (allowedKeys && !allowedKeys.has(key)) {
+      throw new Error(`Onbekende tekstsleutel: ${key}`);
+    }
+
+    const trimmed = String(value ?? "").trim().slice(0, 2000);
+
+    if (trimmed) {
+      result[key] = trimmed;
+    }
+  }
+
+  return result;
+}
+
+async function readSiteTextOverrides() {
+  const blobOverrides = await readBlobObjectStore(siteTextConfig);
+  return blobOverrides || readLocalObjectStore(siteTextConfig, {});
+}
+
+async function writeSiteTextOverrides(overrides) {
+  await getCmsStore().setJSON(siteTextConfig.key, overrides);
+}
+
+async function handleSiteText(request, response) {
+  if (request.method === "GET") {
+    sendJson(response, 200, await readSiteTextOverrides());
+    return;
+  }
+
+  if (request.method !== "PUT") {
+    sendJson(response, 405, { error: "Methode niet toegestaan." });
+    return;
+  }
+
+  if (!requireAdmin(request, response)) {
+    return;
+  }
+
+  try {
+    const payload = await parseJsonBody(request);
+    const current = await readSiteTextOverrides();
+    const merged = normalizeSiteTextOverrides({ ...current, ...(payload.overrides || {}) });
+    await writeSiteTextOverrides(merged);
+    sendJson(response, 200, merged);
+  } catch (error) {
+    sendMutationError(response, error);
+  }
 }
 
 async function readStore(type) {
@@ -538,4 +608,5 @@ module.exports = {
   handleCollection,
   handleItem,
   handleJobSettings,
+  handleSiteText,
 };

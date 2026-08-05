@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Beheer de website teksten van Blauwe Bagger."
+    />
+    <title>Blauwe Bagger | Teksten beheren</title>
+    <link rel="icon" href="assets/brand/blauwe-bagger-icon.png" />
+    <link rel="preload" href="assets/brand/blauwe-bagger-logo.svg" as="image" />
+    <link rel="stylesheet" href="styles.css?v=textedit-1" />
+  </head>
+  <body class="project-builder-admin" data-page="textedit" data-admin-private>
+    <a class="skip-link" href="#main">Ga naar inhoud</a>
+    <header class="site-header" data-header>
+      <div class="nav-shell">
+        <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
+          <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+        </a>
+
+        <nav class="main-nav" aria-label="Hoofdnavigatie">
+          <div class="nav-dropdown">
+            <a aria-haspopup="true">Services</a>
+            <div class="nav-dropdown__menu" aria-label="Service routes">
+              <a href="/services/baggeraars">Voor de baggerindustrie</a>
+              <a href="/services/grondstoffen">Voor de bouw</a>
+            </div>
+          </div>
+          <a href="/projecten">Projecten</a>
+          <div class="nav-dropdown">
+            <a href="/over-ons" aria-haspopup="true">Over ons</a>
+            <div class="nav-dropdown__menu" aria-label="Over ons">
+              <a href="/over-ons#het-team">Het team</a>
+              <a href="/over-ons#werken-bij">Werken bij</a>
+              <a href="/over-ons#het-plan">Het plan</a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="nav-actions">
+          <div class="language-toggle" aria-label="Taalkeuze">
+            <a href="/" lang="nl" aria-current="true">NL</a>
+            <a href="/?lang=en" lang="en">EN</a>
+          </div>
+          <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span class="sr-only">Menu</span>
+          </button>
+          <a class="icon-button icon-button--desktop" href="/" aria-label="Terug naar website">
+            <span>Website</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+          </a>
+        </div>
+      </div>
+
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Mobiele navigatie" hidden>
+        <a href="/services/baggeraars">Voor de baggerindustrie</a>
+        <a href="/services/grondstoffen">Voor de bouw</a>
+        <a href="/projecten">Projecten</a>
+        <a href="/over-ons">Over ons</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-team">Het team</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#werken-bij">Werken bij</a>
+        <a class="mobile-menu__sub-link" href="/over-ons#het-plan">Het plan</a>
+        <a href="/">Website</a>
+        <a href="/contact">Neem contact op</a>
+      </nav>
+    </header>
+
+    <main id="main" class="builder-main" data-textedit-admin>
+      <section class="builder-dashboard" data-admin-dashboard>
+        <div class="builder-dashboard__top">
+          <a class="brand-link" href="/" aria-label="Blauwe Bagger home">
+            <img class="brand-link__icon" src="assets/brand/blauwe-bagger-icon.png" alt="Blauwe Bagger" />
+          </a>
+          <button class="button-ghost" type="button" data-admin-logout>Uitloggen</button>
+        </div>
+        <div class="builder-dashboard__head">
+          <div>
+            <p>Teksten beheren</p>
+            <h1>Website teksten</h1>
+          </div>
+        </div>
+
+        <div class="admin-tabs builder-dashboard-tabs" role="tablist" aria-label="Pagina's">
+          <button class="is-active" type="button" data-admin-tab="home">Home</button>
+          <button type="button" data-admin-tab="over-ons">Over ons</button>
+          <button type="button" data-admin-tab="services">Services</button>
+          <button type="button" data-admin-tab="service-baggeraars">Baggerindustrie</button>
+          <button type="button" data-admin-tab="service-grondstoffen">Bouw / Grondstoffen</button>
+          <button type="button" data-admin-tab="contact">Contact</button>
+          <button type="button" data-admin-tab="producten">Producten</button>
+        </div>
+
+        <div class="admin-tab-panel is-active" data-admin-panel="home">
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="home">
+              <div data-textedit-fields="home"></div>
+              <p class="admin-status" data-textedit-status="home"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="over-ons" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/over-ons" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="over-ons">
+              <div data-textedit-fields="over-ons"></div>
+              <p class="admin-status" data-textedit-status="over-ons"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="services" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/services" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="services">
+              <div data-textedit-fields="services"></div>
+              <p class="admin-status" data-textedit-status="services"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="service-baggeraars" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/services/baggeraars" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="service-baggeraars">
+              <div data-textedit-fields="service-baggeraars"></div>
+              <p class="admin-status" data-textedit-status="service-baggeraars"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="service-grondstoffen" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/services/grondstoffen" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="service-grondstoffen">
+              <div data-textedit-fields="service-grondstoffen"></div>
+              <p class="admin-status" data-textedit-status="service-grondstoffen"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="contact" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/contact" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="contact">
+              <div data-textedit-fields="contact"></div>
+              <p class="admin-status" data-textedit-status="contact"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="admin-tab-panel" data-admin-panel="producten" hidden>
+          <section class="admin-panel reveal">
+            <a class="button-ghost" href="/producten" target="_blank" rel="noreferrer">Bekijk deze pagina op de site</a>
+            <form class="admin-form" data-textedit-form="producten">
+              <div data-textedit-fields="producten"></div>
+              <p class="admin-status" data-textedit-status="producten"></p>
+              <button class="primary-link" type="submit">
+                <span>Wijzigingen opslaan</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5" /></svg>
+              </button>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer site-footer--brand" hidden>
+      <div class="home-frame">
+        <div class="home-footer-meta">
+          <div class="home-footer-brand">
+            <a class="home-footer-logo" href="/">Blauwe Bagger</a>
+            <p>Van baggerstroom naar herbruikbare grondstof.</p>
+          </div>
+
+          <nav class="home-footer-column" aria-label="Footer navigatie">
+            <p class="home-footer-heading">Navigatie</p>
+            <a href="/over-ons#het-plan">Het plan</a>
+            <a href="/services">Services</a>
+            <a href="/services/baggeraars">Voor de baggerindustrie</a>
+            <a href="/services/grondstoffen">Voor de bouw</a>
+            <a href="/producten">Producten</a>
+            <a href="/projecten">Projecten</a>
+          </nav>
+
+          <nav class="home-footer-column" aria-label="Bedrijf">
+            <p class="home-footer-heading">Bedrijf</p>
+            <a href="/over-ons">Over ons</a>
+            <a href="/vacatures">Vacatures</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Eigenaar login</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+          </nav>
+
+          <div class="home-footer-links">
+            <p class="home-footer-heading">Samenwerken</p>
+            <a class="home-footer-partner" href="/contact">Word een partner <span aria-hidden="true">-&gt;</span></a>
+            <a href="https://www.linkedin.com/company/blauwebagger/" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+            <a href="https://www.instagram.com/blauwebagger/?hl=am-et" target="_blank" rel="noreferrer noopener">Instagram</a>
+          </div>
+
+          <div class="home-footer-address">
+            <p class="home-footer-heading">Adres</p>
+            <p>Blauwe Bagger B.V.</p>
+            <p>Monumentenwerf</p>
+            <p>Santoriniweg 27</p>
+            <p>1045 AV Amsterdam</p>
+          </div>
+
+          <div class="home-footer-contact">
+            <p class="home-footer-heading">Contact</p>
+            <p>KVK: 98672088</p>
+            <p>BTW: NL868594660B01</p>
+            <p>Sil@blauwebagger.nl ; +316 41882594</p>
+            <p>Abbe@blauwebagger.nl ; +316 81093971</p>
+          </div>
+        </div>
+
+        <div class="home-footer-bottom">
+          <span>&copy; 2026 Blauwe Bagger. All rights reserved.</span>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js?v=lang-switch"></script>
+    <script src="admin.js?v=vacancy-open-application-switch-1"></script>
+    <script src="admin-textedit.js?v=1"></script>
+  </body>
+</html>

@@ -1,0 +1,650 @@
+[
+  {
+    "key": "home.hero.heading.word1",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Hero",
+    "label": "Hero titel — woord 1 (\"Bagger\")",
+    "type": "text",
+    "default": "Bagger"
+  },
+  {
+    "key": "home.hero.heading.connector",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Hero",
+    "label": "Hero titel — verbindingswoord (\"als\")",
+    "type": "text",
+    "default": "als"
+  },
+  {
+    "key": "home.hero.heading.accent",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Hero",
+    "label": "Hero titel — woord 2 (\"Grondstof\")",
+    "type": "text",
+    "default": "Grondstof"
+  },
+  {
+    "key": "home.partners.eyebrow",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Partners",
+    "label": "Eyebrow boven partnerlogo's",
+    "type": "text",
+    "default": "Partners"
+  },
+  {
+    "key": "home.mission.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Onze Missie",
+    "label": "Titel",
+    "type": "text",
+    "default": "Onze Missie"
+  },
+  {
+    "key": "home.mission.paragraph.lead",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Onze Missie",
+    "label": "Tekst (voor het gemarkeerde deel)",
+    "type": "textarea",
+    "default": "Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij zetten bagger om tot bruikbare grondstoffen die bijdragen aan een"
+  },
+  {
+    "key": "home.mission.paragraph.accent",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Onze Missie",
+    "label": "Gemarkeerd slotdeel (\"circulaire toekomst.\")",
+    "type": "text",
+    "default": "circulaire toekomst."
+  },
+  {
+    "key": "home.problem.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Het Probleem",
+    "label": "Titel",
+    "type": "text",
+    "default": "Het Probleem"
+  },
+  {
+    "key": "home.solution.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Onze Oplossing",
+    "label": "Titel",
+    "type": "text",
+    "default": "Onze Oplossing"
+  },
+  {
+    "key": "home.solution.lede",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Onze Oplossing",
+    "label": "Ondertitel",
+    "type": "text",
+    "default": "Een route van baggerstroom naar herbruikbare grondstof."
+  },
+  {
+    "key": "home.services.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Services",
+    "label": "Titel",
+    "type": "text",
+    "default": "Services"
+  },
+  {
+    "key": "over-ons.hero.heading",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Intro",
+    "label": "Titel",
+    "type": "text",
+    "default": "Over Blauwe Bagger"
+  },
+  {
+    "key": "over-ons.hero.paragraph",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Intro",
+    "label": "Introductietekst",
+    "type": "textarea",
+    "default": "Blauwe Bagger is in 2022 opgericht uit een gedeelde passie voor duurzaamheid en circulariteit. Onze oprichters zagen dat er in de baggersector volop kansen liggen voor circulair grondstofgebruik, maar ook dat de complexiteit van de sector die kansen vaak in de weg staat. Sindsdien werken we aan een integrale oplossing voor het circulair hergebruik van baggerspecie, met betrokkenheid van de hele keten."
+  },
+  {
+    "key": "over-ons.statement.lead",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Missie",
+    "label": "Tekst (voor het gemarkeerde deel)",
+    "type": "text",
+    "default": "Wij bouwen mee aan een wereld waar grondstoffen"
+  },
+  {
+    "key": "over-ons.statement.accent",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Missie",
+    "label": "Gemarkeerd deel (\"nooit verloren\")",
+    "type": "text",
+    "default": "nooit verloren"
+  },
+  {
+    "key": "over-ons.team.heading",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Team",
+    "label": "Titel",
+    "type": "text",
+    "default": "Ons Team"
+  },
+  {
+    "key": "over-ons.partners.heading",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Partners",
+    "label": "Titel",
+    "type": "text",
+    "default": "Partners"
+  },
+  {
+    "key": "over-ons.work.heading",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Werken bij",
+    "label": "Titel",
+    "type": "text",
+    "default": "Werken bij"
+  },
+  {
+    "key": "over-ons.work.paragraph",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Werken bij",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "Spreekt het je aan om in een jong en energiek team te werken dat ambitieus is en een sector die rijp is voor verandering radicaal te verbeteren? Bekijk dan onze vacatures"
+  },
+  {
+    "key": "over-ons.plan.eyebrow",
+    "page": "over-ons",
+    "pageLabel": "Over ons",
+    "section": "Het plan",
+    "label": "Eyebrow boven \"De BluePrint\"",
+    "type": "text",
+    "default": "Het plan"
+  },
+  {
+    "key": "services.hero.heading.lead",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Hero",
+    "label": "Titel — eerste deel",
+    "type": "text",
+    "default": "Kies je route binnen"
+  },
+  {
+    "key": "services.hero.heading.accent",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Hero",
+    "label": "Titel — gemarkeerd deel",
+    "type": "text",
+    "default": "Blauwe Bagger"
+  },
+  {
+    "key": "services.hero.subtext",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Hero",
+    "label": "Ondertitel",
+    "type": "text",
+    "default": "Een route voor baggerprojecten en een route voor secundaire grondstoffen."
+  },
+  {
+    "key": "services.card1.heading",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Route: baggerindustrie",
+    "label": "Titel",
+    "type": "text",
+    "default": "Mobiele baggerverwerking"
+  },
+  {
+    "key": "services.card1.paragraph",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Route: baggerindustrie",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "Minder stortkosten, minder transport en sterker in aanbestedingen. De BlueBox scheidt bagger direct op locatie."
+  },
+  {
+    "key": "services.card2.heading",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Route: bouw",
+    "label": "Titel",
+    "type": "text",
+    "default": "Secundaire grondstoffen voor de bouw"
+  },
+  {
+    "key": "services.card2.paragraph",
+    "page": "services",
+    "pageLabel": "Services",
+    "section": "Route: bouw",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "BlueSand, BlueFiller en BlueCalc als duurzame input voor de bouw."
+  },
+  {
+    "key": "service-baggeraars.hero.heading.label",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hero",
+    "label": "Titel — eerste woord (\"Services\")",
+    "type": "text",
+    "default": "Services"
+  },
+  {
+    "key": "service-baggeraars.hero.heading.connector",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hero",
+    "label": "Titel — verbindingswoord (\"voor de\")",
+    "type": "text",
+    "default": "voor de"
+  },
+  {
+    "key": "service-baggeraars.hero.heading.accent",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hero",
+    "label": "Titel — gemarkeerd deel (\"Baggerindustrie\")",
+    "type": "text",
+    "default": "Baggerindustrie"
+  },
+  {
+    "key": "service-baggeraars.hero.subtext",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hero",
+    "label": "Ondertitel",
+    "type": "text",
+    "default": "Slimmer baggeren begint met beter inzicht"
+  },
+  {
+    "key": "service-baggeraars.bluebox.eyebrow",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "BlueBox verwerking"
+  },
+  {
+    "key": "service-baggeraars.bluebox.heading",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Titel",
+    "type": "text",
+    "default": "Hoe wij samenwerken"
+  },
+  {
+    "key": "service-baggeraars.step1.heading",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 1 — titel",
+    "type": "text",
+    "default": "Vooraf inzicht"
+  },
+  {
+    "key": "service-baggeraars.step1.paragraph",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 1 — tekst",
+    "type": "textarea",
+    "default": "Waterbodemdata maakt zichtbaar welke fracties, risico's en kansen in de stroom zitten."
+  },
+  {
+    "key": "service-baggeraars.step2.heading",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 2 — titel",
+    "type": "text",
+    "default": "BlueBox op locatie"
+  },
+  {
+    "key": "service-baggeraars.step2.paragraph",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 2 — tekst",
+    "type": "textarea",
+    "default": "Ontwateren en scheiden dichtbij de bron, met minder transportbewegingen."
+  },
+  {
+    "key": "service-baggeraars.step3.heading",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 3 — titel",
+    "type": "text",
+    "default": "Sterker project"
+  },
+  {
+    "key": "service-baggeraars.step3.paragraph",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Hoe wij samenwerken",
+    "label": "Stap 3 — tekst",
+    "type": "textarea",
+    "default": "Meer grip op kosten, materiaalwaarde en duurzame onderbouwing richting opdrachtgever."
+  },
+  {
+    "key": "service-baggeraars.widget.eyebrow",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Wat levert het op?",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "Tool"
+  },
+  {
+    "key": "service-baggeraars.widget.heading",
+    "page": "service-baggeraars",
+    "pageLabel": "Baggerindustrie",
+    "section": "Wat levert het op?",
+    "label": "Titel",
+    "type": "text",
+    "default": "Wat levert het op?"
+  },
+  {
+    "key": "service-grondstoffen.hero.heading.label",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Hero",
+    "label": "Titel — eerste woord (\"Grondstoffen\")",
+    "type": "text",
+    "default": "Grondstoffen"
+  },
+  {
+    "key": "service-grondstoffen.hero.heading.connector",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Hero",
+    "label": "Titel — verbindingswoord (\"voor de\")",
+    "type": "text",
+    "default": "voor de"
+  },
+  {
+    "key": "service-grondstoffen.hero.heading.accent",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Hero",
+    "label": "Titel — gemarkeerd deel (\"bouw\")",
+    "type": "text",
+    "default": "bouw"
+  },
+  {
+    "key": "service-grondstoffen.hero.paragraph",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Hero",
+    "label": "Introductietekst",
+    "type": "textarea",
+    "default": "De bouwsector staat onder druk: grondstoffen worden schaarser, duurzaamheidseisen strenger en inkoopketens kwetsbaarder. Blauwe Bagger biedt een alternatief: duurzame grondstoffen van hoge kwaliteit, gewonnen uit bagger en klaargemaakt voor directe inzet in productie van onder andere bakstenen en beton."
+  },
+  {
+    "key": "service-grondstoffen.materials.eyebrow",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "Ons aanbod"
+  },
+  {
+    "key": "service-grondstoffen.materials.heading",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Titel",
+    "type": "text",
+    "default": "Secundaire grondstoffen"
+  },
+  {
+    "key": "service-grondstoffen.material1.heading",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 1 — naam",
+    "type": "text",
+    "default": "BlueSand"
+  },
+  {
+    "key": "service-grondstoffen.material1.paragraph",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 1 — tekst",
+    "type": "textarea",
+    "default": "Gewassen en gezeefde zandfractie, afkomstig uit gescheiden bagger. Geschikt als zandvervanger in betonmengsels. Consistente kwaliteit dankzij onze gecontroleerde scheidings- en nabewerkingsprocessen."
+  },
+  {
+    "key": "service-grondstoffen.material2.heading",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 2 — naam",
+    "type": "text",
+    "default": "BlueFiller"
+  },
+  {
+    "key": "service-grondstoffen.material2.paragraph",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 2 — tekst",
+    "type": "textarea",
+    "default": "Fijnkorrelige kleifractie, nabewerkt tot een hoogwaardig vulmiddel. Inzetbaar als filler in betonproducten waar een fijne deeltjesgrootte gewenst is."
+  },
+  {
+    "key": "service-grondstoffen.material3.heading",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 3 — naam",
+    "type": "text",
+    "default": "BlueCalc"
+  },
+  {
+    "key": "service-grondstoffen.material3.paragraph",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 3 — tekst",
+    "type": "textarea",
+    "default": "Gecalcineerd kleiproduct met puzzolane eigenschappen. BlueCalc kan een deel van het cement vervangen in betonmengsels, wat de CO2-voetafdruk van beton verlaagt."
+  },
+  {
+    "key": "service-grondstoffen.material4.heading",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 4 — naam",
+    "type": "text",
+    "default": "BlueClay"
+  },
+  {
+    "key": "service-grondstoffen.material4.paragraph",
+    "page": "service-grondstoffen",
+    "pageLabel": "Bouw / Grondstoffen",
+    "section": "Secundaire grondstoffen",
+    "label": "Materiaal 4 — tekst",
+    "type": "textarea",
+    "default": "Geactiveerde kleifractie met een uitzonderlijk fijne deeltjesgrootte. Gewonnen uit gescheiden baggerspecie en nabewerkt tot een consistent, hoogwaardig product."
+  },
+  {
+    "key": "contact.hero.heading",
+    "page": "contact",
+    "pageLabel": "Contact",
+    "section": "Hero",
+    "label": "Titel",
+    "type": "text",
+    "default": "Vertel waar je aan werkt."
+  },
+  {
+    "key": "contact.hero.paragraph",
+    "page": "contact",
+    "pageLabel": "Contact",
+    "section": "Hero",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "Een korte omschrijving van locatie, materiaalstroom en doel is genoeg om de eerste richting te bepalen."
+  },
+  {
+    "key": "producten.hero.eyebrow",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Hero",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "Producten"
+  },
+  {
+    "key": "producten.hero.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Hero",
+    "label": "Titel",
+    "type": "text",
+    "default": "Vier materiaalstromen, elk met een eigen toepassing."
+  },
+  {
+    "key": "producten.hero.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Hero",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "Door baggerspecie gericht te verwerken, ontstaan herkenbare uitgaande stromen in plaats van één onduidelijke restmassa. Elke fractie krijgt een eigen route naar hergebruik, opslag of verdere verwerking."
+  },
+  {
+    "key": "producten.products.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Titel",
+    "type": "textarea",
+    "default": "De uitkomst van de verwerkingsketen is geen afvalstroom, maar een set bruikbare materialen."
+  },
+  {
+    "key": "producten.material1.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 1 — naam",
+    "type": "text",
+    "default": "Zand"
+  },
+  {
+    "key": "producten.material1.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 1 — tekst",
+    "type": "textarea",
+    "default": "Geschikt als aanvulling in ophogingen, funderingen en zandige mengsels."
+  },
+  {
+    "key": "producten.material2.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 2 — naam",
+    "type": "text",
+    "default": "Leem"
+  },
+  {
+    "key": "producten.material2.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 2 — tekst",
+    "type": "textarea",
+    "default": "Een fijnere fractie met waarde voor landschappelijke en civiele toepassingen."
+  },
+  {
+    "key": "producten.material3.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 3 — naam",
+    "type": "text",
+    "default": "Klei"
+  },
+  {
+    "key": "producten.material3.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 3 — tekst",
+    "type": "textarea",
+    "default": "Een stevige stroom die kan bijdragen aan dijkversterking en bodemopbouw."
+  },
+  {
+    "key": "producten.material4.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 4 — naam",
+    "type": "text",
+    "default": "Organisch materiaal"
+  },
+  {
+    "key": "producten.material4.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Producten",
+    "label": "Materiaal 4 — tekst",
+    "type": "textarea",
+    "default": "Restorganica worden apart gehouden voor verdere verwerking of toepassing."
+  },
+  {
+    "key": "producten.cta.eyebrow",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Call to action",
+    "label": "Eyebrow",
+    "type": "text",
+    "default": "Van product naar vraag"
+  },
+  {
+    "key": "producten.cta.heading",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Call to action",
+    "label": "Titel",
+    "type": "textarea",
+    "default": "Wil je doorpakken op een specifieke materiaalstroom of toepassing?"
+  },
+  {
+    "key": "producten.cta.paragraph",
+    "page": "producten",
+    "pageLabel": "Producten",
+    "section": "Call to action",
+    "label": "Tekst",
+    "type": "textarea",
+    "default": "De productenpagina staat nu los van services en projecten, zodat je gericht kunt communiceren welke stroom belangrijk is zonder te verdwalen in de rest van de site."
+  }
+]

@@ -13,13 +13,11 @@
     <link rel="preload" href="assets/media/home-hero-aerial.jpg" as="image" />
     <link
       rel="preload"
-      href="assets/media/hero-clip-1.mp4"
+      href="assets/media/hero-clip-3.mp4"
       as="video"
       type="video/mp4"
       fetchpriority="high"
     />
-    <link rel="preload" href="assets/media/hero-clip-2.mp4" as="video" type="video/mp4" fetchpriority="low" />
-    <link rel="preload" href="assets/media/hero-clip-3.mp4" as="video" type="video/mp4" fetchpriority="low" />
     <link rel="preload" href="assets/media/hero-clip-4.mp4" as="video" type="video/mp4" fetchpriority="low" />
     <link rel="stylesheet" href="styles.css?v=mission-wave-width-reveal-20260715-1" />
   </head>
@@ -83,15 +81,9 @@
       <section class="home-hero" id="top" aria-labelledby="hero-title">
         <div class="home-hero-media" aria-hidden="true">
           <video class="home-hero-video is-active" data-hero-video="0" autoplay muted playsinline preload="auto" fetchpriority="high" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-clip-1.mp4" type="video/mp4" />
-          </video>
-          <video class="home-hero-video" data-hero-video="1" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
-            <source src="assets/media/hero-clip-2.mp4" type="video/mp4" />
-          </video>
-          <video class="home-hero-video" data-hero-video="2" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
             <source src="assets/media/hero-clip-3.mp4" type="video/mp4" />
           </video>
-          <video class="home-hero-video" data-hero-video="3" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
+          <video class="home-hero-video" data-hero-video="1" muted playsinline preload="auto" poster="assets/media/home-hero-aerial.jpg">
             <source src="assets/media/hero-clip-4.mp4" type="video/mp4" />
           </video>
         </div>
@@ -100,10 +92,10 @@
             <div class="home-hero-copy">
               <h1 id="hero-title">
                 <span class="home-hero-topline">
-                  <span>Bagger</span>
-                  <span class="home-hero-connector">als</span>
+                  <span data-edit-key="home.hero.heading.word1">Bagger</span>
+                  <span class="home-hero-connector" data-edit-key="home.hero.heading.connector">als</span>
                 </span>
-                <span class="home-hero-accent">Grondstof</span>
+                <span class="home-hero-accent" data-edit-key="home.hero.heading.accent">Grondstof</span>
               </h1>
             </div>
           </article>
@@ -112,23 +104,23 @@
 
       <section class="home-partner-strip" aria-labelledby="home-partners-title">
         <div class="home-frame home-partner-strip__inner">
-          <p id="home-partners-title" class="home-partner-strip__title">Partners</p>
+          <p id="home-partners-title" class="home-partner-strip__title" data-edit-key="home.partners.eyebrow">Partners</p>
           <div class="home-partner-strip__marquee" role="region" aria-label="Partners">
             <div class="home-partner-strip__track">
               <ul class="home-partner-strip__list">
-                <li><img src="/assets/partners/tu-delft.png" alt="TU Delft" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/deltares.png" alt="Deltares" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/port-of-rotterdam.png" alt="Port of Rotterdam" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/provincie-zuid-holland.png" alt="Provincie Zuid-Holland" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/wageningen-university-research.png" alt="Wageningen University &amp; Research" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/tijhuis-ingenieurs.png" alt="Tijhuis Ingenieurs" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-12.png" alt="Waterschap Rivierenland" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-13.png" alt="Provincie Gelderland" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-14.png" alt="DC Bricks" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-15.png" alt="Circulaire grondstoffen partner" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-16.png" alt="Voorbij Prefab" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/partner-17.png" alt="Provincie Groningen" loading="eager" decoding="async" /></li>
-                <li><img src="/assets/partners/gemeente-amsterdam.png" alt="Gemeente Amsterdam" loading="eager" decoding="async" /></li>
+                <li><a href="https://www.tudelft.nl/" target="_blank" rel="noopener"><img src="/assets/partners/tu-delft.png" alt="TU Delft" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.deltares.nl/" target="_blank" rel="noopener"><img src="/assets/partners/deltares.png" alt="Deltares" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.portofrotterdam.com/" target="_blank" rel="noopener"><img src="/assets/partners/port-of-rotterdam.png" alt="Port of Rotterdam" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.zuid-holland.nl/" target="_blank" rel="noopener"><img src="/assets/partners/provincie-zuid-holland.png" alt="Provincie Zuid-Holland" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.wur.nl/" target="_blank" rel="noopener"><img src="/assets/partners/wageningen-university-research.png" alt="Wageningen University &amp; Research" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.tijhuisingenieurs.nl/" target="_blank" rel="noopener"><img src="/assets/partners/tijhuis-ingenieurs.png" alt="Tijhuis Ingenieurs" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.waterschaprivierenland.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-12.png" alt="Waterschap Rivierenland" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.gelderland.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-13.png" alt="Provincie Gelderland" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.dcbricks.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-14.png" alt="DC Bricks" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.circulairebaggerconsortium.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-15.png" alt="Circulair Bagger Consortium" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.voorbijprefab.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-16.png" alt="Voorbij Prefab" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.provinciegroningen.nl/" target="_blank" rel="noopener"><img src="/assets/partners/partner-17.png" alt="Provincie Groningen" loading="eager" decoding="async" /></a></li>
+                <li><a href="https://www.amsterdam.nl/" target="_blank" rel="noopener"><img src="/assets/partners/gemeente-amsterdam.png" alt="Gemeente Amsterdam" loading="eager" decoding="async" /></a></li>
               </ul>
               <ul class="home-partner-strip__list" aria-hidden="true">
                 <li><img src="/assets/partners/tu-delft.png" alt="" loading="eager" decoding="async" /></li>
@@ -153,11 +145,10 @@
       <section class="home-section home-section--mission home-mission-story" id="home-missie" aria-labelledby="mission-title">
         <div class="home-frame home-mission-grid">
           <div class="home-mission-copy">
-            <h2 id="mission-title">Onze Missie</h2>
+            <h2 id="mission-title" data-edit-key="home.mission.heading">Onze Missie</h2>
             <p data-i18n-html="mission-copy">
-              Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij
-              zetten bagger om tot bruikbare grondstoffen die bijdragen aan een
-              <span class="home-mission-accent wave-underline">circulaire toekomst.</span>
+              <span data-edit-key="home.mission.paragraph.lead">Blauwe Bagger werkt aan een wereld waarin grondstoffen nooit verloren gaan. Wij zetten bagger om tot bruikbare grondstoffen die bijdragen aan een</span>
+              <span class="home-mission-accent wave-underline" data-edit-key="home.mission.paragraph.accent">circulaire toekomst.</span>
             </p>
 
           </div>
@@ -204,7 +195,7 @@
       <section class="home-section home-section--blue home-problem-story" aria-labelledby="problem-title">
         <div class="home-frame home-problem-frame">
           <div class="home-problem-columns">
-            <h2 id="problem-title" class="home-problem-heading">Het Probleem</h2>
+            <h2 id="problem-title" class="home-problem-heading" data-edit-key="home.problem.heading">Het Probleem</h2>
             <article class="home-problem-panel">
               <div class="home-problem-panel__stage">
                 <img class="home-problem-copy-image" src="assets/media/baggeren.jpeg" alt="Baggerwerkzaamheden in water">
@@ -244,8 +235,8 @@
       <section class="home-section home-section--approach" aria-labelledby="approach-title">
         <div class="home-frame home-approach-frame">
           <div class="home-approach-head reveal">
-            <h2 id="approach-title" class="home-approach-heading">Onze Oplossing</h2>
-            <p class="home-approach-lede">Een route van baggerstroom naar herbruikbare grondstof.</p>
+            <h2 id="approach-title" class="home-approach-heading" data-edit-key="home.solution.heading">Onze Oplossing</h2>
+            <p class="home-approach-lede" data-edit-key="home.solution.lede">Een route van baggerstroom naar herbruikbare grondstof.</p>
           </div>
 
           <div class="home-approach-grid" data-solution-sequence>
@@ -368,7 +359,7 @@
       <section class="home-section home-section--service-routes" aria-labelledby="service-routes-title">
         <div class="home-frame home-service-frame">
           <div class="home-service-head reveal">
-            <h2 id="service-routes-title">Services</h2>
+            <h2 id="service-routes-title" data-edit-key="home.services.heading">Services</h2>
           </div>
 
           <div class="home-service-routes">

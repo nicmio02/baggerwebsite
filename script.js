@@ -70,22 +70,14 @@ const heroVideoClips = [
   {
     videoIndex: 0,
     start: 0,
-    end: 4.5,
+    end: 2.5,
+    playbackRate: 0.6,
   },
   {
     videoIndex: 1,
     start: 0,
-    end: 3.2,
-  },
-  {
-    videoIndex: 2,
-    start: 0,
-    end: 2.5,
-  },
-  {
-    videoIndex: 3,
-    start: 0,
     end: 4,
+    playbackRate: 0.6,
   },
 ];
 
@@ -1765,7 +1757,8 @@ async function playHeroClip(index = 0) {
   await seekHeroVideo(video, clip.start);
   warmHeroVideoQueue(clipIndex);
 
-  video.playbackRate = 1;
+  const playbackRate = clip.playbackRate ?? 1;
+  video.playbackRate = playbackRate;
   await video.play().catch(() => {});
   video.classList.add("is-active");
 
@@ -1780,7 +1773,7 @@ async function playHeroClip(index = 0) {
 
   heroClipTimer = window.setTimeout(() => {
     playHeroClip(activeHeroClip + 1);
-  }, Math.max(1000, (clip.end - clip.start) * 1000 - heroVideoCrossfadeOverlap * 1000));
+  }, Math.max(1000, ((clip.end - clip.start) * 1000) / playbackRate - heroVideoCrossfadeOverlap * 1000));
 }
 
 function setMobileMenu(open) {
@@ -2722,3 +2715,37 @@ async function hydratePublicTeam(grid) {
 
 document.querySelectorAll("[data-public-content]").forEach(hydratePublicContentBoard);
 document.querySelectorAll("[data-team-grid]").forEach(hydratePublicTeam);
+
+async function applySiteTextOverrides() {
+  if (pageLanguage === "en") {
+    return;
+  }
+
+  const editableElements = document.querySelectorAll("[data-edit-key]");
+
+  if (!editableElements.length) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/site-text", { credentials: "same-origin" });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const overrides = await response.json();
+
+    editableElements.forEach((element) => {
+      const value = overrides?.[element.getAttribute("data-edit-key")];
+
+      if (typeof value === "string" && value.trim()) {
+        element.textContent = value;
+      }
+    });
+  } catch {
+    // Backend unavailable: keep the static Dutch copy already in the HTML.
+  }
+}
+
+applySiteTextOverrides();

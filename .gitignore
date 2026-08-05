@@ -12,3 +12,6 @@ build/
 Thumbs.db
 
 screenshots/chrome-profile/
+
+# Local Netlify folder
+.netlify
