@@ -21,6 +21,12 @@ function buildRequest(event, functionName) {
     query.slug = slug;
   }
 
+  // uploads.js's GET handler parses request.url with `new URL()` directly
+  // (rather than reading request.query like every other handler), so the
+  // query string needs to actually be present here too.
+  const queryString = new URLSearchParams(query).toString();
+  const url = (event.path || "/") + (queryString ? `?${queryString}` : "");
+
   const bodyBuffer = event.body
     ? Buffer.from(event.body, event.isBase64Encoded ? "base64" : "utf8")
     : Buffer.alloc(0);
@@ -48,7 +54,7 @@ function buildRequest(event, functionName) {
     method: event.httpMethod,
     headers,
     query,
-    url: event.path || "/",
+    url,
     on(eventName, callback) {
       (listeners[eventName] = listeners[eventName] || []).push(callback);
 
