@@ -2,6 +2,15 @@
 
 [data-edit-key] {
   visibility: hidden;
+  /* Pure-CSS backstop: reveal even if JS never runs at all (blocked,
+     disabled, or errors before the overlay script executes). */
+  animation: site-text-reveal 0s 1.5s forwards;
+}
+
+@keyframes site-text-reveal {
+  to {
+    visibility: visible;
+  }
 }
 
 :root {
