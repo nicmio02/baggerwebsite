@@ -1937,6 +1937,10 @@ function populateSolutionDialog(card) {
   if (!detail.childElementCount) {
     detail.append(detailTemplate.content.cloneNode(true));
     translateSubtree(detail);
+
+    if (window.applySiteTextOverridesToSubtree) {
+      window.applySiteTextOverridesToSubtree(detail);
+    }
   }
 
   return detail;

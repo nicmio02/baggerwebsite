@@ -99,6 +99,213 @@
     "default": "Services"
   },
   {
+    "key": "home.solution.analyse.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (kaart)",
+    "label": "Titel",
+    "type": "text",
+    "default": "Analyse"
+  },
+  {
+    "key": "home.solution.analyse.teaser",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (kaart)",
+    "label": "Korte tekst op de kaart",
+    "type": "textarea",
+    "default": "Waterbodemdata bepaalt welke fracties geschikt zijn voor hergebruik."
+  },
+  {
+    "key": "home.solution.analyse.detail.lead1",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "Inleiding — alinea 1",
+    "type": "textarea",
+    "default": "De oplossing van het probleem begint in het erkennen van de variabiliteit van bagger. Bagger is extreem variabel, terwijl afnemers juist een constante, voorspelbare kwaliteit eisen."
+  },
+  {
+    "key": "home.solution.analyse.detail.lead2",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "Inleiding — alinea 2",
+    "type": "textarea",
+    "default": "Door middel van data-analyse overbruggen we dit gat. We zetten software in om omvangrijke bestanden met complexe data uit waterbodemonderzoeken om te zetten naar een concreet plan van aanpak."
+  },
+  {
+    "key": "home.solution.analyse.detail.how.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "\"Hoe het werkt\" — titel",
+    "type": "text",
+    "default": "Hoe het werkt"
+  },
+  {
+    "key": "home.solution.analyse.detail.how.item1",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "\"Hoe het werkt\" — punt 1",
+    "type": "textarea",
+    "default": "De tool draait de traditionele keten om en neemt de klanteis als vertrekpunt. Vervolgens berekent het systeem of de specie uit een specifieke waterbodem de potentie heeft om aan die markteisen te voldoen."
+  },
+  {
+    "key": "home.solution.analyse.detail.how.item2",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "\"Hoe het werkt\" — punt 2",
+    "type": "textarea",
+    "default": "Met een efficiënte poorttoets bepaalt de tool direct de exacte stappen voor scheiding via onze BlueBox en nabewerking, zoals verhitting of calcinatie. Bij een positieve match rolt er direct een recept uit om de bagger optimaal op te waarderen. Is de kwaliteit onvoldoende en niet te corrigeren? Dan filtert de tool de plot direct uit."
+  },
+  {
+    "key": "home.solution.analyse.detail.how.closing",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Analyse (uitgeklapt)",
+    "label": "Slotzin",
+    "type": "textarea",
+    "default": "Zo transformeren we onbenutte data in een gegarandeerde, hoogwaardige circulaire grondstof."
+  },
+  {
+    "key": "home.solution.verwerking.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (kaart)",
+    "label": "Titel",
+    "type": "text",
+    "default": "Verwerking"
+  },
+  {
+    "key": "home.solution.verwerking.teaser",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (kaart)",
+    "label": "Korte tekst op de kaart",
+    "type": "textarea",
+    "default": "De BlueBox ontwatert, scheidt en schoont bagger op locatie."
+  },
+  {
+    "key": "home.solution.verwerking.detail.ontwatering.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Ontwatering — titel",
+    "type": "text",
+    "default": "Ontwatering"
+  },
+  {
+    "key": "home.solution.verwerking.detail.ontwatering.paragraph",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Ontwatering — tekst",
+    "type": "textarea",
+    "default": "Onze mobiele unit maakt het mogelijk om baggerspecie direct op locatie in te dikken. Vooral op afgelegen of moeilijk bereikbare plekken voorkomt dit onnodig transport van grote volumes waterige bagger. Dat betekent: lagere kosten, minder CO₂-uitstoot en een veel efficiënter proces."
+  },
+  {
+    "key": "home.solution.verwerking.detail.scheiding.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Scheiding — titel",
+    "type": "text",
+    "default": "Scheiding"
+  },
+  {
+    "key": "home.solution.verwerking.detail.scheiding.paragraph",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Scheiding — tekst",
+    "type": "textarea",
+    "default": "Baggerspecie zit vaak vol met herbruikbare materialen zoals zand, klei, leem en organisch materiaal. Met onze installatie scheiden we deze stromen ter plekke, klaar voor circulair hergebruik. Zo voegen we directe waarde toe aan wat eerst als afval werd gezien, én creëren we kansen voor opbrengsten binnen het project."
+  },
+  {
+    "key": "home.solution.verwerking.detail.opschoning.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Opschoning — titel",
+    "type": "text",
+    "default": "Opschoning"
+  },
+  {
+    "key": "home.solution.verwerking.detail.opschoning.paragraph",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Verwerking (uitgeklapt)",
+    "label": "Opschoning — tekst",
+    "type": "textarea",
+    "default": "Ook vervuilde bagger verdient een tweede leven. Onze technologie verwijdert schadelijke stoffen uit de specie, waardoor materialen geschikt worden voor veilig en verantwoord hergebruik. Daarmee herstellen we niet alleen schade uit het verleden, maar bouwen we actief aan een schonere toekomst."
+  },
+  {
+    "key": "home.solution.hergebruik.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (kaart)",
+    "label": "Titel",
+    "type": "text",
+    "default": "Hergebruik"
+  },
+  {
+    "key": "home.solution.hergebruik.teaser",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (kaart)",
+    "label": "Korte tekst op de kaart",
+    "type": "textarea",
+    "default": "Materialen worden toegepast in bouw- en betonproducten."
+  },
+  {
+    "key": "home.solution.hergebruik.detail.nabewerking.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (uitgeklapt)",
+    "label": "Nabewerking — titel",
+    "type": "text",
+    "default": "Nabewerking"
+  },
+  {
+    "key": "home.solution.hergebruik.detail.nabewerking.paragraph",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (uitgeklapt)",
+    "label": "Nabewerking — tekst",
+    "type": "textarea",
+    "default": "Voordat de gescheiden materialen de markt op gaan, kunnen ze worden opgewaardeerd. Door gerichte nabewerkingstechnieken, zoals verhitting, vermaling of calcinatie, brengen we de fysische en chemische eigenschappen van de grondstof exact in lijn met de strenge klanteisen vanuit de bouw- en betonindustrie. De marktvraag is hierin altijd sturend."
+  },
+  {
+    "key": "home.solution.hergebruik.detail.circulair.heading",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (uitgeklapt)",
+    "label": "Circulaire toepassingen — titel",
+    "type": "text",
+    "default": "Circulaire toepassingen"
+  },
+  {
+    "key": "home.solution.hergebruik.detail.circulair.paragraph1",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (uitgeklapt)",
+    "label": "Circulaire toepassingen — alinea 1",
+    "type": "textarea",
+    "default": "De opgeschoonde en bewerkte grondstoffen krijgen een hoogwaardig tweede leven. In plaats van te eindigen in een depot, worden ze direct ingezet als betrouwbare secundaire bouwstoffen. Denk hierbij aan aggregaten voor de betonindustrie, of hoogwaardige klei voor de keramische industrie."
+  },
+  {
+    "key": "home.solution.hergebruik.detail.circulair.paragraph2",
+    "page": "home",
+    "pageLabel": "Home",
+    "section": "Oplossing: Hergebruik (uitgeklapt)",
+    "label": "Circulaire toepassingen — alinea 2",
+    "type": "textarea",
+    "default": "Door onze circulaire aanpak verminderen we de behoefte aan de winning van primaire grondstoffen, zoals nieuw zand en grind, aanzienlijk. Zo verlagen we de milieu-impact en bouwen we letterlijk aan een duurzamere toekomst."
+  },
+  {
     "key": "over-ons.hero.heading",
     "page": "over-ons",
     "pageLabel": "Over ons",
