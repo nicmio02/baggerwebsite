@@ -414,6 +414,7 @@ function normalizeTeamInput(input, items, currentItem = null) {
   const name = String(input.name || "").trim();
   const role = String(input.role || "").trim();
   const image = String(input.image || currentItem?.image || "").trim();
+  const linkedin = String(input.linkedin || currentItem?.linkedin || "").trim();
 
   if (!name) {
     throw new Error("Naam is verplicht.");
@@ -436,6 +437,7 @@ function normalizeTeamInput(input, items, currentItem = null) {
     name,
     role,
     image,
+    linkedin,
     order:
       Number.isFinite(requestedOrder) && requestedOrder > 0
         ? requestedOrder
