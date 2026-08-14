@@ -6,10 +6,10 @@
     "migrate:blobs": "node scripts/migrate-blobs.js"
   },
   "dependencies": {
-    "@netlify/blobs": "latest"
+    "@netlify/blobs": "latest",
+    "@vercel/blob": "latest"
   },
   "devDependencies": {
-    "netlify-cli": "latest",
-    "@vercel/blob": "latest"
+    "netlify-cli": "latest"
   }
 }
