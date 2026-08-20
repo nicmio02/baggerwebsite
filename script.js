@@ -726,7 +726,7 @@ const i18n = {
       "problem-dredging":
         'With a total volume of tens of millions of m<sup>3</sup> per year, dredged sediment is <strong>the largest waste stream</strong> in the Netherlands. Because of contamination and changing composition, there are few solutions that use its value. As a result, sediment is often dumped in depots, <em>an expensive and unsustainable solution.</em>',
       "problem-concrete":
-        'At the same time, the construction sector extracts hundreds of millions of tonnes of <strong>primary construction materials</strong> every year to produce concrete. That makes it one of the <em>most polluting industries in the world</em>; globally, <strong>8% of CO<sub>2</sub> emissions</strong> come from construction and concrete. The pressure to become more sustainable is growing fast.',
+        'At the same time, the construction sector extracts hundreds of millions of tonnes of <strong>primary construction materials</strong> every year to produce concrete. That makes it one of the <em>most polluting industries in the world</em>; globally, more than <strong>10% of CO<sub>2</sub> emissions</strong> come from the production of construction materials. The pressure to become more sustainable is growing fast.',
       "problem-meter-dredging":
         '<span class="home-problem-meter__label"><span data-count="40">0</span> million m<sup>3</sup></span><span class="home-problem-meter__context">dredged sediment per year</span>',
       "problem-meter-concrete":
