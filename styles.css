@@ -24839,14 +24839,6 @@ body[data-page="over-ons"] .about-team-card img {
     top: calc(100% + 26px);
   }
 
-  body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"]::after {
-    height: 30px;
-  }
-
-  body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"] span {
-    top: calc(100% + 36px);
-  }
-
   body[data-page="over-ons"] .about-plan-timeline .plan-timeline-feature {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -25042,18 +25034,6 @@ body[data-page="het-plan"] .plan-timeline-point::after {
 body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point--bottom span,
 body[data-page="het-plan"] .plan-timeline-point--bottom span {
   top: calc(100% + clamp(42px, 4.4vw, 60px));
-}
-
-/* Give the commercial-scale milestone its own lower label lane so it never
-   collides with the preceding installation label. */
-body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"]::after,
-body[data-page="het-plan"] .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"]::after {
-  height: clamp(62px, 5.6vw, 84px);
-}
-
-body[data-page="over-ons"] .about-plan-timeline .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"] span,
-body[data-page="het-plan"] .plan-timeline-point[data-plan-title="Eerste project op commerciële schaal"] span {
-  top: calc(100% + clamp(78px, 6.6vw, 98px));
 }
 
 /* Keep the public footer in sync on every page, including older static
