@@ -418,8 +418,8 @@ const i18n = {
         "Using waste as circular material is complex. Variability, contamination and social perception create barriers, and no stream is the same. This calls for a different way of looking and working. Blauwe Bagger sees an opportunity: mapping variation systematically and connecting it to the right processing steps bridges the gap between waste and circular material.",
       "We starten in de baggerindustrie, een sector die decennialang kampt met structurele uitdagingen en waar de noodzaak tot verduurzaming groot is. Door slim gebruik te maken van data uit waterbodemonderzoeken maken wij inzichtelijk waar bagger wel waardevol kan worden ingezet. Zo creeren we nieuwe ketens die voorheen onzichtbaar bleven.":
         "We start in dredging, a sector that has faced structural challenges for decades and where the need for sustainability is great. By making smart use of sediment survey data, we show where dredged material can create value. In doing so, we create new chains that were previously invisible.",
-      "Blauwe Bagger, gevestigd aan Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.":
-        "Blauwe Bagger, located at Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is responsible for processing personal data as described in this privacy statement.",
+      "Blauwe Bagger, gevestigd aan Papaverweg 37C, 1032 KE Amsterdam, is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.":
+        "Blauwe Bagger, located at Papaverweg 37C, 1032 KE Amsterdam, is responsible for processing personal data as described in this privacy statement.",
       "Geen projecten gevonden. Gebruik de beheertool om de homepage te vullen.":
         "No projects found. Use the management tool to populate the homepage.",
       "Nog geen projecten gevonden. Gebruik de beheertool om de homepage te vullen.":
@@ -1013,7 +1013,7 @@ function applyPageSpecificEnglishContent() {
   if (document.body.dataset.page === "privacy") {
     setHtml(
       ".privacy-hero .privacy-frame > p:last-child",
-      "Blauwe Bagger, located at Monumentenwerf, Santoriniweg 27, 1045 AV Amsterdam, is responsible for processing personal data as described in this privacy statement.",
+      "Blauwe Bagger, located at Papaverweg 37C, 1032 KE Amsterdam, is responsible for processing personal data as described in this privacy statement.",
     );
     setHtml(
       ".privacy-contact-card p",
