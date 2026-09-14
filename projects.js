@@ -677,6 +677,648 @@ function localizeStaticProject(project) {
 }
 
 const cmsProjectTranslations = {
+  // Live projects authored via /projecten-beheer (the CMS block builder).
+  "gemeente-amsterdam": {
+    title: "City of Amsterdam",
+    excerpt: "Circular chain.",
+    body: [
+      "Buiteneiland is the last island of the IJburg archipelago in the IJmeer, developed by the City of Amsterdam as a new green heart for sport, nature and recreation. Building the access channel releases dredged sediment that used to be removed as a residual stream. This test has a distinctive feature: the separated circular materials will be tested in the production of concrete walls. This makes the chain directly circular - sediment released from Amsterdam's waterways returns as building material in the city.",
+    ],
+    blocks: [
+      {
+        id: "block_1782224795388_h0s7c",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "City of Amsterdam",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fwaternet-1782224900757.jpg",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782224795388_4opdn",
+        type: "meta",
+        fields: {
+          location: "Amsterdam",
+          period: "Autumn 2026",
+          volume: "10-20M3",
+          client: "City of Amsterdam",
+          status: "Planned",
+        },
+      },
+      {
+        id: "block_1782224955418_v07ib",
+        type: "text",
+        fields: {
+          eyebrow: "",
+          title: "About this practical test",
+          body: "Together with Waternet, the organisation responsible for water management in and around Amsterdam, Blauwe Bagger is carrying out a practical test at a dredging location next to the Waternet site. Waternet manages hundreds of kilometres of Amsterdam canals and ditches that are regularly dredged to maintain water quality and flow.\n\nThis test has a distinctive feature: the separated circular materials will be tested in the production of concrete walls. This makes the chain directly circular - sediment released from Amsterdam's waterways returns as building material in the city.",
+          variant: "Wit",
+        },
+      },
+      {
+        id: "block_1782235569028_2bj4b",
+        type: "testList",
+        fields: {
+          title: "What do we do during this test?",
+          steps:
+            "On-site separation, The BlueBox v1 is deployed at the dredging location next to the Waternet site in Amsterdam. The urban environment places specific demands on the compactness and deployability of the installation, providing direct practical knowledge for future urban projects.\nPhysical and chemical analysis, The separated fractions undergo extensive physical and chemical analysis. We compare the results with the waterbed survey, test the quality against the concrete producer's requirements and determine which steps, if any, are needed to remove contaminants.\nApplication in concrete walls, The promising fractions are supplied to a concrete producer who integrates the circular materials into the production of concrete walls. This is the most concrete translation of the Blauwe Bagger principle: sediment as circular material, back into the urban construction chain.\nIterative improvement and BlueBox v2, The insights and improvement points from this test feed into the further development of the installation. Together with the results of the other practical tests in 2026, they form the technical basis for the BlueBox v2, which can process 25 m³ per hour.",
+        },
+      },
+      {
+        id: "block_1782237239667_v9chs",
+        type: "simpleText",
+        fields: {
+          title: "Step up to scale",
+          body: "After completing all practical tests in 2026, Blauwe Bagger will bundle the insights gained into the development of the BlueBox v2 - an installation that can process 25 m3 per hour. That is the speed at which most regular dredging projects are carried out. This makes the step from practical test to full-scale deployment as small as possible.",
+          width: "Normaal",
+        },
+      },
+    ],
+  },
+  "bakstenen-uit-bagger": {
+    title: "Bricks from sediment",
+    excerpt:
+      "In collaboration with DC-bricks, Blauwe Bagger is investigating whether clay fractions recovered from sediment can be used as circular material for sustainable bricks and ceramic building materials.",
+    body: [
+      "DC-bricks develops sustainable, circular building materials with a minimal CO2 footprint. The clay fraction - also known as BlueFiller or BlueCalc - that Blauwe Bagger recovers via the BlueBox has properties that are promising for the ceramics industry.",
+      "This project maps those opportunities and tests their applicability in DC-bricks' existing production processes.",
+    ],
+    blocks: [
+      {
+        id: "block_1782214738753_qt5zd",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Bricks from sediment",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fbrick-wall-1782215756483.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782214738753_0mxt6",
+        type: "facts",
+        fields: {
+          eyebrow: "About this project",
+          body: "DC-bricks develops sustainable, circular building materials with a minimal CO2 footprint. The clay fraction - also known as BlueFiller or BlueCalc - that Blauwe Bagger recovers via the BlueBox has properties that are promising for the ceramics industry. This project maps those opportunities and tests their applicability in DC-bricks' existing production processes.",
+          facts: "Circular material, The Netherlands\nPartner, DC Bricks\nResult, Lower CO2 footprint in construction",
+        },
+      },
+      {
+        id: "block_1782214738753_iu8tp",
+        type: "metrics",
+        fields: {
+          items: "Clay, Primary circular material for ceramics\nBlueCalc, Fine clay fraction",
+        },
+      },
+    ],
+  },
+  "provincie-zuid-holland": {
+    title: "Province of Zuid-Holland",
+    excerpt:
+      "The first practical test of the BlueBox - in Hazerswoude-Rijndijk, May 2026, commissioned by the Province of Zuid-Holland.",
+    body: [
+      "In May 2026, Blauwe Bagger carried out its first practical test in Hazerswoude-Rijndijk, commissioned by the Province of Zuid-Holland. The project focused on testing and validating the first mobile separation installation: the BlueBox.",
+      "This is the first in a series of practical tests that together form the basis of knowledge and experience about the volumes and speeds needed for market-ready deployment of the technology.",
+    ],
+    blocks: [
+      {
+        id: "block_1782219801333_ynmr0",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Province of Zuid-Holland",
+          emphasis: "",
+          subtitle:
+            "The first practical test of the BlueBox - in Hazerswoude-Rijndijk, May 2026, commissioned by the Province of Zuid-Holland.",
+          image: "/api/uploads?path=uploads%2F40390-1782474548294.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782219801333_mx9ia",
+        type: "meta",
+        fields: {
+          location: "Hazerswoude-Rijndijk, Zuid-Holland",
+          period: "May 2026",
+          volume: "10 m3",
+          client: "Province of Zuid-Holland",
+          status: "Completed",
+        },
+      },
+      {
+        id: "block_1782220105878_51dmr",
+        type: "text",
+        fields: {
+          eyebrow: "",
+          title: "What did we do?",
+          body: "In May 2026, Blauwe Bagger carried out its first practical test in Hazerswoude-Rijndijk, commissioned by the Province of Zuid-Holland. The project focused on testing and validating the first mobile separation installation: the BlueBox. This is the first in a series of practical tests that together form the basis of knowledge and experience about the volumes and speeds needed for market-ready deployment of the technology.",
+          variant: "Wit",
+        },
+      },
+      {
+        id: "block_1782237563826_iywi8",
+        type: "resultCards",
+        fields: {
+          eyebrow: "Practical test results",
+          items:
+            "43.5%, Volume reduction achieved, Significantly less volume needs to be transported to a depot.\n69 - 15 - 16, Separation split of dredged sediment, 69.0% clay 15.1% sand 15.9% coarse material\n✓, Contaminants mapped, Insight gained into contaminants in the separated circular materials per fraction.",
+        },
+      },
+      {
+        id: "block_1782219801333_k7k7o",
+        type: "gallery",
+        fields: {
+          title: "Photos of the project",
+          images:
+            "/api/uploads?path=uploads%2F40401-1782474562248.webp, 40401.jpg\n/api/uploads?path=uploads%2F40398-1782237329654.jpg, 40398.jpg\n/api/uploads?path=uploads%2Fscreenshot-2026-06-29-180510-1782749139977.png, Screenshot 2026-06-29 180510.png",
+        },
+      },
+    ],
+  },
+  "zware-metalen-extractie-uit-bagger": {
+    title: "Heavy-metal extraction from sediment",
+    excerpt:
+      "From contamination to valuable circular material - Blauwe Bagger is investigating how heavy metals can be selectively extracted from dredged sediment.",
+    body: [
+      "Sediment contains more than just sand and clay - in some waterways it also contains concentrations of heavy metals such as copper, zinc and nickel. These are generally the fractions that make sediment unsuitable for reuse and drive up processing costs.",
+    ],
+    blocks: [
+      {
+        id: "block_1782238703022_5dbpy",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Heavy-metal extraction from sediment",
+          emphasis: "",
+          subtitle:
+            "From contamination to valuable circular material, Blauwe Bagger is investigating how heavy metals can be selectively extracted from dredged sediment.",
+          image: "/api/uploads?path=uploads%2Fdna-1782238794611.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782238850748_om8yo",
+        type: "columns",
+        fields: {
+          leftEyebrow: "About this project",
+          leftBody: "What makes sediment unusable can itself become a valuable circular material.",
+          rightEyebrow: "The collaboration",
+          rightBody:
+            "Sediment contains more than just sand and clay - in some waterways it also contains concentrations of heavy metals such as copper, zinc and nickel. These are generally the fractions that make sediment unsuitable for reuse and drive up processing costs.\n\nIn this R&D project, Blauwe Bagger is investigating whether these heavy metals can be selectively extracted from the sediment, so that the remaining fractions are cleaner and the metals themselves can be offered to the manufacturing industry as a secondary circular material.",
+          noteTitle: "",
+          noteBody: "",
+        },
+      },
+      {
+        id: "block_1782752731688_oyxg9",
+        type: "metalScience",
+        fields: {
+          eyebrow: "The science behind the extraction",
+          title: "Each metal dissolves at its own pH value",
+          body: "The extraction method is based on acidity. Each heavy metal has a specific pH value at which it dissolves and can therefore be released from the sediment matrix. By gradually lowering the acidity, metals can be separated out one by one. This makes targeted extraction possible without having to treat the entire sediment stream as a single contaminated mass.",
+          items:
+            "Cu, Copper, pH 5-6, Copper dissolves at a relatively mild reduction in pH - extraction can take place without strongly acidic conditions.\nZn, Zinc, pH 4-5, Zinc requires a slightly lower acidity than copper. By further lowering the pH after copper extraction, zinc can be separated selectively.\nNi, Nickel, pH 3-4, Nickel dissolves under more strongly acidic conditions. The sequential approach makes it possible to also recover nickel in a targeted way from the remaining fraction.",
+        },
+      },
+    ],
+  },
+  tbi: {
+    title: "TBI",
+    excerpt:
+      "Together with TBI, Blauwe Bagger is investigating whether fractions from sediment can be used as circular materials for concrete production.",
+    body: [
+      "TBI is one of the largest construction and engineering companies in the Netherlands and is committed to making its building processes significantly more sustainable. This project focuses on the application of BlueSand and BlueFiller as replacements for primary sand and filler fractions in concrete mixes.",
+    ],
+    blocks: [
+      {
+        id: "block_1782208803607_kvtu4",
+        type: "hero",
+        fields: {
+          overline: "Collaboration - TBI",
+          title: "Concrete from sediment",
+          emphasis: "",
+          subtitle:
+            "Together with TBI, Blauwe Bagger is investigating whether fractions from sediment can be used as circular materials for concrete production.",
+          image: "/api/uploads?path=uploads%2Fconcrete-1782210390403.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782208803608_v2mqj",
+        type: "facts",
+        fields: {
+          eyebrow: "About this project",
+          body: "TBI is one of the largest construction and engineering companies in the Netherlands and is committed to making its building processes significantly more sustainable. This project focuses on the application of BlueSand and BlueFiller as replacements for primary sand and filler fractions in concrete mixes.",
+          facts:
+            "Circular material, BlueSand & BlueFiller from sediment\nPartner, TBI construction and engineering company\nResult, Lower CO2 footprint per m³ of concrete",
+        },
+      },
+      {
+        id: "block_1782208803608_9m657",
+        type: "metrics",
+        fields: {
+          items: "BlueSand, Sand fraction from sediment\nBlueFiller, Clay fraction as filler\nCO2 Reduction, Lower footprint per m² of concrete",
+        },
+      },
+    ],
+  },
+  "provincie-groningen": {
+    title: "Province of Groningen",
+    excerpt: "Sediment separation in the north of the country.",
+    body: [
+      "The practical test in Groningen is part of a series of tests that Blauwe Bagger is carrying out in 2026 as a step towards the next phase of sediment separation. With the BlueBox v1 we separate 10 to 15 m³ of sediment per location, a deliberately chosen volume that allows precise analysis of the various process steps and the quality of the recovered fractions. By testing in different geographical and hydrological contexts, Blauwe Bagger builds a broad and robust picture of how the technology performs. Improvements are implemented directly after each test, as part of an iterative improvement process that leads up to the BlueBox v2.",
+    ],
+    blocks: [
+      {
+        id: "block_1782225464288_0qpfd",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Province of Groningen",
+          emphasis: "",
+          subtitle: "Sediment separation in practice",
+          image: "/api/uploads?path=uploads%2Fzandscheppen-1-1782225956923.png",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782225464288_gdqgg",
+        type: "meta",
+        fields: {
+          location: "Province of Groningen",
+          period: "Summer 2026",
+          volume: "10-15 m3",
+          client: "Province of Groningen",
+          status: "Planned",
+        },
+      },
+      {
+        id: "block_1782225546402_4vofy",
+        type: "text",
+        fields: {
+          eyebrow: "",
+          title: "About this practical test",
+          body: "The practical test in Groningen is part of a series of tests that Blauwe Bagger is carrying out in 2026 as a step towards the next phase of sediment separation. With the BlueBox v1 we separate 10 to 15 m³ of sediment per location, a deliberately chosen volume that allows precise analysis of the various process steps and the quality of the recovered fractions. By testing in different geographical and hydrological contexts, Blauwe Bagger builds a broad and robust picture of how the technology performs. Improvements are implemented directly after each test, as part of an iterative improvement process that leads up to the BlueBox v2.",
+          variant: "Wit",
+        },
+      },
+      {
+        id: "block_1782225710465_a0rpk",
+        type: "metrics",
+        fields: {
+          items: "10 - 15 m³, Sediment separated per test\nBlueBox V1, Mobile separation installation\n2026, Execution",
+        },
+      },
+      {
+        id: "block_1782749776317_luyeo",
+        type: "testList",
+        fields: {
+          title: "What do we do during this test?",
+          steps:
+            "On-site separation with the BlueBox v1, The BlueBox is deployed at a dredging location in Groningen. The installation dewaters and separates the sediment on site into usable fractions. We operate in a variety of realistic scenarios to gain valuable practical and technical knowledge about how the installation performs with the Groningen sediment type.\nPhysical and chemical analysis, The separated fractions undergo mechanical and chemical analysis. The results are compared with the waterbed survey carried out before the test and tested against the quality requirements of potential buyers in the construction and materials sector.\nValidating the separation technology, A key goal of the test is to validate the BlueBox in a new sediment environment. Groningen sediment has different properties than river deposits or urban sediment. The test shows how the installation performs and what, if anything, needs to be adjusted.\nIterative improvement, Improvement points that emerge are implemented in the installation after the test.",
+        },
+      },
+      {
+        id: "block_1782236595720_x3nlj",
+        type: "simpleText",
+        fields: {
+          title: "Step up to scale",
+          body: "After completing all practical tests in 2026, Blauwe Bagger will bundle the insights gained into the development of the BlueBox v2 - an installation that can process 25 m3 per hour. That is the speed at which most regular dredging projects are carried out. This makes the step from practical test to full-scale deployment as small as possible.",
+          width: "Normaal",
+        },
+      },
+    ],
+  },
+  "circulair-bagger-consortium": {
+    title: "Circular dredging consortium",
+    excerpt:
+      "The Circular Dredging Consortium, co-founded by Blauwe Bagger, works across the sector to make dredging more sustainable by bringing together dredging companies, government bodies and other knowledge institutions and joining forces.",
+    body: [
+      "The Circular Dredging Consortium, co-founded by Blauwe Bagger, is the Dutch partnership that works practically and strategically to facilitate and implement a circular dredging chain.",
+      "The CDC brings together parties from the dredging sector, construction sector, knowledge institutions and governments to work jointly on making sediment flows more sustainable at scale. The consortium develops sector-wide standards, funds pilots and puts forward the regulation needed to make the circular dredging chain structurally possible.",
+    ],
+    blocks: [
+      {
+        id: "block_1782215836635_7drhn",
+        type: "hero",
+        fields: {
+          overline: "Collaborations",
+          title: "Circular dredging consortium",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fistock-1616465843-1-1782474622979.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782219394282_azxai",
+        type: "columns",
+        fields: {
+          leftEyebrow: "ABOUT THE CBC",
+          leftBody:
+            "The Circular Dredging Consortium, co-founded by Blauwe Bagger, is the Dutch partnership that works practically and strategically to facilitate and implement a circular dredging chain.",
+          rightEyebrow: "The collaboration",
+          rightBody:
+            "The CDC's mission is to facilitate an ecosystem that will be able to valorise 90% of dredged sediment circularly by 2030. This turns the societal costs of dredged sediment into societal benefits, and strengthens the Netherlands' position as a leading dredging nation worldwide.",
+          noteTitle: "",
+          noteBody: "",
+          fontScale: "85",
+        },
+      },
+      {
+        id: "block_1783506346950_9hqsd",
+        type: "statQuote",
+        fields: {
+          number: "90%",
+          label: "circular valorisation",
+          caption: "of dredged sediment by 2030",
+          text: "Turning the societal costs of dredged sediment into societal benefits - and strengthening the Netherlands' global position as a leading dredging nation.",
+        },
+      },
+      {
+        id: "block_1782219374432_6ey58",
+        type: "featureGrid",
+        fields: {
+          title: "What does the consortium do?",
+          items:
+            "Standards, Developing sector standards, The consortium works on unambiguous quality standards for secondary circular materials from sediment.\nPilots, Funding practical trials, Through the consortium, pilots are set up in which sediment streams are actually processed circularly.\nRegulation, Putting policy on the agenda, Governments and water authorities are involved to modernise regulation around sediment reuse.\nNetwork, Building chain collaboration, By connecting parties, the chain needed to make sediment function as a circular material comes into being.",
+        },
+      },
+    ],
+  },
+  "3d-printen-met-bagger": {
+    title: "3D printing with sediment",
+    excerpt:
+      "In collaboration with Urban Reef, Blauwe Bagger turns sediment-derived clay into printed underwater structures that stimulate life underwater.",
+    body: [
+      "Urban Reef is a company that uses 3D-printing technology to create complex, bioreceptive objects. They work at the intersection of materials science, ecology and design, producing structures that stimulate underwater life, among other things. To print these objects, they use clay as their primary material. Blauwe Bagger supplies that clay, recovered from dredged sediment and separated on site with the BlueBox. This closes the chain: from waterbed to printed object.",
+    ],
+    blocks: [
+      {
+        id: "block_1782239576403_400u0",
+        type: "hero",
+        fields: {
+          overline: "R&D URBAN REEF",
+          title: "3D printing with sediment",
+          emphasis: "",
+          subtitle:
+            "In collaboration with Urban Reef, Blauwe Bagger turns sediment-derived clay into printed underwater structures that stimulate life underwater.",
+          image: "/api/uploads?path=uploads%2Furban-reef-1782240043375.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782239777528_cb6t4",
+        type: "columns",
+        fields: {
+          leftEyebrow: "About this project",
+          leftBody: "From waterbed to underwater life - sediment clay as circular material for bioreceptive objects.",
+          rightEyebrow: "The collaboration",
+          rightBody:
+            "Urban Reef is a company that uses 3D-printing technology to create complex, bioreceptive objects. They work at the intersection of materials science, ecology and design, producing structures that stimulate underwater life, among other things. \n\nTo print these objects, they use clay as their primary material. Blauwe Bagger supplies that clay, recovered from dredged sediment and separated on site with the BlueBox. This closes the chain: from waterbed to printed object.\n\nSo far, six structures have been placed at Eiland van Brienenoord in Rotterdam, as part of a pilot to strengthen underwater life in the Maas.",
+          noteTitle: "Blauwe Bagger's role",
+          noteBody: "So far, six structures have been placed at Eiland van Brienenoord in Rotterdam, as part of a pilot to strengthen underwater life in the Maas.",
+        },
+      },
+    ],
+  },
+  "pfas-extractie-uit-bagger": {
+    title: "PFAS extraction from sediment",
+    excerpt: "Contamination management",
+    body: [
+      "PFAS - poly- and perfluoroalkyl substances",
+      "One of the biggest challenges for the dredging sector. Because of the presence of PFAS in waterbeds, a growing share of sediment in the Netherlands can no longer be applied freely, leading to sharply rising processing costs and capacity problems at depots.",
+    ],
+    blocks: [
+      {
+        id: "block_1782239183896_r54ls",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "PFAS extraction from sediment",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fistock-2163169633-1782239217265.webp",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782750803655_zxlko",
+        type: "imageText",
+        fields: {
+          image: "/api/uploads?path=uploads%2Fistock-2163169633-1782239211887.webp",
+          eyebrow: "CONTAMINATION MANAGEMENT",
+          title: "The problem:",
+          emphasis: "PFAS - poly- and perfluoroalkyl substances",
+          body: "PFAS - poly- and perfluoroalkyl substances - are one of the biggest challenges for the dredging sector. Because of the presence of PFAS in waterbeds, a growing share of sediment in the Netherlands can no longer be applied freely, leading to sharply rising processing costs and capacity problems at depots.\n\nBlauwe Bagger is investigating how this PFAS-containing clay fraction can be thermally processed, offering a way out of the depot.",
+          imageSide: "Links",
+        },
+      },
+      {
+        id: "block_1782239510517_69ar5",
+        type: "simpleText",
+        fields: {
+          title: "PFAS breaks down at high temperatures",
+          body: "PFAS compounds are notorious for their chemical stability, but when clay is fired at high temperatures, the PFAS disappears from the clay fraction. This offers a concrete processing route: by firing the PFAS-containing clay fraction, the contamination is rendered harmless.\n\nThis makes the thermal route of firing clay a promising approach for the definitive treatment of the concentrated PFAS fraction that remains after separating the sediment.",
+          width: "Normaal",
+        },
+      },
+    ],
+  },
+  "amsterdam-buiteneiland": {
+    title: "Amsterdam Buiteneiland",
+    excerpt:
+      "From dredged sediment in the IJmeer to bricks on Buiteneiland - a fully local, circular materials chain.",
+    body: [
+      "Buiteneiland is the last island of the IJburg archipelago in the IJmeer, developed by the City of Amsterdam as a new green heart for sport, nature and recreation. Building the access channel releases dredged sediment that used to be removed as a residual stream.",
+    ],
+    blocks: [
+      {
+        id: "block_1782224337106_dl7b7",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Amsterdam Buiteneiland",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fbuiteneiland-1782224653081.jpg",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782224337106_0zarf",
+        type: "meta",
+        fields: {
+          location: "Buiteneiland, Amsterdam",
+          period: "Autumn 2026",
+          volume: "10-15  m3",
+          client: "City of Amsterdam",
+          status: "Planned",
+        },
+      },
+      {
+        id: "block_1782224410689_geiu1",
+        type: "columns",
+        fields: {
+          leftEyebrow: "About this project",
+          leftBody: "The sediment released during the construction of Buiteneiland becomes the circular material for the bricks built there.",
+          rightEyebrow: "Background",
+          rightBody:
+            "Buiteneiland is the last island of the IJburg archipelago in the IJmeer, developed by the City of Amsterdam as a new green heart for sport, nature and recreation. Building the access channel releases dredged sediment that used to be removed as a residual stream.",
+          noteTitle: "Blauwe Bagger's role",
+          noteBody:
+            "Blauwe Bagger takes that sediment on site and separates out the clay fraction. DC Bricks processes that clay into bricks that are used in structures on Buiteneiland itself. This makes the chain fully local and circular.",
+        },
+      },
+      {
+        id: "block_1782236933977_99lai",
+        type: "imageText",
+        fields: {
+          image: "/api/uploads?path=uploads%2Fbuiteneiland-concept-1782236942983.jpeg",
+          eyebrow: "Amsterdam urban development",
+          title: "Buiteneiland as part of",
+          emphasis: "sustainable area development",
+          body: "Buiteneiland is being built up in phases and filled with reusable soil, transported by ship to minimise road traffic.\n\nThis practical test connects directly to that ambition: dredged sediment is not removed, but converted on site into building material.",
+          imageSide: "Links",
+        },
+      },
+    ],
+  },
+  "provincie-gelderland": {
+    title: "Province of Gelderland",
+    excerpt: "Sediment separation in practice",
+    body: [
+      "In the province of Gelderland, Blauwe Bagger is carrying out a practical test at a dredging location near Nijmegen. The river areas around Nijmegen, with the Waal as the central artery, are dredged regularly to keep the waterways navigable and maintain the water system.",
+      "This test is part of a series of practical tests that Blauwe Bagger is carrying out in 2026 as a step towards the next phase of sediment separation. With the BlueBox v1 we process 10 to 15 m³ of sediment per test, a deliberately chosen volume that allows precise analysis of the various process steps.",
+    ],
+    blocks: [
+      {
+        id: "block_1782238212829_cqwxf",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Province of Gelderland",
+          emphasis: "",
+          subtitle: "Sediment separation in practice",
+          image: "/api/uploads?path=uploads%2Fgelderbrug-1782238659521.png",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782238212829_e70v5",
+        type: "meta",
+        fields: {
+          location: "Nijmegen, Gelderland",
+          period: "Autumn 2026",
+          volume: "10-15 m3",
+          client: "Province of Gelderland",
+          status: "PLANNED",
+        },
+      },
+      {
+        id: "block_1782238341413_hlp6h",
+        type: "text",
+        fields: {
+          eyebrow: "In depth",
+          title: "About the practical test",
+          body: "In the province of Gelderland, Blauwe Bagger is carrying out a practical test at a dredging location near Nijmegen. The river areas around Nijmegen, with the Waal as the central artery, are dredged regularly to keep the waterways navigable and maintain the water system.\n\nThis test is part of a series of practical tests that Blauwe Bagger is carrying out in 2026 as a step towards the next phase of sediment separation. With the BlueBox v1 we process 10 to 15 m³ of sediment per test, a deliberately chosen volume that allows precise analysis of the various process steps.",
+          variant: "Wit",
+        },
+      },
+      {
+        id: "block_1782238425979_o3i3h",
+        type: "metrics",
+        fields: {
+          items: "10-15 m³, Sediment separated per test\nBlueBox V1, Mobile separation installation\n2026, Execution",
+        },
+      },
+      {
+        id: "block_1782238502370_9467b",
+        type: "testList",
+        fields: {
+          title: "What do we do during this test?",
+          steps:
+            "On-site separation with the BlueBox v1, The BlueBox is deployed at a dredging location. The installation dewaters and separates the sediment on site into usable fractions.\nPhysical and chemical analysis, The separated fractions are examined for mechanical and chemical properties and compared with the waterbed survey.\nValidating the separation technology, A key goal of the test is to validate the BlueBox in a new sediment environment.\nIterative improvement, Improvement points that emerge are implemented in the installation after the test.",
+        },
+      },
+      {
+        id: "block_1782238683644_3gsbw",
+        type: "simpleText",
+        fields: {
+          title: "Step up to scale",
+          body: "After completing all practical tests in 2026, Blauwe Bagger will bundle the insights gained into the development of the BlueBox v2, an installation that can process 25 m3 per hour. That is the speed at which most regular dredging projects are carried out. This makes the step from practical test to full-scale deployment as small as possible.",
+          width: "Normaal",
+        },
+      },
+    ],
+  },
+  kildepot: {
+    title: "Kildepot",
+    excerpt: "Dredging depot as a circular hub - commissioned by the Province of Zuid-Holland",
+    body: [
+      "The practical test at the Kildepot in Dordrecht focused on a specific question: can sediment already stored at a depot still be upgraded into valuable circular materials? Many dredging depots in the Netherlands struggle with low uptake because the sediment has too little value to be removed or reused cost-effectively.",
+    ],
+    blocks: [
+      {
+        id: "block_1782223073171_dau49",
+        type: "hero",
+        fields: {
+          overline: "Practical tests",
+          title: "Kildepot Dordrecht",
+          emphasis: "",
+          subtitle: "",
+          image: "/api/uploads?path=uploads%2Fbagger-als-grondstof-1782223746954.png",
+          align: "Links",
+        },
+      },
+      {
+        id: "block_1782223073171_2ye8h",
+        type: "meta",
+        fields: {
+          location: "Kildepot, Dordrecht",
+          period: "May 2026",
+          volume: "10 m3",
+          client: "Province of Zuid-Holland",
+          status: "Completed",
+        },
+      },
+      {
+        id: "block_1782223309627_l2ncz",
+        type: "text",
+        fields: {
+          eyebrow: "",
+          title: "About the practical test",
+          body: "The practical test at the Kildepot in Dordrecht focused on a specific question: can sediment already stored at a depot still be upgraded into valuable circular materials? Many dredging depots in the Netherlands struggle with low uptake because the sediment has too little value to be removed or reused cost-effectively.\n\nCommissioned by the Province of Zuid-Holland, Blauwe Bagger has shown that there is serious potential to convert existing dredging depots into circular hubs - locations where sediment is no longer stored, but actively separated and brought to market as circular material.",
+          variant: "Wit",
+        },
+      },
+      {
+        id: "block_1782474759725_c4eaa",
+        type: "testList",
+        fields: {
+          title: "What do we do during this test?",
+          steps:
+            "Separation at the depot with the BlueBox v1, The BlueBox was deployed at the Kildepot, directly at the existing sediment storage. The installation dewatered and separated the material on site into sand, clay and water fractions. The depot thus served as the processing location - no extra transport needed.\nPhysical and chemical analysis, The recovered fractions underwent extensive physical and chemical analysis. The results were compared with the available waterbed survey and tested against the quality requirements of potential buyers in the construction and materials sector.\nValidating the depot-as-hub concept, A central goal of the test was to demonstrate that separation at an existing depot is technically feasible and yields qualitatively usable fractions. The results support the idea that depots do not have to be the endpoint of the dredging chain, but can be the starting point of a new stream of circular material.\nInput for BlueBox v2, The operational findings and improvement points from Dordrecht feed into the further development of the installation. Together with the other practical tests from 2026, they form the technical basis for the BlueBox v2, which can process 25 m³ per hour.",
+        },
+      },
+      {
+        id: "block_1782237099842_vwsea",
+        type: "simpleText",
+        fields: {
+          title: "Dredging depots as circular hubs",
+          body: "The Netherlands has dozens of dredging depots filled with sediment that is barely taken up. Costs keep rising, space is running out, and the social value goes unused. This practical test shows that it can be done differently: with the right separation technology, a depot stops being a storage problem and becomes a stock of circular material.\n\nThe potential Blauwe Bagger has demonstrated in Dordrecht offers perspective for provinces, municipalities and water authorities dealing with full depots and rising processing costs.",
+          width: "Normaal",
+        },
+      },
+    ],
+  },
+
+  // Legacy sample CMS content kept for the older non-block-builder projects.
   "dry-run-2025-voorbereiding-op-circulaire-baggerprojecten": {
     title: "Dry Run 2025, preparing for circular dredging projects",
     excerpt: "A preparatory project phase in which mobile processing, logistics and the outlet for material streams were tested together.",
@@ -1325,7 +1967,7 @@ function renderStaticProjectDetail(project) {
 
       <div class="detail-cta">
         <p class="cta-text">${renderStaticProjectCta(project.cta)}</p>
-        <a class="outline-btn" href="/contact">Neem contact op &rarr;</a>
+        <a class="outline-btn" href="/contact">${typeof window.translatePublicText === "function" ? window.translatePublicText("Neem contact op") : "Neem contact op"} &rarr;</a>
       </div>
     </div>
   `;
